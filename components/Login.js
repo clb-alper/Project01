@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable, Button, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -35,9 +35,10 @@ const Login = () => {
     };
 
     return (
+        
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            <Image source={require('../assets/images/firstbg.png')} style={styles.backgroundImage} />
+            <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
             <View style={[styles.login_container, styles.shadowProp]}>
                 <View style={styles.textView}>
                     <Text style={styles.loginHeader}>Giriş Yap</Text>
@@ -54,6 +55,7 @@ const Login = () => {
                     style={styles.inputStyle}
                     placeholder="Şifre"
                     placeholderTextColor={'#B8B8B8'}
+                    secureTextEntry={true}
                     keyboardType="text"
                 />
 
@@ -69,17 +71,17 @@ const Login = () => {
                     <Text style={styles.forgotPassButtonText}>{"Şifremi Unuttum?"}</Text>
                 </Pressable>
 
+                <KeyboardAvoidingView style={{ }} behavior="padding">
                 <View style={styles.signUpTextView}>
                     <Text style={styles.signUpText1}>{"Hesabın yok mu? "}</Text>
                     <Pressable onPress={() => console.log("Kayıt Ol'a basıldı")}>
                         <Text style={styles.signUpText2}>{"Kayıt Ol"}</Text>
-                    </Pressable>
-                    {/* <Text style={styles.signUpText2}>{"Kayıt Ol"}</Text> */}
+                    </Pressable>                   
                 </View>
-
-
+                </KeyboardAvoidingView>
             </View>
         </View>
+        
     );
 }
 
@@ -92,9 +94,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    backgroundImage: {
-        flex: 1,
-        resizeMode: 'cover',
+    backgroundImage: {      
+        resizeMode: 'contain',
+        width: '110%',
+        height: '100%',
+        marginTop: -425,
     },
 
     login_container: {
@@ -118,22 +122,20 @@ const styles = StyleSheet.create({
 
     inputStyle: {
         fontFamily: 'Comic-Light',
-        width: 350,
-        height: 55,
-        marginBottom: 27,
+        width: '85%',
+        marginBottom: '6.5%',
         backgroundColor: colors.white,
         borderRadius: 15,
         borderWidth: 2,
         borderColor: "#DDD",
         paddingLeft: 25,
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingTop: 11,
+        paddingBottom: 11,
         fontSize: 23,
     },
 
     emailInputStyle: {
-        marginTop: 15,
-
+        marginTop: '3.5%',
     },
 
     textView: {
@@ -147,16 +149,12 @@ const styles = StyleSheet.create({
 
     loginButton: {
         alignItems: 'center',
-        width: 350,
+        width: '85%',
         padding: 12,
         backgroundColor: colors.pinkRegular,
         borderWidth: 2,
         borderRadius: 15,
         borderColor: colors.pinkBorder
-    },
-
-    loginButtonPressed: {
-
     },
 
     loginButtonText: {
@@ -168,8 +166,8 @@ const styles = StyleSheet.create({
     forgotPassButton: {
         // backgroundColor: colors.pinkRegular,
         alignSelf: 'flex-end',
-        marginRight: 25,
-        marginTop: 5,
+        marginRight: '6%',
+        marginTop: '1.3%',
     },
 
     forgotPassButtonText: {
@@ -180,7 +178,7 @@ const styles = StyleSheet.create({
     },
 
     signUpTextView: {
-        marginTop: 65,
+        top: '12%',
         flexDirection: 'row',
     },
 
