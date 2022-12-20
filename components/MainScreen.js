@@ -1,3 +1,11 @@
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { useCallback } from 'react';
+import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import colors from '../assets/colors/colors';
+
 const MainScreen = ({ navigation }) => {
 
     var [isPress, setIsPress] = React.useState(false);
