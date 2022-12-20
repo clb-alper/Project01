@@ -48,7 +48,7 @@ const Login = ({navigation}) => {
 
                 <TextInput
                     style={[styles.inputStyle, styles.emailInputStyle]}
-                    placeholder="Email?"
+                    placeholder="Email"
                     placeholderTextColor={'#B8B8B8'}
                     keyboardType="text"
                 />
@@ -60,10 +60,8 @@ const Login = ({navigation}) => {
                     secureTextEntry={true}
                     keyboardType="text"
                 />
-
-                {/* <Pressable onPress={() => alert("Giriş Yapıldı")} style={[styles.loginButton, pressed ? styles.loginButtonPressed : null]}>
-                    <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
-                </Pressable> */}
+                
+                            
 
                 <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
                     <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
