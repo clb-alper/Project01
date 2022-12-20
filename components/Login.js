@@ -48,7 +48,7 @@ const Login = ({navigation}) => {
 
                 <TextInput
                     style={[styles.inputStyle, styles.emailInputStyle]}
-                    placeholder="Email"
+                    placeholder="Email mia acaba?"
                     placeholderTextColor={'#B8B8B8'}
                     keyboardType="text"
                 />
