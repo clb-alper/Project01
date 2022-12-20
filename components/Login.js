@@ -6,7 +6,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
 
-const Login = () => {
+const Login = ({navigation}) => {
     var [isPress, setIsPress] = React.useState(false);
 
     const [fontsLoaded] = useFonts({
@@ -31,7 +31,9 @@ const Login = () => {
         style: isPress ? styles.loginButtonPressed : styles.loginButton,
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
-        onPress: () => console.log("Giriş Yapıldı")
+        //onPress: () => console.log("Giriş Yapıldı")
+        onPress: () => navigation.navigate('MainScreen')
+
     };
 
     return (
@@ -80,8 +82,7 @@ const Login = () => {
                 </View>
                 </KeyboardAvoidingView>
             </View>
-        </View>
-        
+        </View>      
     );
 }
 
