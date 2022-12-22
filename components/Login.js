@@ -28,11 +28,10 @@ const Login = ({navigation}) => {
     var touchPropsLoginButton = {
         activeOpacity: 1,
         underlayColor: '#ffe0e7',
-        style: isPress ? styles.loginButtonPressed : styles.loginButton,
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
         //onPress: () => console.log("Giriş Yapıldı")
-        onPress: () => navigation.navigate('Register')
+        onPress: () => navigation.navigate('MainScreen')
 
     };
 
@@ -42,7 +41,7 @@ const Login = ({navigation}) => {
             <StatusBar style="auto" />
             <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
             <View style={[styles.login_container, styles.shadowProp]}>
-                <View style={styles.textView}>
+                <View style={styles.loginHeaderView}>
                     <Text style={styles.loginHeader}>Giriş Yap</Text>
                 </View>
 
@@ -59,9 +58,7 @@ const Login = ({navigation}) => {
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
                     keyboardType="text"
-                />
-                
-                            
+                />                                         
 
                 <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
                     <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
@@ -137,7 +134,7 @@ const styles = StyleSheet.create({
         marginTop: '3.5%',
     },
 
-    textView: {
+    loginHeaderView: {
         padding: 15,
     },
 

@@ -32,7 +32,7 @@ const ForgotPass = ({ navigation }) => {
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
         //onPress: () => console.log("Giriş Yapıldı")
-        onPress: () => navigation.navigate('Register')
+        onPress: () => navigation.navigate('Login')
 
     };
 

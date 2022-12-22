@@ -31,7 +31,7 @@ const Register = ({navigation}) => {
         style: isPress ? styles.registerButtonPressed : styles.registerButton,
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
-        onPress: () => navigation.navigate('MainScreen')
+        onPress: () => navigation.navigate('Login')
 
     };
 
