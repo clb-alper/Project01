@@ -32,7 +32,7 @@ const Login = ({navigation}) => {
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
         //onPress: () => console.log("Giriş Yapıldı")
-        onPress: () => navigation.navigate('MainScreen')
+        onPress: () => navigation.navigate('Register')
 
     };
 
@@ -74,7 +74,7 @@ const Login = ({navigation}) => {
                 <KeyboardAvoidingView style={{ }} behavior="padding">
                 <View style={styles.signUpTextView}>
                     <Text style={styles.signUpText1}>{"Hesabın yok mu? "}</Text>
-                    <Pressable onPress={() => console.log("Kayıt Ol'a basıldı")}>
+                    <Pressable onPress={() => navigation.navigate('Register')}>
                         <Text style={styles.signUpText2}>{"Kayıt Ol"}</Text>
                     </Pressable>                   
                 </View>

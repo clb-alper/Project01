@@ -5,7 +5,6 @@ import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
-
 const MainScreen = ({ navigation }) => {
 
     var [isPress, setIsPress] = React.useState(false);
