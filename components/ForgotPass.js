@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         width: '110%',
         height: '100%',
         marginTop: -425,
-        marginBottom: 9,
+        marginBottom: '2.1%',
     },
 
     forgotpass_container: {
