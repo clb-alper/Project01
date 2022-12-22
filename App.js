@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
 
   tabNavStyle: {
     height: 75,
+    paddingBottom: 0
 
   },
 
