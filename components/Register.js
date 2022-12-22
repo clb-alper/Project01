@@ -25,13 +25,12 @@ const Register = ({navigation}) => {
         return null;
     }
 
-    var touchPropsLoginButton = {
+    var touchPropsRegisterButton = {
         activeOpacity: 1,
         underlayColor: '#ffe0e7',
-        style: isPress ? styles.loginButtonPressed : styles.loginButton,
+        style: isPress ? styles.registerButtonPressed : styles.registerButton,
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
-        //onPress: () => console.log("Giriş Yapıldı")
         onPress: () => navigation.navigate('MainScreen')
 
     };
@@ -41,9 +40,9 @@ const Register = ({navigation}) => {
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
             <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
-            <View style={[styles.login_container, styles.shadowProp]}>
-                <View style={styles.textView}>
-                    <Text style={styles.loginHeader}>Kayıt Ol</Text>
+            <View style={[styles.register_container, styles.shadowProp]}>
+                <View style={styles.registerHeaderTextView}>
+                    <Text style={styles.registerHeader}>Kayıt Ol</Text>
                 </View>
 
                 <TextInput
@@ -60,7 +59,7 @@ const Register = ({navigation}) => {
                     secureTextEntry={true}
                     keyboardType="text"
                 />
-                
+
                 <TextInput
                     style={styles.inputStyle}
                     placeholder="Şifre (Tekrar)"
@@ -68,12 +67,19 @@ const Register = ({navigation}) => {
                     secureTextEntry={true}
                     keyboardType="text"
                 />
-                
 
-                <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
-                    <Text style={styles.loginButtonText}>{"Kayıt Ol"}</Text>
+                <TouchableHighlight {...touchPropsRegisterButton} style={styles.registerButton}>
+                    <Text style={styles.registerButtonText}>{"Kayıt Ol"}</Text>
                 </TouchableHighlight>
 
+                <KeyboardAvoidingView style={{ }} behavior="padding">
+                <View style={styles.signUpTextView}>
+                    <Text style={styles.signUpText1}>{"Zaten hesabın var mı? "}</Text>
+                    <Pressable onPress={() => navigation.navigate('Login')}>
+                        <Text style={styles.signUpText2}>{"Giriş yap"}</Text>
+                    </Pressable>                   
+                </View>
+                </KeyboardAvoidingView>
 
 
             </View>
@@ -97,10 +103,10 @@ const styles = StyleSheet.create({
         marginTop: -425,
     },
 
-    login_container: {
+    register_container: {
         backgroundColor: colors.white,
         width: '100%',
-        height: '53%',
+        height: '58%',
         position: 'absolute',
         bottom: 0,
         alignItems: 'center',
@@ -134,16 +140,16 @@ const styles = StyleSheet.create({
         marginTop: '3.5%',
     },
 
-    textView: {
+    registerHeaderTextView: {
         padding: 15,
     },
 
-    loginHeader: {
+    registerHeader: {
         fontFamily: 'Comic-Regular',
         fontSize: 40,
     },
 
-    loginButton: {
+    registerButton: {
         alignItems: 'center',
         width: '85%',
         padding: 12,
@@ -153,24 +159,10 @@ const styles = StyleSheet.create({
         borderColor: colors.pinkBorder
     },
 
-    loginButtonText: {
+    registerButtonText: {
         fontFamily: 'Comic-Light',
         textAlign: 'center',
         fontSize: 23,
-    },
-
-    forgotPassButton: {
-        // backgroundColor: colors.pinkRegular,
-        alignSelf: 'flex-end',
-        marginRight: '6%',
-        marginTop: '1.3%',
-    },
-
-    forgotPassButtonText: {
-        fontFamily: 'Comic-Light',
-        padding: 10,
-        fontSize: 16.5,
-        textDecorationLine: 'underline',
     },
 
     signUpTextView: {
