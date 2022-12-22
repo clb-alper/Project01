@@ -40,8 +40,7 @@ const ForgotPass = ({ navigation }) => {
             })
             setTimeout(() => {
                 navigation.navigate('Login')
-            }, 1500)
-            
+            }, 1500)    
         }
     };
 
