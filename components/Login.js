@@ -67,7 +67,7 @@ const Login = ({navigation}) => {
                     <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
                 </TouchableHighlight>
 
-                <Pressable onPress={() => console.log("Şifre unuttum'a basıldı")} style={styles.forgotPassButton}>
+                <Pressable onPress={() => navigation.navigate('ForgotPass')} style={styles.forgotPassButton}>
                     <Text style={styles.forgotPassButtonText}>{"Şifremi Unuttum?"}</Text>
                 </Pressable>
 
