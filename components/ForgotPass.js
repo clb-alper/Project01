@@ -49,8 +49,7 @@ const ForgotPass = ({ navigation }) => {
         <AlertNotificationRoot>
             <View style={styles.container} onLayout={onLayoutRootView}>
                 <StatusBar style="auto" />
-                <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
-                <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
+                <Image source={require('../assets/images/loginbghdlong.png')} style={styles.backgroundImage} />
                 <View style={[styles.forgotpass_container, styles.shadowProp]}>
                     <View style={styles.forgotPassHeaderView}>
                         <Text style={styles.forgotPassHeader}>Şifremi Unuttum</Text>
@@ -88,9 +87,6 @@ const styles = StyleSheet.create({
     backgroundImage: {
         resizeMode: 'contain',
         width: '110%',
-        height: '100%',
-        marginTop: -500,
-        marginBottom: '20%',
     },
 
     forgotpass_container: {
