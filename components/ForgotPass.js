@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
+import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 
 const ForgotPass = ({ navigation }) => {
     var [isPress, setIsPress] = React.useState(false);
@@ -31,38 +32,47 @@ const ForgotPass = ({ navigation }) => {
         style: isPress ? styles.loginButtonPressed : styles.loginButton,
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
-        //onPress: () => console.log("Giriş Yapıldı")
-        onPress: () => navigation.navigate('Login')
-
+        onPress: () => {
+            Toast.show({
+                type: ALERT_TYPE.SUCCESS,
+                title: 'Gönderildi',
+                textBody: 'Geçici şifreniz emailinize gönderildi.',
+            })
+            setTimeout(() => {
+                navigation.navigate('Login')
+            }, 1500)
+            
+        }
     };
 
     return (
+        <AlertNotificationRoot>
+            <View style={styles.container} onLayout={onLayoutRootView}>
+                <StatusBar style="auto" />
+                <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
+                <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
+                <View style={[styles.forgotpass_container, styles.shadowProp]}>
+                    <View style={styles.forgotPassHeaderView}>
+                        <Text style={styles.forgotPassHeader}>Şifremi Unuttum</Text>
+                    </View>
 
-        <View style={styles.container} onLayout={onLayoutRootView}>
-            <StatusBar style="auto" />
-            <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
-            <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
-            <View style={[styles.forgotpass_container, styles.shadowProp]}>
-                <View style={styles.forgotPassHeaderView}>
-                    <Text style={styles.forgotPassHeader}>Şifremi Unuttum</Text>
+                    <Text style={styles.descriptionStyle}>
+                        Geçici şifrenizi almak için hesabınıza bağlı e-mail adresinizi giriniz.
+                    </Text>
+
+                    <TextInput
+                        style={[styles.inputStyle, styles.emailInputStyle]}
+                        placeholder="Email"
+                        placeholderTextColor={'#B8B8B8'}
+                        keyboardType="text"
+                    />
+
+                    <TouchableHighlight {...touchPropsSendButton} style={styles.sendButton}>
+                        <Text style={styles.sendButtonText}>{"Gönder"}</Text>
+                    </TouchableHighlight>
                 </View>
-
-                <Text style={styles.descriptionStyle}>
-                    Geçici şifrenizi almak için hesabınıza bağlı e-mail adresinizi giriniz.
-                </Text>
-
-                <TextInput
-                    style={[styles.inputStyle, styles.emailInputStyle]}
-                    placeholder="Email"
-                    placeholderTextColor={'#B8B8B8'}
-                    keyboardType="text"
-                />
-
-                <TouchableHighlight {...touchPropsSendButton} style={styles.sendButton}>
-                    <Text style={styles.sendButtonText}>{"Gönder"}</Text>
-                </TouchableHighlight>
             </View>
-        </View>
+        </AlertNotificationRoot>
     );
 }
 
@@ -79,8 +89,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: '110%',
         height: '100%',
-        marginTop: -425,
-        marginBottom: '2.1%',
+        marginTop: -500,
+        marginBottom: '20%',
     },
 
     forgotpass_container: {
