@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, ScrollView, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import booksListData from '../assets/data/booksListData';
+
 const MainScreen = ({ navigation }) => {
 
   var [isPress, setIsPress] = React.useState(false);
@@ -35,19 +37,63 @@ const MainScreen = ({ navigation }) => {
     onPress: () => navigation.navigate('Login')
 
   };
+
+  const renderContinueBookItems = ( {item} ) => {
+    return (
+      <TouchableOpacity>
+        <ImageBackground
+        source={item.image}
+        styles={styles.bookStyle}
+        imageStyle={styles.bookImageStyle}>
+
+        </ImageBackground>
+      </TouchableOpacity>
+
+    )
+  }
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <StatusBar style="auto" />
       <ScrollView>
         <SafeAreaView>
           <View style={styles.headerView1}>
-            
+
             <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle}></Image>
-            <Text style={styles.headerTextStyle}>Hoşgeldin Ömer</Text>
+            <Text
+              style={styles.headerTextStyle}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}>
+              Hoşgeldin Ömer
+            </Text>
 
             <View style={styles.headerView2}>
-              <Text>"Sasd"</Text>
+              <View style={styles.pointsContainer}>
+                <Text
+                  style={styles.pointsTextStyle}
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}>
+                  1000
+                </Text>
+
+                <Image
+                  source={require('../assets/images/iconPoints.png')}
+                  style={styles.pointsIconStyle}
+                  tintColor='black'
+                ></Image>
+
+              </View>
             </View>
+
+          </View>
+          <View style={styles.continueReadingView}>
+            <Text>Okumaya Devam Et</Text>
+            <FlatList
+            data={booksListData}
+            renderItem={renderContinueBookItems}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            />
 
           </View>
           <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
@@ -107,7 +153,48 @@ const styles = StyleSheet.create({
   headerTextStyle: {
     fontFamily: 'Comic-Regular',
     marginLeft: '2.5%',
-    fontSize: 25,
+    fontSize: 28,
+    width: 200,
   },
+
+  pointsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 35,
+    width: 95,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: colors.yellowBorder,
+    backgroundColor: colors.yellowTabBar,
+    paddingTop: 1.5,
+    paddingLeft: 10,
+  },
+
+  pointsTextStyle: {
+    fontFamily: 'Comic-Light',
+    fontSize: 21,
+    width: 50,
+  },
+
+  pointsIconStyle: {
+    resizeMode: 'contain',
+    height: 25,
+    width: 25,
+    marginLeft: 3,
+  },
+
+  continueReadingView: {
+
+  },
+
+  bookStyle: {
+    width: 100,
+    height: 100
+  },
+
+  bookImageStyle: {
+    width: 100,
+    height: 100
+  }
 
 })
