@@ -38,19 +38,6 @@ const MainScreen = ({ navigation }) => {
 
   };
 
-  const renderContinueBookItems = ( {item} ) => {
-    return (
-      <TouchableOpacity>
-        <ImageBackground
-        source={item.image}
-        styles={styles.bookStyle}
-        imageStyle={styles.bookImageStyle}>
-
-        </ImageBackground>
-      </TouchableOpacity>
-
-    )
-  }
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <StatusBar style="auto" />
@@ -85,14 +72,32 @@ const MainScreen = ({ navigation }) => {
             </View>
 
           </View>
-          <View style={styles.continueReadingView}>
-            <Text>Okumaya Devam Et</Text>
+          <View>
+            <Text style={styles.continueReadingHeader}>Okumaya Devam Et</Text>
             <FlatList
-            data={booksListData}
-            renderItem={renderContinueBookItems}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
+              style={styles.continueReadingFLStyle}       
+              data={booksListData}
+              renderItem={({ item, index, separators }) => (
+                <TouchableHighlight
+                  key={item.key}
+                  onPress={() => this._onPress(item)}
+                  onShowUnderlay={separators.highlight}
+                  onHideUnderlay={separators.unhighlight}>
+
+                  <View style={styles.continueReadingBookStyle}>
+                    <TouchableOpacity>
+                      <ImageBackground
+                        source={item.image}
+                        imageStyle={styles.continueBookImageStyle}>
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  </View>
+                </TouchableHighlight>
+              )}
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentInset={{ right: 20, top: 0, left: 0, bottom: 0 }}
             />
 
           </View>
@@ -183,18 +188,29 @@ const styles = StyleSheet.create({
     marginLeft: 3,
   },
 
-  continueReadingView: {
-
+  continueReadingHeader: {
+    fontFamily: 'Comic-Regular',
+    fontSize: 27,
+    paddingTop: 20,
+    paddingLeft: 20
   },
 
-  bookStyle: {
-    width: 100,
-    height: 100
+  continueReadingBookStyle: {
+    width: 113,
+    height: 200,
+    marginRight: 15,
+    marginTop: 10,
+    paddingLeft: 20
   },
 
-  bookImageStyle: {
-    width: 100,
-    height: 100
-  }
+  continueBookImageStyle: {
+    width: 113,
+    height: 180,
+    borderRadius: 20,
+  },
+
+  continueReadingFLStyle: {
+    marginRight: 20,
+  },
 
 })
