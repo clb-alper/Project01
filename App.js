@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Login from './components/Login';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MainScreen from './components/MainScreen';
 import Register from './components/Register';
@@ -12,10 +12,24 @@ import { View } from 'react-native-web';
 
 const Tab = createBottomTabNavigator();
 
+var touchPropsHomeButton = {
+  activeOpacity: 1,
+  underlayColor: '#ffe0e7',
+  onHideUnderlay: () => setIsPress(false),
+  onShowUnderlay: () => setIsPress(true),
+  //onPress: () => console.log("Giriş Yapıldı")
+  onPress: () => navigation.navigate('MainScreen')
+
+};
+
 const HomeScreenTabBarButton = ({ onPress }) => (
-  <TouchableHighlight style={styles.homeScreenTabBarStyle} onPress={onPress}>
+  <TouchableHighlight {...touchPropsHomeButton} style={styles.homeScreenTabBarStyle} onPress={onPress}>
   </TouchableHighlight>
 );
+
+const TransitionAnim = {
+  ...TransitionPresets.ScaleFromCenterAndroid
+};
 
 function HomeScreen() {
   return (
@@ -59,12 +73,12 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="MainScreen" component={HomeScreen} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="ForgotPass" component={ForgotPass} />
+        <Stack.Screen name="Login" component={Login} options={TransitionAnim}/>
+        <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim}/>
+        <Stack.Screen name="Register" component={Register} options={TransitionAnim}/>
+        <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim}/>
       </Stack.Navigator>
     </NavigationContainer>
 
