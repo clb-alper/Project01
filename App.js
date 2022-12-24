@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, TouchableHighlight } from 'react-native';
 import Login from './components/Login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,10 +8,16 @@ import MainScreen from './components/MainScreen';
 import Register from './components/Register';
 import ForgotPass from './components/ForgotPass';
 import colors from './assets/colors/colors';
+import { View } from 'react-native-web';
 
 const Tab = createBottomTabNavigator();
 
-function Home() {
+const HomeScreenTabBarButton = ({ onPress }) => (
+  <TouchableHighlight style={styles.homeScreenTabBarStyle} onPress={onPress}>
+  </TouchableHighlight>
+);
+
+function HomeScreen() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -22,14 +28,24 @@ function Home() {
         tabBarShowLabel: false,
         overflow: 'hidden',
       }}>
-      <Tab.Screen name=" " component={MainScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Image source={require('./assets/images/icontest.png')} style={styles.labelIcon1} />
-          ),
-        }} />
+      <Tab.Screen name="Home" component={MainScreen} />
       <Tab.Screen name="Profile" component={MainScreen} />
-      <Tab.Screen name="Profile3" component={MainScreen} />
+      <Tab.Screen name="Profile3" component={MainScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Image source={require('./assets/images/homeButtonBG.png')}
+              resizeMode="contain"
+              style={{
+                width: 90,
+                height: 90,
+                top: -12,
+              }}
+            />
+          ),
+          HomeScreenTabBarButton: (props) => (
+            <HomeScreenTabBarButton {...props} />
+          )
+        }} />
       <Tab.Screen name="Profile4" component={MainScreen} />
       <Tab.Screen name="Profile5" component={MainScreen} />
     </Tab.Navigator>
@@ -46,7 +62,7 @@ export default function App() {
           headerShown: false
         }}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="MainScreen" component={Home} />
+        <Stack.Screen name="MainScreen" component={HomeScreen} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="ForgotPass" component={ForgotPass} />
       </Stack.Navigator>
@@ -65,6 +81,10 @@ const styles = StyleSheet.create({
 
   tabNavStyle: {
     height: 75,
+    position: 'absolute',
+    elevation: 0,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
     backgroundColor: colors.yellowTabBar,
 
   },
@@ -87,4 +107,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 18,
   },
+
+  homeScreenTabBarStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
 });
