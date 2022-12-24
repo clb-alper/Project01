@@ -75,29 +75,27 @@ const MainScreen = ({ navigation }) => {
           <View>
             <Text style={styles.continueReadingHeader}>Okumaya Devam Et</Text>
             <FlatList
-              style={styles.continueReadingFLStyle}       
+              style={styles.continueReadingFLStyle}
               data={booksListData}
               renderItem={({ item, index, separators }) => (
-                <TouchableHighlight
-                  key={item.key}
-                  onPress={() => this._onPress(item)}
-                  onShowUnderlay={separators.highlight}
-                  onHideUnderlay={separators.unhighlight}>
 
                   <View style={styles.continueReadingBookStyle}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      key={item.key}
+                      onPress={() => console.log(item.id)}
+                      activeOpacity={0.75}
+                      style={styles.AAAA}>
                       <ImageBackground
                         source={item.image}
                         imageStyle={styles.continueBookImageStyle}>
                       </ImageBackground>
                     </TouchableOpacity>
                   </View>
-                </TouchableHighlight>
+
               )}
               keyExtractor={(item) => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentInset={{ right: 20, top: 0, left: 0, bottom: 0 }}
             />
 
           </View>
@@ -193,6 +191,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
     paddingTop: 20,
     paddingLeft: 20
+    
   },
 
   continueReadingBookStyle: {
@@ -200,7 +199,8 @@ const styles = StyleSheet.create({
     height: 200,
     marginRight: 15,
     marginTop: 10,
-    paddingLeft: 20
+    paddingLeft: 20,
+    
   },
 
   continueBookImageStyle: {
@@ -211,6 +211,18 @@ const styles = StyleSheet.create({
 
   continueReadingFLStyle: {
     marginRight: 20,
+  },
+
+  bookShadow: {
+    shadowColor: '#000',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 3,
+    elevation: 13,
+  },
+
+  AAAA: {
+    
   },
 
 })
