@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   continueReadingBookStyle1: {
     borderColor: 'black',
     width: 123,
-    height: 200,
+    height: 210,
     marginTop: 10,
     marginRight: 15,
     marginLeft: 25
@@ -223,8 +223,8 @@ const styles = StyleSheet.create({
 
   continueBookImageStyle: {
     width: 113,
-    height: 180,
-    borderRadius: 20,
+    height: 190,
+    borderRadius: 12,
   },
 
   bookShadow: {
