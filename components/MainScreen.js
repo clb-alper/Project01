@@ -79,12 +79,10 @@ const MainScreen = ({ navigation }) => {
               data={booksListData}
               renderItem={({ item, index, separators }) => (
                   <View style={index != 0 ? styles.continueReadingBookStyle: styles.continueReadingBookStyle1}>
-
                     <TouchableOpacity
                       key={item.key}
                       onPress={() => console.log(item.id)}
-                      activeOpacity={0.75}
-                      style={styles.AAAA}>
+                      activeOpacity={0.75}>
                       <ImageBackground
                         source={item.image}
                         imageStyle={styles.continueBookImageStyle}>
@@ -93,11 +91,10 @@ const MainScreen = ({ navigation }) => {
                   </View>
 
               )}
+              
               keyExtractor={(item) => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
-              // contentInset={{ right: 30, top: 0, left: 0, bottom: 0 }}
-
             />
 
           </View>
@@ -166,7 +163,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 
-
   headerTextStyle: {
     fontFamily: 'Comic-Regular',
     marginLeft: '2.5%',
@@ -207,22 +203,22 @@ const styles = StyleSheet.create({
     paddingLeft: 20
     
   },
+
   continueReadingBookStyle: {
     borderColor: 'black',
     width: 123,
     height: 200,
-    //marginTop: 10,
-    //marginLeft: 20,
-    marginRight: 20
+    marginTop: 10,
+    marginRight: 15
   },
 
   continueReadingBookStyle1: {
     borderColor: 'black',
     width: 123,
     height: 200,
-    marginRight: 20,
-
-    marginLeft: 20
+    marginTop: 10,
+    marginRight: 15,
+    marginLeft: 25
   },
 
   continueBookImageStyle: {
@@ -230,8 +226,6 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 20,
   },
-
-
 
   bookShadow: {
     shadowColor: '#000',
@@ -241,8 +235,5 @@ const styles = StyleSheet.create({
     elevation: 13,
   },
 
-  AAAA: {
-    
-  },
 
 })
