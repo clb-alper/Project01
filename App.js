@@ -38,7 +38,7 @@ function HomeScreen() {
               style={{
                 width: 90,
                 height: 90,
-                top: -12,
+                top: '-15%',
               }}
             />
           ),
@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
   tabNavStyle: {
     height: 75,
     position: 'absolute',
-    elevation: 0,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     backgroundColor: colors.yellowTabBar,
