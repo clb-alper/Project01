@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
   },
 
   boxShadow: {
+    marginRight: 15,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -213,7 +214,6 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 10,
     marginLeft: 15,
-
   },
 
   continueBookImageStyle: {
