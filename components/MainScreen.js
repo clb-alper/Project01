@@ -96,6 +96,8 @@ const MainScreen = ({ navigation }) => {
               keyExtractor={(item) => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
+              contentInset={{ right: 30, top: 0, left: 0, bottom: 0 }}
+
             />
 
           </View>
@@ -163,6 +165,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+
+
   headerTextStyle: {
     fontFamily: 'Comic-Regular',
     marginLeft: '2.5%',
@@ -207,10 +211,9 @@ const styles = StyleSheet.create({
   continueReadingBookStyle: {
     width: 113,
     height: 200,
-    marginRight: 15,
     marginTop: 10,
-    paddingLeft: 20,
-    
+    marginLeft: 15,
+
   },
 
   continueBookImageStyle: {
