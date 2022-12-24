@@ -28,7 +28,6 @@ const Login = ({navigation}) => {
     var touchPropsLoginButton = {
         activeOpacity: 1,
         underlayColor: '#ffe0e7',
-        style: isPress ? styles.loginButtonPressed : styles.loginButton,
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
         //onPress: () => console.log("Giriş Yapıldı")
@@ -42,7 +41,7 @@ const Login = ({navigation}) => {
             <StatusBar style="auto" />
             <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
             <View style={[styles.login_container, styles.shadowProp]}>
-                <View style={styles.textView}>
+                <View style={styles.loginHeaderView}>
                     <Text style={styles.loginHeader}>Giriş Yap</Text>
                 </View>
 
@@ -59,24 +58,20 @@ const Login = ({navigation}) => {
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
                     keyboardType="text"
-                />
-
-                {/* <Pressable onPress={() => alert("Giriş Yapıldı")} style={[styles.loginButton, pressed ? styles.loginButtonPressed : null]}>
-                    <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
-                </Pressable> */}
+                />                                         
 
                 <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
                     <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
                 </TouchableHighlight>
 
-                <Pressable onPress={() => console.log("Şifre unuttum'a basıldı")} style={styles.forgotPassButton}>
+                <Pressable onPress={() => navigation.navigate('ForgotPass')} style={styles.forgotPassButton}>
                     <Text style={styles.forgotPassButtonText}>{"Şifremi Unuttum?"}</Text>
                 </Pressable>
 
                 <KeyboardAvoidingView style={{ }} behavior="padding">
                 <View style={styles.signUpTextView}>
                     <Text style={styles.signUpText1}>{"Hesabın yok mu? "}</Text>
-                    <Pressable onPress={() => console.log("Kayıt Ol'a basıldı")}>
+                    <Pressable onPress={() => navigation.navigate('Register')}>
                         <Text style={styles.signUpText2}>{"Kayıt Ol"}</Text>
                     </Pressable>                   
                 </View>
@@ -139,7 +134,7 @@ const styles = StyleSheet.create({
         marginTop: '3.5%',
     },
 
-    textView: {
+    loginHeaderView: {
         padding: 15,
     },
 
