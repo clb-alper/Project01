@@ -78,8 +78,8 @@ const MainScreen = ({ navigation }) => {
               style={styles.boxShadow}
               data={booksListData}
               renderItem={({ item, index, separators }) => (
+                  <View style={index != 0 ? styles.continueReadingBookStyle: styles.continueReadingBookStyle1}>
 
-                  <View style={styles.continueReadingBookStyle}>
                     <TouchableOpacity
                       key={item.key}
                       onPress={() => console.log(item.id)}
@@ -96,7 +96,7 @@ const MainScreen = ({ navigation }) => {
               keyExtractor={(item) => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentInset={{ right: 30, top: 0, left: 0, bottom: 0 }}
+              // contentInset={{ right: 30, top: 0, left: 0, bottom: 0 }}
 
             />
 
@@ -156,7 +156,6 @@ const styles = StyleSheet.create({
   },
 
   boxShadow: {
-    marginRight: 15,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -208,12 +207,22 @@ const styles = StyleSheet.create({
     paddingLeft: 20
     
   },
-
   continueReadingBookStyle: {
-    width: 113,
+    borderColor: 'black',
+    width: 123,
     height: 200,
-    marginTop: 10,
-    marginLeft: 15,
+    //marginTop: 10,
+    //marginLeft: 20,
+    marginRight: 20
+  },
+
+  continueReadingBookStyle1: {
+    borderColor: 'black',
+    width: 123,
+    height: 200,
+    marginRight: 20,
+
+    marginLeft: 20
   },
 
   continueBookImageStyle: {
@@ -222,9 +231,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 
-  continueReadingFLStyle: {
-    marginRight: 20,
-  },
+
 
   bookShadow: {
     shadowColor: '#000',
