@@ -75,7 +75,7 @@ const MainScreen = ({ navigation }) => {
           <View>
             <Text style={styles.continueReadingHeader}>Okumaya Devam Et</Text>
             <FlatList
-              style={styles.continueReadingFLStyle}
+              style={styles.boxShadow}
               data={booksListData}
               renderItem={({ item, index, separators }) => (
 
@@ -153,6 +153,16 @@ const styles = StyleSheet.create({
     width: 35,
   },
 
+  boxShadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   headerTextStyle: {
     fontFamily: 'Comic-Regular',
     marginLeft: '2.5%',
