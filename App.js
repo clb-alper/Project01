@@ -13,22 +13,21 @@ const Tab = createBottomTabNavigator();
 
 function Home() {
   return (
-    <Tab.Navigator 
-    screenOptions={{
-      headerShown: false,
-      tabBarActiveTintColor: '#E9AF50',
-      tabBarInactiveBackgroundColor: '#FBE7C6',
-      tabBarActiveBackgroundColor: '#FBE7C6',
-      tabBarStyle: [styles.tabNavStyle, styles.shadowProp],
-      tabBarLabelStyle: styles.tabNavLabelStyle,
-      tabBarShowLabel: false,
-    }}>
-      <Tab.Screen name=" " component={MainScreen} 
-       options={{
-        tabBarIcon: ({ color, size }) => (
-          <Image source={require('./assets/images/icontest.png')} style={styles.labelIcon1} />
-        ),
-      }}/>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#E9AF50',
+        tabBarStyle: [styles.tabNavStyle, styles.shadowProp],
+        tabBarLabelStyle: styles.tabNavLabelStyle,
+        tabBarShowLabel: false,
+        overflow: 'hidden',
+      }}>
+      <Tab.Screen name=" " component={MainScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Image source={require('./assets/images/icontest.png')} style={styles.labelIcon1} />
+          ),
+        }} />
       <Tab.Screen name="Profile" component={MainScreen} />
       <Tab.Screen name="Profile3" component={MainScreen} />
       <Tab.Screen name="Profile4" component={MainScreen} />
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
 
   tabNavStyle: {
     height: 75,
-    paddingBottom: 0
+    backgroundColor: colors.yellowTabBar,
 
   },
 
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '70%',
     height: '100%',
-    resizeMode: 'contain', 
+    resizeMode: 'contain',
   },
 
   shadowProp: {
@@ -87,5 +86,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 3,
     elevation: 18,
-},
+  },
 });
