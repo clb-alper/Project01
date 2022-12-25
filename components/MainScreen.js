@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
     height: 210,
     marginTop: 10,
     marginBottom: 10,
-    paddingRight: 20,
+    paddingRight: 18,
     paddingTop: 6.5
   },
 
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     height: 210,
     marginTop: 10,
     marginBottom: 10,
-    paddingRight: 20,
+    paddingRight: 18,
     paddingTop: 6.5
   },
 
@@ -456,8 +456,8 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     position: 'absolute',
     fontSize: 14,
-    width: 260,
-    paddingTop: 75,
+    width: '63.5%',
+    paddingTop: '28%',
     paddingLeft: 20
   },
 
