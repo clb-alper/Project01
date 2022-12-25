@@ -307,6 +307,7 @@ const styles = StyleSheet.create({
     marginTop: 17,
     backgroundColor: colors.grayProgressBarBG,
     borderColor: colors.grayProgressBarBorder,
+    borderWidth: 0.7,
 
 
   },
