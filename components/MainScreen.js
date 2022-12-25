@@ -9,6 +9,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
+import { Dimensions } from "react-native";
+var width = Dimensions.get('window').width; //full width
 
 const MainScreen = ({ navigation }) => {
 
@@ -126,7 +128,7 @@ const MainScreen = ({ navigation }) => {
               overScrollMode={'never'}
               data={booksListData}
               renderItem={({ item, index, separators }) => (
-                <View style={{marginTop: 10}}>
+                <View style={{ marginTop: 10 }}>
                   <ImageBackground
                     source={item.image}
                     imageStyle={styles.featuredBookBG}
@@ -406,7 +408,7 @@ const styles = StyleSheet.create({
   featuredBookStyle: {
     borderWidth: 3.5,
     borderColor: 'black',
-    width: 411.5,
+    width: width,
     height: 210,
     marginTop: 10,
     marginBottom: 10,
@@ -417,7 +419,7 @@ const styles = StyleSheet.create({
   featuredBookStyleFirstItem: {
     borderWidth: 3.5,
     borderColor: 'black',
-    width: 411.5,
+    width: width ,
     height: 210,
     marginTop: 10,
     marginBottom: 10,
