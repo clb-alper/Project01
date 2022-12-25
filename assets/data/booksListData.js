@@ -1,9 +1,11 @@
+import colors from '../colors/colors';
+
 const booksListData = [
     {
         id: 'book1',
         title: 'Mirildanan',
         image: require('../images/mirildanan.png'),
-        itemColor: 'red'
+        itemColor: colors.blueRegular,
     },
     {
         id: 'book2',

@@ -305,6 +305,9 @@ const styles = StyleSheet.create({
 
   progressBar: {
     marginTop: 17,
+    backgroundColor: colors.grayProgressBarBG,
+    borderColor: colors.grayProgressBarBorder,
+
 
   },
 

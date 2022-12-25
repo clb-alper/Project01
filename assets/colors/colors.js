@@ -8,6 +8,8 @@ const colors = {
     blueRegular: '#A0E7E5',
     black: '#000',
     white: '#FFF',
+    grayProgressBarBG: '#EBEBEB',
+    grayProgressBarBorder: '#9D9D9D',
 }
 
 export default colors;
