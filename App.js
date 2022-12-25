@@ -95,10 +95,7 @@ const styles = StyleSheet.create({
 
   tabNavStyle: {
     height: 75,
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
     backgroundColor: colors.yellowTabBar,
-
   },
 
   tabNavLabelStyle: {

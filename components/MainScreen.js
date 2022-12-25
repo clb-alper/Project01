@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, ScrollView, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
-import { Dimensions } from "react-native";
+
 var width = Dimensions.get('window').width; //full width
 
 const MainScreen = ({ navigation }) => {
@@ -21,7 +21,6 @@ const MainScreen = ({ navigation }) => {
     'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
     'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
   });
-
 
   const shadowOpt = {
     width: 110,
@@ -51,7 +50,6 @@ const MainScreen = ({ navigation }) => {
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true),
     onPress: () => navigation.navigate('Login')
-
   };
 
   return (
@@ -62,10 +60,10 @@ const MainScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           overScrollMode={'never'}>
 
-
           <View style={styles.headerView1}>
 
             <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle}></Image>
+            
             <Text
               style={styles.headerTextStyle}
               adjustsFontSizeToFit={true}
@@ -75,6 +73,7 @@ const MainScreen = ({ navigation }) => {
 
             <View style={styles.headerView2}>
               <View style={styles.pointsContainer}>
+
                 <Text
                   style={styles.pointsTextStyle}
                   adjustsFontSizeToFit={true}
@@ -84,9 +83,8 @@ const MainScreen = ({ navigation }) => {
 
                 <Image
                   source={require('../assets/images/iconStar.png')}
-                  style={styles.pointsIconStyle}
-                //tintColor='black'
-                ></Image>
+                  style={styles.pointsIconStyle}>
+                </Image>
 
               </View>
             </View>
@@ -99,10 +97,12 @@ const MainScreen = ({ navigation }) => {
               data={booksListData}
               renderItem={({ item, index, separators }) => (
                 <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+
                   <TouchableOpacity
                     key={item.key}
                     onPress={() => console.log(item.id)}
                     activeOpacity={0.75}>
+
                     <BoxShadow setting={shadowOpt}>
                       <ImageBackground
                         source={item.image}
@@ -113,6 +113,7 @@ const MainScreen = ({ navigation }) => {
                     <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={0.5} width={112} />
 
                   </TouchableOpacity>
+
                 </View>
               )}
 
@@ -129,13 +130,24 @@ const MainScreen = ({ navigation }) => {
               data={booksListData}
               renderItem={({ item, index, separators }) => (
                 <View style={{ marginTop: 10 }}>
+
                   <ImageBackground
                     source={item.image}
                     imageStyle={styles.featuredBookBG}
                     blurRadius={0.8}>
                   </ImageBackground>
-                  <View stlye={styles.featuredBookContainer}>
-                  <View backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
+
+                  <Text style={[styles.featuredBookTitle, { color: item.itemTextColor }]}>Öne Çıkan</Text>
+
+                  <Text
+                    style={[styles.featuredBookDescription, { color: item.itemTextColor }]}
+                    adjustsFontSizeToFit={true}
+                    numberOfLines={8}>
+                    {item.itemDesc}
+                  </Text>
+
+                  <View borderColor={item.itemBorder} backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
+
                     <TouchableOpacity
                       key={item.key}
                       onPress={() => console.log(item.id)}
@@ -147,7 +159,7 @@ const MainScreen = ({ navigation }) => {
                         </ImageBackground>
                       </BoxShadow>
                     </TouchableOpacity>
-                  </View>
+
                   </View>
                 </View>
               )}
@@ -407,28 +419,46 @@ const styles = StyleSheet.create({
     borderWidth: 0.7,
   },
 
-
-
   featuredBookStyle: {
-    borderWidth: 3.5,
-    borderColor: 'black',
+    borderWidth: 4,
+    alignItems: 'flex-end',
     width: width,
     height: 210,
     marginTop: 10,
-    paddingLeft: 262,
     marginBottom: 10,
-    paddingTop: 8.5
+    paddingRight: 18,
+    paddingTop: 6.5
   },
 
   featuredBookStyleFirstItem: {
-    borderWidth: 3.5,
-    borderColor: 'black',
-    width: width ,
+    borderWidth: 4,
+    alignItems: 'flex-end',
+    width: width,
     height: 210,
     marginTop: 10,
     marginBottom: 10,
-    paddingLeft: 272,
-    paddingTop: 8.5
+    paddingRight: 18,
+    paddingTop: 6.5
+  },
+
+  featuredBookTitle: {
+    fontFamily: 'Comic-Bold',
+    textAlign: 'center',
+    zIndex: 1000,
+    position: 'absolute',
+    fontSize: 35,
+    paddingTop: 25,
+    paddingLeft: 20
+  },
+
+  featuredBookDescription: {
+    fontFamily: 'Comic-Bold',
+    zIndex: 1000,
+    position: 'absolute',
+    fontSize: 14,
+    width: '63.5%',
+    paddingTop: '28%',
+    paddingLeft: 20
   },
 
 })
