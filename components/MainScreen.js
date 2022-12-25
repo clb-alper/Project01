@@ -141,7 +141,7 @@ const MainScreen = ({ navigation }) => {
 
                   <Text
                     style={[styles.featuredBookDescription, { color: item.itemTextColor }]}
-                    adjustsFontSizeToFit={true}
+                    adjustsFontSizeToFit={false}
                     numberOfLines={8}>
                     {item.itemDesc}
                   </Text>
