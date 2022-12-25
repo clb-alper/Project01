@@ -8,6 +8,7 @@ import colors from '../assets/colors/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
+import * as Progress from 'react-native-progress';
 
 const MainScreen = ({ navigation }) => {
 
@@ -97,7 +98,7 @@ const MainScreen = ({ navigation }) => {
               renderItem={({ item, index, separators }) => (
                 <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyle1}>
                   <TouchableOpacity
-                    key={item.key}
+                    key={item.key}                  
                     onPress={() => console.log(item.id)}
                     activeOpacity={0.75}>
                     <BoxShadow setting={shadowOpt}>
@@ -106,6 +107,9 @@ const MainScreen = ({ navigation }) => {
                         imageStyle={styles.continueBookImageStyle}>
                       </ImageBackground>
                     </BoxShadow>
+
+                    <Progress.Bar style={styles.progressBar} color = {item.itemColor} progress={0.5} width={112} />
+
                   </TouchableOpacity>
                 </View>
               )}
@@ -114,6 +118,9 @@ const MainScreen = ({ navigation }) => {
               horizontal
               showsHorizontalScrollIndicator={false}
             />
+            
+           
+
           </View>
           
           <View>
@@ -294,6 +301,11 @@ const styles = StyleSheet.create({
     width: 113,
     height: 190,
     borderRadius: 12,
+  },
+
+  progressBar: {
+    marginTop: 17,
+
   },
 
 
