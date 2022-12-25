@@ -96,40 +96,7 @@ const MainScreen = ({ navigation }) => {
               overScrollMode={'never'}
               data={booksListData}
               renderItem={({ item, index, separators }) => (
-                <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyle1}>
-                  <TouchableOpacity
-                    key={item.key}                  
-                    onPress={() => console.log(item.id)}
-                    activeOpacity={0.75}>
-                    <BoxShadow setting={shadowOpt}>
-                      <ImageBackground
-                        source={item.image}
-                        imageStyle={styles.continueBookImageStyle}>
-                      </ImageBackground>
-                    </BoxShadow>
-
-                    <Progress.Bar style={styles.progressBar} color = {item.itemColor} progress={0.5} width={112} />
-
-                  </TouchableOpacity>
-                </View>
-              )}
-
-              keyExtractor={(item) => item.id}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-            />
-            
-           
-
-          </View>
-          
-          <View>
-            <Text style={styles.continueReadingHeader}>Popüler</Text>
-            <FlatList
-              overScrollMode={'never'}
-              data={booksListData}
-              renderItem={({ item, index, separators }) => (
-                <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyle1}>
+                <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
                   <TouchableOpacity
                     key={item.key}
                     onPress={() => console.log(item.id)}
@@ -140,6 +107,71 @@ const MainScreen = ({ navigation }) => {
                         imageStyle={styles.continueBookImageStyle}>
                       </ImageBackground>
                     </BoxShadow>
+
+                    <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={0.5} width={112} />
+
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+
+          </View>
+
+          <View>
+            <FlatList
+              overScrollMode={'never'}
+              data={booksListData}
+              renderItem={({ item, index, separators }) => (
+                <View style={{marginTop: 10}}>
+                  <ImageBackground
+                    source={item.image}
+                    imageStyle={styles.featuredBookBG}
+                    blurRadius={0.8}>
+                  </ImageBackground>
+                  <View backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
+                    <TouchableOpacity
+                      key={item.key}
+                      onPress={() => console.log(item.id)}
+                      activeOpacity={0.75}>
+                      <BoxShadow setting={shadowOpt}>
+                        <ImageBackground
+                          source={item.image}
+                          imageStyle={styles.continueBookImageStyle}>
+                        </ImageBackground>
+                      </BoxShadow>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+
+              keyExtractor={(item) => item.id}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.otherBookHeader}>Yeni</Text>
+            <FlatList
+              overScrollMode={'never'}
+              data={booksListData}
+              renderItem={({ item, index, separators }) => (
+                <View style={index != 0 ? styles.otherBookStyle : styles.otherBookStyleFirstItem}>
+                  <TouchableOpacity
+                    key={item.key}
+                    onPress={() => console.log(item.id)}
+                    activeOpacity={0.75}>
+                    <BoxShadow setting={shadowOpt}>
+                      <ImageBackground
+                        source={item.image}
+                        imageStyle={styles.otherBookImageStyle}>
+                      </ImageBackground>
+                    </BoxShadow>
                   </TouchableOpacity>
                 </View>
               )}
@@ -151,12 +183,12 @@ const MainScreen = ({ navigation }) => {
           </View>
 
           <View>
-            <Text style={styles.continueReadingHeader}>Favorileriniz</Text>
+            <Text style={styles.otherBookHeader}>Favorileriniz</Text>
             <FlatList
               overScrollMode={'never'}
               data={booksListData}
               renderItem={({ item, index, separators }) => (
-                <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyle1}>
+                <View style={index != 0 ? styles.otherBookStyle : styles.otherBookStyleFirstItem}>
                   <TouchableOpacity
                     key={item.key}
                     onPress={() => console.log(item.id)}
@@ -164,7 +196,34 @@ const MainScreen = ({ navigation }) => {
                     <BoxShadow setting={shadowOpt}>
                       <ImageBackground
                         source={item.image}
-                        imageStyle={styles.continueBookImageStyle}>
+                        imageStyle={styles.otherBookImageStyle}>
+                      </ImageBackground>
+                    </BoxShadow>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.otherBookHeader}>Size Önerilenler</Text>
+            <FlatList
+              overScrollMode={'never'}
+              data={booksListData}
+              renderItem={({ item, index, separators }) => (
+                <View style={index != 0 ? styles.otherBookStyle : styles.otherBookStyleFirstItem}>
+                  <TouchableOpacity
+                    key={item.key}
+                    onPress={() => console.log(item.id)}
+                    activeOpacity={0.75}>
+                    <BoxShadow setting={shadowOpt}>
+                      <ImageBackground
+                        source={item.image}
+                        imageStyle={styles.otherBookImageStyle}>
                       </ImageBackground>
                     </BoxShadow>
                   </TouchableOpacity>
@@ -277,19 +336,40 @@ const styles = StyleSheet.create({
     fontFamily: 'Comic-Regular',
     fontSize: 27,
     paddingLeft: 20,
-    paddingTop: 20,
+    paddingTop: 20
+  },
+
+  otherBookHeader: {
+    fontFamily: 'Comic-Regular',
+    fontSize: 27,
+    paddingLeft: 20,
+    paddingTop: 10
   },
 
   continueReadingBookStyle: {
-    borderColor: 'black',
+    width: 123,
+    height: 200,
+    marginTop: 10,
+    marginRight: 15,
+    marginBottom: 15
+  },
+
+  continueReadingBookStyleFirstItem: {
+    width: 123,
+    height: 210,
+    marginTop: 10,
+    marginRight: 15,
+    marginLeft: 25
+  },
+
+  otherBookStyle: {
     width: 123,
     height: 200,
     marginTop: 10,
     marginRight: 15
   },
 
-  continueReadingBookStyle1: {
-    borderColor: 'black',
+  otherBookStyleFirstItem: {
     width: 123,
     height: 210,
     marginTop: 10,
@@ -303,14 +383,46 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
+  otherBookImageStyle: {
+    width: 113,
+    height: 190,
+    borderRadius: 12,
+  },
+
+  featuredBookBG: {
+    width: 411.5,
+    height: 210,
+    borderRadius: 12,
+    marginTop: 10
+  },
+
   progressBar: {
     marginTop: 17,
     backgroundColor: colors.grayProgressBarBG,
     borderColor: colors.grayProgressBarBorder,
     borderWidth: 0.7,
-
-
   },
 
+  featuredBookStyle: {
+    borderWidth: 3.5,
+    borderColor: 'black',
+    width: 411.5,
+    height: 210,
+    marginTop: 10,
+    marginBottom: 10,
+    paddingLeft: 272,
+    paddingTop: 8.5
+  },
+
+  featuredBookStyleFirstItem: {
+    borderWidth: 3.5,
+    borderColor: 'black',
+    width: 411.5,
+    height: 210,
+    marginTop: 10,
+    marginBottom: 10,
+    paddingLeft: 272,
+    paddingTop: 8.5
+  },
 
 })
