@@ -134,6 +134,7 @@ const MainScreen = ({ navigation }) => {
                     imageStyle={styles.featuredBookBG}
                     blurRadius={0.8}>
                   </ImageBackground>
+                  <View stlye={styles.featuredBookContainer}>
                   <View backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
                     <TouchableOpacity
                       key={item.key}
@@ -146,6 +147,7 @@ const MainScreen = ({ navigation }) => {
                         </ImageBackground>
                       </BoxShadow>
                     </TouchableOpacity>
+                  </View>
                   </View>
                 </View>
               )}
@@ -405,14 +407,16 @@ const styles = StyleSheet.create({
     borderWidth: 0.7,
   },
 
+
+
   featuredBookStyle: {
     borderWidth: 3.5,
     borderColor: 'black',
     width: width,
     height: 210,
     marginTop: 10,
+    paddingLeft: 262,
     marginBottom: 10,
-    paddingLeft: 272,
     paddingTop: 8.5
   },
 
