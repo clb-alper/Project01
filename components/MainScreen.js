@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
   },
 
   featuredBookBG: {
-    width: 411.5,
+    width: width,
     height: 210,
     borderRadius: 12,
     marginTop: 10
