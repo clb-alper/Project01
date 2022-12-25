@@ -110,7 +110,7 @@ const MainScreen = ({ navigation }) => {
                       </ImageBackground>
                     </BoxShadow>
 
-                    <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={0.5} width={112} />
+                    <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
 
                   </TouchableOpacity>
 
