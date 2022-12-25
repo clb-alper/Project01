@@ -55,7 +55,7 @@ const MainScreen = ({ navigation }) => {
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <StatusBar style="auto" />
-      <SafeAreaView>
+      <SafeAreaView edges={['right', 'left', 'top']}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           overScrollMode={'never'}>
