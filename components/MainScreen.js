@@ -11,6 +11,7 @@ import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 import { Dimensions } from "react-native";
 var width = Dimensions.get('window').width; //full width
+var width2 = Dimensions.get('window').width * 0.65;
 
 const MainScreen = ({ navigation }) => {
 
@@ -412,7 +413,7 @@ const styles = StyleSheet.create({
     height: 210,
     marginTop: 10,
     marginBottom: 10,
-    paddingLeft: 272,
+    paddingLeft: width2,
     paddingTop: 8.5
   },
 
@@ -423,7 +424,7 @@ const styles = StyleSheet.create({
     height: 210,
     marginTop: 10,
     marginBottom: 10,
-    paddingLeft: 272,
+    paddingLeft: width2,
     paddingTop: 8.5
   },
 
