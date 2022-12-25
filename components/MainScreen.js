@@ -50,7 +50,6 @@ const MainScreen = ({ navigation }) => {
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true),
     onPress: () => navigation.navigate('Login')
-
   };
 
   return (
@@ -61,10 +60,10 @@ const MainScreen = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           overScrollMode={'never'}>
 
-
           <View style={styles.headerView1}>
 
             <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle}></Image>
+            
             <Text
               style={styles.headerTextStyle}
               adjustsFontSizeToFit={true}
@@ -74,6 +73,7 @@ const MainScreen = ({ navigation }) => {
 
             <View style={styles.headerView2}>
               <View style={styles.pointsContainer}>
+
                 <Text
                   style={styles.pointsTextStyle}
                   adjustsFontSizeToFit={true}
@@ -83,9 +83,8 @@ const MainScreen = ({ navigation }) => {
 
                 <Image
                   source={require('../assets/images/iconStar.png')}
-                  style={styles.pointsIconStyle}
-                //tintColor='black'
-                ></Image>
+                  style={styles.pointsIconStyle}>
+                </Image>
 
               </View>
             </View>
@@ -98,10 +97,12 @@ const MainScreen = ({ navigation }) => {
               data={booksListData}
               renderItem={({ item, index, separators }) => (
                 <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+
                   <TouchableOpacity
                     key={item.key}
                     onPress={() => console.log(item.id)}
                     activeOpacity={0.75}>
+
                     <BoxShadow setting={shadowOpt}>
                       <ImageBackground
                         source={item.image}
@@ -112,6 +113,7 @@ const MainScreen = ({ navigation }) => {
                     <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={0.5} width={112} />
 
                   </TouchableOpacity>
+
                 </View>
               )}
 
@@ -128,12 +130,24 @@ const MainScreen = ({ navigation }) => {
               data={booksListData}
               renderItem={({ item, index, separators }) => (
                 <View style={{ marginTop: 10 }}>
+
                   <ImageBackground
                     source={item.image}
                     imageStyle={styles.featuredBookBG}
                     blurRadius={0.8}>
                   </ImageBackground>
-                  <View backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
+
+                  <Text style={[styles.featuredBookTitle, { color: item.itemTextColor }]}>Öne Çıkan</Text>
+
+                  <Text
+                    style={[styles.featuredBookDescription, { color: item.itemTextColor }]}
+                    adjustsFontSizeToFit={true}
+                    numberOfLines={8}>
+                    {item.itemDesc}
+                  </Text>
+
+                  <View borderColor={item.itemBorder} backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
+
                     <TouchableOpacity
                       key={item.key}
                       onPress={() => console.log(item.id)}
@@ -145,6 +159,7 @@ const MainScreen = ({ navigation }) => {
                         </ImageBackground>
                       </BoxShadow>
                     </TouchableOpacity>
+
                   </View>
                 </View>
               )}
@@ -405,27 +420,45 @@ const styles = StyleSheet.create({
   },
 
   featuredBookStyle: {
-    borderWidth: 3.5,
-    borderColor: 'black',
-    alignItems:'flex-end',
+    borderWidth: 4,
+    alignItems: 'flex-end',
     width: width,
     height: 210,
     marginTop: 10,
     marginBottom: 10,
     paddingRight: 20,
-    paddingTop: 8.5
+    paddingTop: 6.5
   },
 
   featuredBookStyleFirstItem: {
-    borderWidth: 3.5,
-    borderColor: 'black',
-    alignItems:'flex-end',
-    width: width ,
+    borderWidth: 4,
+    alignItems: 'flex-end',
+    width: width,
     height: 210,
     marginTop: 10,
     marginBottom: 10,
     paddingRight: 20,
-    paddingTop: 8.5
+    paddingTop: 6.5
+  },
+
+  featuredBookTitle: {
+    fontFamily: 'Comic-Bold',
+    textAlign: 'center',
+    zIndex: 1000,
+    position: 'absolute',
+    fontSize: 35,
+    paddingTop: 25,
+    paddingLeft: 20
+  },
+
+  featuredBookDescription: {
+    fontFamily: 'Comic-Bold',
+    zIndex: 1000,
+    position: 'absolute',
+    fontSize: 14,
+    width: 260,
+    paddingTop: 75,
+    paddingLeft: 20
   },
 
 })
