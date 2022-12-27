@@ -10,6 +10,14 @@ const colors = {
     white: '#FFF',
     grayProgressBarBG: '#EBEBEB',
     grayProgressBarBorder: '#9D9D9D',
+    brown: '#B9945C', 
+    brownBorder: '#53471C',
+    gray: '#C0C0C0',
+    grayBorder: '#8F8F8F',
+    green: '#00E405',
+    greenBorder: '#00A804',
+    blue: '#4EE2EC',
+    blueBorder: '#3DA3AA'
 }
 
 export default colors;
