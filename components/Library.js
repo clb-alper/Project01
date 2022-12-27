@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useRef } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, ImageBackground, FlatList, Dimensions, ListViewBase, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, ImageBackground, FlatList, Dimensions, ListViewBase, Pressable, Modal } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -67,29 +67,32 @@ const Library = ({ navigation }) => {
 
         <View style={styles.libraryBG} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            
+
             <SafeAreaView edges={['right', 'left', 'top']}>
 
-            <View style={styles.DropdownViewStyle}>
-                <ModalDropdown
+                <View style={styles.DropdownViewStyle}>
+                    <ModalDropdown
+                        style={styles.DropdownStyle}
+                        textStyle={styles.DropdownTextStyle}
+                        dropdownStyle={styles.DropdownContainerStyle}
+                        dropdownTextStyle={styles.DropdownContainerTextStyle}
+                        dropdownTextHighlightStyle={styles.DropdownTextHighlightStyle}
+                        dropdownTextProps={styles.DropdownContainerTextStyle}
 
-                    style={styles.DropdownStyle}
-                    textStyle={styles.DropdownTextStyle}
-                    dropdownStyle={styles.DropdownContainerStyle}
-                    dropdownTextStyle={styles.DropdownContainerTextStyle}
+
+                        onSelect={(value) => {
+
+                            if (value == 'ALFABE') {
+                                navigation.navigate('Dashboard')
+                                console.log('afasd')
+                            }
+
+                        }}
+                        defaultValue="KATEGORİ"
+                        options={['ALFABE', 'KATEGORİ', 'YAŞ']} />
 
 
-                    onSelect={(value) => {
-
-                        if (value == 'Home Screen') {
-                            navigation.navigate('Dashboard')
-                        }
-
-                    }}
-
-                    options={['Home Screen', 'KATEGORİ', 'YAŞ']} />
-
-            </View>
+                </View>
 
 
                 <ScrollView
@@ -453,7 +456,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginRight: 10,
         marginTop: 30,
-        marginBottom:10
+
 
     },
 
@@ -461,45 +464,50 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blueTabBar,
         borderRadius: 25,
         height: 40,
-        width:  widthOfScreen * 0.35,
+        width: 145,
         borderWidth: 2,
         borderColor: colors.blueBorder,
         alignItems: 'center',
-       
+        alignContent: 'center',
+        zIndex: 45
+
     },
 
     DropdownTextStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 25,
-        
+        alignItems: 'center',
+        alignContent: 'center',
+        paddingTop: 4,
 
     },
 
     DropdownContainerStyle: {
-        backgroundColor:'yellow',
-        borderWidth: 2,
-        width: widthOfScreen * 0.35,
-        height: 150,
-        marginRight:'-5%',
-        
-      
+        borderBottomWidth: 2,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderColor: colors.blueBorder,
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+        width: 155,
+        height: 100,
+        marginRight: '-6.6%',
+        marginTop: '-6%',
+        backgroundColor: colors.blueTabBar,
 
-       
-        
-        
     },
 
     DropdownContainerTextStyle: {
         fontFamily: 'Comic-Regular',
-        fontSize: 25,
-        backgroundColor: 'red',
-        borderWidth: 2,
-        borderColor: 'black',
-        alignItems: 'flex-end',
-        alignContent:'flex-end',
-       
-       
-        
+        fontSize: 19,
+        backgroundColor: colors.blueTabBar,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
+
+
+    },
+    DropdownTextHighlightStyle: {
+        backgroundColor: 'white',
     },
 
 
