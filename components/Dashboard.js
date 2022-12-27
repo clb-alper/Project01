@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: colors.yellowLight,
+        backgroundColor: colors.greenLight,
     },
 
     statisticsHeader: {
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
         paddingRight: 50
     },
     statisticsLine: {
-        backgroundColor: 'green',
+        backgroundColor: colors.greenSpacer,
         width: width,
         height: 8,
         alignSelf: 'center',
@@ -222,7 +222,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
 
-
     dashboardHeader: {
         width: width,
         height: '32%',
@@ -232,7 +231,7 @@ const styles = StyleSheet.create({
         paddingLeft: '5%',
         paddingRight: '5%',
 
-        backgroundColor: colors.yellowBorder
+        backgroundColor: colors.greenHeaderContainer
     },
     dashboardContainer: {
         flexDirection: 'row',
@@ -416,8 +415,8 @@ const styles = StyleSheet.create({
         width: 95,
         borderRadius: 25,
         borderWidth: 2,
-        borderColor: colors.yellowBorder,
-        backgroundColor: colors.yellowTabBar,
+        borderColor: colors.greenBorder,
+        backgroundColor: colors.greenHeaderContainer,
         paddingLeft: 10,
 
     },

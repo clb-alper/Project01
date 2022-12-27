@@ -11,6 +11,17 @@ const colors = {
 
     pinkRegular: '#FFDAE0',
     pinkBorder: '#FFB8C4',
+
+    purpleLight: '#E1DEED',
+    purpleHeaderContainer: '#C8BFE7',
+    purpleBorder: '#8C83AA',
+    purpleSpacer: '#8F82BB',
+
+    greenLight: '#DEFFE8',
+    greenHeaderContainer: '#CBFFDA',
+    greenPointsBorder: '#85D29C',
+    greenSpacer: '#85D29C',
+    
     black: '#000',
     white: '#FFF',
 
