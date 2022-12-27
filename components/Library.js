@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     alphabetViewStyle: {
         backgroundColor: colors.blueTabBar,
         borderTopRightRadius: 25,
-        height: heightOfScreen * 1.5,
+        height: heightOfScreen * 1.55,
         borderWidth: 2,
         borderColor: colors.blueBorder,
         alignItems: 'center'
