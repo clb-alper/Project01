@@ -433,13 +433,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: 45,
         height: heightOfScreen,
-        marginTop: 55,
+        marginTop: '15%',
     },
 
     alphabetViewStyle: {
         backgroundColor: colors.blueContainer,
         borderTopRightRadius: 25,
-        height: heightOfScreen * 1.53,
+        height: heightOfScreen * 1.61,
         borderWidth: 0.5,
         borderColor: colors.blueBorder,
         alignItems: 'center',
