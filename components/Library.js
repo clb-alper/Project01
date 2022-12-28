@@ -68,7 +68,7 @@ const Library = ({ navigation }) => {
         <View style={styles.libraryBG} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
 
-            <SafeAreaView edges={['right', 'left']}>
+            <SafeAreaView edges={['right', 'left', 'bottom']}>
 
                 <View style={[styles.login_container, styles.shadowProp]}>
                     <View style={styles.headerView1}>
@@ -347,9 +347,10 @@ const Library = ({ navigation }) => {
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
-
-
                     </View>
+
+
+
                 </ScrollView>
             </SafeAreaView>
         </View>
@@ -432,7 +433,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 35,
         position: 'absolute',
         width: 45,
-        height: heightOfScreen,
+        height: heightOfScreen ,
         marginTop: '15%',
     },
 
@@ -443,8 +444,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: colors.blueBorder,
         alignItems: 'center',
-        paddingTop:'100%',
-        marginTop: '10%',
+        paddingTop: 55,
         zIndex:-10
     },
 
@@ -460,6 +460,7 @@ const styles = StyleSheet.create({
 
     FlatsScrollViewStyle: {
         marginLeft: 50,
+        height: heightOfScreen * 0.77,
     },
 
     DropdownViewStyle: {
