@@ -14,14 +14,14 @@ const Dashboard = () => {
             <View style={[styles.dashboardHeader, styles.boxShadow]}>
                 <View style={styles.dashboardContainer}>
 
-                    <View style={styles.headerImageContainer}>
-                        <Image source={require('../assets/images/icontest.png')} style={styles.headerIconStyle}></Image>
+                    <View>
+                    <Image  source={require('../assets/images/icontest.png')} style={styles.headerIconStyle}></Image>
                     </View>
 
                     <View style={styles.headerUserInfo}>
                         <Text style={styles.headerUser}>Merhaba Ömer</Text>
                         <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
-                        <Progress.Bar style={styles.progressBar} width={112} />
+                        <Progress.Bar style={styles.progressBar} progress={0.9} color={colors.greenBorder}/>
 
                     </View>
 
@@ -299,24 +299,14 @@ const styles = StyleSheet.create({
 
     },
 
-    headerImageContainer: {
-        width: 70,
-        height: 70,
-        alignItems: 'center',
-        paddingTop: 5,
-        borderRadius: 35,
-        borderColor: colors.pinkBorder,
-        backgroundColor: colors.diamondBorder,
-    },
-
-
-
     headerIconStyle: {
         resizeMode: 'contain',
-        width: 60,
-        height: 60,
+        width: 70,
+        height: 70,
         borderRadius: 100,
-        backgroundColor: colors.diamond,
+        backgroundColor: colors.blueRegular,
+        borderWidth:4,
+        borderColor:colors.blueBorder,
     },
 
     headerImageContainer1: {
@@ -415,7 +405,7 @@ const styles = StyleSheet.create({
         width: 95,
         borderRadius: 25,
         borderWidth: 2,
-        borderColor: colors.greenBorder,
+        borderColor: colors.greenSpacer,
         backgroundColor: colors.greenHeaderContainer,
         paddingLeft: 10,
 
@@ -501,12 +491,13 @@ const styles = StyleSheet.create({
 
     progressBar: {
         marginTop: '3%',
-        height: 12,
+        height: '15%',
         width: '140%',
         marginLeft: 65,
         backgroundColor: colors.grayProgressBarBG,
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,
+
     },
 
     featuredBookStyle: {
