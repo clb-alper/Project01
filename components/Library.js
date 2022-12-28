@@ -439,13 +439,13 @@ const styles = StyleSheet.create({
     alphabetViewStyle: {
         backgroundColor: colors.blueContainer,
         borderTopRightRadius: 25,
-        height: heightOfScreen * 1.61,
+        height: heightOfScreen * 1.70,
         borderWidth: 0.5,
         borderColor: colors.blueBorder,
         alignItems: 'center',
-        paddingTop:50,
+        paddingTop:'100%',
+        marginTop: '10%',
         zIndex:-10
-
     },
 
     alphabetLettersStyle: {
