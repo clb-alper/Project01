@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         borderRadius: 35,
         borderColor: colors.pinkBorder,
-        backgroundColor: colors.blueBorder,
+        backgroundColor: colors.diamondBorder,
     },
 
 
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 100,
-        backgroundColor: colors.blue,
+        backgroundColor: colors.diamond,
     },
 
     headerImageContainer1: {
@@ -378,14 +378,14 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         borderRadius: 35,
         borderColor: colors.pinkBorder,
-        backgroundColor: colors.blueBorder,
+        backgroundColor: colors.diamondBorder,
     },
     headerIconStyle4: {
         resizeMode: 'contain',
         width: 60,
         height: 60,
         borderRadius: 100,
-        backgroundColor: colors.blue,
+        backgroundColor: colors.diamond,
     },
 
     boxShadow: {

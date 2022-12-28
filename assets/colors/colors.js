@@ -8,6 +8,7 @@ const colors = {
     blueTabBar: '#C6FFFD',
     blueBorder: '#A4D7D5',
     blueRegular: '#A0E7E5',
+    blueContainer: '#BBF2F0',
 
     pinkRegular: '#FFDAE0',
     pinkBorder: '#FFB8C4',
@@ -37,8 +38,8 @@ const colors = {
     green: '#00E405',
     greenBorder: '#00A804',
     
-    blue: '#4EE2EC',
-    blueBorder: '#3DA3AA'
+    diamond: '#4EE2EC',
+    diamondBorder: '#3DA3AA'
 }
 
 export default colors;

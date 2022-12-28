@@ -68,10 +68,18 @@ const Library = ({ navigation }) => {
         <View style={styles.libraryBG} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
 
-            <SafeAreaView edges={['right', 'left', 'top']}>
+            <SafeAreaView edges={['right', 'left']}>
 
-                <View style={styles.DropdownViewStyle}>
-                    <ModalDropdown
+                <View style={[styles.login_container, styles.shadowProp]}>
+                    <View style={styles.headerView1}>
+
+                        <Text
+                            style={styles.headerTextStyle}
+                            adjustsFontSizeToFit={true}
+                            numberOfLines={1}>
+                            Kütüphane
+                        </Text>
+                        <ModalDropdown
                         style={styles.DropdownStyle}
                         textStyle={styles.DropdownTextStyle}
                         dropdownStyle={styles.DropdownContainerStyle}
@@ -89,9 +97,9 @@ const Library = ({ navigation }) => {
 
                         }}
                         defaultValue="KATEGORİ"
-                        options={['ALFABE', 'KATEGORİ', 'YAŞ']} />
-
-
+                        options={['ALFABE', 'KATEGORİLER', 'YAŞA GÖRE']} />
+                     
+                    </View>
                 </View>
 
 
@@ -429,12 +437,14 @@ const styles = StyleSheet.create({
     },
 
     alphabetViewStyle: {
-        backgroundColor: colors.blueTabBar,
+        backgroundColor: colors.blueContainer,
         borderTopRightRadius: 25,
         height: heightOfScreen * 1.53,
-        borderWidth: 2,
+        borderWidth: 0.5,
         borderColor: colors.blueBorder,
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingTop:50,
+        zIndex:-10
 
     },
 
@@ -510,6 +520,52 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
 
+
+
+
+
+
+
+    login_container: {
+        backgroundColor: colors.blueContainer,
+        width: '100%',
+        height: 125,
+        borderBottomLeftRadius: 40,
+        borderBottomRightRadius: 40,
+        zIndex:10
+    },
+
+
+    headerView1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginHorizontal: 20,
+        marginTop: 50,
+    },
+
+    headerView2: {
+        position: 'absolute',
+        right: '-4.5%',
+        marginHorizontal: 20,
+        marginTop: 15,
+    },
+    pointsTextStyle22: {
+        fontFamily: 'Comic-Regular',
+        textAlign: 'center',
+        fontSize: 15,
+        width: 45,
+    },
+
+    pointsIconStyle22: {
+        resizeMode: 'contain',
+        height: 20,
+        width: 20,
+    },
+    headerTextStyle: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 49,
+    },
 
 
 
