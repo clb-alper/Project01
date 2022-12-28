@@ -50,6 +50,31 @@ const Library = ({ navigation }) => {
         y: 7,
     }
 
+    const shadowOpt2 = {
+        width: widthOfScreen,
+        height: 117,
+        color: "#000",
+        border: 12,
+        radius: 25,
+        opacity: 0.2,
+        x: -1,
+        y: 2.5,
+
+    }
+
+    const shadowOpt3 = {
+        width: 0,
+        height: 0,
+        color: "#000",
+        border: 12,
+        radius: 25,
+        opacity: 0.2,
+        x: -1,
+        y: 2.5,
+        zIndex: -500
+
+    }
+
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
@@ -70,165 +95,142 @@ const Library = ({ navigation }) => {
 
             <SafeAreaView edges={['right', 'left', 'bottom']}>
 
-                <View style={[styles.login_container, styles.shadowProp]}>
-                    <View style={styles.headerView1}>
+                <BoxShadow setting={shadowOpt2}>
+                    <View style={[styles.libContainer, styles.shadowProp]}>
+                        <View style={styles.libContainerView}>
+                            <Text
+                                style={styles.LibHeaderTxtStyle}
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={1}>
+                                Kütüphane
+                            </Text>
 
-                        <Text
-                            style={styles.headerTextStyle}
-                            adjustsFontSizeToFit={true}
-                            numberOfLines={1}>
-                            Kütüphane
-                        </Text>
-                        <ModalDropdown
-                        style={styles.DropdownStyle}
-                        textStyle={styles.DropdownTextStyle}
-                        dropdownStyle={styles.DropdownContainerStyle}
-                        dropdownTextStyle={styles.DropdownContainerTextStyle}
-                        dropdownTextHighlightStyle={styles.DropdownTextHighlightStyle}
-                        dropdownTextProps={styles.DropdownContainerTextStyle}
+                            <ModalDropdown
+                                style={styles.DropdownStyle}
+                                textStyle={styles.DropdownTextStyle}
+                                dropdownStyle={styles.DropdownContainerStyle}
+                                dropdownTextStyle={styles.DropdownContainerTextStyle}
+                                dropdownTextHighlightStyle={styles.DropdownTextHighlightStyle}
+                                dropdownTextProps={styles.DropdownContainerTextStyle}
 
+                                onSelect={(value) => {
 
-                        onSelect={(value) => {
+                                    if (value == 'ALFABE') {
+                                        navigation.navigate('Dashboard')
+                                        console.log('afasd')
+                                    }
 
-                            if (value == 'ALFABE') {
-                                navigation.navigate('Dashboard')
-                                console.log('afasd')
-                            }
+                                }}
+                                defaultValue="KATEGORİ"
+                                options={['ALFABE', 'KATEGORİLER', 'YAŞA GÖRE']} />
 
-                        }}
-                        defaultValue="KATEGORİ"
-                        options={['ALFABE', 'KATEGORİLER', 'YAŞA GÖRE']} />
-                     
+                        </View>
                     </View>
-                </View>
+                </BoxShadow>
 
 
-                <ScrollView
 
-                    overScrollMode={'never'}
-                    showsVerticalScrollIndicator={false}
-                    style={styles.alphabetScrollStyle}>
-                    <View style={styles.alphabetViewStyle}>
+                
+     
+                        <ScrollView
 
-                        <Text onPress={() => console.log("A")}
-                            style={[styles.alphabetLettersStyle, { marginTop: 15 }]}>A</Text>
-
-                        <Text onPress={() => console.log("B")}
-                            style={styles.alphabetLettersStyle}>B</Text>
-
-                        <Text onPress={() => console.log("C")}
-                            style={styles.alphabetLettersStyle}>C</Text>
-
-                        <Text onPress={() => console.log("Ç")}
-                            style={styles.alphabetLettersStyle}>Ç</Text>
-
-                        <Text onPress={() => console.log("D")}
-                            style={styles.alphabetLettersStyle}>D</Text>
-
-                        <Text onPress={() => console.log("E")}
-                            style={styles.alphabetLettersStyle}>E</Text>
-
-                        <Text onPress={() => console.log("F")}
-                            style={styles.alphabetLettersStyle}>F</Text>
-
-                        <Text onPress={() => console.log("A")}
-                            style={[styles.alphabetLettersStyle]}>G</Text>
-
-                        <Text onPress={() => console.log("B")}
-                            style={styles.alphabetLettersStyle}>H</Text>
-
-                        <Text onPress={() => console.log("C")}
-                            style={styles.alphabetLettersStyle}>I</Text>
-
-                        <Text onPress={() => console.log("Ç")}
-                            style={styles.alphabetLettersStyle}>İ</Text>
-
-                        <Text onPress={() => console.log("D")}
-                            style={styles.alphabetLettersStyle}>J</Text>
-
-                        <Text onPress={() => console.log("E")}
-                            style={styles.alphabetLettersStyle}>K</Text>
-
-                        <Text onPress={() => console.log("F")}
-                            style={styles.alphabetLettersStyle}>L</Text>
-
-                        <Text onPress={() => console.log("B")}
-                            style={styles.alphabetLettersStyle}>M</Text>
-
-                        <Text onPress={() => console.log("C")}
-                            style={styles.alphabetLettersStyle}>N</Text>
-
-                        <Text onPress={() => console.log("Ç")}
-                            style={styles.alphabetLettersStyle}>O</Text>
-
-                        <Text onPress={() => console.log("D")}
-                            style={styles.alphabetLettersStyle}>Ö</Text>
-
-                        <Text onPress={() => console.log("E")}
-                            style={styles.alphabetLettersStyle}>P</Text>
-
-                        <Text onPress={() => console.log("F")}
-                            style={styles.alphabetLettersStyle}>R</Text>
-
-                        <Text onPress={() => console.log("A")}
-                            style={[styles.alphabetLettersStyle]}>S</Text>
-
-                        <Text onPress={() => console.log("B")}
-                            style={styles.alphabetLettersStyle}>Ş</Text>
-
-                        <Text onPress={() => console.log("C")}
-                            style={styles.alphabetLettersStyle}>T</Text>
-
-                        <Text onPress={() => console.log("Ç")}
-                            style={styles.alphabetLettersStyle}>U</Text>
-
-                        <Text onPress={() => console.log("D")}
-                            style={styles.alphabetLettersStyle}>Ü</Text>
-
-                        <Text onPress={() => console.log("E")}
-                            style={styles.alphabetLettersStyle}>V</Text>
-
-                        <Text onPress={() => console.log("F")}
-                            style={styles.alphabetLettersStyle}>Y</Text>
-
-                        <Text onPress={() => console.log("F")}
-                            style={styles.alphabetLettersStyle}>Z</Text>
+                            overScrollMode={'never'}
+                            showsVerticalScrollIndicator={false}
+                            style={[styles.alphabetScrollStyle, styles.boxShadow]}>
 
 
-                    </View>
-                </ScrollView>
+                    
+                            <View style={[styles.alphabetViewStyle, styles.boxShadow]}>
+
+                                <Text onPress={() => console.log("A")}
+                                    style={[styles.alphabetLettersStyle, { marginTop: 15 }]}>A</Text>
+
+                                <Text onPress={() => console.log("B")}
+                                    style={styles.alphabetLettersStyle}>B</Text>
+
+                                <Text onPress={() => console.log("C")}
+                                    style={styles.alphabetLettersStyle}>C</Text>
+
+                                <Text onPress={() => console.log("Ç")}
+                                    style={styles.alphabetLettersStyle}>Ç</Text>
+
+                                <Text onPress={() => console.log("D")}
+                                    style={styles.alphabetLettersStyle}>D</Text>
+
+                                <Text onPress={() => console.log("E")}
+                                    style={styles.alphabetLettersStyle}>E</Text>
+
+                                <Text onPress={() => console.log("F")}
+                                    style={styles.alphabetLettersStyle}>F</Text>
+
+                                <Text onPress={() => console.log("A")}
+                                    style={[styles.alphabetLettersStyle]}>G</Text>
+
+                                <Text onPress={() => console.log("B")}
+                                    style={styles.alphabetLettersStyle}>H</Text>
+
+                                <Text onPress={() => console.log("C")}
+                                    style={styles.alphabetLettersStyle}>I</Text>
+
+                                <Text onPress={() => console.log("Ç")}
+                                    style={styles.alphabetLettersStyle}>İ</Text>
+
+                                <Text onPress={() => console.log("D")}
+                                    style={styles.alphabetLettersStyle}>J</Text>
+
+                                <Text onPress={() => console.log("E")}
+                                    style={styles.alphabetLettersStyle}>K</Text>
+
+                                <Text onPress={() => console.log("F")}
+                                    style={styles.alphabetLettersStyle}>L</Text>
+
+                                <Text onPress={() => console.log("B")}
+                                    style={styles.alphabetLettersStyle}>M</Text>
+
+                                <Text onPress={() => console.log("C")}
+                                    style={styles.alphabetLettersStyle}>N</Text>
+
+                                <Text onPress={() => console.log("Ç")}
+                                    style={styles.alphabetLettersStyle}>O</Text>
+
+                                <Text onPress={() => console.log("D")}
+                                    style={styles.alphabetLettersStyle}>Ö</Text>
+
+                                <Text onPress={() => console.log("E")}
+                                    style={styles.alphabetLettersStyle}>P</Text>
+
+                                <Text onPress={() => console.log("F")}
+                                    style={styles.alphabetLettersStyle}>R</Text>
+
+                                <Text onPress={() => console.log("A")}
+                                    style={[styles.alphabetLettersStyle]}>S</Text>
+
+                                <Text onPress={() => console.log("B")}
+                                    style={styles.alphabetLettersStyle}>Ş</Text>
+
+                                <Text onPress={() => console.log("C")}
+                                    style={styles.alphabetLettersStyle}>T</Text>
+
+                                <Text onPress={() => console.log("Ç")}
+                                    style={styles.alphabetLettersStyle}>U</Text>
+
+                                <Text onPress={() => console.log("D")}
+                                    style={styles.alphabetLettersStyle}>Ü</Text>
+
+                                <Text onPress={() => console.log("E")}
+                                    style={styles.alphabetLettersStyle}>V</Text>
+
+                                <Text onPress={() => console.log("F")}
+                                    style={styles.alphabetLettersStyle}>Y</Text>
+
+                                <Text onPress={() => console.log("F")}
+                                    style={styles.alphabetLettersStyle}>Z</Text>
 
 
-                {/* 
+                            </View>
 
-                <ScrollView style={{position:'absolute', }} horizontal={true} >
-                    <View
-                        numColumns={5}
-                        style={styles.container2}>
-
-                        {booksListData.map((book) => {
-                            return (
-
-                                <TouchableOpacity
-                                    key={book.key}
-                                    onPress={() => console.log(book.id)}
-                                    activeOpacity={0.75}>
-
-                                    <BoxShadow setting={shadowOpt}>
-                                        <ImageBackground
-                                            source={book.image}
-                                            imageStyle={styles.bookCoverStyle}>
-                                        </ImageBackground>
-                                    </BoxShadow>
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </View>
-
-                </ScrollView>
-
-*/}
-
+                        </ScrollView>
+    
 
                 <ScrollView
 
@@ -375,14 +377,37 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 15,
+        elevation: 5,
+        zIndex:-25
+    },
+
+    LibHeaderTxtStyle: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 49,
     },
 
     letterHeader: {
         fontFamily: 'Comic-Regular',
         fontSize: 65,
         paddingLeft: 20,
-        paddingTop: 35
+        paddingTop: 25
+    },
+
+    libContainer: {
+        backgroundColor: colors.blueContainer,
+        width: '100%',
+        height: 125,
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+        zIndex: 50
+    },
+
+    libContainerView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginHorizontal: 20,
+        marginTop: 50,
     },
 
     bookStyle: {
@@ -403,7 +428,6 @@ const styles = StyleSheet.create({
         marginLeft: 10
     },
 
-
     bookCoverStyle: {
         width: 100,
         height: 170,
@@ -415,8 +439,6 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginTop: 5,
     },
-
-
 
     item: {
         backgroundColor: '#f9c2ff',
@@ -433,19 +455,20 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 35,
         position: 'absolute',
         width: 45,
-        height: heightOfScreen ,
+        height: heightOfScreen,
         marginTop: '15%',
+        zIndex: -10
     },
 
     alphabetViewStyle: {
         backgroundColor: colors.blueContainer,
         borderTopRightRadius: 25,
         height: heightOfScreen * 1.70,
-        borderWidth: 0.5,
+        borderWidth: 0.7,
         borderColor: colors.blueBorder,
         alignItems: 'center',
         paddingTop: 55,
-        zIndex:-10
+        zIndex: -10
     },
 
     alphabetLettersStyle: {
@@ -460,7 +483,7 @@ const styles = StyleSheet.create({
 
     FlatsScrollViewStyle: {
         marginLeft: 50,
-        height: heightOfScreen * 0.77,
+        height: heightOfScreen * 0.78,
     },
 
     DropdownViewStyle: {
@@ -515,63 +538,10 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
 
-
     },
+
     DropdownTextHighlightStyle: {
         backgroundColor: 'white',
     },
 
-
-
-
-
-
-
-    login_container: {
-        backgroundColor: colors.blueContainer,
-        width: '100%',
-        height: 125,
-        borderBottomLeftRadius: 40,
-        borderBottomRightRadius: 40,
-        zIndex:10
-    },
-
-
-    headerView1: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginHorizontal: 20,
-        marginTop: 50,
-    },
-
-    headerView2: {
-        position: 'absolute',
-        right: '-4.5%',
-        marginHorizontal: 20,
-        marginTop: 15,
-    },
-    pointsTextStyle22: {
-        fontFamily: 'Comic-Regular',
-        textAlign: 'center',
-        fontSize: 15,
-        width: 45,
-    },
-
-    pointsIconStyle22: {
-        resizeMode: 'contain',
-        height: 20,
-        width: 20,
-    },
-    headerTextStyle: {
-        fontFamily: 'Comic-Regular',
-        fontSize: 49,
-    },
-
-
-
-
-    container2: {
-        padding: 50,
-    },
 })
