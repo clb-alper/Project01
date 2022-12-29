@@ -233,8 +233,6 @@ const Library = ({ navigation }) => {
                 </ScrollView>
 
                 <ScrollView
-
-                    nestedScrollEnabled={true}
                     overScrollMode={'never'}
                     showsVerticalScrollIndicator={false}
                     style={[styles.FlatsScrollViewStyle, { width: '100%' }]}
@@ -246,8 +244,6 @@ const Library = ({ navigation }) => {
                         <View>
 
                             <FlatList
-
-                                nestedScrollEnabled={true}
                                 horizontal={false}
                                 scrollEnabled={false}
                                 numColumns={parseInt((widthOfScreen - 65) / 100)}
@@ -286,8 +282,6 @@ const Library = ({ navigation }) => {
 
                         <View>
                             <FlatList
-
-                                nestedScrollEnabled={true}
                                 horizontal={false}
                                 scrollEnabled={false}
                                 numColumns={parseInt((widthOfScreen - 65) / 100)}
@@ -326,8 +320,6 @@ const Library = ({ navigation }) => {
 
                         <View>
                             <FlatList
-
-                                nestedScrollEnabled={true}
                                 horizontal={false}
                                 scrollEnabled={false}
                                 numColumns={parseInt((widthOfScreen - 65) / 100)}
