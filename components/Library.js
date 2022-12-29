@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useRef } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, ImageBackground, FlatList, Dimensions, ListViewBase, Pressable, Modal } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image, ImageBackground, Dimensions, ListViewBase, Pressable, Modal, SectionList } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import ModalDropdown from 'react-native-modal-dropdown';
+
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -130,120 +131,123 @@ const Library = ({ navigation }) => {
 
 
 
-                
-     
-                        <ScrollView
 
-                            overScrollMode={'never'}
-                            showsVerticalScrollIndicator={false}
-                            style={[styles.alphabetScrollStyle, styles.boxShadow]}>
-
-
-                    
-                            <View style={[styles.alphabetViewStyle, styles.boxShadow]}>
-
-                                <Text onPress={() => console.log("A")}
-                                    style={[styles.alphabetLettersStyle, { marginTop: 15 }]}>A</Text>
-
-                                <Text onPress={() => console.log("B")}
-                                    style={styles.alphabetLettersStyle}>B</Text>
-
-                                <Text onPress={() => console.log("C")}
-                                    style={styles.alphabetLettersStyle}>C</Text>
-
-                                <Text onPress={() => console.log("Ç")}
-                                    style={styles.alphabetLettersStyle}>Ç</Text>
-
-                                <Text onPress={() => console.log("D")}
-                                    style={styles.alphabetLettersStyle}>D</Text>
-
-                                <Text onPress={() => console.log("E")}
-                                    style={styles.alphabetLettersStyle}>E</Text>
-
-                                <Text onPress={() => console.log("F")}
-                                    style={styles.alphabetLettersStyle}>F</Text>
-
-                                <Text onPress={() => console.log("A")}
-                                    style={[styles.alphabetLettersStyle]}>G</Text>
-
-                                <Text onPress={() => console.log("B")}
-                                    style={styles.alphabetLettersStyle}>H</Text>
-
-                                <Text onPress={() => console.log("C")}
-                                    style={styles.alphabetLettersStyle}>I</Text>
-
-                                <Text onPress={() => console.log("Ç")}
-                                    style={styles.alphabetLettersStyle}>İ</Text>
-
-                                <Text onPress={() => console.log("D")}
-                                    style={styles.alphabetLettersStyle}>J</Text>
-
-                                <Text onPress={() => console.log("E")}
-                                    style={styles.alphabetLettersStyle}>K</Text>
-
-                                <Text onPress={() => console.log("F")}
-                                    style={styles.alphabetLettersStyle}>L</Text>
-
-                                <Text onPress={() => console.log("B")}
-                                    style={styles.alphabetLettersStyle}>M</Text>
-
-                                <Text onPress={() => console.log("C")}
-                                    style={styles.alphabetLettersStyle}>N</Text>
-
-                                <Text onPress={() => console.log("Ç")}
-                                    style={styles.alphabetLettersStyle}>O</Text>
-
-                                <Text onPress={() => console.log("D")}
-                                    style={styles.alphabetLettersStyle}>Ö</Text>
-
-                                <Text onPress={() => console.log("E")}
-                                    style={styles.alphabetLettersStyle}>P</Text>
-
-                                <Text onPress={() => console.log("F")}
-                                    style={styles.alphabetLettersStyle}>R</Text>
-
-                                <Text onPress={() => console.log("A")}
-                                    style={[styles.alphabetLettersStyle]}>S</Text>
-
-                                <Text onPress={() => console.log("B")}
-                                    style={styles.alphabetLettersStyle}>Ş</Text>
-
-                                <Text onPress={() => console.log("C")}
-                                    style={styles.alphabetLettersStyle}>T</Text>
-
-                                <Text onPress={() => console.log("Ç")}
-                                    style={styles.alphabetLettersStyle}>U</Text>
-
-                                <Text onPress={() => console.log("D")}
-                                    style={styles.alphabetLettersStyle}>Ü</Text>
-
-                                <Text onPress={() => console.log("E")}
-                                    style={styles.alphabetLettersStyle}>V</Text>
-
-                                <Text onPress={() => console.log("F")}
-                                    style={styles.alphabetLettersStyle}>Y</Text>
-
-                                <Text onPress={() => console.log("F")}
-                                    style={styles.alphabetLettersStyle}>Z</Text>
-
-
-                            </View>
-
-                        </ScrollView>
-    
 
                 <ScrollView
 
                     overScrollMode={'never'}
                     showsVerticalScrollIndicator={false}
-                    style={styles.FlatsScrollViewStyle}
+                    style={[styles.alphabetScrollStyle, styles.boxShadow]}>
+
+
+
+                    <View style={[styles.alphabetViewStyle, styles.boxShadow]}>
+
+                        <Text onPress={() => console.log("A")}
+                            style={[styles.alphabetLettersStyle, { marginTop: 15 }]}>A</Text>
+
+                        <Text onPress={() => console.log("B")}
+                            style={styles.alphabetLettersStyle}>B</Text>
+
+                        <Text onPress={() => console.log("C")}
+                            style={styles.alphabetLettersStyle}>C</Text>
+
+                        <Text onPress={() => console.log("Ç")}
+                            style={styles.alphabetLettersStyle}>Ç</Text>
+
+                        <Text onPress={() => console.log("D")}
+                            style={styles.alphabetLettersStyle}>D</Text>
+
+                        <Text onPress={() => console.log("E")}
+                            style={styles.alphabetLettersStyle}>E</Text>
+
+                        <Text onPress={() => console.log("F")}
+                            style={styles.alphabetLettersStyle}>F</Text>
+
+                        <Text onPress={() => console.log("A")}
+                            style={[styles.alphabetLettersStyle]}>G</Text>
+
+                        <Text onPress={() => console.log("B")}
+                            style={styles.alphabetLettersStyle}>H</Text>
+
+                        <Text onPress={() => console.log("C")}
+                            style={styles.alphabetLettersStyle}>I</Text>
+
+                        <Text onPress={() => console.log("Ç")}
+                            style={styles.alphabetLettersStyle}>İ</Text>
+
+                        <Text onPress={() => console.log("D")}
+                            style={styles.alphabetLettersStyle}>J</Text>
+
+                        <Text onPress={() => console.log("E")}
+                            style={styles.alphabetLettersStyle}>K</Text>
+
+                        <Text onPress={() => console.log("F")}
+                            style={styles.alphabetLettersStyle}>L</Text>
+
+                        <Text onPress={() => console.log("B")}
+                            style={styles.alphabetLettersStyle}>M</Text>
+
+                        <Text onPress={() => console.log("C")}
+                            style={styles.alphabetLettersStyle}>N</Text>
+
+                        <Text onPress={() => console.log("Ç")}
+                            style={styles.alphabetLettersStyle}>O</Text>
+
+                        <Text onPress={() => console.log("D")}
+                            style={styles.alphabetLettersStyle}>Ö</Text>
+
+                        <Text onPress={() => console.log("E")}
+                            style={styles.alphabetLettersStyle}>P</Text>
+
+                        <Text onPress={() => console.log("F")}
+                            style={styles.alphabetLettersStyle}>R</Text>
+
+                        <Text onPress={() => console.log("A")}
+                            style={[styles.alphabetLettersStyle]}>S</Text>
+
+                        <Text onPress={() => console.log("B")}
+                            style={styles.alphabetLettersStyle}>Ş</Text>
+
+                        <Text onPress={() => console.log("C")}
+                            style={styles.alphabetLettersStyle}>T</Text>
+
+                        <Text onPress={() => console.log("Ç")}
+                            style={styles.alphabetLettersStyle}>U</Text>
+
+                        <Text onPress={() => console.log("D")}
+                            style={styles.alphabetLettersStyle}>Ü</Text>
+
+                        <Text onPress={() => console.log("E")}
+                            style={styles.alphabetLettersStyle}>V</Text>
+
+                        <Text onPress={() => console.log("F")}
+                            style={styles.alphabetLettersStyle}>Y</Text>
+
+                        <Text onPress={() => console.log("F")}
+                            style={styles.alphabetLettersStyle}>Z</Text>
+
+
+                    </View>
+
+                </ScrollView>
+
+                <ScrollView
+
+                    nestedScrollEnabled={true}
+                    overScrollMode={'never'}
+                    showsVerticalScrollIndicator={false}
+                    style={[styles.FlatsScrollViewStyle, { width: '100%' }]}
                     horizontal={false} >
 
                     <View style={styles.FlatsViewStyle}>
                         <Text style={[styles.letterHeader, { marginTop: -10 }]}>A</Text>
 
                         <View>
+
                             <FlatList
+
+                                nestedScrollEnabled={true}
                                 horizontal={false}
                                 scrollEnabled={false}
                                 numColumns={parseInt((widthOfScreen - 65) / 100)}
@@ -282,6 +286,8 @@ const Library = ({ navigation }) => {
 
                         <View>
                             <FlatList
+
+                                nestedScrollEnabled={true}
                                 horizontal={false}
                                 scrollEnabled={false}
                                 numColumns={parseInt((widthOfScreen - 65) / 100)}
@@ -320,6 +326,8 @@ const Library = ({ navigation }) => {
 
                         <View>
                             <FlatList
+
+                                nestedScrollEnabled={true}
                                 horizontal={false}
                                 scrollEnabled={false}
                                 numColumns={parseInt((widthOfScreen - 65) / 100)}
@@ -351,9 +359,9 @@ const Library = ({ navigation }) => {
                         </View>
                     </View>
 
-
-
                 </ScrollView>
+
+
             </SafeAreaView>
         </View>
     )
@@ -362,6 +370,9 @@ const Library = ({ navigation }) => {
 export default Library
 
 const styles = StyleSheet.create({
+
+
+
 
     libraryBG: {
         flex: 1,
@@ -378,7 +389,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-        zIndex:-25
+        zIndex: -25
     },
 
     LibHeaderTxtStyle: {
