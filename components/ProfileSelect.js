@@ -40,14 +40,16 @@ const ProfileSelect = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container} onLayout={onLayoutRootView}>
+        <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            <ImageBackground source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
-            <View style={styles.backgroundDarkener}></View>
-            <Text>ProfileSelect</Text>
-            <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
-            </TouchableHighlight>
+            <ImageBackground source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage}>
+                <View style={styles.profileSelectChildContainer}>
+                    <Text style={{color: colors.white}}>ProfileSelect</Text>
+                    <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
+                        <Text style={styles.loginButtonText}>{"Cont"}</Text>
+                    </TouchableHighlight>
+                </View>
+            </ImageBackground>
         </View>
     )
 }
@@ -55,21 +57,28 @@ const ProfileSelect = ({ navigation }) => {
 export default ProfileSelect
 
 const styles = StyleSheet.create({
-    container: {
+    profileSelectContainer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    
+
+    profileSelectChildContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.8)'
+    },
+
     backgroundImage: {
         position: 'absolute',
         width: widthOfScreen,
         height: heightOfScreen,
+
     },
 
     backgroundDarkener: {
-        color: 'red'
-        
+        backgroundColor: 'red',
     },
 
     loginButton: {
