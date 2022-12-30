@@ -1,3 +1,4 @@
+import colors from '../colors/colors';
 
 const userData = [
     {
@@ -6,6 +7,7 @@ const userData = [
         userLastName: 'Gültekin',
         userNickname: 'Yusuf',
         userProfileImage: 'temp',
+        selectedColor: colors.pinkRegular,
     },
     {
         id: '2',
@@ -13,6 +15,7 @@ const userData = [
         userLastName: 'Aslan',
         userNickname: 'Ömer',
         userProfileImage: 'temp',
+        selectedColor: colors.blueRegular,
     },
     {
         id: '3',
@@ -20,6 +23,7 @@ const userData = [
         userLastName: 'Çelebi',
         userNickname: 'Alper',
         userProfileImage: 'temp',
+        selectedColor: colors.purpleLight,
     },
     {
         id: '4',
@@ -27,6 +31,7 @@ const userData = [
         userLastName: 'Huvaz',
         userNickname: 'Tarık',
         userProfileImage: 'temp',
+        selectedColor: colors.greenLight,
     },
 ]
 

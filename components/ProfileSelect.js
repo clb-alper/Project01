@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, Dimensions, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
+import userData from '../assets/data/userData';
+import { BoxShadow } from 'react-native-shadow';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -29,6 +31,17 @@ const ProfileSelect = ({ navigation }) => {
         return null;
     }
 
+    /*const shadowOpt = {
+        width: 110,
+        height: 183,
+        color: "#000",
+        border: 6,
+        radius: 12,
+        opacity: 0.2,
+        x: -1.5,
+        y: 7,
+    }*/
+
     var touchPropsLoginButton = {
         activeOpacity: 1,
         underlayColor: '#ffe0e7',
@@ -44,12 +57,45 @@ const ProfileSelect = ({ navigation }) => {
             <StatusBar style="auto" />
             <ImageBackground source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage}>
                 <View style={styles.profileSelectChildContainer}>
-                    <Text style={{color: colors.white}}>ProfileSelect</Text>
-                    <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
-                        <Text style={styles.loginButtonText}>{"Cont"}</Text>
-                    </TouchableHighlight>
                 </View>
             </ImageBackground>
+            <View style={styles.flatListStyle}>
+                <Text style={styles.profileSelectHeader}>Profil Seçin</Text>
+                <FlatList
+                    overScrollMode={'never'}
+                    horizontal={false}
+                    scrollEnabled={false}
+                    numColumns={2}
+                    viewAreaCoveragePercentThreshold={10}
+                    itemVisiblePercentThreshold={10}
+                    data={userData}
+                    keyExtractor={(item) => item.id}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item, index, separators }) => (
+                        <View style={styles.profileStyle}>
+
+                            <TouchableOpacity
+                                key={item.key}
+                                onPress={() => console.log(item.id)}
+                                activeOpacity={0.75}>
+
+                                <Image source={require('../assets/images/icontest.png')} style={styles.profileImageStyle}/>
+
+                            </TouchableOpacity>
+                            <Text style={[styles.userNicknameStyle, { color: item.selectedColor }]}>{item.userNickname}</Text>
+
+                        </View>
+                    )}
+
+
+                />
+            </View>
+
+
+            <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
+                <Text style={styles.loginButtonText}>{"Cont"}</Text>
+            </TouchableHighlight>
+
         </View>
     )
 }
@@ -64,9 +110,12 @@ const styles = StyleSheet.create({
     },
 
     profileSelectChildContainer: {
+        position: 'absolute',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        width: widthOfScreen,
+        height: heightOfScreen,
         backgroundColor: 'rgba(0,0,0,0.8)'
     },
 
@@ -95,6 +144,40 @@ const styles = StyleSheet.create({
         fontFamily: 'Comic-Light',
         textAlign: 'center',
         fontSize: 23,
+    },
+
+    profileStyle: {
+        marginTop: 10,
+        marginRight: 15,
+        marginBottom: 15,
+        marginLeft: 20,
+    },
+
+    profileSelectHeader: {
+        fontFamily: 'Comic-Bold',
+        textAlign: 'center',
+        marginTop: '30%',
+        fontSize: 40,
+        marginBottom: 50,
+        color: colors.white,
+
+    },
+
+    profileImageStyle: {
+        width: 100,
+        height: 100,
+
+    },
+
+    userNicknameStyle: {
+
+    },
+
+    flatListStyle: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+
     },
 
 })
