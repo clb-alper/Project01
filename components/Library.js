@@ -24,7 +24,51 @@ const Library = ({ navigation }) => {
     });
 
 
+    const DATASAMPLE = [
+        {
+            condition: 'a',
+            books: [
+                {
+                    id: 1,
+                    title: 'Ahmet'
+                },
+                {
+                    id: 2,
+                    title: 'Alper'
+                }
+            ]
+        }
+    ];
+
     const DATA = [];
+
+    const dataLetters = [];
+
+    for (let i = 0; i < booksListData.length; i++) {
+        // const dataLetters = DATA.map((book) => book.condition);
+        const index = dataLetters.findIndex((letter) => letter == booksListData[i].title.substring(0, 1));
+
+        if (index > -1) {
+            DATA[index].books.push(booksListData[i]);
+        }
+        else {
+            dataLetters.push(booksListData[i].title.substring(0, 1))
+            DATA.push({
+                condition: booksListData[i].title.substring(0, 1),
+                books: [{
+                    id: booksListData[i].id,
+                    title: booksListData[i].title,
+                    image: booksListData[i].image,
+                    itemColor: booksListData[i].itemColor,
+                    itemBorder: booksListData[i].itemBorder,
+                    itemColorBG: booksListData[i].itemColorBG,
+                    itemTextColor: booksListData[i].itemTextColor,
+                    itemDesc: booksListData[i].itemDesc,
+                    bookProgress: booksListData[i].bookProgress,
+                }]
+            })
+        }
+    }
 
     const getItem = (data, index) => ({
         id: 'book3',
@@ -118,7 +162,6 @@ const Library = ({ navigation }) => {
 
                                     if (value == 'ALFABE') {
                                         navigation.navigate('Dashboard')
-                                        console.log('afasd')
                                     }
 
                                 }}
@@ -238,6 +281,39 @@ const Library = ({ navigation }) => {
                     style={[styles.FlatsScrollViewStyle, { width: '100%' }]}
                     horizontal={false} >
 
+                    <View>
+                        {
+                            DATA.map((book, index) => {
+                                return (
+                                    <View>
+                                    <Text>{book.condition}</Text>
+
+                                    <View style={styles.bookContainer} key={index}>
+                                        <View>
+                                        </View>
+                                        {
+                                            book.books.map((bookDetail) => {
+                                                return (
+                                                    <View key={bookDetail.id} style={styles.bookContainer}>
+                                                        <BoxShadow setting={shadowOpt}>
+                                                            <ImageBackground
+                                                                source={bookDetail.image}
+                                                                imageStyle={styles.bookCoverStyle}>
+                                                            </ImageBackground>
+                                                        </BoxShadow>
+                                                    </View>
+                                                )
+                                            })
+                                        }
+                                    </View>
+                                    </View>
+                                )
+                            })
+                        }
+                    </View>
+
+
+                    {/* 
                     <View style={styles.FlatsViewStyle}>
                         <Text style={[styles.letterHeader, { marginTop: -10 }]}>A</Text>
 
@@ -349,7 +425,7 @@ const Library = ({ navigation }) => {
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
-                    </View>
+                    </View> */}
 
                 </ScrollView>
 
@@ -389,6 +465,12 @@ const styles = StyleSheet.create({
         fontSize: 49,
     },
 
+    bookContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        width: widthOfScreen - 20
+    },
+ 
     letterHeader: {
         fontFamily: 'Comic-Regular',
         fontSize: 65,
