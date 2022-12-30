@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, ScrollView, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import booksListData from '../assets/data/booksListData';
+import { BoxShadow } from 'react-native-shadow';
+import * as Progress from 'react-native-progress';
+
+var width = Dimensions.get('window').width; //full width
 
 const MainScreen = ({ navigation }) => {
 
@@ -17,6 +21,17 @@ const MainScreen = ({ navigation }) => {
     'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
     'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
   });
+
+  const shadowOpt = {
+    width: 110,
+    height: 183,
+    color: "#000",
+    border: 6,
+    radius: 12,
+    opacity: 0.2,
+    x: -1.5,
+    y: 7,
+  }
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -35,17 +50,20 @@ const MainScreen = ({ navigation }) => {
     onHideUnderlay: () => setIsPress(false),
     onShowUnderlay: () => setIsPress(true),
     onPress: () => navigation.navigate('Login')
-
   };
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
       <StatusBar style="auto" />
-      <ScrollView>
-        <SafeAreaView>
+      <SafeAreaView edges={['right', 'left', 'top']}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          overScrollMode={'never'}>
+
           <View style={styles.headerView1}>
 
             <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle}></Image>
+            
             <Text
               style={styles.headerTextStyle}
               adjustsFontSizeToFit={true}
@@ -55,54 +73,187 @@ const MainScreen = ({ navigation }) => {
 
             <View style={styles.headerView2}>
               <View style={styles.pointsContainer}>
+
                 <Text
                   style={styles.pointsTextStyle}
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}>
-                  1000
+                  1750
                 </Text>
 
                 <Image
-                  source={require('../assets/images/iconPoints.png')}
-                  style={styles.pointsIconStyle}
-                  tintColor='black'
-                ></Image>
+                  source={require('../assets/images/iconStar.png')}
+                  style={styles.pointsIconStyle}>
+                </Image>
 
               </View>
             </View>
-
           </View>
+
           <View>
             <Text style={styles.continueReadingHeader}>Okumaya Devam Et</Text>
             <FlatList
-              style={styles.boxShadow}
+              overScrollMode={'never'}
               data={booksListData}
               renderItem={({ item, index, separators }) => (
-                  <View style={index != 0 ? styles.continueReadingBookStyle: styles.continueReadingBookStyle1}>
-                    <TouchableOpacity
-                      key={item.key}
-                      onPress={() => console.log(item.id)}
-                      activeOpacity={0.75}>
+                <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+
+                  <TouchableOpacity
+                    key={item.key}
+                    onPress={() => console.log(item.id)}
+                    activeOpacity={0.75}>
+
+                    <BoxShadow setting={shadowOpt}>
                       <ImageBackground
                         source={item.image}
                         imageStyle={styles.continueBookImageStyle}>
                       </ImageBackground>
-                    </TouchableOpacity>
-                  </View>
+                    </BoxShadow>
 
+                    <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
+
+                  </TouchableOpacity>
+
+                </View>
               )}
-              
+
               keyExtractor={(item) => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
             />
 
           </View>
-          <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
-          </TouchableHighlight>
-        </SafeAreaView>
-      </ScrollView>
+
+          <View>
+            <FlatList
+              overScrollMode={'never'}
+              data={booksListData}
+              renderItem={({ item, index, separators }) => (
+                <View style={{ marginTop: 10 }}>
+
+                  <ImageBackground
+                    source={item.image}
+                    imageStyle={styles.featuredBookBG}
+                    blurRadius={0.8}>
+                  </ImageBackground>
+
+                  <Text style={[styles.featuredBookTitle, { color: item.itemTextColor }]}>Öne Çıkan</Text>
+
+                  <Text
+                    style={[styles.featuredBookDescription, { color: item.itemTextColor }]}
+                    adjustsFontSizeToFit={false}
+                    numberOfLines={8}>
+                    {item.itemDesc}
+                  </Text>
+
+                  <View borderColor={item.itemBorder} backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
+
+                    <TouchableOpacity
+                      key={item.key}
+                      onPress={() => console.log(item.id)}
+                      activeOpacity={0.75}>
+                      <BoxShadow setting={shadowOpt}>
+                        <ImageBackground
+                          source={item.image}
+                          imageStyle={styles.continueBookImageStyle}>
+                        </ImageBackground>
+                      </BoxShadow>
+                    </TouchableOpacity>
+
+                  </View>
+                </View>
+              )}
+
+              keyExtractor={(item) => item.id}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.otherBookHeader}>Yeni</Text>
+            <FlatList
+              overScrollMode={'never'}
+              data={booksListData}
+              renderItem={({ item, index, separators }) => (
+                <View style={index != 0 ? styles.otherBookStyle : styles.otherBookStyleFirstItem}>
+                  <TouchableOpacity
+                    key={item.key}
+                    onPress={() => console.log(item.id)}
+                    activeOpacity={0.75}>
+                    <BoxShadow setting={shadowOpt}>
+                      <ImageBackground
+                        source={item.image}
+                        imageStyle={styles.otherBookImageStyle}>
+                      </ImageBackground>
+                    </BoxShadow>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.otherBookHeader}>Favorileriniz</Text>
+            <FlatList
+              overScrollMode={'never'}
+              data={booksListData}
+              renderItem={({ item, index, separators }) => (
+                <View style={index != 0 ? styles.otherBookStyle : styles.otherBookStyleFirstItem}>
+                  <TouchableOpacity
+                    key={item.key}
+                    onPress={() => console.log(item.id)}
+                    activeOpacity={0.75}>
+                    <BoxShadow setting={shadowOpt}>
+                      <ImageBackground
+                        source={item.image}
+                        imageStyle={styles.otherBookImageStyle}>
+                      </ImageBackground>
+                    </BoxShadow>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.otherBookHeader}>Size Önerilenler</Text>
+            <FlatList
+              overScrollMode={'never'}
+              data={booksListData}
+              renderItem={({ item, index, separators }) => (
+                <View style={index != 0 ? styles.otherBookStyle : styles.otherBookStyleFirstItem}>
+                  <TouchableOpacity
+                    key={item.key}
+                    onPress={() => console.log(item.id)}
+                    activeOpacity={0.75}>
+                    <BoxShadow setting={shadowOpt}>
+                      <ImageBackground
+                        source={item.image}
+                        imageStyle={styles.otherBookImageStyle}>
+                      </ImageBackground>
+                    </BoxShadow>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+
+        </ScrollView>
+      </SafeAreaView>
     </View>
   )
 }
@@ -136,12 +287,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginHorizontal: 20,
-    marginTop: 15,
+    marginTop: 17,
+
   },
 
   headerView2: {
     position: 'absolute',
-    right: '-4.5%',
+    right: '-7%',
     marginHorizontal: 20,
     marginTop: 15,
   },
@@ -160,7 +312,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    elevation: 15,
   },
 
   headerTextStyle: {
@@ -179,12 +331,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.yellowBorder,
     backgroundColor: colors.yellowTabBar,
-    paddingTop: 1.5,
     paddingLeft: 10,
   },
 
   pointsTextStyle: {
     fontFamily: 'Comic-Light',
+    textAlign: 'center',
     fontSize: 21,
     width: 50,
   },
@@ -193,29 +345,49 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     height: 25,
     width: 25,
-    marginLeft: 3,
+    marginLeft: 1.5,
   },
 
   continueReadingHeader: {
     fontFamily: 'Comic-Regular',
     fontSize: 27,
-    paddingTop: 20,
-    paddingLeft: 20
-    
+    paddingLeft: 20,
+    paddingTop: 20
+  },
+
+  otherBookHeader: {
+    fontFamily: 'Comic-Regular',
+    fontSize: 27,
+    paddingLeft: 20,
+    paddingTop: 10
   },
 
   continueReadingBookStyle: {
-    borderColor: 'black',
+    width: 123,
+    height: 200,
+    marginTop: 10,
+    marginRight: 15,
+    marginBottom: 15
+  },
+
+  continueReadingBookStyleFirstItem: {
+    width: 123,
+    height: 210,
+    marginTop: 10,
+    marginRight: 15,
+    marginLeft: 25
+  },
+
+  otherBookStyle: {
     width: 123,
     height: 200,
     marginTop: 10,
     marginRight: 15
   },
 
-  continueReadingBookStyle1: {
-    borderColor: 'black',
+  otherBookStyleFirstItem: {
     width: 123,
-    height: 200,
+    height: 210,
     marginTop: 10,
     marginRight: 15,
     marginLeft: 25
@@ -223,17 +395,70 @@ const styles = StyleSheet.create({
 
   continueBookImageStyle: {
     width: 113,
-    height: 180,
-    borderRadius: 20,
+    height: 190,
+    borderRadius: 12,
   },
 
-  bookShadow: {
-    shadowColor: '#000',
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 3,
-    elevation: 13,
+  otherBookImageStyle: {
+    width: 113,
+    height: 190,
+    borderRadius: 12,
   },
 
+  featuredBookBG: {
+    width: width,
+    height: 210,
+    borderRadius: 12,
+    marginTop: 10
+  },
+
+  progressBar: {
+    marginTop: 17,
+    backgroundColor: colors.grayProgressBarBG,
+    borderColor: colors.grayProgressBarBorder,
+    borderWidth: 0.7,
+  },
+
+  featuredBookStyle: {
+    borderWidth: 4,
+    alignItems: 'flex-end',
+    width: width,
+    height: 210,
+    marginTop: 10,
+    marginBottom: 10,
+    paddingRight: 18,
+    paddingTop: 6.5
+  },
+
+  featuredBookStyleFirstItem: {
+    borderWidth: 4,
+    alignItems: 'flex-end',
+    width: width,
+    height: 210,
+    marginTop: 10,
+    marginBottom: 10,
+    paddingRight: 18,
+    paddingTop: 6.5
+  },
+
+  featuredBookTitle: {
+    fontFamily: 'Comic-Bold',
+    textAlign: 'center',
+    zIndex: 1000,
+    position: 'absolute',
+    fontSize: 35,
+    paddingTop: 25,
+    paddingLeft: 20
+  },
+
+  featuredBookDescription: {
+    fontFamily: 'Comic-Bold',
+    zIndex: 1000,
+    position: 'absolute',
+    fontSize: 14,
+    width: '63.5%',
+    paddingTop: '28%',
+    paddingLeft: 20
+  },
 
 })

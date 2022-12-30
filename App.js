@@ -9,6 +9,10 @@ import Register from './components/Register';
 import ForgotPass from './components/ForgotPass';
 import colors from './assets/colors/colors';
 import { View } from 'react-native-web';
+import Library from './components/Library';
+import Dashboard from './components/Dashboard';
+import RewardsScreen from './components/RewardsScreen';
+import ProfileSelect from './components/ProfileSelect';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +38,7 @@ const TransitionAnim = {
 function HomeScreen() {
   return (
     <Tab.Navigator
+      initialRouteName='Home'
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#E9AF50',
@@ -42,9 +47,34 @@ function HomeScreen() {
         tabBarShowLabel: false,
         overflow: 'hidden',
       }}>
-      <Tab.Screen name="Home" component={MainScreen} />
-      <Tab.Screen name="Profile" component={MainScreen} />
-      <Tab.Screen name="Profile3" component={MainScreen}
+
+      <Tab.Screen name="Library" component={Library}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Image source={require('./assets/images/iconPoints.png')}
+              resizeMode="contain"
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            />
+          )
+        }} />
+
+      <Tab.Screen name="Dashboard" component={Dashboard}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Image source={require('./assets/images/iconPoints.png')}
+              resizeMode="contain"
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            />
+          )
+        }} />
+
+      <Tab.Screen name="Home" component={MainScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <Image source={require('./assets/images/homeButtonBG.png')}
@@ -60,8 +90,32 @@ function HomeScreen() {
             <HomeScreenTabBarButton {...props} />
           )
         }} />
-      <Tab.Screen name="Profile4" component={MainScreen} />
-      <Tab.Screen name="Profile5" component={MainScreen} />
+
+      <Tab.Screen name="RewardsScreen" component={RewardsScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Image source={require('./assets/images/iconPoints.png')}
+              resizeMode="contain"
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            />
+          )
+        }} />
+
+      <Tab.Screen name="Profile" component={MainScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Image source={require('./assets/images/iconPoints.png')}
+              resizeMode="contain"
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            />
+          )
+        }} />
     </Tab.Navigator>
   );
 }
@@ -75,10 +129,11 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Login" component={Login} options={TransitionAnim}/>
-        <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim}/>
-        <Stack.Screen name="Register" component={Register} options={TransitionAnim}/>
-        <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim}/>
+        <Stack.Screen name="Login" component={Login} options={TransitionAnim} />
+        <Stack.Screen name="ProfileSelect" component={ProfileSelect} options={TransitionAnim} />
+        <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
+        <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
+        <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
       </Stack.Navigator>
     </NavigationContainer>
 
@@ -95,11 +150,7 @@ const styles = StyleSheet.create({
 
   tabNavStyle: {
     height: 75,
-    position: 'absolute',
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
     backgroundColor: colors.yellowTabBar,
-
   },
 
   tabNavLabelStyle: {
