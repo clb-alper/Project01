@@ -12,6 +12,7 @@ import { View } from 'react-native-web';
 import Library from './components/Library';
 import Dashboard from './components/Dashboard';
 import RewardsScreen from './components/RewardsScreen';
+import ProfileSelect from './components/ProfileSelect';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,6 +38,7 @@ const TransitionAnim = {
 function HomeScreen() {
   return (
     <Tab.Navigator
+      initialRouteName='Home'
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#E9AF50',
@@ -128,6 +130,7 @@ export default function App() {
           headerShown: false,
         }}>
         <Stack.Screen name="Login" component={Login} options={TransitionAnim} />
+        <Stack.Screen name="ProfileSelect" component={ProfileSelect} options={TransitionAnim} />
         <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
         <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
         <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />

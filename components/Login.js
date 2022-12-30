@@ -31,7 +31,7 @@ const Login = ({navigation}) => {
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
         //onPress: () => console.log("Giriş Yapıldı")
-        onPress: () => navigation.navigate('MainScreen')
+        onPress: () => navigation.navigate('ProfileSelect')
 
     };
 
