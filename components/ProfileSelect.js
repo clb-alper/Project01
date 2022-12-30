@@ -47,7 +47,6 @@ const ProfileSelect = ({ navigation }) => {
         underlayColor: '#ffe0e7',
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
-        //onPress: () => console.log("Giriş Yapıldı")
         onPress: () => navigation.navigate('MainScreen')
 
     };
@@ -55,48 +54,47 @@ const ProfileSelect = ({ navigation }) => {
     return (
         <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
+
             <ImageBackground source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage}>
                 <View style={styles.profileSelectChildContainer}>
                 </View>
             </ImageBackground>
-            <View style={styles.flatListStyle}>
-                <Text style={styles.profileSelectHeader}>Profil Seçin</Text>
-                <FlatList
-                    overScrollMode={'never'}
-                    horizontal={false}
-                    scrollEnabled={false}
-                    numColumns={2}
-                    viewAreaCoveragePercentThreshold={10}
-                    itemVisiblePercentThreshold={10}
-                    data={userData}
-                    keyExtractor={(item) => item.id}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item, index, separators }) => (
-                        <View style={styles.profileStyle}>
+            <SafeAreaView edges={['bottom', 'top']}>
+                <View style={styles.flatListStyle}>
+                    <Text style={styles.profileSelectHeader}>Profil Seçin</Text>
+                    <FlatList
+                        overScrollMode={'never'}
+                        horizontal={false}
+                        scrollEnabled={false}
+                        numColumns={2}
+                        viewAreaCoveragePercentThreshold={10}
+                        itemVisiblePercentThreshold={10}
+                        data={userData}
+                        keyExtractor={(item) => item.id}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index, separators }) => (
+                            <View style={styles.profileStyle}>
 
-                            <TouchableOpacity
-                                key={item.key}
-                                onPress={() => console.log(item.id)}
-                                activeOpacity={0.8}>
+                                <TouchableOpacity
+                                    key={item.key}
+                                    onPress={() => navigation.navigate('MainScreen')}
+                                    activeOpacity={0.8}>
 
-                                <View style={[styles.pfpBackground, {backgroundColor: item.selectedBGColor}]}>
-                                    <Image source={require('../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
-                                </View>
+                                    <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
+                                        <Image source={require('../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
+                                    </View>
 
-                            </TouchableOpacity>
-                            <Text style={[styles.userNicknameStyle, { color: item.selectedColor }]}>{item.userNickname}</Text>
+                                </TouchableOpacity>
+                                <Text style={[styles.userNicknameStyle, { color: item.selectedColor }]}>{item.userNickname}</Text>
 
-                        </View>
-                    )}
+                            </View>
+                        )} />
+                    <TouchableHighlight {...touchPropsLoginButton} style={styles.editProfileButton}>
+                        <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
+                    </TouchableHighlight>
+                </View>
+            </SafeAreaView>
 
-
-                />
-
-
-            </View>
-            <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>{"Cont"}</Text>
-            </TouchableHighlight>
 
         </View>
     )
@@ -132,10 +130,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
     },
 
-    loginButton: {
-        alignItems: 'center',
-        width: '85%',
-        padding: 12,
+    editProfileButton: {
+        marginBottom: '60%',
+        width: '75%',
+        padding: 3,
         backgroundColor: colors.pinkRegular,
         borderWidth: 2,
         borderRadius: 15,
@@ -145,7 +143,7 @@ const styles = StyleSheet.create({
     loginButtonText: {
         fontFamily: 'Comic-Light',
         textAlign: 'center',
-        fontSize: 23,
+        fontSize: 24,
     },
 
     profileStyle: {
@@ -158,7 +156,7 @@ const styles = StyleSheet.create({
     profileSelectHeader: {
         fontFamily: 'Comic-Bold',
         textAlign: 'center',
-        marginTop: '30%',
+        marginTop: 120,
         fontSize: 40,
         marginBottom: 50,
         color: colors.white,
