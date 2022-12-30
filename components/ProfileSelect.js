@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     },
 
     editProfileButton: {
-        marginBottom: heightOfScreen*0.23,
+        marginBottom: heightOfScreen * 0.15,
         width: '75%',
         padding: 3,
         backgroundColor: colors.pinkRegular,
