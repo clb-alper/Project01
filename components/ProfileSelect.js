@@ -115,14 +115,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: widthOfScreen,
-        height: heightOfScreen,
+        height: heightOfScreen * 1.1,
         backgroundColor: 'rgba(0,0,0,0.8)'
     },
 
     backgroundImage: {
         position: 'absolute',
         width: widthOfScreen,
-        height: heightOfScreen,
+        height: heightOfScreen * 1.1,
 
     },
 
