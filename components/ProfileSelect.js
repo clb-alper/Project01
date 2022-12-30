@@ -77,9 +77,11 @@ const ProfileSelect = ({ navigation }) => {
                             <TouchableOpacity
                                 key={item.key}
                                 onPress={() => console.log(item.id)}
-                                activeOpacity={0.75}>
+                                activeOpacity={0.8}>
 
-                                <Image source={require('../assets/images/icontest.png')} style={styles.profileImageStyle}/>
+                                <View style={[styles.pfpBackground, {backgroundColor: item.selectedBGColor}]}>
+                                    <Image source={require('../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
+                                </View>
 
                             </TouchableOpacity>
                             <Text style={[styles.userNicknameStyle, { color: item.selectedColor }]}>{item.userNickname}</Text>
@@ -89,9 +91,9 @@ const ProfileSelect = ({ navigation }) => {
 
 
                 />
+
+
             </View>
-
-
             <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
                 <Text style={styles.loginButtonText}>{"Cont"}</Text>
             </TouchableHighlight>
@@ -164,13 +166,27 @@ const styles = StyleSheet.create({
     },
 
     profileImageStyle: {
-        width: 100,
-        height: 100,
+        resizeMode: 'contain',
+        width: 120,
+        height: 120,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 5,
 
     },
 
-    userNicknameStyle: {
+    pfpBackground: {
+        width: 130,
+        height: 130,
+        borderRadius: 100,
+    },
 
+    userNicknameStyle: {
+        fontFamily: 'Comic-Bold',
+        textAlign: 'center',
+        fontSize: 20,
+        marginTop: 10,
     },
 
     flatListStyle: {

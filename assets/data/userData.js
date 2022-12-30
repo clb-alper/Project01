@@ -8,6 +8,7 @@ const userData = [
         userNickname: 'Yusuf',
         userProfileImage: 'temp',
         selectedColor: colors.pinkRegular,
+        selectedBGColor: colors.pinkPFPBG,
     },
     {
         id: '2',
@@ -16,6 +17,7 @@ const userData = [
         userNickname: 'Ömer',
         userProfileImage: 'temp',
         selectedColor: colors.blueRegular,
+        selectedBGColor: colors.bluePFPBG,
     },
     {
         id: '3',
@@ -24,6 +26,7 @@ const userData = [
         userNickname: 'Alper',
         userProfileImage: 'temp',
         selectedColor: colors.purpleLight,
+        selectedBGColor: colors.purplePFPBG,
     },
     {
         id: '4',
@@ -32,6 +35,7 @@ const userData = [
         userNickname: 'Tarık',
         userProfileImage: 'temp',
         selectedColor: colors.greenLight,
+        selectedBGColor: colors.greenPFPBG,
     },
 ]
 
