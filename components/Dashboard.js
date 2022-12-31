@@ -1,146 +1,176 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions } from 'react-native';
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import React from 'react';
+import { useCallback } from 'react';
+import { StyleSheet, Text, View, Image, ScrollView, Dimensions } from 'react-native';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
-var width = Dimensions.get('window').width; //full width
+import { SafeAreaView } from 'react-native-safe-area-context';
+import booksListData from '../assets/data/booksListData';
+import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 
+var width = Dimensions.get('window').width; //full width
+
 const Dashboard = () => {
+
+    var [isPress, setIsPress] = React.useState(false);
+
+    const [fontsLoaded] = useFonts({
+        'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
+        'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
+        'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
+    });
+
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
-        <View style={styles.container} >
+        <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            <ScrollView>
-            <View style={[styles.dashboardHeader, styles.boxShadow]}>
-                <View style={styles.dashboardContainer}>
+            <SafeAreaView edges={['right', 'left']}>
 
-                    <View>
-                    <Image  source={require('../assets/images/icontest.png')} style={styles.headerIconStyle}></Image>
-                    </View>
+                <View style={[styles.dashboardHeader, styles.boxShadow]}>
+                    <View style={styles.dashboardContainer}>
 
-                    <View style={styles.headerUserInfo}>
-                        <Text style={styles.headerUser}>Merhaba Ömer</Text>
-                        <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
-                        <Progress.Bar style={styles.progressBar} progress={0.9} color={colors.greenBorder}/>
-
-                    </View>
-
-
-                    <View style={styles.pointsContainer}>
-
-                        <Text
-                            style={styles.pointsTextStyle}
-                            adjustsFontSizeToFit={true}
-                            numberOfLines={1}>
-                            1750
-                        </Text>
-
-                        <Image
-                            source={require('../assets/images/iconStar.png')}
-                            style={styles.pointsIconStyle}>
-                        </Image>
-
-                    </View>
-
-
-
-                </View>
-
-                <View style={styles.dashboardRosettes}>
-                    <View style={styles.headerImageContainer3}>
-                        <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle3}></Image>
-                    </View>
-                    <View style={styles.headerImageContainer2}>
-                        <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle2}></Image>
-                    </View>
-                    <View style={styles.headerImageContainer1}>
-                        <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle1}></Image>
-                    </View>
-                    <View style={styles.headerImageContainer}>
-                        <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle}></Image>
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.statistics}>
-                <View style={styles.statisticsHeader}>
-                    <Text style={styles.statisticsText}>İstatistikler</Text>
-                    <View style={styles.statisticsLine}></View>
-                </View>
-
-                <View style={styles.statisticsMain}>
-                    <View style={styles.statisticsMainFirstRow}>
-                        <View style={styles.statisticsMainFirstRowElem}>
-                            <Text style={styles.userStatistics}>105</Text>
-                            <Text style={styles.userStatisticsTitle}>Kitap Okundu</Text>
+                        <View style={styles.headerIconContainerStyle}>
+                            <Image source={require('../assets/images/icontest.png')} style={styles.headerIconStyle}></Image>
                         </View>
-                        <View style={styles.statisticsMainFirstRowElem}>
-                            <Text style={styles.userStatistics}>105</Text>
-                            <Text style={styles.userStatisticsTitle}>Sayfa Okundu</Text>
+
+                        <View style={styles.headerUserInfo}>
+                            <Text style={styles.headerUser}>Merhaba Ömer</Text>
+                            <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
+                            <Progress.Bar style={styles.progressBar} progress={0.75} color={colors.greenDashboardBar} />
+
                         </View>
-                        <View style={styles.statisticsMainFirstRowElem}>
-                            <Text style={styles.userStatistics}>105</Text>
-                            <Text style={styles.userStatisticsTitle}>Kelime Okundu</Text>
+
+
+                        <View style={styles.pointsContainer}>
+
+                            <Text
+                                style={styles.pointsTextStyle}
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={1}>
+                                1750
+                            </Text>
+
+                            <Image
+                                source={require('../assets/images/iconStar.png')}
+                                style={styles.pointsIconStyle}>
+                            </Image>
+
+                        </View>
+
+
+
+                    </View>
+
+                    <View style={styles.dashboardRosettes}>
+                        <View style={styles.silverBadgeStyle}>
+                            <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        </View>
+                        <View style={styles.goldBadgeStyle}>
+                            <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        </View>
+                        <View style={styles.emeraldBadgeStyle}>
+                            <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        </View>
+                        <View style={styles.diamondBadgeStyle}>
+                            <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
                         </View>
                     </View>
+                </View>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    overScrollMode={'never'}>
 
-                    <View style={styles.statisticsMainSecondRow}>
-                        <View style={styles.statisticsMainFirstRowElem}>
-                            <Text style={styles.userStatistics}>105</Text>
-                            <View style={styles.userStatisticTitleCustomView}>
-                                <Text style={styles.userStatisticsTitle}>Quiz</Text>
-                                <Text style={styles.userStatisticsTitle}>Tamamlandı</Text>
+                    <View style={styles.statistics}>
+                        <View style={styles.statisticsHeader}>
+                            <Text style={styles.statisticsText}>İstatistikler</Text>
+                            <View style={styles.statisticsLine}></View>
+                        </View>
+
+                        <View style={styles.statisticsMain}>
+                            <View style={styles.statisticsMainFirstRow}>
+                                <View style={styles.statisticsMainFirstRowElem}>
+                                    <Text style={styles.userStatistics}>105</Text>
+                                    <Text style={styles.userStatisticsTitle}>Kitap Okundu</Text>
+                                </View>
+                                <View style={styles.statisticsMainFirstRowElem}>
+                                    <Text style={styles.userStatistics}>105</Text>
+                                    <Text style={styles.userStatisticsTitle}>Sayfa Okundu</Text>
+                                </View>
+                                <View style={styles.statisticsMainFirstRowElem}>
+                                    <Text style={styles.userStatistics}>105</Text>
+                                    <Text style={styles.userStatisticsTitle}>Kelime Okundu</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.statisticsMainSecondRow}>
+                                <View style={styles.statisticsMainFirstRowElem}>
+                                    <Text style={styles.userStatistics}>105</Text>
+                                    <View style={styles.userStatisticTitleCustomView}>
+                                        <Text style={styles.userStatisticsTitle}>Quiz</Text>
+                                        <Text style={styles.userStatisticsTitle}>Tamamlandı</Text>
+                                    </View>
+                                </View>
+                                <View style={styles.statisticsMainFirstRowElem}>
+                                    <Text style={styles.userStatistics}>105</Text>
+                                    <View style={styles.userStatisticTitleCustomView}>
+                                        <Text style={styles.userStatisticsTitle}>Toplam Puan</Text>
+                                        <Text style={styles.userStatisticsTitle}>Kazanıldı</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
-                        <View style={styles.statisticsMainFirstRowElem}>
-                            <Text style={styles.userStatistics}>105</Text>
-                            <View style={styles.userStatisticTitleCustomView}>
-                                <Text style={styles.userStatisticsTitle}>Toplam Puan</Text>
-                                <Text style={styles.userStatisticsTitle}>Kazanıldı</Text>
+                    </View>
+                    
+                    <View style={styles.rosettes}>
+                        <View style={styles.statisticsHeader}>
+                            <Text style={styles.statisticsText}>Rozetler</Text>
+                            <View style={styles.badgesLine}></View>
+                        </View>
+                        <View style={styles.rosettesMain}>
+                            <View style={styles.statisticsMainFirstRow}>
+                                <View style={styles.bronzeBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.silverBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.goldBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.emeraldBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+
                             </View>
-                        </View>
-                    </View>
-                </View>
-            </View>
-            <View style={styles.rosettes}>
-                <View style={styles.statisticsHeader}>
-                    <Text style={styles.statisticsText}>Rozetler</Text>
-                    <View style={styles.statisticsLine}></View>
-                </View>
-                <View style={styles.rosettesMain}>
-                    <View style={styles.statisticsMainFirstRow}>
-                        <View style={styles.headerImageContainer1}>
-                            <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle1}></Image>
-                        </View>
-                        <View style={styles.headerImageContainer2}>
-                            <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle2}></Image>
-                        </View>
-                        <View style={styles.headerImageContainer3}>
-                            <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle3}></Image>
-                        </View>
-                        <View style={styles.headerImageContainer4}>
-                            <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle4}></Image>
-                        </View>
+                            <View style={styles.statisticsMainFirstRow}>
+                                <View style={styles.diamondBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.bronzeBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.silverBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.goldBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
 
-                    </View>
-                    <View style={styles.statisticsMainFirstRow}>
-                        <View style={styles.headerImageContainer1}>
-                            <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle1}></Image>
-                        </View>
-                        <View style={styles.headerImageContainer2}>
-                            <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle2}></Image>
-                        </View>
-                        <View style={styles.headerImageContainer3}>
-                            <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle3}></Image>
-                        </View>
-                        <View style={styles.headerImageContainer4}>
-                            <Image source={require('../assets/images/iconBook.png')} style={styles.headerIconStyle4}></Image>
-                        </View>
-
-                    </View>
+                            </View>
 
 
-                    {/* 
+                            {/* 
                     <View style={styles.statisticsMainSecondRow}>
                         <View style={styles.statisticsMainFirstRowElem}>
                             <Text style={styles.userStatistics}>105</Text>
@@ -151,9 +181,10 @@ const Dashboard = () => {
                             <Text style={styles.userStatisticsTitle} >Toplam Puan Kazanıldı</Text>
                         </View>
                     </View> */}
-                </View>
-            </View>
-            </ScrollView>
+                        </View>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
         </View>
     )
 }
@@ -174,16 +205,24 @@ const styles = StyleSheet.create({
     },
     statisticsLine: {
         backgroundColor: colors.greenSpacer,
-        width: width,
+        width: width/1.95,
         height: 8,
         alignSelf: 'center',
         marginTop: 5,
-        marginLeft: 10
-
+        marginLeft: 15,
     },
+    badgesLine: {
+        backgroundColor: colors.greenSpacer,
+        width: width/1.70,
+        height: 8,
+        alignSelf: 'center',
+        marginTop: 5,
+        marginLeft: 15,
+    },
+
     statisticsText: {
         fontSize: 32,
-        fontFamily: 'Comic-Regular'        
+        fontFamily: 'Comic-Regular'
     },
     statisticsMainSecondRow: {
         marginTop: '5%',
@@ -202,6 +241,8 @@ const styles = StyleSheet.create({
     },
     statistics: {
         padding: 20,
+        marginTop: 10,
+        height: 250,
     },
     rosettes: {
         padding: 20,
@@ -211,7 +252,8 @@ const styles = StyleSheet.create({
     },
     rosettesMain: {
         padding: 10,
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginTop: 10,
     },
     statisticsMainFirstRow: {
         flexDirection: 'row',
@@ -224,7 +266,7 @@ const styles = StyleSheet.create({
 
     dashboardHeader: {
         width: width,
-        height: '32%',
+        height: 240,
         paddingTop: '15%',
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
@@ -251,14 +293,15 @@ const styles = StyleSheet.create({
     },
 
     headerUser: {
-        fontSize: 24,
+        fontSize: 26,
         fontFamily: 'Comic-Regular',
 
     },
     headerUserLevel: {
         marginTop: '1%',
-        fontFamily: 'Comic-Light',
-        marginLeft: -10
+        fontFamily: 'Comic-Regular',
+        marginLeft: -25,
+        fontSize: 14,
     },
 
     loginButton: {
@@ -293,89 +336,97 @@ const styles = StyleSheet.create({
     },
 
     dashboardRosettes: {
-        padding: 10,
+        padding: 5,
         flexDirection: 'row',
         justifyContent: 'space-between',
 
     },
 
-    headerIconStyle: {
+    headerIconContainerStyle: {
         resizeMode: 'contain',
         width: 70,
         height: 70,
         borderRadius: 100,
         backgroundColor: colors.blueRegular,
-        borderWidth:4,
-        borderColor:colors.blueBorder,
+        borderWidth: 4,
+        borderColor: colors.bluePFPBG,
+
     },
 
-    headerImageContainer1: {
-        width: 70,
-        height: 70,
-        alignItems: 'center',
-        paddingTop: 5,
-        borderRadius: 35,
-        borderColor: colors.pinkBorder,
-        backgroundColor: colors.brownBorder,
-    },
-
-    headerIconStyle1: {
+    headerIconStyle: {
         resizeMode: 'contain',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
         width: 60,
         height: 60,
-        borderRadius: 100,
-        backgroundColor: colors.brown,
+        tintColor: colors.blueLight
+
     },
 
-    headerImageContainer2: {
-        width: 70,
-        height: 70,
+    bronzeBadgeStyle: {
+        width: 80,
+        height: 80,
         alignItems: 'center',
         paddingTop: 5,
-        borderRadius: 35,
-        borderColor: colors.pinkBorder,
-        backgroundColor: colors.grayBorder,
-    },
-    headerIconStyle2: {
-        resizeMode: 'contain',
-        width: 60,
-        height: 60,
+        borderWidth: 5,
         borderRadius: 100,
-        backgroundColor: colors.gray,
+        backgroundColor: colors.bronzeBadge,
+        borderColor: colors.bronzeBadgeBorder
     },
 
-    headerImageContainer3: {
-        width: 70,
-        height: 70,
-        alignItems: 'center',
-        paddingTop: 5,
-        borderRadius: 35,
-        borderColor: colors.pinkBorder,
-        backgroundColor: colors.greenBorder,
-    },
-    headerIconStyle3: {
+    badgeIconStyle: {
         resizeMode: 'contain',
-        width: 60,
-        height: 60,
-        borderRadius: 100,
-        backgroundColor: colors.green,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 50,
+        height: 50,
+        marginBottom: 5,
     },
 
-    headerImageContainer4: {
-        width: 70,
-        height: 70,
+    silverBadgeStyle: {
+        width: 80,
+        height: 80,
         alignItems: 'center',
         paddingTop: 5,
-        borderRadius: 35,
-        borderColor: colors.pinkBorder,
-        backgroundColor: colors.diamondBorder,
-    },
-    headerIconStyle4: {
-        resizeMode: 'contain',
-        width: 60,
-        height: 60,
+        borderWidth: 5,
         borderRadius: 100,
-        backgroundColor: colors.diamond,
+        backgroundColor: colors.silverBadge,
+        borderColor: colors.silverBadgeBorder,
+    },
+
+    goldBadgeStyle: {
+        width: 80,
+        height: 80,
+        alignItems: 'center',
+        paddingTop: 5,
+        borderWidth: 5,
+        borderRadius: 100,
+        backgroundColor: colors.goldBadge,
+        borderColor: colors.goldBadgeBorder,
+    },
+
+    emeraldBadgeStyle: {
+        width: 80,
+        height: 80,
+        alignItems: 'center',
+        paddingTop: 5,
+        borderWidth: 5,
+        borderRadius: 100,
+        backgroundColor: colors.emeraldBadge,
+        borderColor: colors.emeraldBadgeBorder,
+    },
+
+    diamondBadgeStyle: {
+        width: 80,
+        height: 80,
+        alignItems: 'center',
+        paddingTop: 5,
+        borderWidth: 5,
+        borderRadius: 100,
+        backgroundColor: colors.diamondBadge,
+        borderColor: colors.diamondBadgeBorder,
     },
 
     boxShadow: {
@@ -491,9 +542,7 @@ const styles = StyleSheet.create({
 
     progressBar: {
         marginTop: '3%',
-        height: '15%',
-        width: '140%',
-        marginLeft: 65,
+        width: '100%',
         backgroundColor: colors.grayProgressBarBG,
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,

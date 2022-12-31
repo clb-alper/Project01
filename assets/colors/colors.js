@@ -26,6 +26,7 @@ const colors = {
     greenPointsBorder: '#85D29C',
     greenSpacer: '#85D29C',
     greenPFPBG: '#B4F8C8',
+    greenDashboardBar: '#85D29C',
     
     black: '#000',
     white: '#FFF',
@@ -33,17 +34,20 @@ const colors = {
     grayProgressBarBG: '#EBEBEB',
     grayProgressBarBorder: '#9D9D9D',
 
-    brown: '#B9945C', 
-    brownBorder: '#53471C',
+    bronzeBadge: '#B9945C', 
+    bronzeBadgeBorder: '#53471C',
 
-    gray: '#C0C0C0',
-    grayBorder: '#8F8F8F',
+    silverBadge: '#C0C0C0',
+    silverBadgeBorder: '#8F8F8F',
 
-    green: '#00E405',
-    greenBorder: '#00A804',
+    goldBadge: '#FFD700',
+    goldBadgeBorder: '#C8A800',
+
+    emeraldBadge: '#00E405',
+    emeraldBadgeBorder: '#00A804',
     
-    diamond: '#4EE2EC',
-    diamondBorder: '#3DA3AA'
+    diamondBadge: '#4EE2EC',
+    diamondBadgeBorder: '#3DA3AA'
 }
 
 export default colors;
