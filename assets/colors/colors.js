@@ -10,16 +10,22 @@ const colors = {
     blueRegular: '#A0E7E5',
     blueContainer: '#BBF2F0',
     bluePFPBG: '#83C0BF',
+    blueTagBG: '#A0E7E5',
+    blueTagBorder: '#83C0BF',
 
     pinkRegular: '#FFDAE0',
     pinkBorder: '#FFB8C4',
     pinkPFPBG: '#FFB0BE',
+    pinkTagBG: '#FFDAE0',
+    pinkTagBorder: '#FFB8C4',
 
     purpleLight: '#E1DEED',
     purpleHeaderContainer: '#C8BFE7',
     purpleBorder: '#8C83AA',
     purpleSpacer: '#8F82BB',
     purplePFPBG: '#8F82BB',
+    purpleTagBG: '#C8BFE7',
+    purpleTagBorder: '#8F82BB',
 
     greenLight: '#DEFFE8',
     greenHeaderContainer: '#CBFFDA',
@@ -27,6 +33,8 @@ const colors = {
     greenSpacer: '#85D29C',
     greenPFPBG: '#B4F8C8',
     greenDashboardBar: '#85D29C',
+    greenTagBG: '#B4F8C8',
+    greenTagBorder: '#8AC69B',
     
     black: '#000',
     white: '#FFF',

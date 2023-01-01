@@ -47,7 +47,7 @@ const Dashboard = () => {
                         <View style={styles.headerUserInfo}>
                             <Text style={styles.headerUser}>Merhaba Ömer</Text>
                             <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
-                            <Progress.Bar style={styles.progressBar} progress={0.75} color={colors.greenDashboardBar} />
+                            <Progress.Bar style={styles.progressBar} progress={0.75} height={7.5} width={250} color={colors.greenDashboardBar} />
 
                         </View>
 

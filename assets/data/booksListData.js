@@ -11,6 +11,10 @@ const booksListData = [
         itemTextColor: colors.white,
         itemDesc: "Pepe'nin hayatı, yaşadığı binanın dördüncü katına daha önce hiç görmediği bir çocuğun taşınmasıyla değişir. Bu çocuk onun tanıdığı diğer çocuklardan farklıdır. Hiçbir zaman evden dışarı çıkmaz. Penceresinde kilit olduğu için camdan dışarı bile bakamaz ve zamanının çoğunu resim çizerek geçirir.",
         bookProgress: 0.6,
+        ageTag: '8-12 Yaş',
+        contentTag: 'Oyunlu',
+        themeTag: 'Hayvan',
+        rewardTag: 'Okuma Ödülü: 60'
     },
     {
         id: 'book2',
@@ -22,6 +26,10 @@ const booksListData = [
         itemTextColor: colors.black,
         itemDesc: "Fatma Işık’ın sevimli üslubuyla yazdığı eğlenceli hikâyeler, Serap Deliorman'ın sıcacık çizimleriyle okumayı yeni öğrenen çocuklarla buluşuyor.",
         bookProgress: 0.25,
+        ageTag: '6-10 Yaş',
+        contentTag: 'Keyifli',
+        themeTag: 'Şenlik',
+        rewardTag: 'Okuma Ödülü: 100'
     },
     {
         id: 'book3',
@@ -33,39 +41,55 @@ const booksListData = [
         itemTextColor: colors.black,
         itemDesc: "Küçük Prens, kendi galaksisinde, kendi dünyasında tek bir gül ile yaşayan bir Küçük Prens'in başka galaksileri gezmek için tek gülünü tek başına bırakıp yolculuk yapmasını anlatır. Ancak bu yolculuk esnasında vurgulamak istediği şey 'büyümek'tir.",
         bookProgress: 0.8,
+        ageTag: '8-12 Yaş',
+        contentTag: 'Oyunlu',
+        themeTag: 'Hayvan',
+        rewardTag: 'Okuma Ödülü: 60'
     },
     {
         id: 'book4',
         title: 'Mutluluk',
-        image: require('../images/mutluluk.png'),
+        image: require('../images/mutlulukgunlugu.png'),
         itemColor: '#88C6DE',
         itemBorder: '#56A3BC',
         itemColorBG: 'rgba(136, 198, 222, 0.6)',
         itemTextColor: colors.black,
         itemDesc: "Güçlü ile Ülkü kardeşlerin gemi kaptanı olan babalarına kavuşmalarına daha üç ay vardır. Babaları, onu çok özleyen çocuklarına bir oyun öğretir. Oyunun adı zamanı hızlandırma oyunudur.",
         bookProgress: 0.4,
+        ageTag: '8-12 Yaş',
+        contentTag: 'Oyunlu',
+        themeTag: 'Hayvan',
+        rewardTag: 'Okuma Ödülü: 60'
     },
     {
         id: 'book5',
         title: 'Mutluluk',
-        image: require('../images/mutluluk.png'),
+        image: require('../images/mutlulukgunlugu.png'),
         itemColor: '#88C6DE',
         itemBorder: '#56A3BC',
         itemColorBG: 'rgba(136, 198, 222, 0.6)',
         itemTextColor: colors.black,
         itemDesc: "Güçlü ile Ülkü kardeşlerin gemi kaptanı olan babalarına kavuşmalarına daha üç ay vardır. Babaları, onu çok özleyen çocuklarına bir oyun öğretir. Oyunun adı zamanı hızlandırma oyunudur.",
         bookProgress: 0.4,
+        ageTag: '8-12 Yaş',
+        contentTag: 'Oyunlu',
+        themeTag: 'Hayvan',
+        rewardTag: 'Okuma Ödülü: 60'
     },
     {
         id: 'book6',
         title: 'Mutluluk',
-        image: require('../images/mutluluk.png'),
+        image: require('../images/mutlulukgunlugu.png'),
         itemColor: '#88C6DE',
         itemBorder: '#56A3BC',
         itemColorBG: 'rgba(136, 198, 222, 0.6)',
         itemTextColor: colors.black,
         itemDesc: "Güçlü ile Ülkü kardeşlerin gemi kaptanı olan babalarına kavuşmalarına daha üç ay vardır. Babaları, onu çok özleyen çocuklarına bir oyun öğretir. Oyunun adı zamanı hızlandırma oyunudur.",
         bookProgress: 0.4,
+        ageTag: '8-12 Yaş',
+        contentTag: 'Oyunlu',
+        themeTag: 'Hayvan',
+        rewardTag: 'Okuma Ödülü: 60'
     },
 ]
 
