@@ -45,6 +45,28 @@ const booksListData = [
         itemDesc: "Güçlü ile Ülkü kardeşlerin gemi kaptanı olan babalarına kavuşmalarına daha üç ay vardır. Babaları, onu çok özleyen çocuklarına bir oyun öğretir. Oyunun adı zamanı hızlandırma oyunudur.",
         bookProgress: 0.4,
     },
+    {
+        id: 'book5',
+        title: 'Mutluluk',
+        image: require('../images/mutluluk.png'),
+        itemColor: '#88C6DE',
+        itemBorder: '#56A3BC',
+        itemColorBG: 'rgba(136, 198, 222, 0.6)',
+        itemTextColor: colors.black,
+        itemDesc: "Güçlü ile Ülkü kardeşlerin gemi kaptanı olan babalarına kavuşmalarına daha üç ay vardır. Babaları, onu çok özleyen çocuklarına bir oyun öğretir. Oyunun adı zamanı hızlandırma oyunudur.",
+        bookProgress: 0.4,
+    },
+    {
+        id: 'book6',
+        title: 'Mutluluk',
+        image: require('../images/mutluluk.png'),
+        itemColor: '#88C6DE',
+        itemBorder: '#56A3BC',
+        itemColorBG: 'rgba(136, 198, 222, 0.6)',
+        itemTextColor: colors.black,
+        itemDesc: "Güçlü ile Ülkü kardeşlerin gemi kaptanı olan babalarına kavuşmalarına daha üç ay vardır. Babaları, onu çok özleyen çocuklarına bir oyun öğretir. Oyunun adı zamanı hızlandırma oyunudur.",
+        bookProgress: 0.4,
+    },
 ]
 
 export default booksListData;
