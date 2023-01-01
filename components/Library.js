@@ -13,7 +13,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
-
+const bookWidth = (widthOfScreen - 20) / 3;
 const Library = ({ navigation }) => {
 
 
@@ -281,35 +281,34 @@ const Library = ({ navigation }) => {
                     style={[styles.FlatsScrollViewStyle, { width: '100%' }]}
                     horizontal={false} >
 
-                    <View>
+                    <View style={{ flexWrap: 'wrap' }}>
                         {
                             DATA.map((book, index) => {
                                 return (
-                                    <View>
-                                    <Text>{book.condition}</Text>
-
-                                    <View style={styles.bookContainer} key={index}>
-                                        <View>
+                                    <View key={index}>
+                                        <Text>{book.condition}</Text>
+                                        <View style={styles.bookContainer} key={index}>
+                                            {
+                                                book.books.map((bookDetail) => {
+                                                    return (
+                                                        <View key={bookDetail.id} style={{ ...styles.bookContainer, width: bookWidth }}>
+                                                            <BoxShadow setting={shadowOpt}>
+                                                                <ImageBackground
+                                                                    source={bookDetail.image}
+                                                                    imageStyle={styles.bookCoverStyle}>
+                                                                </ImageBackground>
+                                                            </BoxShadow>
+                                                        </View>
+                                                    )
+                                                })
+                                            }
                                         </View>
-                                        {
-                                            book.books.map((bookDetail) => {
-                                                return (
-                                                    <View key={bookDetail.id} style={styles.bookContainer}>
-                                                        <BoxShadow setting={shadowOpt}>
-                                                            <ImageBackground
-                                                                source={bookDetail.image}
-                                                                imageStyle={styles.bookCoverStyle}>
-                                                            </ImageBackground>
-                                                        </BoxShadow>
-                                                    </View>
-                                                )
-                                            })
-                                        }
                                     </View>
-                                    </View>
+                                    
                                 )
                             })
                         }
+
                     </View>
 
 
@@ -466,11 +465,11 @@ const styles = StyleSheet.create({
     },
 
     bookContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        width: widthOfScreen - 20
+        flexDirection: "row",
+        flexWrap: "wrap",
+        marginBottom: 20
     },
- 
+
     letterHeader: {
         fontFamily: 'Comic-Regular',
         fontSize: 65,
