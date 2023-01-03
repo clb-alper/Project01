@@ -13,7 +13,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
-const bookWidth = (widthOfScreen - 20) / 3;
+const bookWidth = (widthOfScreen - 55) / 3;
 const Library = ({ navigation }) => {
 
 
@@ -281,12 +281,12 @@ const Library = ({ navigation }) => {
                     style={[styles.FlatsScrollViewStyle, { width: '100%' }]}
                     horizontal={false} >
 
-                    <View style={{ flexWrap: 'wrap' }}>
+                    <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: 10 }}>
                         {
                             DATA.map((book, index) => {
                                 return (
                                     <View key={index}>
-                                        <Text>{book.condition}</Text>
+                                        <Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>
                                         <View style={styles.bookContainer} key={index}>
                                             {
                                                 book.books.map((bookDetail) => {
@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
     bookContainer: {
         flexDirection: "row",
         flexWrap: "wrap",
-        marginBottom: 20
+        marginBottom: 20,
     },
 
     letterHeader: {
@@ -558,6 +558,13 @@ const styles = StyleSheet.create({
     alphabetLettersStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 35,
+
+    },
+
+    alphabetLettersStyle2: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 35,
+        marginBottom: 15
 
     },
 
