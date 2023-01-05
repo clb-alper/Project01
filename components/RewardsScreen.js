@@ -68,31 +68,31 @@ const RewardsScreen = () => {
                 </View>
 
 
-                <ScrollView
+                {/* <ScrollView
                     showsVerticalScrollIndicator={false}
-                    overScrollMode={'never'}>
+                    overScrollMode={'never'}> */}
 
-                    <View style={styles.pointsContainer222}>
-                        <View style={styles.pointsContainer22}>
 
-                            <Text
-                                style={styles.pointsTextStyle22}
-                                adjustsFontSizeToFit={true}
-                                numberOfLines={1}>
-                                Kitap
-                            </Text>
+                <View style={styles.pointsContainer222}>
+                    <View style={styles.pointsContainer22}>
 
-                            <Image
-                                source={require('../assets/images/iconStar.png')}
-                                style={styles.pointsIconStyle22}>
-                            </Image>
+                        <Text
+                            style={styles.pointsTextStyle22}
+                            adjustsFontSizeToFit={true}
+                            numberOfLines={1}>
+                            Kitap
+                        </Text>
 
-                        </View>
-
+                        <Image
+                            source={require('../assets/images/iconStar.png')}
+                            style={styles.pointsIconStyle22}>
+                        </Image>
                     </View>
+                </View>
 
+                <View style={{marginTop: 25}}>
                     <View>
-                        <View style={[styles.headerView12, {marginTop: 5}]}>
+                        <View style={[styles.headerView12, { marginTop: 5 }]}>
 
                             <Text
                                 style={styles.headerTextStyle2}
@@ -503,7 +503,8 @@ const RewardsScreen = () => {
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>
-                </ScrollView>
+                    {/* </ScrollView> */}
+                </View>
 
             </SafeAreaView>
         </View>
