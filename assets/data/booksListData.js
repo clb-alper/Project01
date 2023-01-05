@@ -61,21 +61,21 @@ const booksListData = [
         themeTag: 'Hayvan',
         rewardTag: 'Okuma Ödülü: 60'
     },
-    {
-        id: 'book5',
-        title: 'Macera Adasi',
-        image: require('../images/maceraada.jpg'),
-        itemColor: '#88C6DE',
-        itemBorder: '#56A3BC',
-        itemColorBG: 'rgba(136, 198, 222, 0.6)',
-        itemTextColor: colors.black,
-        itemDesc: "Güçlü ile Ülkü kardeşlerin gemi kaptanı olan babalarına kavuşmalarına daha üç ay vardır. Babaları, onu çok özleyen çocuklarına bir oyun öğretir. Oyunun adı zamanı hızlandırma oyunudur.",
-        bookProgress: 0.55,
-        ageTag: '8-12 Yaş',
-        contentTag: 'Oyunlu',
-        themeTag: 'Macera',
-        rewardTag: 'Okuma Ödülü: 80'
-    },
+    // {
+    //     id: 'book5',
+    //     title: 'Macera Adasi',
+    //     image: require('../images/maceraada.jpg'),
+    //     itemColor: '#88C6DE',
+    //     itemBorder: '#56A3BC',
+    //     itemColorBG: 'rgba(136, 198, 222, 0.6)',
+    //     itemTextColor: colors.black,
+    //     itemDesc: "Güçlü ile Ülkü kardeşlerin gemi kaptanı olan babalarına kavuşmalarına daha üç ay vardır. Babaları, onu çok özleyen çocuklarına bir oyun öğretir. Oyunun adı zamanı hızlandırma oyunudur.",
+    //     bookProgress: 0.55,
+    //     ageTag: '8-12 Yaş',
+    //     contentTag: 'Oyunlu',
+    //     themeTag: 'Macera',
+    //     rewardTag: 'Okuma Ödülü: 80'
+    // },
     // {
     //     id: 'book6',
     //     title: 'Mutluluk',
