@@ -165,7 +165,7 @@ const Library = ({ navigation }) => {
                                     }
 
                                 }}
-                                defaultValue="KATEGORİ"
+                                defaultValue="ALFABE"
                                 options={['ALFABE', 'KATEGORİLER', 'YAŞA GÖRE']} />
 
                         </View>
