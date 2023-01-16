@@ -9,10 +9,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import ModalDropdown from 'react-native-modal-dropdown';
+import SelectDropdown from 'react-native-select-dropdown'
+
+
 
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
+
+const categories = ["Alfabe", "Kategoriler", "Yaş", "Tema"]
+
+
 const bookWidth = (widthOfScreen - 55) / 3;
 const Library = ({ navigation }) => {
 
@@ -150,7 +157,30 @@ const Library = ({ navigation }) => {
                                 Kütüphane
                             </Text>
 
-                            <ModalDropdown
+                            <SelectDropdown
+                                
+                                buttonStyle={styles.DropdownStyle}
+                                buttonTextStyle={styles.DropdownTextStyle}
+                                dropdownStyle={styles.DropdownContainerStyle}
+                                rowStyle={styles.DropdownRowStyle}
+                                rowTextStyle={styles.DropdownContainerTextStyle}
+                                dropdownOverlayColor='transparent'
+
+                                data={categories}
+                                defaultButtonText={categories[0]}
+                                onSelect={(selectedItem, index) => {
+                                    console.log(selectedItem, index)
+                                }}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    return item
+                                }}
+
+                            />
+
+                            {/* <ModalDropdown
                                 style={styles.DropdownStyle}
                                 textStyle={styles.DropdownTextStyle}
                                 dropdownStyle={styles.DropdownContainerStyle}
@@ -166,7 +196,7 @@ const Library = ({ navigation }) => {
 
                                 }}
                                 defaultValue="ALFABE"
-                                options={['ALFABE', 'KATEGORİLER', 'YAŞA GÖRE']} />
+                                options={['ALFABE', 'KATEGORİLER', 'YAŞA GÖRE']} /> */}
 
                         </View>
                     </View>
@@ -304,7 +334,7 @@ const Library = ({ navigation }) => {
                                             }
                                         </View>
                                     </View>
-                                    
+
                                 )
                             })
                         }
@@ -582,12 +612,25 @@ const styles = StyleSheet.create({
         marginRight: 10,
         marginTop: 30,
 
-
     },
 
     DropdownStyle: {
         backgroundColor: colors.blueTabBar,
         borderRadius: 25,
+        height: 40,
+        width: 125,
+        borderWidth: 2,
+        borderColor: colors.blueBorder,
+        alignItems: 'center',
+        alignContent: 'center',
+        zIndex: 45
+
+    },
+
+    DropdownStyle2: {
+        backgroundColor: colors.blueTabBar,
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
         height: 40,
         width: 145,
         borderWidth: 2,
@@ -603,7 +646,6 @@ const styles = StyleSheet.create({
         fontSize: 25,
         alignItems: 'center',
         alignContent: 'center',
-        paddingTop: 4,
 
     },
 
@@ -614,10 +656,12 @@ const styles = StyleSheet.create({
         borderColor: colors.blueBorder,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
-        width: 155,
-        height: 100,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        width: 145,
+        height: 120,
         marginRight: '-6.6%',
-        marginTop: '-6%',
+        marginTop: '-6.3%',
         backgroundColor: colors.blueTabBar,
 
     },
@@ -633,6 +677,13 @@ const styles = StyleSheet.create({
 
     DropdownTextHighlightStyle: {
         backgroundColor: 'white',
+    },
+
+    DropdownRowStyle: {
+        width: 145,
+        height: 40,
+        marginLeft: -10,
+
     },
 
 })
