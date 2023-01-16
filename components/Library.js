@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useRef } from 'react';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image, ImageBackground, Dimensions, ListViewBase, Pressable, Modal, SectionList } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -19,10 +19,10 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 
 const categories = ["Alfabe", "Kategoriler", "Yaş", "Tema"]
 
-
 const bookWidth = (widthOfScreen - 55) / 3;
 const Library = ({ navigation }) => {
 
+    const [aa, setaa] = useState(false);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -159,7 +159,7 @@ const Library = ({ navigation }) => {
 
                             <SelectDropdown
                                 
-                                buttonStyle={styles.DropdownStyle}
+                                buttonStyle={aa ? styles.DropdownStyle2: styles.DropdownStyle}
                                 buttonTextStyle={styles.DropdownTextStyle}
                                 dropdownStyle={styles.DropdownContainerStyle}
                                 rowStyle={styles.DropdownRowStyle}
@@ -168,9 +168,19 @@ const Library = ({ navigation }) => {
 
                                 data={categories}
                                 defaultButtonText={categories[0]}
-                                onSelect={(selectedItem, index) => {
-                                    console.log(selectedItem, index)
+                                                           
+                                onFocus={() => {
+                                    setaa(true)                                                               
                                 }}
+
+                                onBlur={() => {
+                                    setaa(false)
+                                }}
+                              
+                                onSelect={(selectedItem, index) => {                                                           
+                                    setaa(false)                                   
+                                }}
+
                                 buttonTextAfterSelection={(selectedItem, index) => {
                                     return selectedItem
                                 }}
@@ -632,7 +642,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
         height: 40,
-        width: 145,
+        width: 125,
         borderWidth: 2,
         borderColor: colors.blueBorder,
         alignItems: 'center',
@@ -656,8 +666,7 @@ const styles = StyleSheet.create({
         borderColor: colors.blueBorder,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+
         width: 145,
         height: 120,
         marginRight: '-6.6%',
