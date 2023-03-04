@@ -22,7 +22,7 @@ const categories = ["Alfabe", "Kategoriler", "Yaş", "Tema"]
 const bookWidth = (widthOfScreen - 55) / 3;
 const Library = ({ navigation }) => {
 
-    const [aa, setaa] = useState(false);
+    const [closeDropdown, setCloseDropdown] = useState(false);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -158,8 +158,8 @@ const Library = ({ navigation }) => {
                             </Text>
 
                             <SelectDropdown
-                                
-                                buttonStyle={aa ? styles.DropdownStyle2: styles.DropdownStyle}
+
+                                buttonStyle={closeDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
                                 buttonTextStyle={styles.DropdownTextStyle}
                                 dropdownStyle={styles.DropdownContainerStyle}
                                 rowStyle={styles.DropdownRowStyle}
@@ -167,18 +167,27 @@ const Library = ({ navigation }) => {
                                 dropdownOverlayColor='transparent'
 
                                 data={categories}
+                                adjustsFontSizeToFit={true}
                                 defaultButtonText={categories[0]}
-                                                           
+
                                 onFocus={() => {
-                                    setaa(true)                                                               
+                                    setCloseDropdown(true)
                                 }}
 
                                 onBlur={() => {
-                                    setaa(false)
+                                    setCloseDropdown(false)
                                 }}
-                              
-                                onSelect={(selectedItem, index) => {                                                           
-                                    setaa(false)                                   
+
+                                onSelect={(selectedItem, index) => {
+                                    setCloseDropdown(false)
+                                    console.log(categories[index])
+                                    console.log(selectedItem)
+
+                                    if (selectedItem == 'Tema') {
+                                       // navigation.navigate('Dashboard')
+
+                                       
+                                    }
                                 }}
 
                                 buttonTextAfterSelection={(selectedItem, index) => {
@@ -318,7 +327,7 @@ const Library = ({ navigation }) => {
                 <ScrollView
                     overScrollMode={'never'}
                     showsVerticalScrollIndicator={false}
-                    style={[styles.FlatsScrollViewStyle, { width: '100%' }]}
+                    style={[styles.FlatsScrollViewStyle, { width: '100%' }, { flexWrap: 'wrap' }]}
                     horizontal={false} >
 
                     <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: 10 }}>
@@ -352,119 +361,7 @@ const Library = ({ navigation }) => {
                     </View>
 
 
-                    {/* 
-                    <View style={styles.FlatsViewStyle}>
-                        <Text style={[styles.letterHeader, { marginTop: -10 }]}>A</Text>
 
-                        <View>
-
-                            <FlatList
-                                horizontal={false}
-                                scrollEnabled={false}
-                                numColumns={parseInt((widthOfScreen - 65) / 100)}
-                                viewAreaCoveragePercentThreshold={10}
-                                itemVisiblePercentThreshold={10}
-                                data={booksListData}
-
-                                renderItem={({ item, index, separators }) => (
-                                    <View style={index != 0 ? styles.bookStyle : styles.bookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-                                            <BoxShadow setting={shadowOpt}>
-                                                <ImageBackground
-                                                    source={item.image}
-                                                    imageStyle={styles.bookCoverStyle}>
-                                                </ImageBackground>
-                                            </BoxShadow>
-                                        </TouchableOpacity>
-
-                                    </View>
-
-                                )}
-                                keyExtractor={(item) => item.id}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
-                    </View>
-
-
-                    <View style={styles.FlatsViewStyle}>
-                        <Text style={styles.letterHeader}>B</Text>
-
-                        <View>
-                            <FlatList
-                                horizontal={false}
-                                scrollEnabled={false}
-                                numColumns={parseInt((widthOfScreen - 65) / 100)}
-                                viewAreaCoveragePercentThreshold={10}
-                                itemVisiblePercentThreshold={10}
-                                data={booksListData}
-
-                                renderItem={({ item, index, separators }) => (
-                                    <View style={index != 0 ? styles.bookStyle : styles.bookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-                                            <BoxShadow setting={shadowOpt}>
-                                                <ImageBackground
-                                                    source={item.image}
-                                                    imageStyle={styles.bookCoverStyle}>
-                                                </ImageBackground>
-                                            </BoxShadow>
-                                        </TouchableOpacity>
-
-                                    </View>
-
-                                )}
-                                keyExtractor={(item) => item.id}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
-                    </View>
-
-
-                    <View style={styles.FlatsViewStyle}>
-                        <Text style={styles.letterHeader}>C</Text>
-
-                        <View>
-                            <FlatList
-                                horizontal={false}
-                                scrollEnabled={false}
-                                numColumns={parseInt((widthOfScreen - 65) / 100)}
-                                viewAreaCoveragePercentThreshold={10}
-                                itemVisiblePercentThreshold={10}
-                                data={booksListData}
-
-                                renderItem={({ item, index, separators }) => (
-                                    <View style={index != 0 ? styles.bookStyle : styles.bookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-                                            <BoxShadow setting={shadowOpt}>
-                                                <ImageBackground
-                                                    source={item.image}
-                                                    imageStyle={styles.bookCoverStyle}>
-                                                </ImageBackground>
-                                            </BoxShadow>
-                                        </TouchableOpacity>
-
-                                    </View>
-                                )}
-                                keyExtractor={(item) => item.id}
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View>
-                    </View> */}
 
                 </ScrollView>
 
@@ -639,8 +536,8 @@ const styles = StyleSheet.create({
 
     DropdownStyle2: {
         backgroundColor: colors.blueTabBar,
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
         height: 40,
         width: 125,
         borderWidth: 2,
