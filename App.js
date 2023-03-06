@@ -13,6 +13,7 @@ import Library from './components/Library';
 import Dashboard from './components/Dashboard';
 import RewardsScreen from './components/RewardsScreen';
 import ProfileSelect from './components/ProfileSelect';
+import ReadingPage from './components/ReadingPage';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,6 +38,7 @@ const TransitionAnim = {
 
 function HomeScreen() {
   return (
+      
     <Tab.Navigator
       initialRouteName='Home'
       screenOptions={{
@@ -134,6 +136,7 @@ export default function App() {
         <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
         <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
         <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
+        <Stack.Screen name="ReadingPage" component={ReadingPage} options={TransitionAnim} />
       </Stack.Navigator>
     </NavigationContainer>
 
