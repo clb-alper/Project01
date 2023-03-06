@@ -56,6 +56,7 @@ const Library = ({ navigation }) => {
                         themeTag: booksListData[i].themeTag,
                         ageTag: booksListData[i].ageTag,
                         contentTag: booksListData[i].contentTag,
+                        rewardTag: booksListData[i].rewardTag,
 
                     }]
                 })
