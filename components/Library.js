@@ -740,10 +740,6 @@ const styles = StyleSheet.create({
 
     },
 
-    DropdownTextHighlightStyle: {
-        backgroundColor: 'white',
-    },
-
     DropdownRowStyle: {
         width: 145,
         height: 40,
