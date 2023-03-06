@@ -24,6 +24,8 @@ const Library = ({ navigation }) => {
 
     const [closeDropdown, setCloseDropdown] = useState(false);
 
+    const [aa, setaa] = useState(true);
+
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
         'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
@@ -62,6 +64,7 @@ const Library = ({ navigation }) => {
             dataLetters.push(booksListData[i].title.substring(0, 1))
             DATA.push({
                 condition: booksListData[i].title.substring(0, 1),
+                condition2: booksListData[i].themeTag,
                 books: [{
                     id: booksListData[i].id,
                     title: booksListData[i].title,
@@ -72,10 +75,14 @@ const Library = ({ navigation }) => {
                     itemTextColor: booksListData[i].itemTextColor,
                     itemDesc: booksListData[i].itemDesc,
                     bookProgress: booksListData[i].bookProgress,
+                    themeTag: booksListData[i].themeTag,
                 }]
             })
         }
     }
+
+    
+
 
     const getItem = (data, index) => ({
         id: 'book3',
@@ -184,10 +191,15 @@ const Library = ({ navigation }) => {
                                     console.log(selectedItem)
 
                                     if (selectedItem == 'Tema') {
-                                       // navigation.navigate('Dashboard')
+                                        // navigation.navigate('Dashboard')
 
-                                       
-                                    }
+                                       // return ()
+
+                                      setaa(false)
+
+                                    }else if (selectedItem == 'Alfabe') {
+                                      setaa(true)
+                                    } 
                                 }}
 
                                 buttonTextAfterSelection={(selectedItem, index) => {
@@ -224,7 +236,7 @@ const Library = ({ navigation }) => {
 
 
 
-
+                
                 <ScrollView
 
                     overScrollMode={'never'}
@@ -233,6 +245,7 @@ const Library = ({ navigation }) => {
 
 
 
+                        
                     <View style={[styles.alphabetViewStyle, styles.boxShadow]}>
 
                         <Text onPress={() => console.log("A")}
@@ -331,11 +344,15 @@ const Library = ({ navigation }) => {
                     horizontal={false} >
 
                     <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: 10 }}>
-                        {
+                        {                                    
                             DATA.map((book, index) => {
                                 return (
                                     <View key={index}>
-                                        <Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>
+                                        {/* <Text style={aa ? styles.alphabetLettersStyle2 : styles.alphabetLettersStyle3}>{book.condition}</Text> */}
+                                        {/*<Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>*/}
+                                        {/* <Text style={ aa ? styles.alphabetLettersStyle2: styles.alphabetLettersStyle3}>{aa ? book.condition : book.condition2 }</Text> */}
+                                         <Text style={styles.alphabetLettersStyle2}>{aa ? book.condition : book.condition2}</Text> 
+
                                         <View style={styles.bookContainer} key={index}>
                                             {
                                                 book.books.map((bookDetail) => {
@@ -501,6 +518,13 @@ const styles = StyleSheet.create({
     alphabetLettersStyle2: {
         fontFamily: 'Comic-Regular',
         fontSize: 35,
+        marginBottom: 15
+
+    },
+
+    alphabetLettersStyle3: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 75,
         marginBottom: 15
 
     },
