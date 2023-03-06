@@ -492,7 +492,7 @@ const Library = ({ navigation }) => {
                                                                     <BoxShadow setting={shadowOpt}>
                                                                         <ImageBackground
                                                                             source={bookDetail.image}
-                                                                            imageStyle={styles.continueBookImageStyle}>
+                                                                            imageStyle={styles.bookCoverStyle}>
                                                                         </ImageBackground>
                                                                     </BoxShadow>
                                                                 </TouchableOpacity>
@@ -845,6 +845,14 @@ const styles = StyleSheet.create({
         top: -120,
         left: -65,
       },
+
+      progressBar: {
+        marginTop: 17,
+        backgroundColor: colors.grayProgressBarBG,
+        borderColor: colors.grayProgressBarBorder,
+        borderWidth: 0.7,
+      },
+ 
     
       modalTagContainer: {
         top: -100,
@@ -1072,53 +1080,7 @@ const styles = StyleSheet.create({
         marginTop: 10
       },
     
-      progressBar: {
-        marginTop: 17,
-        backgroundColor: colors.grayProgressBarBG,
-        borderColor: colors.grayProgressBarBorder,
-        borderWidth: 0.7,
-      },
-    
-      featuredBookStyle: {
-        borderWidth: 4,
-        alignItems: 'flex-end',
-        width: widthOfScreen,
-        height: 210,
-        marginTop: 10,
-        marginBottom: 10,
-        paddingRight: 18,
-        paddingTop: 6.5
-      },
-    
-      featuredBookStyleFirstItem: {
-        borderWidth: 4,
-        alignItems: 'flex-end',
-        width: widthOfScreen,
-        height: 210,
-        marginTop: 10,
-        marginBottom: 10,
-        paddingRight: 18,
-        paddingTop: 6.5
-      },
-    
-      featuredBookTitle: {
-        fontFamily: 'Comic-Bold',
-        textAlign: 'center',
-        zIndex: 1000,
-        position: 'absolute',
-        fontSize: 35,
-        paddingTop: 25,
-        paddingLeft: 20
-      },
-    
-      featuredBookDescription: {
-        fontFamily: 'Comic-Bold',
-        zIndex: 1000,
-        position: 'absolute',
-        fontSize: 14,
-        width: '63.5%',
-        paddingTop: '28%',
-        paddingLeft: 20
-      },
+
+
 
 })
