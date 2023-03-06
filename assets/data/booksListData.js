@@ -43,7 +43,7 @@ const booksListData = [
         bookProgress: 0.8,
         ageTag: '8-12 Yaş',
         contentTag: 'Oyunlu',
-        themeTag: 'Hayvan',
+        themeTag: 'Kraliyet',
         rewardTag: 'Okuma Ödülü: 60'
     },
     {

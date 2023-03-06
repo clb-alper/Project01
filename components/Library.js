@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image, ImageBackground, Dimensions, ListViewBase, Pressable, Modal, SectionList } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -9,7 +9,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import ModalDropdown from 'react-native-modal-dropdown';
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from 'react-native-select-dropdown';
+import * as Progress from 'react-native-progress';
 
 
 
@@ -21,6 +22,46 @@ const categories = ["Alfabe", "Kategoriler", "Yaş", "Tema"]
 
 const bookWidth = (widthOfScreen - 55) / 3;
 const Library = ({ navigation }) => {
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [modalEntry, setModalEntry] = useState(booksListData);
+
+    const DATA = [];
+
+    const dataLetters = [];
+
+        for (let i = 0; i < booksListData.length; i++) {
+            // const dataLetters = DATA.map((book) => book.condition);
+            const index = dataLetters.findIndex((letter) => letter == booksListData[i].title.substring(0, 1));
+
+            if (index > -1) {
+                DATA[index].books.push(booksListData[i]);
+            }
+            else {
+                dataLetters.push(booksListData[i].title.substring(0, 1))
+                DATA.push({
+                    condition: booksListData[i].title.substring(0, 1),
+                    condition2: booksListData[i].themeTag,
+                    books: [{
+                        id: booksListData[i].id,
+                        title: booksListData[i].title,
+                        image: booksListData[i].image,
+                        itemColor: booksListData[i].itemColor,
+                        itemBorder: booksListData[i].itemBorder,
+                        itemColorBG: booksListData[i].itemColorBG,
+                        itemTextColor: booksListData[i].itemTextColor,
+                        itemDesc: booksListData[i].itemDesc,
+                        bookProgress: booksListData[i].bookProgress,
+                        themeTag: booksListData[i].themeTag,
+                        ageTag: booksListData[i].ageTag,
+                        contentTag: booksListData[i].contentTag,
+
+                    }]
+                })
+            }
+        }
+
 
     const [closeDropdown, setCloseDropdown] = useState(false);
 
@@ -49,6 +90,7 @@ const Library = ({ navigation }) => {
         }
     ];
 
+    {/*}
     const DATA = [];
 
     const dataLetters = [];
@@ -81,7 +123,7 @@ const Library = ({ navigation }) => {
         }
     }
 
-    
+*/}
 
 
     const getItem = (data, index) => ({
@@ -193,13 +235,13 @@ const Library = ({ navigation }) => {
                                     if (selectedItem == 'Tema') {
                                         // navigation.navigate('Dashboard')
 
-                                       // return ()
+                                        // return ()
 
-                                      setaa(false)
+                                        setaa(false)
 
-                                    }else if (selectedItem == 'Alfabe') {
-                                      setaa(true)
-                                    } 
+                                    } else if (selectedItem == 'Alfabe') {
+                                        setaa(true)
+                                    }
                                 }}
 
                                 buttonTextAfterSelection={(selectedItem, index) => {
@@ -236,7 +278,7 @@ const Library = ({ navigation }) => {
 
 
 
-                
+
                 <ScrollView
 
                     overScrollMode={'never'}
@@ -245,7 +287,7 @@ const Library = ({ navigation }) => {
 
 
 
-                        
+
                     <View style={[styles.alphabetViewStyle, styles.boxShadow]}>
 
                         <Text onPress={() => console.log("A")}
@@ -343,28 +385,120 @@ const Library = ({ navigation }) => {
                     style={[styles.FlatsScrollViewStyle, { width: '100%' }, { flexWrap: 'wrap' }]}
                     horizontal={false} >
 
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.modalViewDarkenStyle}>
+                        </View>
+
+                        <View style={styles.modalViewStyle}>
+                            <Image source={modalEntry.image} style={styles.modalBookImageStyle} />
+                            <View style={styles.modalBookDetailHeader}>
+                                <Text
+                                    style={styles.modalText}
+                                    adjustsFontSizeToFit={true}
+                                    numberOfLines={1}>{modalEntry.title}</Text>
+                                <TouchableOpacity
+                                    onPress={() => setModalVisible(!modalVisible)}
+                                    activeOpacity={0.75}>
+                                    <Image
+                                        source={require('../assets/images/closeIcon.png')}
+                                        style={styles.modalBookDetailHeaderClose}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+
+                            <Progress.Bar style={styles.modalProgressBar} borderRadius={15} progress={modalEntry.bookProgress} height={12} width={250} color={modalEntry.itemColor} />
+
+                            <View style={styles.modalTagContainer}>
+                                <View style={styles.ageTagStyle}>
+                                    <Text
+                                        style={styles.tagTextStyle}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>{modalEntry.ageTag}</Text>
+                                </View>
+                                <View style={styles.contentTagStyle}>
+                                    <Text
+                                        style={styles.tagTextStyle}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>{modalEntry.contentTag}</Text>
+                                </View>
+                                <View style={styles.themeTagStyle}>
+                                    <Text
+                                        style={styles.tagTextStyle}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>{modalEntry.themeTag}</Text>
+                                </View>
+                                <View style={styles.rewardTagStyle}>
+
+                                    <Text
+                                        style={styles.tagTextStyle}>
+                                        {modalEntry.rewardTag}
+                                    </Text>
+
+                                    <Image
+                                        source={require('../assets/images/iconStar.png')}
+                                        style={styles.rewardTagPointsIconStyle}>
+                                    </Image>
+
+                                </View>
+                            </View>
+
+                            <View style={styles.modalBookDescView}>
+                                <Text
+                                    style={styles.modalBookDesc}
+                                    adjustsFontSizeToFit={true}
+                                    numberOfLines={6}>{modalEntry.itemDesc}</Text>
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={() => { console.log('Kitap acildi.') }}
+                                activeOpacity={0.8}>
+                                <View style={styles.modalBookStartButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
+
+                                    <Image source={require('../assets/images/startIcon.png')} tintColor={modalEntry.itemBorder} style={styles.badgeIconStyle} />
+                                </View>
+                            </TouchableOpacity>
+
+                        </View>
+                    </Modal>
+
                     <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: 10 }}>
-                        {                                    
+                        {
                             DATA.map((book, index) => {
                                 return (
                                     <View key={index}>
                                         {/* <Text style={aa ? styles.alphabetLettersStyle2 : styles.alphabetLettersStyle3}>{book.condition}</Text> */}
                                         {/*<Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>*/}
                                         {/* <Text style={ aa ? styles.alphabetLettersStyle2: styles.alphabetLettersStyle3}>{aa ? book.condition : book.condition2 }</Text> */}
-                                         <Text style={styles.alphabetLettersStyle2}>{aa ? book.condition : book.condition2}</Text> 
+                                        <Text style={styles.alphabetLettersStyle2}>{aa ? book.condition : book.condition2}</Text>
 
                                         <View style={styles.bookContainer} key={index}>
                                             {
                                                 book.books.map((bookDetail) => {
                                                     return (
                                                         <View key={bookDetail.id} style={{ ...styles.bookContainer, width: bookWidth }}>
-                                                            <BoxShadow setting={shadowOpt}>
-                                                                <ImageBackground
-                                                                    source={bookDetail.image}
-                                                                    imageStyle={styles.bookCoverStyle}>
-                                                                </ImageBackground>
-                                                            </BoxShadow>
+                                                         
+
+                                                                <TouchableOpacity
+                                                                    key={index}
+                                                                    onPress={() => { setModalVisible(true); setModalEntry(bookDetail); }}
+                                                                    activeOpacity={0.75}>
+                                                                    <BoxShadow setting={shadowOpt}>
+                                                                        <ImageBackground
+                                                                            source={bookDetail.image}
+                                                                            imageStyle={styles.continueBookImageStyle}>
+                                                                        </ImageBackground>
+                                                                    </BoxShadow>
+                                                                </TouchableOpacity>
+
                                                         </View>
+
                                                     )
                                                 })
                                             }
@@ -615,5 +749,376 @@ const styles = StyleSheet.create({
         marginLeft: -10,
 
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    container: {
+        flex: 1,
+        backgroundColor: colors.yellowLight
+      },
+    
+      loginButton: {
+        alignItems: 'center',
+        width: '85%',
+        padding: 12,
+        backgroundColor: colors.pinkRegular,
+        borderWidth: 2,
+        borderRadius: 15,
+        borderColor: colors.pinkBorder
+      },
+    
+      loginButtonText: {
+        fontFamily: 'Comic-Light',
+        textAlign: 'center',
+        fontSize: 23,
+      },
+    
+      modalViewStyle: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: '80%',
+        borderTopRightRadius: 35,
+        borderTopLeftRadius: 35,
+        backgroundColor: colors.white,
+      },
+    
+      modalViewDarkenStyle: {
+        position: 'absolute',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: widthOfScreen,
+        height: heightOfScreen * 1.1,
+        backgroundColor: 'rgba(0,0,0,0.8)'
+      },
+    
+      modalBookImageStyle: {
+        width: widthOfScreen + 5,
+        height: 230,
+        top: -130,
+        borderTopRightRadius: 35,
+        borderTopLeftRadius: 35, 
+      },
+    
+      modalBookDetailHeader: {
+        top: -125,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+      },
+    
+      modalText: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 35,
+        width: 300,
+        left: -20,
+      },
+    
+      modalBookDetailHeaderClose: {
+        resizeMode: 'contain',
+        height: 45,
+        width: 45,
+        left: 25,
+        top: -2,
+      },
+    
+      modalProgressBar: {
+        backgroundColor: colors.grayProgressBarBG,
+        borderColor: colors.grayProgressBarBorder,
+        borderWidth: 0.7,
+        top: -120,
+        left: -65,
+      },
+    
+      modalTagContainer: {
+        top: -100,
+        left: 5,
+        flexDirection: 'row',
+    
+      },
+    
+      ageTagStyle: {
+        backgroundColor: colors.pinkTagBG,
+        borderColor: colors.pinkTagBorder,
+        alignItems: 'center',
+        borderWidth: 3,
+        marginRight: 7,
+        width: 80,
+        padding: 8,
+        borderRadius: 50,
+    
+      },
+    
+      contentTagStyle: {
+        backgroundColor: colors.blueTagBG,
+        borderColor: colors.blueTagBorder,
+        alignItems: 'center',
+        borderWidth: 3,
+        marginRight: 7,
+        width: 70,
+        padding: 8,
+        borderRadius: 50,
+    
+      },
+    
+      themeTagStyle: {
+        backgroundColor: colors.greenTagBG,
+        borderColor: colors.greenTagBorder,
+        alignItems: 'center',
+        borderWidth: 3,
+        marginRight: 7,
+        width: 70,
+        padding: 8,
+        borderRadius: 50,
+      },
+    
+      rewardTagStyle: {
+        flexDirection: 'row',
+        backgroundColor: colors.purpleTagBG,
+        borderColor: colors.purpleTagBorder,
+        alignItems: 'center',
+        borderWidth: 3,
+        marginRight: 7,
+        width: 145,
+        padding: 5,
+        borderRadius: 50,
+      },
+    
+      rewardTagPointsIconStyle: {
+        resizeMode: 'contain',
+        height: 25,
+        width: 25,
+        marginLeft: 1.5,
+      },
+    
+      tagTextStyle: {
+        fontFamily: 'Comic-Regular',
+      },
+    
+      modalBookDescView: {
+        width: widthOfScreen,
+        top: -75,
+        left: 15,
+      },
+    
+      modalBookDesc: {
+        fontFamily: 'Comic-Regular',
+        width: widthOfScreen - 30,
+        fontSize: 17,
+      },
+    
+      modalBookStartButton: {
+        width: 90,
+        height: 90,
+        alignItems: 'center',
+        paddingLeft: 10,
+        borderWidth: 4,
+        borderRadius: 100,
+        top: -40,
+      },
+    
+    
+      badgeIconStyle: {
+        resizeMode: 'contain',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 45,
+        height: 45,
+      },
+    
+      headerView1: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginHorizontal: 20,
+        marginTop: 17,
+    
+      },
+    
+      headerView2: {
+        position: 'absolute',
+        right: '-7%',
+        marginHorizontal: 20,
+        marginTop: 15,
+      },
+    
+      headerIconStyle: {
+        resizeMode: 'contain',
+        height: 35,
+        width: 35,
+      },
+    
+      boxShadow: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 15,
+      },
+    
+      headerTextStyle: {
+        fontFamily: 'Comic-Regular',
+        marginLeft: '2.5%',
+        fontSize: 28,
+        width: 200,
+      },
+    
+      pointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 35,
+        width: 95,
+        borderRadius: 25,
+        borderWidth: 2,
+        borderColor: colors.yellowBorder,
+        backgroundColor: colors.yellowTabBar,
+        paddingLeft: 10,
+      },
+    
+      pointsTextStyle: {
+        fontFamily: 'Comic-Light',
+        textAlign: 'center',
+        fontSize: 21,
+        width: 50,
+      },
+    
+      pointsIconStyle: {
+        resizeMode: 'contain',
+        height: 25,
+        width: 25,
+        marginLeft: 1.5,
+      },
+    
+      continueReadingHeader: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 27,
+        paddingLeft: 20,
+        paddingTop: 20
+      },
+    
+      otherBookHeader: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 27,
+        paddingLeft: 20,
+        paddingTop: 10
+      },
+    
+      continueReadingBookStyle: {
+        width: 123,
+        height: 200,
+        marginTop: 10,
+        marginRight: 15,
+        marginBottom: 15
+      },
+    
+      continueReadingBookStyleFirstItem: {
+        width: 123,
+        height: 210,
+        marginTop: 10,
+        marginRight: 15,
+        marginLeft: 25
+      },
+    
+      otherBookStyle: {
+        width: 123,
+        height: 200,
+        marginTop: 10,
+        marginRight: 15
+      },
+    
+      otherBookStyleFirstItem: {
+        width: 123,
+        height: 210,
+        marginTop: 10,
+        marginRight: 15,
+        marginLeft: 25
+      },
+    
+      continueBookImageStyle: {
+        width: 113,
+        height: 190,
+        borderRadius: 12,
+      },
+    
+      otherBookImageStyle: {
+        width: 113,
+        height: 190,
+        borderRadius: 12,
+      },
+    
+      featuredBookBG: {
+        width: widthOfScreen,
+        height: 210,
+        borderRadius: 12,
+        marginTop: 10
+      },
+    
+      progressBar: {
+        marginTop: 17,
+        backgroundColor: colors.grayProgressBarBG,
+        borderColor: colors.grayProgressBarBorder,
+        borderWidth: 0.7,
+      },
+    
+      featuredBookStyle: {
+        borderWidth: 4,
+        alignItems: 'flex-end',
+        width: widthOfScreen,
+        height: 210,
+        marginTop: 10,
+        marginBottom: 10,
+        paddingRight: 18,
+        paddingTop: 6.5
+      },
+    
+      featuredBookStyleFirstItem: {
+        borderWidth: 4,
+        alignItems: 'flex-end',
+        width: widthOfScreen,
+        height: 210,
+        marginTop: 10,
+        marginBottom: 10,
+        paddingRight: 18,
+        paddingTop: 6.5
+      },
+    
+      featuredBookTitle: {
+        fontFamily: 'Comic-Bold',
+        textAlign: 'center',
+        zIndex: 1000,
+        position: 'absolute',
+        fontSize: 35,
+        paddingTop: 25,
+        paddingLeft: 20
+      },
+    
+      featuredBookDescription: {
+        fontFamily: 'Comic-Bold',
+        zIndex: 1000,
+        position: 'absolute',
+        fontSize: 14,
+        width: '63.5%',
+        paddingTop: '28%',
+        paddingLeft: 20
+      },
 
 })
