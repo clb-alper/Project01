@@ -31,7 +31,7 @@ const ReadingPage = ({ navigation }) => {
         width: 345,
         color: "#000",
         border: 6,
-        radius: 50,
+        radius: 40,
         opacity: 0.1,
         x: 0,
         y: 5,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
 
     readingBookImage: {
-        borderRadius: 50,
+        borderRadius: 40,
         height: 250,
         width: 350,
     },
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 100,
+        marginTop: 2,
         backgroundColor: colors.blueRegular,
         borderWidth: 4,
         borderColor: colors.bluePFPBG,
