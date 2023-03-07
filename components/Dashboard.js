@@ -104,25 +104,25 @@ const Dashboard = () => {
                                     <Text style={styles.userStatisticsTitle}>Kitap Okundu</Text>
                                 </View>
                                 <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>105</Text>
+                                    <Text style={styles.userStatistics}>1520</Text>
                                     <Text style={styles.userStatisticsTitle}>Sayfa Okundu</Text>
                                 </View>
                                 <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>105</Text>
+                                    <Text style={styles.userStatistics}>5682</Text>
                                     <Text style={styles.userStatisticsTitle}>Kelime Okundu</Text>
                                 </View>
                             </View>
 
                             <View style={styles.statisticsMainSecondRow}>
                                 <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>105</Text>
+                                    <Text style={styles.userStatistics}>28</Text>
                                     <View style={styles.userStatisticTitleCustomView}>
                                         <Text style={styles.userStatisticsTitle}>Quiz</Text>
                                         <Text style={styles.userStatisticsTitle}>Tamamlandı</Text>
                                     </View>
                                 </View>
                                 <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>105</Text>
+                                    <Text style={styles.userStatistics}>2460</Text>
                                     <View style={styles.userStatisticTitleCustomView}>
                                         <Text style={styles.userStatisticsTitle}>Toplam Puan</Text>
                                         <Text style={styles.userStatisticsTitle}>Kazanıldı</Text>
@@ -131,7 +131,7 @@ const Dashboard = () => {
                             </View>
                         </View>
                     </View>
-                    
+
                     <View style={styles.rosettes}>
                         <View style={styles.statisticsHeader}>
                             <Text style={styles.statisticsText}>Rozetler</Text>
@@ -164,6 +164,22 @@ const Dashboard = () => {
                                     <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
                                 </View>
                                 <View style={styles.goldBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+
+                            </View>
+
+                            <View style={styles.statisticsMainFirstRow}>
+                                <View style={styles.bronzeBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.silverBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.goldBadgeStyle}>
+                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                                </View>
+                                <View style={styles.emeraldBadgeStyle}>
                                     <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
                                 </View>
 
@@ -205,7 +221,7 @@ const styles = StyleSheet.create({
     },
     statisticsLine: {
         backgroundColor: colors.greenSpacer,
-        width: width/1.95,
+        width: width / 1.95,
         height: 8,
         alignSelf: 'center',
         marginTop: 5,
@@ -213,7 +229,7 @@ const styles = StyleSheet.create({
     },
     badgesLine: {
         backgroundColor: colors.greenSpacer,
-        width: width/1.70,
+        width: width / 1.70,
         height: 8,
         alignSelf: 'center',
         marginTop: 5,

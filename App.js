@@ -38,7 +38,7 @@ const TransitionAnim = {
 
 function HomeScreen() {
   return (
-      
+
     <Tab.Navigator
       initialRouteName='Home'
       screenOptions={{
@@ -53,11 +53,11 @@ function HomeScreen() {
       <Tab.Screen name="Library" component={Library}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Image source={require('./assets/images/iconPoints.png')}
+            <Image source={require('./assets/images/agenda.png')}
               resizeMode="contain"
               style={{
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
               }}
             />
           )
@@ -66,11 +66,11 @@ function HomeScreen() {
       <Tab.Screen name="Dashboard" component={Dashboard}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Image source={require('./assets/images/iconPoints.png')}
+            <Image source={require('./assets/images/user.png')}
               resizeMode="contain"
               style={{
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
               }}
             />
           )
@@ -79,14 +79,16 @@ function HomeScreen() {
       <Tab.Screen name="Home" component={MainScreen}
         options={{
           tabBarIcon: ({ focused }) => (
+
             <Image source={require('./assets/images/homeButtonBG.png')}
               resizeMode="contain"
               style={{
-                width: 90,
-                height: 90,
+                width: 80,
+                height: 80,
                 top: '-15%',
               }}
             />
+
           ),
           HomeScreenTabBarButton: (props) => (
             <HomeScreenTabBarButton {...props} />
@@ -96,11 +98,11 @@ function HomeScreen() {
       <Tab.Screen name="RewardsScreen" component={RewardsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Image source={require('./assets/images/iconPoints.png')}
+            <Image source={require('./assets/images/badge.png')}
               resizeMode="contain"
               style={{
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
               }}
             />
           )
@@ -109,14 +111,15 @@ function HomeScreen() {
       <Tab.Screen name="Profile" component={MainScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <Image source={require('./assets/images/iconPoints.png')}
+            <Image source={require('./assets/images/setting.png')}
               resizeMode="contain"
               style={{
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
               }}
             />
-          )
+          ),
+          
         }} />
     </Tab.Navigator>
   );
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
   },
 
   tabNavStyle: {
-    height: 75,
+    height: 68,
     backgroundColor: colors.yellowTabBar,
   },
 
