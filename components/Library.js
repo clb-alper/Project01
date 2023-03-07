@@ -527,9 +527,6 @@ export default Library
 
 const styles = StyleSheet.create({
 
-
-
-
     libraryBG: {
         flex: 1,
         flexGrow: 1,
@@ -670,7 +667,7 @@ const styles = StyleSheet.create({
 
     FlatsScrollViewStyle: {
         marginLeft: 50,
-        height: heightOfScreen * 0.78,
+        height: heightOfScreen * 0.79,
     },
 
     DropdownViewStyle: {
