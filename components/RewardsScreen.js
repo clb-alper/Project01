@@ -10,7 +10,7 @@ import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 import SelectDropdown from 'react-native-select-dropdown';
-
+import stickerData from '../assets/data/stickerData';
 
 
 const RewardsScreen = () => {
@@ -20,10 +20,7 @@ const RewardsScreen = () => {
 
     const [aa, setaa] = useState(true);
 
-    const categories = ["Stc1", "Stc2", "Stc3", "Stc4"]
-
-
-
+    const categories = ["Sticker", "Rozet"]
 
     var [isPress, setIsPress] = React.useState(false);
 
@@ -45,11 +42,55 @@ const RewardsScreen = () => {
 
     var widthOfScreen = Dimensions.get('window').width; //full width
 
+    const DATA = [];
+
+    for (let i = 0; i < stickerData.length; i++) {
+        if (DATA.length === 0) {
+            DATA.push({
+                bookName: stickerData[i].stickerBook,
+                stickers: [{
+                    id: stickerData[i].id,
+                    image: stickerData[i].image,
+                    price: stickerData[i].spPrice
+                }]
+            })
+
+        }
+        else {
+            const index = DATA.findIndex((data) => data.bookName === stickerData[i].stickerBook);
+            DATA[index].stickers.push({
+                id: stickerData[i].id,
+                image: stickerData[i].image,
+                price: stickerData[i].spPrice
+            })
+        }
+    }
+    console.log(DATA)
+    const sampleData = [
+        {
+            bookName: 'Mırıldanan cocuk',
+            stickers: [{
+                name: 'sticker1',
+                image: 'image1'
+            }]
+        },
+        {
+            bookName: 'Mırıldanan yusuf',
+            stickers: [{
+                name: 'sticker2',
+                image: 'image2'
+            }]
+        },
+    ];
+
+
+
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
             <SafeAreaView edges={['right', 'left']}>
 
+                {/* Header Container */}
                 <View style={[styles.login_container, styles.shadowProp]}>
                     <View style={styles.headerView1}>
 
@@ -85,55 +126,55 @@ const RewardsScreen = () => {
                     showsVerticalScrollIndicator={false}
                     overScrollMode={'never'}> */}
 
-
+                {/* Dropdown menu  */}
                 <View style={styles.pointsContainer222}>
-         
-                        <SelectDropdown
 
-                            buttonStyle={closeDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
-                            buttonTextStyle={styles.DropdownTextStyle}
-                            dropdownStyle={styles.DropdownContainerStyle}
-                            rowStyle={styles.DropdownRowStyle}
-                            rowTextStyle={styles.DropdownContainerTextStyle}
-                            dropdownOverlayColor='transparent'
+                    <SelectDropdown
 
-                            data={categories}
-                            adjustsFontSizeToFit={true}
-                            defaultButtonText={categories[0]}
+                        buttonStyle={closeDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
+                        buttonTextStyle={styles.DropdownTextStyle}
+                        dropdownStyle={styles.DropdownContainerStyle}
+                        rowStyle={styles.DropdownRowStyle}
+                        rowTextStyle={styles.DropdownContainerTextStyle}
+                        dropdownOverlayColor='transparent'
 
-                            onFocus={() => {
-                                setCloseDropdown(true)
-                            }}
+                        data={categories}
+                        adjustsFontSizeToFit={true}
+                        defaultButtonText={categories[0]}
 
-                            onBlur={() => {
-                                setCloseDropdown(false)
-                            }}
+                        onFocus={() => {
+                            setCloseDropdown(true)
+                        }}
 
-                            onSelect={(selectedItem, index) => {
-                                setCloseDropdown(false)
-                                console.log(categories[index])
-                                console.log(selectedItem)
+                        onBlur={() => {
+                            setCloseDropdown(false)
+                        }}
 
-                                if (selectedItem == 'Tema') {
-                                    // navigation.navigate('Dashboard')
+                        onSelect={(selectedItem, index) => {
+                            setCloseDropdown(false)
+                            console.log(categories[index])
+                            console.log(selectedItem)
 
-                                    // return ()
+                            if (selectedItem == 'Tema') {
+                                // navigation.navigate('Dashboard')
 
-                                    setaa(false)
+                                // return ()
 
-                                } else if (selectedItem == 'Alfabe') {
-                                    setaa(true)
-                                }
-                            }}
+                                setaa(false)
 
-                            buttonTextAfterSelection={(selectedItem, index) => {
-                                return selectedItem
-                            }}
-                            rowTextForSelection={(item, index) => {
-                                return item
-                            }}
+                            } else if (selectedItem == 'Alfabe') {
+                                setaa(true)
+                            }
+                        }}
 
-                        />
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item
+                        }}
+
+                    />
 
 
 
@@ -157,7 +198,10 @@ const RewardsScreen = () => {
 
                     </View>
 
+                    {/* Main Container */}
                     <View style={{ marginTop: 25 }}>
+
+
                         <FlatList
                             horizontal={false}
                             scrollEnabled={false}
@@ -388,13 +432,13 @@ const styles = StyleSheet.create({
 
 
 
-    
+
 
 
 
     //temporary dropdown styles
 
-    
+
     DropdownViewStyle: {
         alignItems: 'flex-end',
         marginRight: 10,
