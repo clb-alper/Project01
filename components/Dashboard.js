@@ -87,106 +87,107 @@ const Dashboard = () => {
                         </View>
                     </View>
                 </View>
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    overScrollMode={'never'}>
+            </SafeAreaView>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                overScrollMode={'never'}>
 
-                    <View style={styles.statistics}>
-                        <View style={styles.statisticsHeader}>
-                            <Text style={styles.statisticsText}>İstatistikler</Text>
-                            <View style={styles.statisticsLine}></View>
+                <View style={styles.statistics}>
+                    <View style={styles.statisticsHeader}>
+                        <Text style={styles.statisticsText}>İstatistikler</Text>
+                        <View style={styles.statisticsLine}></View>
+                    </View>
+
+                    <View style={styles.statisticsMain}>
+                        <View style={styles.statisticsMainFirstRow}>
+                            <View style={styles.statisticsMainFirstRowElem}>
+                                <Text style={styles.userStatistics}>105</Text>
+                                <Text style={styles.userStatisticsTitle}>Kitap Okundu</Text>
+                            </View>
+                            <View style={styles.statisticsMainFirstRowElem}>
+                                <Text style={styles.userStatistics}>1520</Text>
+                                <Text style={styles.userStatisticsTitle}>Sayfa Okundu</Text>
+                            </View>
+                            <View style={styles.statisticsMainFirstRowElem}>
+                                <Text style={styles.userStatistics}>5682</Text>
+                                <Text style={styles.userStatisticsTitle}>Kelime Okundu</Text>
+                            </View>
                         </View>
 
-                        <View style={styles.statisticsMain}>
-                            <View style={styles.statisticsMainFirstRow}>
-                                <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>105</Text>
-                                    <Text style={styles.userStatisticsTitle}>Kitap Okundu</Text>
-                                </View>
-                                <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>1520</Text>
-                                    <Text style={styles.userStatisticsTitle}>Sayfa Okundu</Text>
-                                </View>
-                                <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>5682</Text>
-                                    <Text style={styles.userStatisticsTitle}>Kelime Okundu</Text>
+                        <View style={styles.statisticsMainSecondRow}>
+                            <View style={styles.statisticsMainFirstRowElem}>
+                                <Text style={styles.userStatistics}>28</Text>
+                                <View style={styles.userStatisticTitleCustomView}>
+                                    <Text style={styles.userStatisticsTitle}>Quiz</Text>
+                                    <Text style={styles.userStatisticsTitle}>Tamamlandı</Text>
                                 </View>
                             </View>
-
-                            <View style={styles.statisticsMainSecondRow}>
-                                <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>28</Text>
-                                    <View style={styles.userStatisticTitleCustomView}>
-                                        <Text style={styles.userStatisticsTitle}>Quiz</Text>
-                                        <Text style={styles.userStatisticsTitle}>Tamamlandı</Text>
-                                    </View>
-                                </View>
-                                <View style={styles.statisticsMainFirstRowElem}>
-                                    <Text style={styles.userStatistics}>2460</Text>
-                                    <View style={styles.userStatisticTitleCustomView}>
-                                        <Text style={styles.userStatisticsTitle}>Toplam Puan</Text>
-                                        <Text style={styles.userStatisticsTitle}>Kazanıldı</Text>
-                                    </View>
+                            <View style={styles.statisticsMainFirstRowElem}>
+                                <Text style={styles.userStatistics}>2460</Text>
+                                <View style={styles.userStatisticTitleCustomView}>
+                                    <Text style={styles.userStatisticsTitle}>Toplam Puan</Text>
+                                    <Text style={styles.userStatisticsTitle}>Kazanıldı</Text>
                                 </View>
                             </View>
                         </View>
                     </View>
+                </View>
 
-                    <View style={styles.rosettes}>
-                        <View style={styles.statisticsHeader}>
-                            <Text style={styles.statisticsText}>Rozetler</Text>
-                            <View style={styles.badgesLine}></View>
+                <View style={styles.rosettes}>
+                    <View style={styles.statisticsHeader}>
+                        <Text style={styles.statisticsText}>Rozetler</Text>
+                        <View style={styles.badgesLine}></View>
+                    </View>
+                    <View style={styles.rosettesMain}>
+                        <View style={styles.statisticsMainFirstRow}>
+                            <View style={styles.bronzeBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+                            <View style={styles.silverBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+                            <View style={styles.goldBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+                            <View style={styles.emeraldBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+
                         </View>
-                        <View style={styles.rosettesMain}>
-                            <View style={styles.statisticsMainFirstRow}>
-                                <View style={styles.bronzeBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.silverBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.goldBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.emeraldBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-
+                        <View style={styles.statisticsMainFirstRow}>
+                            <View style={styles.diamondBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
                             </View>
-                            <View style={styles.statisticsMainFirstRow}>
-                                <View style={styles.diamondBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.bronzeBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.silverBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.goldBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-
+                            <View style={styles.bronzeBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+                            <View style={styles.silverBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+                            <View style={styles.goldBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
                             </View>
 
-                            <View style={styles.statisticsMainFirstRow}>
-                                <View style={styles.bronzeBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.silverBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.goldBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
-                                <View style={styles.emeraldBadgeStyle}>
-                                    <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
-                                </View>
+                        </View>
 
+                        <View style={styles.statisticsMainFirstRow}>
+                            <View style={styles.bronzeBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+                            <View style={styles.silverBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+                            <View style={styles.goldBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                            </View>
+                            <View style={styles.emeraldBadgeStyle}>
+                                <Image source={require('../assets/images/iconBook.png')} style={styles.badgeIconStyle}></Image>
                             </View>
 
+                        </View>
 
-                            {/* 
+
+                        {/* 
                     <View style={styles.statisticsMainSecondRow}>
                         <View style={styles.statisticsMainFirstRowElem}>
                             <Text style={styles.userStatistics}>105</Text>
@@ -197,10 +198,10 @@ const Dashboard = () => {
                             <Text style={styles.userStatisticsTitle} >Toplam Puan Kazanıldı</Text>
                         </View>
                     </View> */}
-                        </View>
                     </View>
-                </ScrollView>
-            </SafeAreaView>
+                </View>
+            </ScrollView>
+
         </View>
     )
 }
