@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -44,8 +43,10 @@ const RewardsScreen = () => {
 
     const DATA = [];
 
-    for (let i = 0; i < stickerData.length; i++) {
-        if (DATA.length === 0) {
+  
+    for (let i = 0; i < stickerData.length - 1; i++) {
+        const index = DATA.findIndex((dataSticker) => dataSticker.bookName === stickerData[i].stickerBook);
+        if (index == -1) {
             DATA.push({
                 bookName: stickerData[i].stickerBook,
                 stickers: [{
@@ -54,10 +55,7 @@ const RewardsScreen = () => {
                     price: stickerData[i].spPrice
                 }]
             })
-
-        }
-        else {
-            const index = DATA.findIndex((data) => data.bookName === stickerData[i].stickerBook);
+        }else {
             DATA[index].stickers.push({
                 id: stickerData[i].id,
                 image: stickerData[i].image,
@@ -65,25 +63,6 @@ const RewardsScreen = () => {
             })
         }
     }
-    console.log(DATA)
-    const sampleData = [
-        {
-            bookName: 'Mırıldanan cocuk',
-            stickers: [{
-                name: 'sticker1',
-                image: 'image1'
-            }]
-        },
-        {
-            bookName: 'Mırıldanan yusuf',
-            stickers: [{
-                name: 'sticker2',
-                image: 'image2'
-            }]
-        },
-    ];
-
-
 
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
@@ -181,28 +160,68 @@ const RewardsScreen = () => {
                 </View>
 
                 <View style={{ marginTop: 25 }}>
-                    <View>
-                        <View style={[styles.headerView12, { marginTop: 5 }]}>
-
-                            <Text
-                                style={styles.headerTextStyle2}
-                                adjustsFontSizeToFit={true}
-                                numberOfLines={1}>
-                                Sticker Kitabı 1
-                            </Text>
-
-                            <View style={styles.headerView22}>
-
-                            </View>
-                        </View>
-
-                    </View>
+                
 
                     {/* Main Container */}
                     <View style={{ marginTop: 25 }}>
 
-
-                        <FlatList
+                        {DATA.map((stickerData) => {
+                            return (
+                                <View>
+                                <View style={[styles.headerView12, { marginTop: 5 }]}>
+        
+                                    <Text
+                                        style={styles.headerTextStyle2}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>
+                                        {stickerData.bookName}
+                                    </Text>
+        
+                                    {stickerData.stickers.map((sticker, index) => {
+                                        return (
+                                            <View>
+                                            <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+        
+                                                <TouchableOpacity
+                                                    key={sticker.id}
+                                                    onPress={() => console.log(item.id)}
+                                                    activeOpacity={0.75}>
+        
+        
+                                                    <ImageBackground
+                                                        source={sticker.image}
+                                                        imageStyle={styles.continueBookImageStyle}>
+                                                    </ImageBackground>
+        
+                                                </TouchableOpacity>
+        
+                                                <View style={styles.pointsContainer2}>
+        
+                                                    <Text
+                                                        style={styles.pointsTextStyle2}
+                                                        adjustsFontSizeToFit={true}
+                                                        numberOfLines={1}>
+                                                        {sticker.price}
+                                                    </Text>
+        
+                                                    <Image
+                                                        source={require('../assets/images/iconStar.png')}
+                                                        style={styles.pointsIconStyle2}>
+                                                    </Image>
+        
+                                                </View>
+                                            </View>
+        
+        
+                                        </View>
+                                        )
+                                    })}
+                                </View>
+        
+                            </View>
+                            )
+                        })}
+                        {/* <FlatList
                             horizontal={false}
                             scrollEnabled={false}
                             numColumns={parseInt(widthOfScreen / 100)}
@@ -250,7 +269,7 @@ const RewardsScreen = () => {
                             )}
                             keyExtractor={(item) => item.id}
                             showsHorizontalScrollIndicator={false}
-                        />
+                        /> */}
                     </View>
 
 
