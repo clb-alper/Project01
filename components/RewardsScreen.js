@@ -43,7 +43,7 @@ const RewardsScreen = () => {
 
     const DATA = [];
 
-  
+
     for (let i = 0; i < stickerData.length - 1; i++) {
         const index = DATA.findIndex((dataSticker) => dataSticker.bookName === stickerData[i].stickerBook);
         if (index == -1) {
@@ -55,7 +55,7 @@ const RewardsScreen = () => {
                     price: stickerData[i].spPrice
                 }]
             })
-        }else {
+        } else {
             DATA[index].stickers.push({
                 id: stickerData[i].id,
                 image: stickerData[i].image,
@@ -160,65 +160,65 @@ const RewardsScreen = () => {
                 </View>
 
                 <View style={{ marginTop: 25 }}>
-                
+
 
                     {/* Main Container */}
                     <View style={{ marginTop: 25 }}>
 
-                        {DATA.map((stickerData) => {
+                        {DATA.map((stickerData,index) => {
                             return (
-                                <View>
-                                <View style={[styles.headerView12, { marginTop: 5 }]}>
-        
-                                    <Text
-                                        style={styles.headerTextStyle2}
-                                        adjustsFontSizeToFit={true}
-                                        numberOfLines={1}>
-                                        {stickerData.bookName}
-                                    </Text>
-        
-                                    {stickerData.stickers.map((sticker, index) => {
-                                        return (
-                                            <View>
-                                            <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-        
-                                                <TouchableOpacity
-                                                    key={sticker.id}
-                                                    onPress={() => console.log(item.id)}
-                                                    activeOpacity={0.75}>
-        
-        
-                                                    <ImageBackground
-                                                        source={sticker.image}
-                                                        imageStyle={styles.continueBookImageStyle}>
-                                                    </ImageBackground>
-        
-                                                </TouchableOpacity>
-        
-                                                <View style={styles.pointsContainer2}>
-        
-                                                    <Text
-                                                        style={styles.pointsTextStyle2}
-                                                        adjustsFontSizeToFit={true}
-                                                        numberOfLines={1}>
-                                                        {sticker.price}
-                                                    </Text>
-        
-                                                    <Image
-                                                        source={require('../assets/images/iconStar.png')}
-                                                        style={styles.pointsIconStyle2}>
-                                                    </Image>
-        
+                                <View key={index}>
+                                    <View style={[styles.headerView12, { marginTop: 5 }]}>
+
+                                        <Text
+                                            style={styles.headerTextStyle2}
+                                            adjustsFontSizeToFit={true}
+                                            numberOfLines={1}>
+                                            {stickerData.bookName}
+                                        </Text>
+
+                                        {stickerData.stickers.map((sticker, index) => {
+                                            return (
+                                                <View key={index}>
+                                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+
+                                                        <TouchableOpacity
+                                                            key={sticker.id}
+                                                            onPress={() => console.log(item.id)}
+                                                            activeOpacity={0.75}>
+
+
+                                                            <ImageBackground
+                                                                source={sticker.image}
+                                                                imageStyle={styles.continueBookImageStyle}>
+                                                            </ImageBackground>
+
+                                                        </TouchableOpacity>
+
+                                                        <View style={styles.pointsContainer2}>
+
+                                                            <Text
+                                                                style={styles.pointsTextStyle2}
+                                                                adjustsFontSizeToFit={true}
+                                                                numberOfLines={1}>
+                                                                {sticker.price}
+                                                            </Text>
+
+                                                            <Image
+                                                                source={require('../assets/images/iconStar.png')}
+                                                                style={styles.pointsIconStyle2}>
+                                                            </Image>
+
+                                                        </View>
+                                                    </View>
+
+
                                                 </View>
-                                            </View>
-        
-        
-                                        </View>
-                                        )
-                                    })}
+                                            )
+                                        })}
+                                    </View>
+
                                 </View>
-        
-                            </View>
                             )
                         })}
                         {/* <FlatList
