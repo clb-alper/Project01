@@ -50,7 +50,7 @@ const ReadingPage = ({ navigation }) => {
                     <View style={styles.center}>
                         <View style={styles.header}>
                             <Pressable
-                                onPress={() => { navigation.navigate("Home"); }}>
+                                onPress={() => { navigation.goBack() }}>
                                 <Image
                                     source={require('../assets/images/goBackArrow.png')}
                                     style={styles.goBackIcon}>

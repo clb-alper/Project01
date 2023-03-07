@@ -100,10 +100,11 @@ const RewardsScreen = () => {
                     </View>
                 </View>
 
+            </SafeAreaView>
 
-                {/* <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    overScrollMode={'never'}> */}
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                overScrollMode={'never'}>
 
                 {/* Dropdown menu  */}
                 <View style={styles.pointsContainer222}>
@@ -159,32 +160,30 @@ const RewardsScreen = () => {
 
                 </View>
 
-                <View style={{ marginTop: 25 }}>
-
+                <View style={{ marginTop: 10 }}>
 
                     {/* Main Container */}
-                    <View style={{ marginTop: 25 }}>
+                    {DATA.map((stickerData, index) => {
+                        return (
+                            <View key={index}>
+                                <View style={[styles.headerView12, { marginTop: 5 }]}>
 
-                        {DATA.map((stickerData,index) => {
-                            return (
-                                <View key={index}>
-                                    <View style={[styles.headerView12, { marginTop: 5 }]}>
+                                    <Text
+                                        style={styles.headerTextStyle2}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>
+                                        {stickerData.bookName}
+                                    </Text>
 
-                                        <Text
-                                            style={styles.headerTextStyle2}
-                                            adjustsFontSizeToFit={true}
-                                            numberOfLines={1}>
-                                            {stickerData.bookName}
-                                        </Text>
-
+                                    <View style={styles.stickerContainer}>
                                         {stickerData.stickers.map((sticker, index) => {
                                             return (
                                                 <View key={index}>
-                                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+                                                    <View style={styles.continueReadingBookStyleFirstItem}>
 
                                                         <TouchableOpacity
                                                             key={sticker.id}
-                                                            onPress={() => console.log(item.id)}
+                                                            onPress={() => console.log(sticker.id)}
                                                             activeOpacity={0.75}>
 
 
@@ -219,63 +218,15 @@ const RewardsScreen = () => {
                                     </View>
 
                                 </View>
-                            )
-                        })}
-                        {/* <FlatList
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={parseInt(widthOfScreen / 100)}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={booksListData}
 
-                            renderItem={({ item, index, separators }) => (
-                                <View>
-                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-
-                                            <ImageBackground
-                                                source={item.image}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
-
-                                        </TouchableOpacity>
-
-                                        <View style={styles.pointsContainer2}>
-
-                                            <Text
-                                                style={styles.pointsTextStyle2}
-                                                adjustsFontSizeToFit={true}
-                                                numberOfLines={1}>
-                                                1600
-                                            </Text>
-
-                                            <Image
-                                                source={require('../assets/images/iconStar.png')}
-                                                style={styles.pointsIconStyle2}>
-                                            </Image>
-
-                                        </View>
-                                    </View>
-
-
-                                </View>
-
-                            )}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                        /> */}
-                    </View>
+                            </View>
+                        )
+                    })}
 
 
                 </View>
+            </ScrollView>
 
-            </SafeAreaView>
         </View>
     )
 }
@@ -356,18 +307,10 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
 
-    continueReadingBookStyle: {
-        width: 75,
-        height: 110,
-        marginRight: 15,
-        marginBottom: 15
-    },
-
     continueReadingBookStyleFirstItem: {
-        width: 75,
-        height: 110,
-        marginRight: 15,
-        marginLeft: 35
+        width: 45,
+        height: 140,
+        marginRight: 43,
     },
 
     continueBookImageStyle: {
@@ -403,12 +346,10 @@ const styles = StyleSheet.create({
     },
 
     headerView12: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
         marginHorizontal: 20,
         marginTop: 20,
-        marginLeft: 35
+        marginLeft: 35,
     },
 
     headerView22: {
@@ -423,6 +364,7 @@ const styles = StyleSheet.create({
     headerTextStyle2: {
         fontFamily: 'Comic-Regular',
         fontSize: 30,
+        marginBottom: 15,
     },
 
     pointsContainer22: {
@@ -446,10 +388,12 @@ const styles = StyleSheet.create({
         marginLeft: '-7.5%',
     },
 
-
-
-
-
+    stickerContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        marginBottom: 20,
+        width: '100%',
+    },
 
 
 
@@ -494,7 +438,7 @@ const styles = StyleSheet.create({
 
     DropdownTextStyle: {
         fontFamily: 'Comic-Regular',
-        fontSize: 20,
+        fontSize: 18,
         alignItems: 'center',
         alignContent: 'center',
 
@@ -509,7 +453,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 15,
 
         width: 111.5,
-        height: 120,
+        height: 95,
         marginRight: '-6.6%',
         marginTop: '-6.3%',
         backgroundColor: colors.purpleTagBG,

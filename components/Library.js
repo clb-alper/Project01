@@ -31,37 +31,37 @@ const Library = ({ navigation }) => {
 
     const dataLetters = [];
 
-        for (let i = 0; i < booksListData.length; i++) {
-            // const dataLetters = DATA.map((book) => book.condition);
-            const index = dataLetters.findIndex((letter) => letter == booksListData[i].title.substring(0, 1));
+    for (let i = 0; i < booksListData.length; i++) {
+        // const dataLetters = DATA.map((book) => book.condition);
+        const index = dataLetters.findIndex((letter) => letter == booksListData[i].title.substring(0, 1));
 
-            if (index > -1) {
-                DATA[index].books.push(booksListData[i]);
-            }
-            else {
-                dataLetters.push(booksListData[i].title.substring(0, 1))
-                DATA.push({
-                    condition: booksListData[i].title.substring(0, 1),
-                    condition2: booksListData[i].themeTag,
-                    books: [{
-                        id: booksListData[i].id,
-                        title: booksListData[i].title,
-                        image: booksListData[i].image,
-                        itemColor: booksListData[i].itemColor,
-                        itemBorder: booksListData[i].itemBorder,
-                        itemColorBG: booksListData[i].itemColorBG,
-                        itemTextColor: booksListData[i].itemTextColor,
-                        itemDesc: booksListData[i].itemDesc,
-                        bookProgress: booksListData[i].bookProgress,
-                        themeTag: booksListData[i].themeTag,
-                        ageTag: booksListData[i].ageTag,
-                        contentTag: booksListData[i].contentTag,
-                        rewardTag: booksListData[i].rewardTag,
-
-                    }]
-                })
-            }
+        if (index > -1) {
+            DATA[index].books.push(booksListData[i]);
         }
+        else {
+            dataLetters.push(booksListData[i].title.substring(0, 1))
+            DATA.push({
+                condition: booksListData[i].title.substring(0, 1),
+                condition2: booksListData[i].themeTag,
+                books: [{
+                    id: booksListData[i].id,
+                    title: booksListData[i].title,
+                    image: booksListData[i].image,
+                    itemColor: booksListData[i].itemColor,
+                    itemBorder: booksListData[i].itemBorder,
+                    itemColorBG: booksListData[i].itemColorBG,
+                    itemTextColor: booksListData[i].itemTextColor,
+                    itemDesc: booksListData[i].itemDesc,
+                    bookProgress: booksListData[i].bookProgress,
+                    themeTag: booksListData[i].themeTag,
+                    ageTag: booksListData[i].ageTag,
+                    contentTag: booksListData[i].contentTag,
+                    rewardTag: booksListData[i].rewardTag,
+
+                }]
+            })
+        }
+    }
 
 
     const [closeDropdown, setCloseDropdown] = useState(false);
@@ -458,7 +458,7 @@ const Library = ({ navigation }) => {
                             </View>
 
                             <TouchableOpacity
-                                onPress={() => { console.log('Kitap acildi.') }}
+                                onPress={() => { navigation.navigate('ReadingPage'); setModalVisible(false) }}
                                 activeOpacity={0.8}>
                                 <View style={styles.modalBookStartButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
 
@@ -484,19 +484,19 @@ const Library = ({ navigation }) => {
                                                 book.books.map((bookDetail) => {
                                                     return (
                                                         <View key={bookDetail.id} style={{ ...styles.bookContainer, width: bookWidth }}>
-                                                         
 
-                                                                <TouchableOpacity
-                                                                    key={index}
-                                                                    onPress={() => { setModalVisible(true); setModalEntry(bookDetail); }}
-                                                                    activeOpacity={0.75}>
-                                                                    <BoxShadow setting={shadowOpt}>
-                                                                        <ImageBackground
-                                                                            source={bookDetail.image}
-                                                                            imageStyle={styles.bookCoverStyle}>
-                                                                        </ImageBackground>
-                                                                    </BoxShadow>
-                                                                </TouchableOpacity>
+
+                                                            <TouchableOpacity
+                                                                key={index}
+                                                                onPress={() => { setModalVisible(true); setModalEntry(bookDetail); }}
+                                                                activeOpacity={0.75}>
+                                                                <BoxShadow setting={shadowOpt}>
+                                                                    <ImageBackground
+                                                                        source={bookDetail.image}
+                                                                        imageStyle={styles.bookCoverStyle}>
+                                                                    </ImageBackground>
+                                                                </BoxShadow>
+                                                            </TouchableOpacity>
 
                                                         </View>
 
@@ -768,9 +768,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.yellowLight
-      },
-    
-      loginButton: {
+    },
+
+    loginButton: {
         alignItems: 'center',
         width: '85%',
         padding: 12,
@@ -778,15 +778,15 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 15,
         borderColor: colors.pinkBorder
-      },
-    
-      loginButtonText: {
+    },
+
+    loginButtonText: {
         fontFamily: 'Comic-Light',
         textAlign: 'center',
         fontSize: 23,
-      },
-    
-      modalViewStyle: {
+    },
+
+    modalViewStyle: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
@@ -794,9 +794,9 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 35,
         borderTopLeftRadius: 35,
         backgroundColor: colors.white,
-      },
-    
-      modalViewDarkenStyle: {
+    },
+
+    modalViewDarkenStyle: {
         position: 'absolute',
         flex: 1,
         alignItems: 'center',
@@ -804,61 +804,61 @@ const styles = StyleSheet.create({
         width: widthOfScreen,
         height: heightOfScreen * 1.1,
         backgroundColor: 'rgba(0,0,0,0.8)'
-      },
-    
-      modalBookImageStyle: {
+    },
+
+    modalBookImageStyle: {
         width: widthOfScreen + 5,
         height: 230,
         top: -130,
         borderTopRightRadius: 35,
-        borderTopLeftRadius: 35, 
-      },
-    
-      modalBookDetailHeader: {
+        borderTopLeftRadius: 35,
+    },
+
+    modalBookDetailHeader: {
         top: -125,
         flexDirection: 'row',
         justifyContent: 'space-between',
-      },
-    
-      modalText: {
+    },
+
+    modalText: {
         fontFamily: 'Comic-Regular',
         fontSize: 35,
         width: 300,
         left: -20,
-      },
-    
-      modalBookDetailHeaderClose: {
+    },
+
+    modalBookDetailHeaderClose: {
         resizeMode: 'contain',
         height: 45,
         width: 45,
         left: 25,
         top: -2,
-      },
-    
-      modalProgressBar: {
+    },
+
+    modalProgressBar: {
         backgroundColor: colors.grayProgressBarBG,
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,
         top: -120,
         left: -65,
-      },
+    },
 
-      progressBar: {
+    progressBar: {
         marginTop: 17,
         backgroundColor: colors.grayProgressBarBG,
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,
-      },
- 
-    
-      modalTagContainer: {
+    },
+
+
+    modalTagContainer: {
         top: -100,
         left: 5,
         flexDirection: 'row',
-    
-      },
-    
-      ageTagStyle: {
+
+    },
+
+    ageTagStyle: {
         backgroundColor: colors.pinkTagBG,
         borderColor: colors.pinkTagBorder,
         alignItems: 'center',
@@ -867,10 +867,10 @@ const styles = StyleSheet.create({
         width: 80,
         padding: 8,
         borderRadius: 50,
-    
-      },
-    
-      contentTagStyle: {
+
+    },
+
+    contentTagStyle: {
         backgroundColor: colors.blueTagBG,
         borderColor: colors.blueTagBorder,
         alignItems: 'center',
@@ -879,10 +879,10 @@ const styles = StyleSheet.create({
         width: 70,
         padding: 8,
         borderRadius: 50,
-    
-      },
-    
-      themeTagStyle: {
+
+    },
+
+    themeTagStyle: {
         backgroundColor: colors.greenTagBG,
         borderColor: colors.greenTagBorder,
         alignItems: 'center',
@@ -891,9 +891,9 @@ const styles = StyleSheet.create({
         width: 70,
         padding: 8,
         borderRadius: 50,
-      },
-    
-      rewardTagStyle: {
+    },
+
+    rewardTagStyle: {
         flexDirection: 'row',
         backgroundColor: colors.purpleTagBG,
         borderColor: colors.purpleTagBorder,
@@ -903,32 +903,32 @@ const styles = StyleSheet.create({
         width: 145,
         padding: 5,
         borderRadius: 50,
-      },
-    
-      rewardTagPointsIconStyle: {
+    },
+
+    rewardTagPointsIconStyle: {
         resizeMode: 'contain',
         height: 25,
         width: 25,
         marginLeft: 1.5,
-      },
-    
-      tagTextStyle: {
+    },
+
+    tagTextStyle: {
         fontFamily: 'Comic-Regular',
-      },
-    
-      modalBookDescView: {
+    },
+
+    modalBookDescView: {
         width: widthOfScreen,
         top: -75,
         left: 15,
-      },
-    
-      modalBookDesc: {
+    },
+
+    modalBookDesc: {
         fontFamily: 'Comic-Regular',
         width: widthOfScreen - 30,
         fontSize: 17,
-      },
-    
-      modalBookStartButton: {
+    },
+
+    modalBookStartButton: {
         width: 90,
         height: 90,
         alignItems: 'center',
@@ -936,58 +936,58 @@ const styles = StyleSheet.create({
         borderWidth: 4,
         borderRadius: 100,
         top: -40,
-      },
-    
-    
-      badgeIconStyle: {
+    },
+
+
+    badgeIconStyle: {
         resizeMode: 'contain',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         width: 45,
         height: 45,
-      },
-    
-      headerView1: {
+    },
+
+    headerView1: {
         flexDirection: 'row',
         alignItems: 'center',
         marginHorizontal: 20,
         marginTop: 17,
-    
-      },
-    
-      headerView2: {
+
+    },
+
+    headerView2: {
         position: 'absolute',
         right: '-7%',
         marginHorizontal: 20,
         marginTop: 15,
-      },
-    
-      headerIconStyle: {
+    },
+
+    headerIconStyle: {
         resizeMode: 'contain',
         height: 35,
         width: 35,
-      },
-    
-      boxShadow: {
+    },
+
+    boxShadow: {
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 15,
-      },
-    
-      headerTextStyle: {
+    },
+
+    headerTextStyle: {
         fontFamily: 'Comic-Regular',
         marginLeft: '2.5%',
         fontSize: 28,
         width: 200,
-      },
-    
-      pointsContainer: {
+    },
+
+    pointsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         height: 35,
@@ -997,86 +997,86 @@ const styles = StyleSheet.create({
         borderColor: colors.yellowBorder,
         backgroundColor: colors.yellowTabBar,
         paddingLeft: 10,
-      },
-    
-      pointsTextStyle: {
+    },
+
+    pointsTextStyle: {
         fontFamily: 'Comic-Light',
         textAlign: 'center',
         fontSize: 21,
         width: 50,
-      },
-    
-      pointsIconStyle: {
+    },
+
+    pointsIconStyle: {
         resizeMode: 'contain',
         height: 25,
         width: 25,
         marginLeft: 1.5,
-      },
-    
-      continueReadingHeader: {
+    },
+
+    continueReadingHeader: {
         fontFamily: 'Comic-Regular',
         fontSize: 27,
         paddingLeft: 20,
         paddingTop: 20
-      },
-    
-      otherBookHeader: {
+    },
+
+    otherBookHeader: {
         fontFamily: 'Comic-Regular',
         fontSize: 27,
         paddingLeft: 20,
         paddingTop: 10
-      },
-    
-      continueReadingBookStyle: {
+    },
+
+    continueReadingBookStyle: {
         width: 123,
         height: 200,
         marginTop: 10,
         marginRight: 15,
         marginBottom: 15
-      },
-    
-      continueReadingBookStyleFirstItem: {
+    },
+
+    continueReadingBookStyleFirstItem: {
         width: 123,
         height: 210,
         marginTop: 10,
         marginRight: 15,
         marginLeft: 25
-      },
-    
-      otherBookStyle: {
+    },
+
+    otherBookStyle: {
         width: 123,
         height: 200,
         marginTop: 10,
         marginRight: 15
-      },
-    
-      otherBookStyleFirstItem: {
+    },
+
+    otherBookStyleFirstItem: {
         width: 123,
         height: 210,
         marginTop: 10,
         marginRight: 15,
         marginLeft: 25
-      },
-    
-      continueBookImageStyle: {
+    },
+
+    continueBookImageStyle: {
         width: 113,
         height: 190,
         borderRadius: 12,
-      },
-    
-      otherBookImageStyle: {
+    },
+
+    otherBookImageStyle: {
         width: 113,
         height: 190,
         borderRadius: 12,
-      },
-    
-      featuredBookBG: {
+    },
+
+    featuredBookBG: {
         width: widthOfScreen,
         height: 210,
         borderRadius: 12,
         marginTop: 10
-      },
-    
+    },
+
 
 
 
