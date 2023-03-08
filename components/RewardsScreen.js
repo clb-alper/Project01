@@ -11,6 +11,8 @@ import * as Progress from 'react-native-progress';
 import SelectDropdown from 'react-native-select-dropdown';
 import stickerData from '../assets/data/stickerData';
 
+
+
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
@@ -231,7 +233,7 @@ const RewardsScreen = () => {
                                             return (
                                                 <View key={index}>
                                                     <View style={styles.continueReadingBookStyleFirstItem}>
-
+                                                  
                                                         <TouchableOpacity
                                                             key={sticker.id}
                                                             onPress={() => { setModalVisible(true); setModalEntry(sticker); console.log("basıldı") }}
@@ -239,11 +241,12 @@ const RewardsScreen = () => {
 
 
                                                             <ImageBackground
+                                                           
                                                                 source={sticker.image}
                                                                 imageStyle={styles.continueBookImageStyle}>
                                                             </ImageBackground>
 
-                                                        </TouchableOpacity>
+                                                        
 
                                                         <View style={styles.pointsContainer2}>
 
@@ -255,11 +258,14 @@ const RewardsScreen = () => {
                                                             </Text>
 
                                                             <Image
+                                                           
                                                                 source={require('../assets/images/iconStar.png')}
                                                                 style={styles.pointsIconStyle2}>
                                                             </Image>
 
                                                         </View>
+                                                        </TouchableOpacity>
+
                                                     </View>
 
 
