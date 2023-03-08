@@ -174,7 +174,7 @@ const MainScreen = ({ navigation }) => {
                 </View>
 
                 <TouchableOpacity
-                  onPress={() => { navigation.navigate('ReadingPage'); setTimeout(() => { setModalVisible(false) }, 1000) }}
+                  onPress={() => { navigation.navigate('ReadingPage'); setModalVisible(false)}}
                   activeOpacity={0.8}>
                   <View style={styles.modalBookStartButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
 
