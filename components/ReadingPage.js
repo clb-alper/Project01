@@ -12,13 +12,13 @@ import * as Speech from 'expo-speech';
 
 const ReadingPage = ({ navigation }) => {
 
-
+    const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
 
     const speak = () => {
-        const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
-        Speech.speak(thingToSay,{language:'tr', pitch:1.2});
-      };
-    
+        //const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
+        Speech.speak(pageText, { language: 'tr', pitch: 1.2 });
+    };
+
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -82,16 +82,7 @@ const ReadingPage = ({ navigation }) => {
                         </BoxShadow>
 
                         <Text style={styles.mainText}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Aliquam tincidunt porttitor tortor ut finibus.
-                            Pellentesque sem nunc, consequat id odio id, varius fermentum nibh.
-                            Suspendisse bibendum vestibulum est, non laoreet elit viverra in.
-                            Nunc pharetra placerat tellus vitae bibendum.
-                            Cras venenatis est felis, quis bibendum ipsum euismod at.
-                            Donec sed euismod tellus. Quisque sit amet tempus lectus.
-                            Donec sollicitudin sollicitudin tortor, at efficitur tellus.
-                            Aenean varius odio ac consectetur iaculis. Cras vel tellus neque.
-                            Curabitur at luctus ipsum, eu tempus lorem.
+                            {pageText}
                         </Text>
 
                         <TouchableOpacity
