@@ -183,10 +183,11 @@ const RewardsScreen = () => {
                         <View style={styles.modalViewDarkenStyle}>
                         </View>
 
-                        <View>
+                        <View style={{ alignItems: 'center', marginTop: 50 }}>
                             <View>
                                 <Image
                                     source={modalEntry.image}
+                                    style={styles.modalStickerImage}
                                 >
                                 </Image>
                             </View>
@@ -195,10 +196,10 @@ const RewardsScreen = () => {
                                     {modalEntry.stickerName} Sticker
                                 </Text>
                             </View>
-                            <View style={styles.pointsContainer2}>
+                            <View style={styles.pointsContainer3}>
 
                                 <Text
-                                    style={styles.pointsTextStyle2}
+                                    style={styles.pointsTextStyle3}
                                     adjustsFontSizeToFit={true}
                                     numberOfLines={1}>
                                     {modalEntry.price}
@@ -206,10 +207,22 @@ const RewardsScreen = () => {
 
                                 <Image
                                     source={require('../assets/images/iconStar.png')}
-                                    style={styles.pointsIconStyle2}>
+                                    style={styles.pointsIconStyle3}>
                                 </Image>
 
+
                             </View>
+
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(!modalVisible)}
+                                activeOpacity={0.75}
+                                style={styles.modalStickerCloseButton}>
+                                <Image
+                                    source={require('../assets/images/closeIcon.png')}
+                                    style={styles.modalStickerCloseButtonIcon}
+                                />
+                            </TouchableOpacity>
+
                         </View>
 
 
@@ -233,37 +246,37 @@ const RewardsScreen = () => {
                                             return (
                                                 <View key={index}>
                                                     <View style={styles.continueReadingBookStyleFirstItem}>
-                                                  
+
                                                         <TouchableOpacity
                                                             key={sticker.id}
-                                                            onPress={() => { setModalVisible(true); setModalEntry(sticker); console.log("basıldı") }}
+                                                            onPress={() => { setModalVisible(true); setModalEntry(sticker) }}
                                                             activeOpacity={0.75}>
 
 
                                                             <ImageBackground
-                                                           
+
                                                                 source={sticker.image}
                                                                 imageStyle={styles.continueBookImageStyle}>
                                                             </ImageBackground>
 
-                                                        
 
-                                                        <View style={styles.pointsContainer2}>
 
-                                                            <Text
-                                                                style={styles.pointsTextStyle2}
-                                                                adjustsFontSizeToFit={true}
-                                                                numberOfLines={1}>
-                                                                {sticker.price}
-                                                            </Text>
+                                                            <View style={styles.pointsContainer2}>
 
-                                                            <Image
-                                                           
-                                                                source={require('../assets/images/iconStar.png')}
-                                                                style={styles.pointsIconStyle2}>
-                                                            </Image>
+                                                                <Text
+                                                                    style={styles.pointsTextStyle2}
+                                                                    adjustsFontSizeToFit={true}
+                                                                    numberOfLines={1}>
+                                                                    {sticker.price}
+                                                                </Text>
 
-                                                        </View>
+                                                                <Image
+
+                                                                    source={require('../assets/images/iconStar.png')}
+                                                                    style={styles.pointsIconStyle2}>
+                                                                </Image>
+
+                                                            </View>
                                                         </TouchableOpacity>
 
                                                     </View>
@@ -458,6 +471,54 @@ const styles = StyleSheet.create({
         color: 'white',
     },
 
+    modalStickerImage: {
+        width: 200,
+        height: 200,
+        marginTop: 100,
+    },
+
+    modalStickerCloseButton: {
+        borderRadius: 500,
+        borderWidth: 5,
+        width: 70,
+        height: 70,
+        marginTop: 30,
+        borderColor: colors.purpleBorder,
+        backgroundColor: colors.purpleHeaderContainer
+    },
+
+    modalStickerCloseButtonIcon: {
+        width: 40,
+        height: 40,
+        marginTop: 10,
+        marginLeft: 10
+    },
+
+    pointsContainer3: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        width: 120,
+        marginTop: 50,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.purpleBorder,
+        backgroundColor: colors.purpleHeaderContainer,
+    },
+
+    pointsTextStyle3: {
+        fontFamily: 'Comic-Light',
+        textAlign: 'center',
+        fontSize: 25,
+        width: 65,
+    },
+
+    pointsIconStyle3: {
+        resizeMode: 'contain',
+        height: 38,
+        width: 38,
+    },
 
 
 
