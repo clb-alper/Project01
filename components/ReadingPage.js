@@ -13,10 +13,11 @@ import * as Speech from 'expo-speech';
 const ReadingPage = ({ navigation }) => {
 
     const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
+    const pageText2 = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar."
 
     const speak = () => {
         //const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
-        Speech.speak(pageText, { language: 'tr', pitch: 1.2 });
+        Speech.speak(pageText2, { language: 'tr', pitch: 1.2 });
     };
 
 
