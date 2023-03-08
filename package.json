@@ -32,7 +32,8 @@
     "react-native-svg": "13.4.0",
     "react-native-toast-message": "^2.1.5",
     "react-native-web": "~0.18.9",
-    "react-router-native": "^6.5.0"
+    "react-router-native": "^6.5.0",
+    "expo-speech": "~11.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

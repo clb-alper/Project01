@@ -7,8 +7,18 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BoxShadow } from 'react-native-shadow';
+import * as Speech from 'expo-speech';
+
 
 const ReadingPage = ({ navigation }) => {
+
+
+
+    const speak = () => {
+        const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
+        Speech.speak(thingToSay,{language:'tr', pitch:1.2});
+      };
+    
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -85,7 +95,7 @@ const ReadingPage = ({ navigation }) => {
                         </Text>
 
                         <TouchableOpacity
-                            //onPress={() => { navigation.navigate('ReadingPage'); setModalVisible(false) }}
+                            onPress={speak}
                             activeOpacity={0.8}>
                             <View style={styles.voiceOverButton}>
                                 <Image source={require('../assets/images/soundIcon.png')}
