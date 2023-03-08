@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { useCallback, useState } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions, Modal } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -11,6 +11,8 @@ import * as Progress from 'react-native-progress';
 import SelectDropdown from 'react-native-select-dropdown';
 import stickerData from '../assets/data/stickerData';
 
+var widthOfScreen = Dimensions.get('window').width; //full width
+var heightOfScreen = Dimensions.get('window').height; //full width
 
 const RewardsScreen = () => {
 
@@ -20,6 +22,10 @@ const RewardsScreen = () => {
     const [aa, setaa] = useState(true);
 
     const categories = ["Sticker", "Rozet"]
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [modalEntry, setModalEntry] = useState(stickerData);
 
     var [isPress, setIsPress] = React.useState(false);
 
@@ -51,6 +57,7 @@ const RewardsScreen = () => {
                 bookName: stickerData[i].stickerBook,
                 stickers: [{
                     id: stickerData[i].id,
+                    stickerName: stickerData[i].stickerName,
                     image: stickerData[i].image,
                     price: stickerData[i].spPrice
                 }]
@@ -58,6 +65,7 @@ const RewardsScreen = () => {
         } else {
             DATA[index].stickers.push({
                 id: stickerData[i].id,
+                stickerName: stickerData[i].stickerName,
                 image: stickerData[i].image,
                 price: stickerData[i].spPrice
             })
@@ -71,6 +79,7 @@ const RewardsScreen = () => {
 
                 {/* Header Container */}
                 <View style={[styles.login_container, styles.shadowProp]}>
+
                     <View style={styles.headerView1}>
 
                         <Text
@@ -161,6 +170,48 @@ const RewardsScreen = () => {
                 </View>
 
                 <View style={{ marginTop: 10 }}>
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.modalViewDarkenStyle}>
+                        </View>
+
+                        <View>
+                            <View>
+                                <Image
+                                    source={modalEntry.image}
+                                >
+                                </Image>
+                            </View>
+                            <View>
+                                <Text style={styles.modalStickerNameText}>
+                                    {modalEntry.stickerName} Sticker
+                                </Text>
+                            </View>
+                            <View style={styles.pointsContainer2}>
+
+                                <Text
+                                    style={styles.pointsTextStyle2}
+                                    adjustsFontSizeToFit={true}
+                                    numberOfLines={1}>
+                                    {modalEntry.price}
+                                </Text>
+
+                                <Image
+                                    source={require('../assets/images/iconStar.png')}
+                                    style={styles.pointsIconStyle2}>
+                                </Image>
+
+                            </View>
+                        </View>
+
+
+                    </Modal>
 
                     {/* Main Container */}
                     {DATA.map((stickerData, index) => {
@@ -183,7 +234,7 @@ const RewardsScreen = () => {
 
                                                         <TouchableOpacity
                                                             key={sticker.id}
-                                                            onPress={() => console.log(sticker.id)}
+                                                            onPress={() => { setModalVisible(true); setModalEntry(sticker); console.log("basıldı") }}
                                                             activeOpacity={0.75}>
 
 
@@ -395,6 +446,12 @@ const styles = StyleSheet.create({
         width: '100%',
     },
 
+    modalStickerNameText: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 38,
+        color: 'white',
+    },
+
 
 
 
@@ -474,6 +531,26 @@ const styles = StyleSheet.create({
         height: 35,
         marginLeft: -10,
 
+    },
+
+    modalViewDarkenStyle: {
+        position: 'absolute',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: widthOfScreen,
+        height: heightOfScreen * 1.1,
+        backgroundColor: 'rgba(0,0,0,0.8)'
+    },
+
+    modalViewStyle: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: '80%',
+        borderTopRightRadius: 35,
+        borderTopLeftRadius: 35,
+        backgroundColor: colors.white,
     },
 
 
