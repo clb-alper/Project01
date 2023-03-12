@@ -53,7 +53,7 @@ const ProfileSelect = ({ navigation }) => {
 
     return (
         <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
-            <StatusBar style="auto" />
+            <StatusBar style="light" />
 
             <ImageBackground source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage}>
                 <View style={styles.profileSelectChildContainer}>
