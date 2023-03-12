@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions } from 'react-native';
 import { useState } from 'react';
 import React from 'react';
 import booksListData from '../data/booksListData';
@@ -9,8 +9,7 @@ export const LibraryContext = React.createContext();
 
 const LibraryProvider = ({ children }) => {
 
-
-    const [aa, setaa] = useState(true);
+    const [categorySwitch, setCategorySwitch] = useState(true);
 
     const bookWidth = (widthOfScreen - 55) / 3;
 
@@ -53,8 +52,8 @@ const LibraryProvider = ({ children }) => {
     const contextData = {
         DATA,
         dataLetters,
-        aa,
-        setaa,
+        categorySwitch,
+        setCategorySwitch,
         bookWidth
     }
 
@@ -66,5 +65,3 @@ const LibraryProvider = ({ children }) => {
 }
 
 export default LibraryProvider;
-
-const styles = StyleSheet.create({})

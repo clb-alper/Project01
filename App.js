@@ -17,6 +17,7 @@ import ReadingPage from './pages/ReadingPage';
 import ModalProvider from './assets/contexts/ModalContext';
 import DropdownProvider from './assets/contexts/DropdownContext';
 import LibraryProvider from './assets/contexts/LibraryContext';
+import RewardsProvider from './assets/contexts/RewardsContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,96 +42,97 @@ const TransitionAnim = {
 
 function HomeScreen() {
   return (
+    <RewardsProvider>
+      <LibraryProvider>
+        <DropdownProvider>
+          <ModalProvider>
+            <Tab.Navigator
+              initialRouteName='Home'
+              screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: '#E9AF50',
+                tabBarStyle: [styles.tabNavStyle, styles.shadowProp],
+                tabBarLabelStyle: styles.tabNavLabelStyle,
+                tabBarShowLabel: false,
+                overflow: 'hidden',
+              }}>
 
-    <LibraryProvider>
-      <DropdownProvider>
-        <ModalProvider>
-          <Tab.Navigator
-            initialRouteName='Home'
-            screenOptions={{
-              headerShown: false,
-              tabBarActiveTintColor: '#E9AF50',
-              tabBarStyle: [styles.tabNavStyle, styles.shadowProp],
-              tabBarLabelStyle: styles.tabNavLabelStyle,
-              tabBarShowLabel: false,
-              overflow: 'hidden',
-            }}>
+              <Tab.Screen name="Library" component={Library}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <Image source={require('./assets/images/agenda.png')}
+                      resizeMode="contain"
+                      style={{
+                        width: 40,
+                        height: 40,
+                      }}
+                    />
+                  )
+                }} />
 
-            <Tab.Screen name="Library" component={Library}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Image source={require('./assets/images/agenda.png')}
-                    resizeMode="contain"
-                    style={{
-                      width: 40,
-                      height: 40,
-                    }}
-                  />
-                )
-              }} />
+              <Tab.Screen name="Dashboard" component={Dashboard}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <Image source={require('./assets/images/user.png')}
+                      resizeMode="contain"
+                      style={{
+                        width: 40,
+                        height: 40,
+                      }}
+                    />
+                  )
+                }} />
 
-            <Tab.Screen name="Dashboard" component={Dashboard}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Image source={require('./assets/images/user.png')}
-                    resizeMode="contain"
-                    style={{
-                      width: 40,
-                      height: 40,
-                    }}
-                  />
-                )
-              }} />
+              <Tab.Screen name="Home" component={MainScreen}
+                options={{
+                  tabBarIcon: ({ focused }) => (
 
-            <Tab.Screen name="Home" component={MainScreen}
-              options={{
-                tabBarIcon: ({ focused }) => (
+                    <Image source={require('./assets/images/homeButtonBG.png')}
+                      resizeMode="contain"
+                      style={{
+                        width: 80,
+                        height: 80,
+                        top: '-15%',
+                      }}
+                    />
 
-                  <Image source={require('./assets/images/homeButtonBG.png')}
-                    resizeMode="contain"
-                    style={{
-                      width: 80,
-                      height: 80,
-                      top: '-15%',
-                    }}
-                  />
+                  ),
+                  HomeScreenTabBarButton: (props) => (
+                    <HomeScreenTabBarButton {...props} />
+                  )
+                }} />
 
-                ),
-                HomeScreenTabBarButton: (props) => (
-                  <HomeScreenTabBarButton {...props} />
-                )
-              }} />
+              <Tab.Screen name="RewardsScreen" component={RewardsScreen}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <Image source={require('./assets/images/badge.png')}
+                      resizeMode="contain"
+                      style={{
+                        width: 40,
+                        height: 40,
+                      }}
+                    />
+                  )
+                }} />
 
-            <Tab.Screen name="RewardsScreen" component={RewardsScreen}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Image source={require('./assets/images/badge.png')}
-                    resizeMode="contain"
-                    style={{
-                      width: 40,
-                      height: 40,
-                    }}
-                  />
-                )
-              }} />
+              <Tab.Screen name="Profile" component={MainScreen}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <Image source={require('./assets/images/setting.png')}
+                      resizeMode="contain"
+                      style={{
+                        width: 40,
+                        height: 40,
+                      }}
+                    />
+                  ),
 
-            <Tab.Screen name="Profile" component={MainScreen}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Image source={require('./assets/images/setting.png')}
-                    resizeMode="contain"
-                    style={{
-                      width: 40,
-                      height: 40,
-                    }}
-                  />
-                ),
-
-              }} />
-          </Tab.Navigator>
-        </ModalProvider>
-      </DropdownProvider>
-    </LibraryProvider>
+                }} />
+            </Tab.Navigator>
+          </ModalProvider>
+        </DropdownProvider>
+      </LibraryProvider>
+    </RewardsProvider>
   );
 }
 
@@ -138,25 +140,27 @@ export default function App() {
   const Stack = createStackNavigator();
 
   return (
-    <LibraryProvider>
-      <DropdownProvider>
-        <ModalProvider>
-          <NavigationContainer>
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}>
-              <Stack.Screen name="Login" component={Login} options={TransitionAnim} />
-              <Stack.Screen name="ProfileSelect" component={ProfileSelect} options={TransitionAnim} />
-              <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
-              <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
-              <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
-              <Stack.Screen name="ReadingPage" component={ReadingPage} options={TransitionAnim} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </ModalProvider>
-      </DropdownProvider>
-    </LibraryProvider >
+    <RewardsProvider>
+      <LibraryProvider>
+        <DropdownProvider>
+          <ModalProvider>
+            <NavigationContainer>
+              <Stack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                }}>
+                <Stack.Screen name="Login" component={Login} options={TransitionAnim} />
+                <Stack.Screen name="ProfileSelect" component={ProfileSelect} options={TransitionAnim} />
+                <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
+                <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
+                <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
+                <Stack.Screen name="ReadingPage" component={ReadingPage} options={TransitionAnim} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ModalProvider>
+        </DropdownProvider>
+      </LibraryProvider >
+    </RewardsProvider>
   );
 }
 

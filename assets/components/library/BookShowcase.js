@@ -6,7 +6,7 @@ import { ModalContext } from '../../contexts/ModalContext';
 
 const BookShowcase = () => {
 
-    const { DATA, aa, bookWidth } = useContext(LibraryContext);
+    const { DATA, categorySwitch, bookWidth } = useContext(LibraryContext);
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
 
     const shadowOpt = {
@@ -26,7 +26,7 @@ const BookShowcase = () => {
                 DATA.map((book, index) => {
                     return (
                         <View key={index}>
-                            <Text style={styles.alphabetLettersStyle2}>{aa ? book.condition : book.condition2}</Text>
+                            <Text style={styles.alphabetLettersStyle2}>{categorySwitch ? book.condition : book.condition2}</Text>
 
                             <View style={styles.bookContainer} key={index}>
                                 {

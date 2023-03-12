@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { useState } from 'react';
 import React from 'react';
 
@@ -6,14 +5,20 @@ export const DropdownContext = React.createContext();
 
 const DropdownProvider = ({ children }) => {
 
-    const [closeDropdown, setCloseDropdown] = useState(false);
-
+    const [closeLibraryDropdown, setCloseLibraryDropdown] = useState(false);
     const libraryCategories = ["Alfabe", "Kategoriler", "Yaş", "Tema"];
 
+    const [closeRewardsDropdown, setCloseRewardsDropdown] = useState(false);
+    const rewardsCategories = ["Sticker", "Seviye"];
+
     const contextData = {
+        closeLibraryDropdown,
+        setCloseLibraryDropdown,
         libraryCategories,
-        closeDropdown,
-        setCloseDropdown,
+
+        closeRewardsDropdown,
+        setCloseRewardsDropdown,
+        rewardsCategories
     }
 
     return (
@@ -24,5 +29,3 @@ const DropdownProvider = ({ children }) => {
 }
 
 export default DropdownProvider;
-
-const styles = StyleSheet.create({})

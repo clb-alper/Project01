@@ -1,15 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import colors from '../../colors/colors';
 import { BoxShadow } from 'react-native-shadow';
 import SelectDropdown from 'react-native-select-dropdown';
 import { DropdownContext } from '../../contexts/DropdownContext';
+import { LibraryContext } from '../../contexts/LibraryContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
 
-    const { libraryCategories, closeDropdown, setCloseDropdown } = useContext(DropdownContext);
+    const { libraryCategories, closeLibraryDropdown, setCloseLibraryDropdown } = useContext(DropdownContext);
+    const { setCategorySwitch } = useContext(LibraryContext);
 
     const shadowOpt2 = {
         width: widthOfScreen,
@@ -35,7 +37,7 @@ const Header = () => {
 
                     <SelectDropdown
 
-                        buttonStyle={closeDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
+                        buttonStyle={closeLibraryDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
                         buttonTextStyle={styles.DropdownTextStyle}
                         dropdownStyle={styles.DropdownContainerStyle}
                         rowStyle={styles.DropdownRowStyle}
@@ -47,23 +49,23 @@ const Header = () => {
                         defaultButtonText={libraryCategories[0]}
 
                         onFocus={() => {
-                            setCloseDropdown(true)
+                            setCloseLibraryDropdown(true)
                         }}
 
                         onBlur={() => {
-                            setCloseDropdown(false)
+                            setCloseLibraryDropdown(false)
                         }}
 
                         onSelect={(selectedItem, index) => {
-                            setCloseDropdown(false)
+                            setCloseLibraryDropdown(false)
                             console.log(libraryCategories[index])
                             console.log(selectedItem)
 
                             if (selectedItem == 'Tema') {
-                                setaa(false)
+                                setCategorySwitch(false)
 
                             } else if (selectedItem == 'Alfabe') {
-                                setaa(true)
+                                setCategorySwitch(true)
                             }
                         }}
 

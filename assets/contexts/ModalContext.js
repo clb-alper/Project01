@@ -1,21 +1,28 @@
-import { StyleSheet } from 'react-native';
 import { useState } from 'react';
 import React from 'react';
 import booksListData from '../data/booksListData';
+import stickerData from '../data/stickerData';
 
 export const ModalContext = React.createContext();
 
 const ModalProvider = ({ children }) => {
 
+    const [modalEntry, setModalEntry] = useState(booksListData);
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [modalEntry, setModalEntry] = useState(booksListData);
+    const [stickerModalEntry, setStickerModalEntry] = useState(stickerData);
+    const [stickerModalVisible, setStickerModalVisible] = useState(false);
 
     const contextData = {
         modalVisible,
         setModalVisible,
         modalEntry,
         setModalEntry,
+
+        stickerModalVisible,
+        setStickerModalVisible,
+        stickerModalEntry,
+        setStickerModalEntry
     }
 
     return (
@@ -26,5 +33,3 @@ const ModalProvider = ({ children }) => {
 }
 
 export default ModalProvider;
-
-const styles = StyleSheet.create({})
