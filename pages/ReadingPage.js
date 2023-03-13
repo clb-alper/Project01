@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image, ImageBackground, Dimensions, ListViewBase, Pressable, Modal, SectionList } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -8,9 +8,13 @@ import colors from '../assets/colors/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BoxShadow } from 'react-native-shadow';
 import * as Speech from 'expo-speech';
+import { ModalContext } from '../assets/contexts/ModalContext';
+import { useNavigation } from '@react-navigation/native';
 
 
-const ReadingPage = ({ navigation }) => {
+const ReadingPage = () => {
+
+    const {setModalVisible, modalVisible, modalEntry} = useContext(ModalContext);
 
     const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
     const pageText2 = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar."
@@ -20,6 +24,7 @@ const ReadingPage = ({ navigation }) => {
         Speech.speak(pageText2, { language: 'tr', pitch: 1.2 });
     };
 
+    const navigation = useNavigation();
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -60,13 +65,13 @@ const ReadingPage = ({ navigation }) => {
                     overScrollMode={'never'}>
                     <View style={styles.center}>
                         <View style={styles.header}>
-                            <Pressable
-                                onPress={() => { navigation.goBack() }}>
+                            <TouchableOpacity
+                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible);  }}>
                                 <Image
                                     source={require('../assets/images/goBackArrow.png')}
                                     style={styles.goBackIcon}>
                                 </Image>
-                            </Pressable>
+                            </TouchableOpacity>
                             <Text style={[styles.headerText, {}]}>Macera Adası</Text>
 
                             <View style={styles.headerIconContainerStyle}>

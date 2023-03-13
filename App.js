@@ -29,64 +29,56 @@ const TransitionAnim = {
 
 function HomeScreen() {
   return (
-    <RewardsProvider>
-      <LibraryProvider>
-        <DropdownProvider>
-          <ModalProvider>
-            <Tab.Navigator
-              initialRouteName='Home'
-              screenOptions={{
-                headerShown: false,
-                tabBarActiveTintColor: '#E9AF50',
-                tabBarStyle: [styles.tabNavStyle, styles.shadowProp],
-                tabBarLabelStyle: styles.tabNavLabelStyle,
-                tabBarShowLabel: false,
-                overflow: 'hidden',
-              }}>
+    <Tab.Navigator
+      initialRouteName='Home'
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#E9AF50',
+        tabBarStyle: [styles.tabNavStyle, styles.shadowProp],
+        tabBarLabelStyle: styles.tabNavLabelStyle,
+        tabBarShowLabel: false,
+        overflow: 'hidden',
+      }}>
 
-              <Tab.Screen name="Library" component={Library}
-                options={{
-                  tabBarStyle: styles.libraryTabNavStyle,
-                  tabBarIcon: ({ focused }) => (
-                    <IonIcons name={focused ? "ios-book" : "ios-book-outline"} size={28} color="#000" />
-                  )
-                }} />
+      <Tab.Screen name="Library" component={Library}
+        options={{
+          tabBarStyle: styles.libraryTabNavStyle,
+          tabBarIcon: ({ focused }) => (
+            <IonIcons name={focused ? "ios-book" : "ios-book-outline"} size={28} color="#000" />
+          )
+        }} />
 
-              <Tab.Screen name="Dashboard" component={Dashboard}
-                options={{
-                  tabBarStyle: styles.dashboardTabNavStyle,
-                  tabBarIcon: ({ focused }) => (
-                    <FAIcons name={focused ? "user" : "user-o"} size={28} color="#000" />
-                  )
-                }} />
+      <Tab.Screen name="Dashboard" component={Dashboard}
+        options={{
+          tabBarStyle: styles.dashboardTabNavStyle,
+          tabBarIcon: ({ focused }) => (
+            <FAIcons name={focused ? "user" : "user-o"} size={28} color="#000" />
+          )
+        }} />
 
-              <Tab.Screen name="Home" component={MainScreen}
-                options={{
-                  tabBarIcon: ({ focused }) => (
-                    <IonIcons name={focused ? "home" : "home-outline"} size={29} color="#000" />
-                  ),
-                }} />
+      <Tab.Screen name="Home" component={MainScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <IonIcons name={focused ? "home" : "home-outline"} size={29} color="#000" />
+          ),
+        }} />
 
-              <Tab.Screen name="RewardsScreen" component={RewardsScreen}
-                options={{
-                  tabBarStyle: styles.rewardsTabNavStyle,
-                  tabBarIcon: ({ focused }) => (
-                    <AntIcons name={focused ? "star" : "staro"} size={30} color="#000" />
-                  )
-                }} />
+      <Tab.Screen name="RewardsScreen" component={RewardsScreen}
+        options={{
+          tabBarStyle: styles.rewardsTabNavStyle,
+          tabBarIcon: ({ focused }) => (
+            <AntIcons name={focused ? "star" : "staro"} size={30} color="#000" />
+          )
+        }} />
 
-              <Tab.Screen name="Profile" component={MainScreen}
-                options={{
-                  tabBarIcon: ({ focused }) => (
-                    <IonIcons name={focused ? "settings" : "settings-outline"} size={30} color="#000" />
-                  ),
+      <Tab.Screen name="Profile" component={MainScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <IonIcons name={focused ? "settings" : "settings-outline"} size={30} color="#000" />
+          ),
 
-                }} />
-            </Tab.Navigator>
-          </ModalProvider>
-        </DropdownProvider>
-      </LibraryProvider>
-    </RewardsProvider>
+        }} />
+    </Tab.Navigator>
   );
 }
 

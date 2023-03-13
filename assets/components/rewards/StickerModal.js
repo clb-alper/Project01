@@ -13,12 +13,13 @@ const StickerModal = () => {
 
     return (
         <Modal
-            animationIn={'slideInUp'}
-            animationOut={'slideOutDown'}
+            animationIn={'flipInY'}
+            animationOut={'flipOutY'}
             transparent={true}
             hideModalContentWhileAnimating={true}
             isVisible={stickerModalVisible}
             useNativeDriver={true}
+            useNativeDriverForBackdrop={true}
             onRequestClose={() => {
                 setStickerModalVisible(!stickerModalVisible);
             }}

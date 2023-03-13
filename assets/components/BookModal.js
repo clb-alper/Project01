@@ -11,7 +11,7 @@ var heightOfScreen = Dimensions.get('window').height; //full widthF
 
 const BookModal = () => {
 
-    const { modalVisible, setModalVisible, modalEntry } = useContext(ModalContext);
+    const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
 
     const navigation = useNavigation();
 
@@ -23,6 +23,7 @@ const BookModal = () => {
             hideModalContentWhileAnimating={true}
             isVisible={modalVisible}
             useNativeDriver={true}
+            useNativeDriverForBackdrop={true}
             onRequestClose={() => {
                 setModalVisible(!modalVisible);
             }}
@@ -90,7 +91,7 @@ const BookModal = () => {
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => { navigation.navigate('ReadingPage'); setModalVisible(false) }}
+                    onPress={() => { navigation.navigate('ReadingPage'); setModalVisible(false); setModalEntry(modalEntry) }}
                     activeOpacity={0.8}>
                     <View style={styles.modalBookStartButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
 
