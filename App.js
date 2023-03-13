@@ -37,7 +37,7 @@ function HomeScreen() {
               initialRouteName='Home'
               screenOptions={{
                 headerShown: false,
-                //tabBarActiveTintColor: '#E9AF50',
+                tabBarActiveTintColor: '#E9AF50',
                 tabBarStyle: [styles.tabNavStyle, styles.shadowProp],
                 tabBarLabelStyle: styles.tabNavLabelStyle,
                 tabBarShowLabel: false,
@@ -46,6 +46,7 @@ function HomeScreen() {
 
               <Tab.Screen name="Library" component={Library}
                 options={{
+                  tabBarStyle: styles.libraryTabNavStyle,
                   tabBarIcon: ({ focused }) => (
                     <IonIcons name={focused ? "ios-book" : "ios-book-outline"} size={28} color="#000" />
                   )
@@ -53,6 +54,7 @@ function HomeScreen() {
 
               <Tab.Screen name="Dashboard" component={Dashboard}
                 options={{
+                  tabBarStyle: styles.dashboardTabNavStyle,
                   tabBarIcon: ({ focused }) => (
                     <FAIcons name={focused ? "user" : "user-o"} size={28} color="#000" />
                   )
@@ -67,6 +69,7 @@ function HomeScreen() {
 
               <Tab.Screen name="RewardsScreen" component={RewardsScreen}
                 options={{
+                  tabBarStyle: styles.rewardsTabNavStyle,
                   tabBarIcon: ({ focused }) => (
                     <AntIcons name={focused ? "star" : "staro"} size={30} color="#000" />
                   )
@@ -150,6 +153,21 @@ const styles = StyleSheet.create({
   homeScreenTabBarStyle: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  dashboardTabNavStyle: {
+    height: 55,
+    backgroundColor: colors.greenHeaderContainer,
+  },
+
+  libraryTabNavStyle: {
+    height: 55,
+    backgroundColor: colors.blueContainer,
+  },
+
+  rewardsTabNavStyle: {
+    height: 55,
+    backgroundColor: colors.purpleHeaderContainer,
   },
 
 });

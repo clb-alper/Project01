@@ -16,7 +16,7 @@ const MainContainer = () => {
 
     return (
         <>
-            <View style={styles.pointsContainer222}>
+            <View style={styles.pointsHeader}>
 
                 <SelectDropdown
 
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
 
     },
 
-    pointsContainer222: {
+    pointsHeader: {
         flex: 1,
         alignItems: 'flex-end',
         height: 28,
