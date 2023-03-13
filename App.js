@@ -8,7 +8,6 @@ import MainScreen from './pages/MainScreen';
 import Register from './pages/Register';
 import ForgotPass from './pages/ForgotPass';
 import colors from './assets/colors/colors';
-import { View } from 'react-native-web';
 import Library from './pages/Library';
 import Dashboard from './pages/Dashboard';
 import RewardsScreen from './pages/RewardsScreen';
@@ -18,23 +17,11 @@ import ModalProvider from './assets/contexts/ModalContext';
 import DropdownProvider from './assets/contexts/DropdownContext';
 import LibraryProvider from './assets/contexts/LibraryContext';
 import RewardsProvider from './assets/contexts/RewardsContext';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import FAIcons from 'react-native-vector-icons/FontAwesome';
+import AntIcons from 'react-native-vector-icons/AntDesign';
 
 const Tab = createBottomTabNavigator();
-
-var touchPropsHomeButton = {
-  activeOpacity: 1,
-  underlayColor: '#ffe0e7',
-  onHideUnderlay: () => setIsPress(false),
-  onShowUnderlay: () => setIsPress(true),
-  //onPress: () => console.log("Giriş Yapıldı")
-  onPress: () => navigation.navigate('MainScreen')
-
-};
-
-const HomeScreenTabBarButton = ({ onPress }) => (
-  <TouchableHighlight {...touchPropsHomeButton} style={styles.homeScreenTabBarStyle} onPress={onPress}>
-  </TouchableHighlight>
-);
 
 const TransitionAnim = {
   ...TransitionPresets.ScaleFromCenterAndroid
@@ -50,7 +37,7 @@ function HomeScreen() {
               initialRouteName='Home'
               screenOptions={{
                 headerShown: false,
-                tabBarActiveTintColor: '#E9AF50',
+                //tabBarActiveTintColor: '#E9AF50',
                 tabBarStyle: [styles.tabNavStyle, styles.shadowProp],
                 tabBarLabelStyle: styles.tabNavLabelStyle,
                 tabBarShowLabel: false,
@@ -60,71 +47,35 @@ function HomeScreen() {
               <Tab.Screen name="Library" component={Library}
                 options={{
                   tabBarIcon: ({ focused }) => (
-                    <Image source={require('./assets/images/agenda.png')}
-                      resizeMode="contain"
-                      style={{
-                        width: 40,
-                        height: 40,
-                      }}
-                    />
+                    <IonIcons name={focused ? "ios-book" : "ios-book-outline"} size={28} color="#000" />
                   )
                 }} />
 
               <Tab.Screen name="Dashboard" component={Dashboard}
                 options={{
                   tabBarIcon: ({ focused }) => (
-                    <Image source={require('./assets/images/user.png')}
-                      resizeMode="contain"
-                      style={{
-                        width: 40,
-                        height: 40,
-                      }}
-                    />
+                    <FAIcons name={focused ? "user" : "user-o"} size={28} color="#000" />
                   )
                 }} />
 
               <Tab.Screen name="Home" component={MainScreen}
                 options={{
                   tabBarIcon: ({ focused }) => (
-
-                    <Image source={require('./assets/images/homeButtonBG.png')}
-                      resizeMode="contain"
-                      style={{
-                        width: 80,
-                        height: 80,
-                        top: '-15%',
-                      }}
-                    />
-
+                    <IonIcons name={focused ? "home" : "home-outline"} size={29} color="#000" />
                   ),
-                  HomeScreenTabBarButton: (props) => (
-                    <HomeScreenTabBarButton {...props} />
-                  )
                 }} />
 
               <Tab.Screen name="RewardsScreen" component={RewardsScreen}
                 options={{
                   tabBarIcon: ({ focused }) => (
-                    <Image source={require('./assets/images/badge.png')}
-                      resizeMode="contain"
-                      style={{
-                        width: 40,
-                        height: 40,
-                      }}
-                    />
+                    <AntIcons name={focused ? "star" : "staro"} size={30} color="#000" />
                   )
                 }} />
 
               <Tab.Screen name="Profile" component={MainScreen}
                 options={{
                   tabBarIcon: ({ focused }) => (
-                    <Image source={require('./assets/images/setting.png')}
-                      resizeMode="contain"
-                      style={{
-                        width: 40,
-                        height: 40,
-                      }}
-                    />
+                    <IonIcons name={focused ? "settings" : "settings-outline"} size={30} color="#000" />
                   ),
 
                 }} />
@@ -173,7 +124,7 @@ const styles = StyleSheet.create({
   },
 
   tabNavStyle: {
-    height: 68,
+    height: 55,
     backgroundColor: colors.yellowTabBar,
   },
 
