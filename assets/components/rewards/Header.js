@@ -1,11 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useEffect } from 'react';
-import { useCallback, useState } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions, Modal } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
+import React from 'react';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import colors from '../../colors/colors';
-import { DropdownContext } from '../../contexts/DropdownContext';
-import { LibraryContext } from '../../contexts/LibraryContext';
 
 const Header = () => {
 
@@ -40,7 +35,7 @@ const Header = () => {
                 </View>
             </View>
 
-            
+
 
         </View >
     )

@@ -7,9 +7,6 @@ import { LibraryContext } from '../../contexts/LibraryContext';
 import { ModalContext } from '../../contexts/ModalContext';
 import { RewardsContext } from '../../contexts/RewardsContext';
 
-var widthOfScreen = Dimensions.get('window').width; //full width
-var heightOfScreen = Dimensions.get('window').height; //full width
-
 const MainContainer = () => {
 
     const { DATA } = useContext(RewardsContext);

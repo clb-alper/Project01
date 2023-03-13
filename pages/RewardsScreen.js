@@ -10,10 +10,11 @@ import Header from '../assets/components/rewards/Header';
 import { ModalContext } from '../assets/contexts/ModalContext';
 import StickerModal from '../assets/components/rewards/StickerModal';
 import MainContainer from '../assets/components/rewards/MainContainer';
+import FocusAwareStatusBar from '../assets/components/FocusAwareStatusBar';
 
 const RewardsScreen = () => {
 
-    const { stickerModalVisible } = useContext(ModalContext);
+    const { stickerModalVisible, setModalVisible, modalVisible } = useContext(ModalContext);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -34,7 +35,7 @@ const RewardsScreen = () => {
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
 
-            {stickerModalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="hidden" />}
+            {stickerModalVisible ? <FocusAwareStatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <FocusAwareStatusBar style="hidden" />}
 
             <SafeAreaView edges={['right', 'left']}>
 
