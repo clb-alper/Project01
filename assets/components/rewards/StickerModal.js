@@ -3,6 +3,8 @@ import React, { useContext } from 'react'
 import colors from '../../colors/colors'
 import { ModalContext } from '../../contexts/ModalContext';
 import Modal from "react-native-modal";
+import AntIcons from 'react-native-vector-icons/AntDesign';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -48,11 +50,7 @@ const StickerModal = () => {
                         {stickerModalEntry.price}
                     </Text>
 
-                    <Image
-                        source={require('../../images/iconStar.png')}
-                        style={styles.pointsIconStyle3}>
-                    </Image>
-
+                    <AntIcons name="star" size={33} color="#FFD600" style={styles.pointsIconStyle3} />
 
                 </View>
 
@@ -60,10 +58,7 @@ const StickerModal = () => {
                     onPress={() => setStickerModalVisible(!stickerModalVisible)}
                     activeOpacity={0.75}
                     style={styles.modalStickerCloseButton}>
-                    <Image
-                        source={require('../../images/closeIcon.png')}
-                        style={styles.modalStickerCloseButtonIcon}
-                    />
+                        <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
                 </TouchableOpacity>
 
             </View>
@@ -99,10 +94,8 @@ const styles = StyleSheet.create({
     },
 
     modalStickerCloseButtonIcon: {
-        width: 40,
-        height: 40,
-        marginTop: 10,
-        marginLeft: 10
+        marginTop: 3,
+        marginLeft: 5.5
     },
 
     modalViewDarkenStyle: {
@@ -149,5 +142,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         height: 38,
         width: 38,
+        paddingTop: 2,
+        paddingLeft: 2
     },
 })

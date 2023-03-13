@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import colors from '../../colors/colors';
 import * as Progress from 'react-native-progress';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import AntIcons from 'react-native-vector-icons/AntDesign';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
@@ -29,10 +31,7 @@ const Header = () => {
                         1750
                     </Text>
 
-                    <Image
-                        source={require('../../images/iconStar.png')}
-                        style={styles.pointsIconStyle}>
-                    </Image>
+                    <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />
 
                 </View>
             </View>
@@ -40,16 +39,16 @@ const Header = () => {
             <View style={styles.dashboardRosettes}>
 
                 <View style={styles.silverBadgeStyle}>
-                    <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                 </View>
                 <View style={styles.goldBadgeStyle}>
-                    <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                 </View>
                 <View style={styles.emeraldBadgeStyle}>
-                    <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                 </View>
                 <View style={styles.diamondBadgeStyle}>
-                    <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                 </View>
 
             </View>
@@ -233,8 +232,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 50,
-        height: 50,
-        marginBottom: 5,
+        marginTop: 5,
+        marginLeft: 3,
     },
 })

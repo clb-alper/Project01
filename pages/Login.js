@@ -39,7 +39,7 @@ const Login = ({navigation}) => {
         
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
+            <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
             <View style={[styles.login_container, styles.shadowProp]}>
                 <View style={styles.loginHeaderView}>
                     <Text style={styles.loginHeader}>Giriş Yap</Text>

@@ -39,7 +39,7 @@ const Register = ({navigation}) => {
         
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            <Image source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage} />
+            <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
             <View style={[styles.register_container, styles.shadowProp]}>
                 <View style={styles.registerHeaderTextView}>
                     <Text style={styles.registerHeader}>Kayıt Ol</Text>

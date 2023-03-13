@@ -5,6 +5,8 @@ import { ModalContext } from '../contexts/ModalContext';
 import colors from '../colors/colors';
 import { useNavigation } from '@react-navigation/native';
 import Modal from "react-native-modal";
+import AntIcons from 'react-native-vector-icons/AntDesign';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full widthF
@@ -40,10 +42,8 @@ const BookModal = () => {
                     <TouchableOpacity
                         onPress={() => setModalVisible(!modalVisible)}
                         activeOpacity={0.75}>
-                        <Image
-                            source={require('../images/closeIcon.png')}
-                            style={styles.modalBookDetailHeaderClose}
-                        />
+                        <IonIcons name="ios-close" size={40} color="#000" style={styles.modalBookDetailHeaderClose} />
+
                     </TouchableOpacity>
                 </View>
 
@@ -75,10 +75,7 @@ const BookModal = () => {
                             {modalEntry.rewardTag}
                         </Text>
 
-                        <Image
-                            source={require('../images/iconStar.png')}
-                            style={styles.rewardTagPointsIconStyle}>
-                        </Image>
+                        <AntIcons name="star" size={20} color="#FFD600" style={styles.rewardTagPointsIconStyle} />
 
                     </View>
                 </View>
@@ -94,8 +91,7 @@ const BookModal = () => {
                     onPress={() => { navigation.navigate('ReadingPage'); setModalVisible(false); setModalEntry(modalEntry) }}
                     activeOpacity={0.8}>
                     <View style={styles.modalBookStartButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
-
-                        <Image source={require('../images/startIcon.png')} tintColor={modalEntry.itemBorder} style={styles.badgeIconStyle} />
+                        <IonIcons name="play" size={70} color={modalEntry.itemBorder} style={styles.badgeIconStyle} />
                     </View>
                 </TouchableOpacity>
 
@@ -151,8 +147,6 @@ const styles = StyleSheet.create({
 
     modalBookDetailHeaderClose: {
         resizeMode: 'contain',
-        height: 45,
-        width: 45,
         left: 25,
         top: -2,
     },
@@ -223,7 +217,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         height: 25,
         width: 25,
-        marginLeft: 1.5,
+        marginLeft: 2,
+        paddingTop: 2
     },
 
     tagTextStyle: {
@@ -257,7 +252,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 45,
-        height: 45,
+        marginTop: 4,
+        marginLeft: -2,
     },
 })

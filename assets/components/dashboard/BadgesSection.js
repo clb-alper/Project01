@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import colors from '../../colors/colors';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
@@ -14,47 +15,47 @@ const BadgesSection = () => {
             <View style={styles.rosettesMain}>
                 <View style={styles.statisticsMainFirstRow}>
                     <View style={styles.bronzeBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.silverBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.goldBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.emeraldBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
 
                 </View>
                 <View style={styles.statisticsMainFirstRow}>
                     <View style={styles.diamondBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.bronzeBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.silverBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.goldBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
 
                 </View>
 
                 <View style={styles.statisticsMainFirstRow}>
                     <View style={styles.bronzeBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.silverBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.goldBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
                     <View style={styles.emeraldBadgeStyle}>
-                        <Image source={require('../../images/iconBook.png')} style={styles.badgeIconStyle}></Image>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                     </View>
 
                 </View>
@@ -193,8 +194,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 50,
-        height: 50,
-        marginBottom: 5,
+        marginTop: 5,
+        marginLeft: 3,
     },
 })

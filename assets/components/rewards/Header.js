@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import colors from '../../colors/colors';
+import AntIcons from 'react-native-vector-icons/AntDesign';
 
 const Header = () => {
 
@@ -26,10 +27,7 @@ const Header = () => {
                             1750
                         </Text>
 
-                        <Image
-                            source={require('../../images/iconStar.png')}
-                            style={styles.pointsIconStyle}>
-                        </Image>
+                        <AntIcons name="star" size={30} color="#FFD600" style={styles.pointsIconStyle} />
 
                     </View>
                 </View>
@@ -105,6 +103,7 @@ const styles = StyleSheet.create({
         height: 35,
         width: 35,
         marginLeft: 5,
+        marginTop: 5
     },
 
 

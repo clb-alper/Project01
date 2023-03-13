@@ -6,6 +6,7 @@ import { DropdownContext } from '../../contexts/DropdownContext';
 import { LibraryContext } from '../../contexts/LibraryContext';
 import { ModalContext } from '../../contexts/ModalContext';
 import { RewardsContext } from '../../contexts/RewardsContext';
+import AntIcons from 'react-native-vector-icons/AntDesign';
 
 const MainContainer = () => {
 
@@ -102,11 +103,7 @@ const MainContainer = () => {
                                                                 {sticker.price}
                                                             </Text>
 
-                                                            <Image
-
-                                                                source={require('../../images/iconStar.png')}
-                                                                style={styles.pointsIconStyle2}>
-                                                            </Image>
+                                                            <AntIcons name="star" size={17} color="#FFD600" style={styles.pointsIconStyle2} />
 
                                                         </View>
                                                     </TouchableOpacity>
@@ -189,6 +186,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         height: 20,
         width: 20,
+        marginTop: 2
     },
 
     DropdownViewStyle: {

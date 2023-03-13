@@ -40,7 +40,7 @@ const ForgotPass = ({ navigation }) => {
             })
             setTimeout(() => {
                 navigation.navigate('Login')
-            }, 1500)    
+            }, 1500)
         }
     };
 
@@ -48,7 +48,7 @@ const ForgotPass = ({ navigation }) => {
         <AlertNotificationRoot>
             <View style={styles.container} onLayout={onLayoutRootView}>
                 <StatusBar style="auto" />
-                <Image source={require('../assets/images/loginbghdlong.png')} style={styles.backgroundImage} />
+                <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
                 <View style={[styles.forgotpass_container, styles.shadowProp]}>
                     <View style={styles.forgotPassHeaderView}>
                         <Text style={styles.forgotPassHeader}>Şifremi Unuttum</Text>

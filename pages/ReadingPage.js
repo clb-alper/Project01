@@ -10,11 +10,13 @@ import { BoxShadow } from 'react-native-shadow';
 import * as Speech from 'expo-speech';
 import { ModalContext } from '../assets/contexts/ModalContext';
 import { useNavigation } from '@react-navigation/native';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 
 const ReadingPage = () => {
 
-    const {setModalVisible, modalVisible, modalEntry} = useContext(ModalContext);
+    const { setModalVisible, modalVisible, modalEntry } = useContext(ModalContext);
 
     const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
     const pageText2 = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar."
@@ -66,11 +68,8 @@ const ReadingPage = () => {
                     <View style={styles.center}>
                         <View style={styles.header}>
                             <TouchableOpacity
-                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible);  }}>
-                                <Image
-                                    source={require('../assets/images/goBackArrow.png')}
-                                    style={styles.goBackIcon}>
-                                </Image>
+                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible); }}>
+                                <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
                             <Text style={[styles.headerText, {}]}>Macera Adası</Text>
 
@@ -95,8 +94,7 @@ const ReadingPage = () => {
                             onPress={speak}
                             activeOpacity={0.8}>
                             <View style={styles.voiceOverButton}>
-                                <Image source={require('../assets/images/soundIcon.png')}
-                                    style={styles.voiceOverButtonImg} />
+                                <IonIcons name="md-volume-high" size={55} color={colors.blueTagBorder} style={styles.voiceOverButtonImg} />
                             </View>
                         </TouchableOpacity>
 
@@ -157,10 +155,8 @@ const styles = StyleSheet.create({
 
     goBackIcon: {
         resizeMode: 'contain',
-        width: 35,
-        height: 35,
         marginTop: 10,
-        marginRight: 35,
+        marginRight: 45,
         justifyContent: 'center',
     },
 
@@ -200,9 +196,7 @@ const styles = StyleSheet.create({
     },
 
     voiceOverButtonImg: {
-        width: 50,
-        height: 50,
-        marginTop: 10,
+        marginTop: 6,
         marginLeft: -1
 
     },

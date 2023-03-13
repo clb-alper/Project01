@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useContext } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
@@ -14,7 +13,7 @@ import FocusAwareStatusBar from '../assets/components/FocusAwareStatusBar';
 
 const RewardsScreen = () => {
 
-    const { stickerModalVisible, setModalVisible, modalVisible } = useContext(ModalContext);
+    const { stickerModalVisible } = useContext(ModalContext);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),

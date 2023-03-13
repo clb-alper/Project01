@@ -55,7 +55,7 @@ const ProfileSelect = ({ navigation }) => {
         <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
             <StatusBar style="light" />
 
-            <ImageBackground source={require('../assets/images/loginbghd.jpg')} style={styles.backgroundImage}>
+            <ImageBackground source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage}>
                 <View style={styles.profileSelectChildContainer}>
                 </View>
             </ImageBackground>

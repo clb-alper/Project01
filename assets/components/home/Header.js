@@ -1,12 +1,14 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import colors from '../../colors/colors';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import AntIcons from 'react-native-vector-icons/AntDesign';
 
 const Header = () => {
     return (
         <View style={styles.headerView1}>
 
-            <Image source={require('../../images/iconBook.png')} style={styles.headerIconStyle}></Image>
+            <IonIcons name="ios-book-outline" size={30} color="#000" style={styles.headerIconStyle} />
 
             <Text
                 style={styles.headerTextStyle}
@@ -25,10 +27,7 @@ const Header = () => {
                         1750
                     </Text>
 
-                    <Image
-                        source={require('../../images/iconStar.png')}
-                        style={styles.pointsIconStyle}>
-                    </Image>
+                    <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />
 
                 </View>
             </View>
@@ -51,6 +50,7 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         height: 35,
         width: 35,
+        paddingTop: 4
     },
 
     headerTextStyle: {
@@ -90,6 +90,5 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         height: 25,
         width: 25,
-        marginLeft: 1.5,
     },
 })
