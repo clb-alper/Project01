@@ -20,12 +20,30 @@ import RewardsProvider from './assets/contexts/RewardsContext';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import FAIcons from 'react-native-vector-icons/FontAwesome';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import Settings from './pages/Settings';
 
 const Tab = createBottomTabNavigator();
 
 const TransitionAnim = {
   ...TransitionPresets.ScaleFromCenterAndroid
 };
+
+// const leftToRightAnimation = {
+//   cardStyleInterpolator: ({ current, layouts }) => {
+//     return {
+//       cardStyle: {
+//         transform: [
+//           {
+//             translateX: current.progress.interpolate({
+//               inputRange: [0, 1],
+//               outputRange: [layouts.screen.width, 0],
+//             }),
+//           },
+//         ],
+//       },
+//     };
+//   },
+// };
 
 function HomeScreen() {
   return (
@@ -71,12 +89,11 @@ function HomeScreen() {
           )
         }} />
 
-      <Tab.Screen name="Profile" component={MainScreen}
+      <Tab.Screen name="Settings" component={Settings}
         options={{
           tabBarIcon: ({ focused }) => (
             <IonIcons name={focused ? "settings" : "settings-outline"} size={30} color="#000" />
           ),
-
         }} />
     </Tab.Navigator>
   );

@@ -1,17 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useContext } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
-import { SafeAreaView } from 'react-native-safe-area-context';
+//import { SafeAreaView } from 'react-native-safe-area-context';
 import DefaultFlatlist from '../assets/components/home/DefaultFlatlist';
 import FeaturedFlatlist from '../assets/components/home/FeaturedFlatlist';
 import ContReadingFlatlist from '../assets/components/home/ContReadingFlatlist';
 import Header from '../assets/components/home/Header';
 import BookModal from '../assets/components/BookModal';
 import { ModalContext } from '../assets/contexts/ModalContext';
-
 
 const MainScreen = () => {
 
