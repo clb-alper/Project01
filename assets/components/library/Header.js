@@ -13,23 +13,23 @@ const Header = () => {
     const { libraryCategories, closeLibraryDropdown, setCloseLibraryDropdown } = useContext(DropdownContext);
     const { setCategorySwitch } = useContext(LibraryContext);
 
-    const shadowOpt2 = {
+    const shadowOpt = {
         width: widthOfScreen,
-        height: 117,
+        height: 125,
         color: "#000",
-        border: 12,
-        radius: 25,
+        border: 15,
+        radius: 28,
         opacity: 0.2,
         x: -1,
-        y: 2.5,
+        y: -7,
     }
 
     return (
-        <BoxShadow setting={shadowOpt2}>
+        <BoxShadow setting={shadowOpt}>
             <View style={styles.libContainer}>
                 <View style={styles.libContainerView}>
                     <Text
-                        style={styles.LibHeaderTxtStyle}
+                        style={styles.libHeaderTxtStyle}
                         adjustsFontSizeToFit={true}
                         numberOfLines={1}>
                         Kütüphane
@@ -37,11 +37,11 @@ const Header = () => {
 
                     <SelectDropdown
 
-                        buttonStyle={closeLibraryDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
-                        buttonTextStyle={styles.DropdownTextStyle}
-                        dropdownStyle={styles.DropdownContainerStyle}
-                        rowStyle={styles.DropdownRowStyle}
-                        rowTextStyle={styles.DropdownContainerTextStyle}
+                        buttonStyle={closeLibraryDropdown ? styles.dropdownStyle2 : styles.dropdownStyle}
+                        buttonTextStyle={styles.dropdownTextStyle}
+                        dropdownStyle={styles.dropdownContainerStyle}
+                        rowStyle={styles.dropdownRowStyle}
+                        rowTextStyle={styles.dropdownContainerTextStyle}
                         dropdownOverlayColor='transparent'
 
                         data={libraryCategories}
@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
 
     libContainer: {
         backgroundColor: colors.blueContainer,
-        width: '100%',
         height: 125,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
@@ -105,12 +104,12 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
 
-    LibHeaderTxtStyle: {
+    libHeaderTxtStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 49,
     },
 
-    DropdownStyle: {
+    dropdownStyle: {
         backgroundColor: colors.blueTabBar,
         borderRadius: 25,
         height: 40,
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
 
     },
 
-    DropdownStyle2: {
+    dropdownStyle2: {
         backgroundColor: colors.blueTabBar,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
 
     },
 
-    DropdownTextStyle: {
+    dropdownTextStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 25,
         alignItems: 'center',
@@ -145,7 +144,7 @@ const styles = StyleSheet.create({
 
     },
 
-    DropdownContainerStyle: {
+    dropdownContainerStyle: {
         borderBottomWidth: 2,
         borderLeftWidth: 2,
         borderRightWidth: 2,
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
 
     },
 
-    DropdownContainerTextStyle: {
+    dropdownContainerTextStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 19,
         backgroundColor: colors.blueTabBar,
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
 
     },
 
-    DropdownRowStyle: {
+    dropdownRowStyle: {
         width: 145,
         height: 40,
         marginLeft: -10,

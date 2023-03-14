@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         height: 28,
         width: '100%',
-        marginTop: 25,
+        marginTop: 10,
         marginLeft: '-7.5%',
     },
 })

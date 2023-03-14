@@ -1,41 +1,54 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import colors from '../../colors/colors';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import { BoxShadow } from 'react-native-shadow';
+
+var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
 
+    const shadowOpt = {
+        width: widthOfScreen,
+        height: 125,
+        color: "#000",
+        border: 15,
+        radius: 39,
+        opacity: 0.2,
+        x: -1,
+        y: -6,
+    }
+
     return (
-        < View style={[styles.login_container, styles.shadowProp]} >
+        <BoxShadow setting={shadowOpt} style={{textShadow: 'none'}}>
+            <View style={styles.login_container} >
 
-            <View style={styles.headerView1}>
+                <View style={styles.headerView1}>
 
-                <Text
-                    style={styles.headerTextStyle}
-                    adjustsFontSizeToFit={true}
-                    numberOfLines={1}>
-                    Ödüller
-                </Text>
+                    <Text
+                        style={styles.headerTextStyle}
+                        adjustsFontSizeToFit={true}
+                        numberOfLines={1}>
+                        Ödüller
+                    </Text>
 
-                <View style={styles.headerView2}>
-                    <View style={styles.pointsContainer}>
+                    <View style={styles.headerView2}>
+                        <View style={styles.pointsContainer}>
 
-                        <Text
-                            style={styles.pointsTextStyle}
-                            adjustsFontSizeToFit={true}
-                            numberOfLines={1}>
-                            1750
-                        </Text>
+                            <Text
+                                style={styles.pointsTextStyle}
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={1}>
+                                1750
+                            </Text>
 
-                        <AntIcons name="star" size={30} color="#FFD600" style={styles.pointsIconStyle} />
+                            <AntIcons name="star" size={30} color="#FFD600" style={styles.pointsIconStyle} />
 
+                        </View>
                     </View>
                 </View>
-            </View>
-
-
-
-        </View >
+            </View >
+        </BoxShadow>
     )
 }
 
@@ -105,6 +118,5 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginTop: 5
     },
-
 
 })

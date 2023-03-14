@@ -4,71 +4,85 @@ import colors from '../../colors/colors';
 import * as Progress from 'react-native-progress';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import { BoxShadow } from 'react-native-shadow';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
+
+    const shadowOpt = {
+        width: widthOfScreen,
+        height: 240,
+        color: "#000",
+        border: 15,
+        radius: 37,
+        opacity: 0.2,
+        x: -1,
+        y: -1.5,
+    }
+
     return (
-        <View style={[styles.dashboardHeader, styles.boxShadow]}>
-            <View style={styles.dashboardContainer}>
+        <BoxShadow setting={shadowOpt}>
+            <View style={styles.dashboardHeader}>
+                <View style={styles.dashboardContainer}>
 
-                <View style={styles.headerIconContainerStyle}>
-                    <Image source={require('../../images/icontest.png')} style={styles.headerIconStyle}></Image>
+                    <View style={styles.headerIconContainerStyle}>
+                        <Image source={require('../../images/icontest.png')} style={styles.headerIconStyle}></Image>
+                    </View>
+
+                    <View style={styles.headerUserInfo}>
+                        <Text style={styles.headerUser}>Merhaba Ömer</Text>
+                        <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
+                        <Progress.Bar style={styles.progressBar} progress={0.75} height={7.5} width={250} color={colors.greenDashboardBar} />
+                    </View>
+
+                    <View style={styles.pointsContainer}>
+
+                        <Text
+                            style={styles.pointsTextStyle}
+                            adjustsFontSizeToFit={true}
+                            numberOfLines={1}>
+                            1750
+                        </Text>
+
+                        <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />
+
+                    </View>
                 </View>
 
-                <View style={styles.headerUserInfo}>
-                    <Text style={styles.headerUser}>Merhaba Ömer</Text>
-                    <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
-                    <Progress.Bar style={styles.progressBar} progress={0.75} height={7.5} width={250} color={colors.greenDashboardBar} />
-                </View>
+                <View style={styles.dashboardRosettes}>
 
-                <View style={styles.pointsContainer}>
-
-                    <Text
-                        style={styles.pointsTextStyle}
-                        adjustsFontSizeToFit={true}
-                        numberOfLines={1}>
-                        1750
-                    </Text>
-
-                    <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />
+                    <View style={styles.silverBadgeStyle}>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                    </View>
+                    <View style={styles.goldBadgeStyle}>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                    </View>
+                    <View style={styles.emeraldBadgeStyle}>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                    </View>
+                    <View style={styles.diamondBadgeStyle}>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                    </View>
 
                 </View>
             </View>
-
-            <View style={styles.dashboardRosettes}>
-
-                <View style={styles.silverBadgeStyle}>
-                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                </View>
-                <View style={styles.goldBadgeStyle}>
-                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                </View>
-                <View style={styles.emeraldBadgeStyle}>
-                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                </View>
-                <View style={styles.diamondBadgeStyle}>
-                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                </View>
-
-            </View>
-        </View>
+        </BoxShadow>
     )
 }
 
 export default Header;
 
 const styles = StyleSheet.create({
+    
     dashboardHeader: {
-        width: widthOfScreen,
-        height: 240,
         paddingTop: '15%',
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
         paddingLeft: '5%',
         paddingRight: '5%',
-
-        backgroundColor: colors.greenHeaderContainer
+        backgroundColor: colors.greenHeaderContainer,
+        zIndex: 10
     },
     dashboardContainer: {
         flexDirection: 'row',
@@ -169,6 +183,7 @@ const styles = StyleSheet.create({
         padding: 5,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        paddingBottom: 20
 
     },
 

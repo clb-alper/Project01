@@ -44,7 +44,8 @@ const Dashboard = () => {
 
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                overScrollMode={'never'}>
+                overScrollMode={'never'}
+                style={{zIndex: -50}}>
 
                 <StatisticsSection />
 

@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, View, ScrollView, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -8,15 +7,11 @@ import colors from '../assets/colors/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../assets/components/library/Header';
 import AlphabetSlider from '../assets/components/library/AlphabetSlider';
-import BookModal from '../assets/components/BookModal';
 import BookShowcase from '../assets/components/library/BookShowcase';
-import { ModalContext } from '../assets/contexts/ModalContext';
 
 var heightOfScreen = Dimensions.get('window').height; //full width
 
 const Library = () => {
-
-    const { modalVisible } = useContext(ModalContext);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -38,8 +33,6 @@ const Library = () => {
 
         <View style={styles.libraryBG} onLayout={onLayoutRootView}>
 
-            {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="hidden" />}
-
             <SafeAreaView edges={['right', 'left', 'bottom']}>
 
                 <Header />
@@ -49,10 +42,8 @@ const Library = () => {
                 <ScrollView
                     overScrollMode={'never'}
                     showsVerticalScrollIndicator={false}
-                    style={[styles.FlatsScrollViewStyle, { width: '100%' }, { flexWrap: 'wrap' }]}
+                    style={styles.flatsScrollViewStyle}
                     horizontal={false} >
-
-                    <BookModal />
 
                     <BookShowcase />
 
@@ -73,9 +64,12 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blueLight,
     },
 
-    FlatsScrollViewStyle: {
+    flatsScrollViewStyle: {
+        width: '100%',
+        flexWrap: 'wrap',
         marginLeft: 50,
-        height: heightOfScreen * 0.79,
+        height: heightOfScreen * 0.81,
+        zIndex: -50
     },
 
 })

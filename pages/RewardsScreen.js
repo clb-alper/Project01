@@ -44,7 +44,8 @@ const RewardsScreen = () => {
 
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                overScrollMode={'never'}>
+                overScrollMode={'never'}
+                style={{zIndex: 0}}>
 
                 <StickerModal />
 
