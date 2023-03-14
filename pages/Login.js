@@ -1,13 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
+import { auth } from '../firebase';
+
 
 const Login = ({navigation}) => {
     var [isPress, setIsPress] = React.useState(false);
+
+
+    var [email, setEmail] = React.useState();
+    var [password, setPassword] = React.useState();
+    
+    const handleLogin  = () => {
+        auth
+        .signInWithEmailAndPassword(email,password)
+        .then(userCredetials => {
+            const user = userCredetials.user;
+            navigation.navigate('ProfileSelect');
+            console.log('Logged in with:' , user.email);
+            
+        })
+        .catch(error => alert(error.message))
+    }
+
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -50,6 +69,8 @@ const Login = ({navigation}) => {
                     placeholder="Email"
                     placeholderTextColor={'#B8B8B8'}
                     keyboardType="text"
+                    value={email}
+                    onChangeText={text => setEmail(text)}
                 />
 
                 <TextInput
@@ -58,11 +79,13 @@ const Login = ({navigation}) => {
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
                     keyboardType="text"
+                    value={password}
+                    onChangeText={text => setPassword(text)}
                 />                                         
 
-                <TouchableHighlight {...touchPropsLoginButton} style={styles.loginButton}>
+                <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
                     <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
                 <Pressable onPress={() => navigation.navigate('ForgotPass')} style={styles.forgotPassButton}>
                     <Text style={styles.forgotPassButtonText}>{"Şifremi Unuttum?"}</Text>

@@ -1,13 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, Pressable,TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
+import { auth } from '../firebase';
+
 
 const Register = ({navigation}) => {
     var [isPress, setIsPress] = React.useState(false);
+
+
+    var [email, setEmail] = React.useState();
+    var [password, setPassword] = React.useState();
+    
+    const handleSignUp  = () => {
+        auth
+        .createUserWithEmailAndPassword(email,password)
+        .then(userCredetials => {
+            const user = userCredetials.user;
+            console.log('Registered with:' , user.email);
+            
+        })
+        .catch(error => alert(error.message))
+    }
+
+
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -25,15 +44,7 @@ const Register = ({navigation}) => {
         return null;
     }
 
-    var touchPropsRegisterButton = {
-        activeOpacity: 1,
-        underlayColor: '#ffe0e7',
-        style: isPress ? styles.registerButtonPressed : styles.registerButton,
-        onHideUnderlay: () => setIsPress(false),
-        onShowUnderlay: () => setIsPress(true),
-        onPress: () => navigation.navigate('Login')
 
-    };
 
     return (
         
@@ -50,6 +61,8 @@ const Register = ({navigation}) => {
                     placeholder="Email"
                     placeholderTextColor={'#B8B8B8'}
                     keyboardType="text"
+                    value={email}
+                    onChangeText={text => setEmail(text)}
                 />
 
                 <TextInput
@@ -58,6 +71,8 @@ const Register = ({navigation}) => {
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
                     keyboardType="text"
+                    value={password}
+                    onChangeText={text => setPassword(text)}
                 />
 
                 <TextInput
@@ -68,9 +83,9 @@ const Register = ({navigation}) => {
                     keyboardType="text"
                 />
 
-                <TouchableHighlight {...touchPropsRegisterButton} style={styles.registerButton}>
+                <TouchableOpacity onPress={handleSignUp} style={styles.registerButton}>
                     <Text style={styles.registerButtonText}>{"Kayıt Ol"}</Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
 
                 <KeyboardAvoidingView style={{ }} behavior="padding">
                 <View style={styles.signUpTextView}>

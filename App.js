@@ -20,6 +20,7 @@ import RewardsProvider from './assets/contexts/RewardsContext';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import FAIcons from 'react-native-vector-icons/FontAwesome';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+//import firebase from './firebaseConfig';
 
 const Tab = createBottomTabNavigator();
 
@@ -82,7 +83,20 @@ function HomeScreen() {
   );
 }
 
+// firebase.database().ref('users/').set({
+//   username: 'example',
+//   email: 'example@example.com'
+// });
+
+
 export default function App() {
+
+
+
+
+
+
+
   const Stack = createStackNavigator();
 
   return (
