@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -8,24 +8,25 @@ import colors from '../assets/colors/colors';
 import { auth } from '../firebase';
 
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
     var [isPress, setIsPress] = React.useState(false);
 
 
     var [email, setEmail] = React.useState();
     var [password, setPassword] = React.useState();
-    
-    const handleLogin  = () => {
+
+    const handleLogin = () => {
         auth
-        .signInWithEmailAndPassword(email,password)
-        .then(userCredetials => {
-            const user = userCredetials.user;
-            navigation.navigate('ProfileSelect');
-            console.log('Logged in with:' , user.email);
-            
-        })
-        .catch(error => alert(error.message))
+            .signInWithEmailAndPassword(email, password)
+            .then(userCredetials => {
+                const user = userCredetials.user;
+                navigation.navigate('ProfileSelect');
+                console.log('Logged in with:', user.email);
+            })
+            .catch(error => alert(error.message))
     }
+
+
 
 
     const [fontsLoaded] = useFonts({
@@ -55,7 +56,7 @@ const Login = ({navigation}) => {
     };
 
     return (
-        
+
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
             <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
@@ -81,7 +82,7 @@ const Login = ({navigation}) => {
                     keyboardType="text"
                     value={password}
                     onChangeText={text => setPassword(text)}
-                />                                         
+                />
 
                 <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
                     <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
@@ -91,16 +92,16 @@ const Login = ({navigation}) => {
                     <Text style={styles.forgotPassButtonText}>{"Şifremi Unuttum?"}</Text>
                 </Pressable>
 
-                <KeyboardAvoidingView style={{ }} behavior="padding">
-                <View style={styles.signUpTextView}>
-                    <Text style={styles.signUpText1}>{"Hesabın yok mu? "}</Text>
-                    <Pressable onPress={() => navigation.navigate('Register')}>
-                        <Text style={styles.signUpText2}>{"Kayıt Ol"}</Text>
-                    </Pressable>                   
-                </View>
+                <KeyboardAvoidingView style={{}} behavior="padding">
+                    <View style={styles.signUpTextView}>
+                        <Text style={styles.signUpText1}>{"Hesabın yok mu? "}</Text>
+                        <Pressable onPress={() => navigation.navigate('Register')}>
+                            <Text style={styles.signUpText2}>{"Kayıt Ol"}</Text>
+                        </Pressable>
+                    </View>
                 </KeyboardAvoidingView>
             </View>
-        </View>      
+        </View>
     );
 }
 
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
-    backgroundImage: {      
+    backgroundImage: {
         resizeMode: 'contain',
         width: '110%',
         height: '100%',

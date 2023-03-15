@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
-import booksListData from '../../data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
+import { auth, firebase } from '../../../firebase'
 
 const ContReadingFlatlist = () => {
 
@@ -21,11 +21,49 @@ const ContReadingFlatlist = () => {
         y: 7,
     }
 
+
+    const [bookList, setBookList] = React.useState([]);
+    const todoRef = firebase.firestore().collection('storyBooks');
+
+    useEffect(() => {
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const bookList = []
+                    querySnapshot.forEach((doc) => {
+                        const { ageTag, bookProgress, contentTag, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
+                        bookList.push({
+                            id: doc.id,
+                            ageTag,
+                            bookProgress,
+                            contentTag,
+                            image,
+                            itemBorder,
+                            itemColor,
+                            itemColorBG,
+                            itemDesc,
+                            itemDescColor,
+                            rewardTag,
+                            themeTag,
+                            title,
+                        })
+                    })
+                    setBookList(bookList)
+                    console.log(bookList)
+                }
+            )
+    }, [])
+
+
+
+
+
+
     return (
         <View>
             <FlatList
                 overScrollMode={'never'}
-                data={booksListData}
+                data={bookList}
                 renderItem={({ item, index }) => (
                     <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
                         <TouchableOpacity
@@ -35,7 +73,7 @@ const ContReadingFlatlist = () => {
 
                             <BoxShadow setting={shadowOpt}>
                                 <ImageBackground
-                                    source={item.image}
+                                    source={{uri : item.image}}
                                     imageStyle={styles.continueBookImageStyle}>
                                 </ImageBackground>
                             </BoxShadow>
