@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useContext } from 'react';
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
-//import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import DefaultFlatlist from '../assets/components/home/DefaultFlatlist';
 import FeaturedFlatlist from '../assets/components/home/FeaturedFlatlist';
 import ContReadingFlatlist from '../assets/components/home/ContReadingFlatlist';
@@ -38,7 +38,7 @@ const MainScreen = () => {
 
       <BookModal />
 
-      {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="hidden" />}
+      {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="auto" />}
 
       <SafeAreaView edges={['right', 'left', 'top']}>
 

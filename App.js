@@ -20,7 +20,8 @@ import RewardsProvider from './assets/contexts/RewardsContext';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import FAIcons from 'react-native-vector-icons/FontAwesome';
 import AntIcons from 'react-native-vector-icons/AntDesign';
-import Settings from './pages/Settings';
+import Settings from './pages/Settings/Settings';
+import NotificationSettings from './pages/Settings/NotificationSettings';
 
 const Tab = createBottomTabNavigator();
 
@@ -28,22 +29,36 @@ const TransitionAnim = {
   ...TransitionPresets.ScaleFromCenterAndroid
 };
 
-// const leftToRightAnimation = {
-//   cardStyleInterpolator: ({ current, layouts }) => {
-//     return {
-//       cardStyle: {
-//         transform: [
-//           {
-//             translateX: current.progress.interpolate({
-//               inputRange: [0, 1],
-//               outputRange: [layouts.screen.width, 0],
-//             }),
-//           },
-//         ],
-//       },
-//     };
-//   },
-// };
+const leftToRightAnimation = {
+  cardStyleInterpolator: ({ current, layouts }) => {
+    return {
+      cardStyle: {
+        transform: [
+          {
+            translateX: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [layouts.screen.width, 0],
+            }),
+          },
+        ],
+      },
+    };
+  },
+};
+
+const SettingsStack = createStackNavigator();
+
+function SettingsStackScreen() {
+  return (
+    <SettingsStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <SettingsStack.Screen name="GeneralSettings" component={Settings} />
+      <SettingsStack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation}/>
+    </SettingsStack.Navigator>
+  );
+}
 
 function HomeScreen() {
   return (
@@ -89,7 +104,7 @@ function HomeScreen() {
           )
         }} />
 
-      <Tab.Screen name="Settings" component={Settings}
+      <Tab.Screen name="Settings" component={SettingsStackScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <IonIcons name={focused ? "settings" : "settings-outline"} size={30} color="#000" />
