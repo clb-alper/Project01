@@ -16,7 +16,7 @@ const FontSizeSettings = () => {
 
     const { modalVisible } = useContext(ModalContext);
 
-    const [fontSizeNum, setFontSizeNum] = useState(14);
+    const [fontSizeNum, setFontSizeNum] = useState(20);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -45,45 +45,58 @@ const FontSizeSettings = () => {
                     showsVerticalScrollIndicator={false}
                     overScrollMode={'never'}
                 >
-                    <View style={styles.notifSettingHeader}>
+                    <View style={styles.fontSizeSettingHeader}>
                         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
                             <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                         </TouchableOpacity>
-                        <Text style={styles.settingsHeader}>Yazı Boyutu</Text>
+                        <Text style={styles.fontSizeSettingsHeader}>Yazı Boyutu</Text>
                     </View>
 
-                    <Text style={styles.generalSettingsHeader}>Yazı Görünümü</Text>
-                    <View style={styles.generalSettingsContainer}>
+                    <Text style={styles.textViewHeader}>Yazı Görünümü</Text>
 
-                        <View
-                            style={[styles.rowContainer, { marginTop: '3%' }]}>
-                            <Text style={[styles.settingsText, {fontSize: fontSizeNum}]}>Bildirimler</Text>
+                    <View style={styles.textViewContainer}>
 
-                        </View>
+                        <ScrollView
+                            overScrollMode={'never'}
+                        >
+                            <View
+                                style={[styles.rowContainer, { marginTop: '3%' }]}>
+                                <Text style={[styles.textViewText, { fontSize: fontSizeNum }]}>
+                                    Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi.
+                                </Text>
+
+                            </View>
+                        </ScrollView>
 
                     </View>
 
-                    <Text style={styles.generalSettingsHeader}>Boyut Ayarı</Text>
-                    <View style={styles.generalSettingsContainer}>
+                    <Text style={styles.textViewHeader}>Boyut Ayarı</Text>
+
+                    <View style={styles.textFontSizeContainer}>
 
                         <View style={styles.numberContainer}>
-                            <Text style={styles.sliderNumText}>10</Text>
-                            <Text style={styles.sliderNumText}>18</Text>
-                            <Text style={styles.sliderNumText}>26</Text>
+                            <Text style={styles.sliderNumText}>16</Text>
+                            <Text style={styles.sliderNumText}>20</Text>
+                            <Text style={styles.sliderNumText}>24</Text>
+
                         </View>
-                        <Slider
-                            style={{ width: 250, height: 40 }}
-                            minimumValue={10}
-                            maximumValue={26}
-                            step={1}
-                            value={fontSizeNum}
-                            onValueChange={(event) => setFontSizeNum(event)}
-                            minimumTrackTintColor={colors.blueBorder}
-                            maximumTrackTintColor="#000000"
-                        />
 
-                        <Text>{fontSizeNum}</Text>
+                        <View style={styles.sliderContainer}>
+                            <Slider
+                                style={[styles.sliderStyle, { width: 292, height: 30 }]}
+                                minimumValue={16}
+                                maximumValue={24}
+                                step={1}
+                                value={fontSizeNum}
+                                onValueChange={(e) => setFontSizeNum(e)}
+                                minimumTrackTintColor={colors.blueRegular}
+                                maximumTrackTintColor="#000000"
+                                thumbTintColor={colors.blueRegular}
+                            />
 
+                            <Text style={styles.sliderSideText}>{fontSizeNum}</Text>
+
+                        </View>
                     </View>
 
                 </ScrollView>
@@ -101,21 +114,21 @@ const styles = StyleSheet.create({
         backgroundColor: colors.yellowLight
     },
 
-    settingsHeader: {
+    fontSizeSettingsHeader: {
         fontFamily: 'Comic-Regular',
         fontSize: 50,
         marginLeft: '5%',
         marginTop: '3%'
     },
 
-    generalSettingsHeader: {
+    textViewHeader: {
         fontFamily: 'Comic-Regular',
         fontSize: 35,
         marginLeft: '7%',
         marginTop: '10%'
     },
 
-    generalSettingsContainer: {
+    textViewContainer: {
         backgroundColor: '#FFF1D9',
         marginTop: '3%',
         marginLeft: '7.5%',
@@ -123,7 +136,19 @@ const styles = StyleSheet.create({
         paddingLeft: '5%',
         borderRadius: 10,
         borderWidth: 2.5,
-        borderColor: '#ffe1ad'
+        borderColor: '#ffe1ad',
+        height: 280
+    },
+
+    textFontSizeContainer: {
+        backgroundColor: '#FFF1D9',
+        marginTop: '3%',
+        marginLeft: '7.5%',
+        marginRight: '7.5%',
+        paddingLeft: '5%',
+        borderRadius: 10,
+        borderWidth: 2.5,
+        borderColor: '#ffe1ad',
     },
 
     rowContainer: {
@@ -133,13 +158,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
 
-    settingsText: {
+    textViewText: {
         fontFamily: 'Comic-Regular',
-        fontSize: 22,
-        marginLeft: '1%'
+        marginRight: '7%',
+        marginBottom: '3%',
+        textAlign: 'justify'
     },
 
-    notifSettingHeader: {
+    fontSizeSettingHeader: {
         flexDirection: 'row',
         alignItems: 'center'
     },
@@ -153,7 +179,16 @@ const styles = StyleSheet.create({
     },
 
     numberContainer: {
-        width: '93%',
+        marginTop: '3%',
+        width: 280,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+
+    sliderContainer: {
+        marginBottom: '2%',
+        width: 280,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -161,5 +196,16 @@ const styles = StyleSheet.create({
 
     sliderNumText: {
         fontFamily: 'Comic-Regular',
+        fontSize: 20
+    },
+
+    sliderSideText: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 20,
+        marginLeft: 4
+    },
+
+    sliderStyle: {
+        marginLeft: -6
     }
 })
