@@ -33,7 +33,7 @@ const BookModal = () => {
         >
 
             <View style={styles.modalViewStyle}>
-                <Image source={modalEntry.image} style={styles.modalBookImageStyle} />
+                <Image source={{uri : modalEntry.image}} style={styles.modalBookImageStyle} />
                 <View style={styles.modalBookDetailHeader}>
                     <Text
                         style={styles.modalText}
