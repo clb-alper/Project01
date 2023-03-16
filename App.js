@@ -22,6 +22,7 @@ import FAIcons from 'react-native-vector-icons/FontAwesome';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import Settings from './pages/Settings/Settings';
 import NotificationSettings from './pages/Settings/NotificationSettings';
+import FontSizeSettings from './pages/Settings/FontSizeSettings';
 
 const Tab = createBottomTabNavigator();
 
@@ -56,6 +57,7 @@ function SettingsStackScreen() {
       }}>
       <SettingsStack.Screen name="GeneralSettings" component={Settings} />
       <SettingsStack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation}/>
+      <SettingsStack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation}/>
     </SettingsStack.Navigator>
   );
 }

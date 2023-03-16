@@ -47,7 +47,8 @@ const Settings = () => {
 
                         <TouchableOpacity
                             onPress={() => navigation.navigate("NotificationSettings")}
-                            style={[styles.rowContainer, { marginTop: '3%' }]} activeOpacity={0.5}>
+                            style={[styles.rowContainer, { marginTop: '3%' }]}
+                            activeOpacity={0.5}>
                             <View style={styles.iconNotifBG}>
                                 <IonIcons
                                     name="notifications-outline"
@@ -62,7 +63,10 @@ const Settings = () => {
                         {/* Line Seperator */}
                         <View style={styles.lineStyle} />
 
-                        <TouchableOpacity style={styles.rowContainer} activeOpacity={0.6}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate("FontSizeSettings")}
+                            style={styles.rowContainer}
+                            activeOpacity={0.5}>
                             <View style={styles.iconBookBG}>
                                 <IonIcons
                                     name="book-outline"
@@ -71,7 +75,7 @@ const Settings = () => {
                                     style={styles.badgeIconStyle}
                                 />
                             </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
+                            <Text style={styles.settingsText}>Yazı Boyutu</Text>
                         </TouchableOpacity>
 
                         {/* Line Seperator */}
@@ -252,7 +256,7 @@ const styles = StyleSheet.create({
     },
 
     iconBookBG: {
-        backgroundColor: colors.silverBadge,
+        backgroundColor: colors.pinkRegular,
         width: 35,
         height: 35,
         paddingLeft: 5,
@@ -260,7 +264,7 @@ const styles = StyleSheet.create({
         paddingBottom: 2,
         paddingTop: 4,
         borderWidth: 2,
-        borderColor: colors.silverBadgeBorder,
+        borderColor: colors.pinkBorder,
         borderRadius: 10
     },
 
