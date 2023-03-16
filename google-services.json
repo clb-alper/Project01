@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "895736933529",
+    "project_id": "bitirmeas",
+    "storage_bucket": "bitirmeas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895736933529:android:701b1af1848c84372c1c08",
+        "android_client_info": {
+          "package_name": "com.bitirme.bookread"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895736933529-ubsd4r3p2st1skhmh2puqtc724fup13q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQwKT3WMx_JPUtCWKtrndLaeS9MsBcF8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895736933529-ubsd4r3p2st1skhmh2puqtc724fup13q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
