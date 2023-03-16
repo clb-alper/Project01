@@ -1,16 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { useCallback } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { useCallback, useState } from 'react';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ImageBackground, FlatList, Dimensions, Modal } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import booksListData from '../assets/data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
+import SelectDropdown from 'react-native-select-dropdown';
+import stickerData from '../assets/data/stickerData';
+
+
+
+var widthOfScreen = Dimensions.get('window').width; //full width
+var heightOfScreen = Dimensions.get('window').height; //full width
 
 const RewardsScreen = () => {
+
+    //dropdown
+    const [closeDropdown, setCloseDropdown] = useState(false);
+
+    const [aa, setaa] = useState(true);
+
+    const categories = ["Sticker", "Rozet"]
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [modalEntry, setModalEntry] = useState(stickerData);
 
     var [isPress, setIsPress] = React.useState(false);
 
@@ -32,12 +49,39 @@ const RewardsScreen = () => {
 
     var widthOfScreen = Dimensions.get('window').width; //full width
 
+    const DATA = [];
+
+
+    for (let i = 0; i < stickerData.length - 1; i++) {
+        const index = DATA.findIndex((dataSticker) => dataSticker.bookName === stickerData[i].stickerBook);
+        if (index == -1) {
+            DATA.push({
+                bookName: stickerData[i].stickerBook,
+                stickers: [{
+                    id: stickerData[i].id,
+                    stickerName: stickerData[i].stickerName,
+                    image: stickerData[i].image,
+                    price: stickerData[i].spPrice
+                }]
+            })
+        } else {
+            DATA[index].stickers.push({
+                id: stickerData[i].id,
+                stickerName: stickerData[i].stickerName,
+                image: stickerData[i].image,
+                price: stickerData[i].spPrice
+            })
+        }
+    }
+
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
             <SafeAreaView edges={['right', 'left']}>
 
+                {/* Header Container */}
                 <View style={[styles.login_container, styles.shadowProp]}>
+
                     <View style={styles.headerView1}>
 
                         <Text
@@ -67,445 +111,192 @@ const RewardsScreen = () => {
                     </View>
                 </View>
 
-
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    overScrollMode={'never'}>
-
-                    <View style={styles.pointsContainer222}>
-                        <View style={styles.pointsContainer22}>
-
-                            <Text
-                                style={styles.pointsTextStyle22}
-                                adjustsFontSizeToFit={true}
-                                numberOfLines={1}>
-                                Kitap
-                            </Text>
-
-                            <Image
-                                source={require('../assets/images/iconStar.png')}
-                                style={styles.pointsIconStyle22}>
-                            </Image>
-
-                        </View>
-
-                    </View>
-
-                    <View>
-                        <View style={[styles.headerView12, {marginTop: 5}]}>
-
-                            <Text
-                                style={styles.headerTextStyle2}
-                                adjustsFontSizeToFit={true}
-                                numberOfLines={1}>
-                                Sticker Kitabı 1
-                            </Text>
-
-                            <View style={styles.headerView22}>
-
-                            </View>
-                        </View>
-
-                    </View>
-
-                    <View style={{ marginTop: 25 }}>
-                        <FlatList
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={parseInt(widthOfScreen / 100)}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={booksListData}
-
-                            renderItem={({ item, index, separators }) => (
-                                <View>
-                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-
-                                            <ImageBackground
-                                                source={item.image}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
-
-                                        </TouchableOpacity>
-
-                                        <View style={styles.pointsContainer2}>
-
-                                            <Text
-                                                style={styles.pointsTextStyle2}
-                                                adjustsFontSizeToFit={true}
-                                                numberOfLines={1}>
-                                                1600
-                                            </Text>
-
-                                            <Image
-                                                source={require('../assets/images/iconStar.png')}
-                                                style={styles.pointsIconStyle2}>
-                                            </Image>
-
-                                        </View>
-                                    </View>
-
-
-                                </View>
-
-                            )}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-
-                    <View style={{ marginTop: 25 }}>
-                        <FlatList
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={parseInt(widthOfScreen / 100)}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={booksListData}
-
-                            renderItem={({ item, index, separators }) => (
-                                <View>
-                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-
-                                            <ImageBackground
-                                                source={item.image}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
-
-                                        </TouchableOpacity>
-
-                                        <View style={styles.pointsContainer2}>
-
-                                            <Text
-                                                style={styles.pointsTextStyle2}
-                                                adjustsFontSizeToFit={true}
-                                                numberOfLines={1}>
-                                                1600
-                                            </Text>
-
-                                            <Image
-                                                source={require('../assets/images/iconStar.png')}
-                                                style={styles.pointsIconStyle2}>
-                                            </Image>
-
-                                        </View>
-                                    </View>
-
-
-                                </View>
-
-                            )}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-
-                    <View>
-                        <View style={styles.headerView12}>
-
-                            <Text
-                                style={styles.headerTextStyle2}
-                                adjustsFontSizeToFit={true}
-                                numberOfLines={1}>
-                                Sticker Kitabı 2
-                            </Text>
-
-                            <View style={styles.headerView22}>
-
-                            </View>
-                        </View>
-
-                    </View>
-
-                    <View style={{ marginTop: 25 }}>
-                        <FlatList
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={parseInt(widthOfScreen / 100)}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={booksListData}
-
-                            renderItem={({ item, index, separators }) => (
-                                <View>
-                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-
-                                            <ImageBackground
-                                                source={item.image}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
-
-                                        </TouchableOpacity>
-
-                                        <View style={styles.pointsContainer2}>
-
-                                            <Text
-                                                style={styles.pointsTextStyle2}
-                                                adjustsFontSizeToFit={true}
-                                                numberOfLines={1}>
-                                                1600
-                                            </Text>
-
-                                            <Image
-                                                source={require('../assets/images/iconStar.png')}
-                                                style={styles.pointsIconStyle2}>
-                                            </Image>
-
-                                        </View>
-                                    </View>
-
-
-                                </View>
-
-                            )}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-                    <View style={{ marginTop: 25 }}>
-                        <FlatList
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={parseInt(widthOfScreen / 100)}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={booksListData}
-
-                            renderItem={({ item, index, separators }) => (
-                                <View>
-                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-
-                                            <ImageBackground
-                                                source={item.image}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
-
-                                        </TouchableOpacity>
-
-                                        <View style={styles.pointsContainer2}>
-
-                                            <Text
-                                                style={styles.pointsTextStyle2}
-                                                adjustsFontSizeToFit={true}
-                                                numberOfLines={1}>
-                                                1600
-                                            </Text>
-
-                                            <Image
-                                                source={require('../assets/images/iconStar.png')}
-                                                style={styles.pointsIconStyle2}>
-                                            </Image>
-
-                                        </View>
-                                    </View>
-
-
-                                </View>
-
-                            )}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-
-                    <View>
-                        <View style={styles.headerView12}>
-
-                            <Text
-                                style={styles.headerTextStyle2}
-                                adjustsFontSizeToFit={true}
-                                numberOfLines={1}>
-                                Sticker Kitabı 3
-                            </Text>
-
-                            <View style={styles.headerView22}>
-
-                            </View>
-                        </View>
-
-                    </View>
-
-                    <View style={{ marginTop: 25 }}>
-                        <FlatList
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={parseInt(widthOfScreen / 100)}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={booksListData}
-
-                            renderItem={({ item, index, separators }) => (
-                                <View>
-                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-
-                                            <ImageBackground
-                                                source={item.image}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
-
-                                        </TouchableOpacity>
-
-                                        <View style={styles.pointsContainer2}>
-
-                                            <Text
-                                                style={styles.pointsTextStyle2}
-                                                adjustsFontSizeToFit={true}
-                                                numberOfLines={1}>
-                                                1600
-                                            </Text>
-
-                                            <Image
-                                                source={require('../assets/images/iconStar.png')}
-                                                style={styles.pointsIconStyle2}>
-                                            </Image>
-
-                                        </View>
-                                    </View>
-
-
-                                </View>
-
-                            )}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-                    <View style={{ marginTop: 25 }}>
-                        <FlatList
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={parseInt(widthOfScreen / 100)}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={booksListData}
-
-                            renderItem={({ item, index, separators }) => (
-                                <View>
-                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-
-                                            <ImageBackground
-                                                source={item.image}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
-
-                                        </TouchableOpacity>
-
-                                        <View style={styles.pointsContainer2}>
-
-                                            <Text
-                                                style={styles.pointsTextStyle2}
-                                                adjustsFontSizeToFit={true}
-                                                numberOfLines={1}>
-                                                1600
-                                            </Text>
-
-                                            <Image
-                                                source={require('../assets/images/iconStar.png')}
-                                                style={styles.pointsIconStyle2}>
-                                            </Image>
-
-                                        </View>
-                                    </View>
-
-
-                                </View>
-
-                            )}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-
-                    <View style={{ marginTop: 25 }}>
-                        <FlatList
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={parseInt(widthOfScreen / 100)}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={booksListData}
-
-                            renderItem={({ item, index, separators }) => (
-                                <View>
-                                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => console.log(item.id)}
-                                            activeOpacity={0.75}>
-
-
-                                            <ImageBackground
-                                                source={item.image}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
-
-                                        </TouchableOpacity>
-
-                                        <View style={styles.pointsContainer2}>
-
-                                            <Text
-                                                style={styles.pointsTextStyle2}
-                                                adjustsFontSizeToFit={true}
-                                                numberOfLines={1}>
-                                                1600
-                                            </Text>
-
-                                            <Image
-                                                source={require('../assets/images/iconStar.png')}
-                                                style={styles.pointsIconStyle2}>
-                                            </Image>
-
-                                        </View>
-                                    </View>
-
-
-                                </View>
-
-                            )}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-                </ScrollView>
-
             </SafeAreaView>
+
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                overScrollMode={'never'}>
+
+                {/* Dropdown menu  */}
+                <View style={styles.pointsContainer222}>
+
+                    <SelectDropdown
+
+                        buttonStyle={closeDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
+                        buttonTextStyle={styles.DropdownTextStyle}
+                        dropdownStyle={styles.DropdownContainerStyle}
+                        rowStyle={styles.DropdownRowStyle}
+                        rowTextStyle={styles.DropdownContainerTextStyle}
+                        dropdownOverlayColor='transparent'
+
+                        data={categories}
+                        adjustsFontSizeToFit={true}
+                        defaultButtonText={categories[0]}
+
+                        onFocus={() => {
+                            setCloseDropdown(true)
+                        }}
+
+                        onBlur={() => {
+                            setCloseDropdown(false)
+                        }}
+
+                        onSelect={(selectedItem, index) => {
+                            setCloseDropdown(false)
+                            console.log(categories[index])
+                            console.log(selectedItem)
+
+                            if (selectedItem == 'Tema') {
+                                // navigation.navigate('Dashboard')
+
+                                // return ()
+
+                                setaa(false)
+
+                            } else if (selectedItem == 'Alfabe') {
+                                setaa(true)
+                            }
+                        }}
+
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem
+                        }}
+                        rowTextForSelection={(item, index) => {
+                            return item
+                        }}
+
+                    />
+
+
+
+                </View>
+
+                <View style={{ marginTop: 10 }}>
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                            setModalVisible(!modalVisible);
+                        }}
+                    >
+                        <View style={styles.modalViewDarkenStyle}>
+                        </View>
+
+                        <View style={{ alignItems: 'center', marginTop: 50 }}>
+                            <View>
+                                <Image
+                                    source={modalEntry.image}
+                                    style={styles.modalStickerImage}
+                                >
+                                </Image>
+                            </View>
+                            <View>
+                                <Text style={styles.modalStickerNameText}>
+                                    {modalEntry.stickerName} Sticker
+                                </Text>
+                            </View>
+                            <View style={styles.pointsContainer3}>
+
+                                <Text
+                                    style={styles.pointsTextStyle3}
+                                    adjustsFontSizeToFit={true}
+                                    numberOfLines={1}>
+                                    {modalEntry.price}
+                                </Text>
+
+                                <Image
+                                    source={require('../assets/images/iconStar.png')}
+                                    style={styles.pointsIconStyle3}>
+                                </Image>
+
+
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={() => setModalVisible(!modalVisible)}
+                                activeOpacity={0.75}
+                                style={styles.modalStickerCloseButton}>
+                                <Image
+                                    source={require('../assets/images/closeIcon.png')}
+                                    style={styles.modalStickerCloseButtonIcon}
+                                />
+                            </TouchableOpacity>
+
+                        </View>
+
+
+                    </Modal>
+
+                    {/* Main Container */}
+                    {DATA.map((stickerData, index) => {
+                        return (
+                            <View key={index}>
+                                <View style={[styles.headerView12, { marginTop: 5 }]}>
+
+                                    <Text
+                                        style={styles.headerTextStyle2}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>
+                                        {stickerData.bookName}
+                                    </Text>
+
+                                    <View style={styles.stickerContainer}>
+                                        {stickerData.stickers.map((sticker, index) => {
+                                            return (
+                                                <View key={index}>
+                                                    <View style={styles.continueReadingBookStyleFirstItem}>
+
+                                                        <TouchableOpacity
+                                                            key={sticker.id}
+                                                            onPress={() => { setModalVisible(true); setModalEntry(sticker) }}
+                                                            activeOpacity={0.75}>
+
+
+                                                            <ImageBackground
+
+                                                                source={sticker.image}
+                                                                imageStyle={styles.continueBookImageStyle}>
+                                                            </ImageBackground>
+
+
+
+                                                            <View style={styles.pointsContainer2}>
+
+                                                                <Text
+                                                                    style={styles.pointsTextStyle2}
+                                                                    adjustsFontSizeToFit={true}
+                                                                    numberOfLines={1}>
+                                                                    {sticker.price}
+                                                                </Text>
+
+                                                                <Image
+
+                                                                    source={require('../assets/images/iconStar.png')}
+                                                                    style={styles.pointsIconStyle2}>
+                                                                </Image>
+
+                                                            </View>
+                                                        </TouchableOpacity>
+
+                                                    </View>
+
+
+                                                </View>
+                                            )
+                                        })}
+                                    </View>
+
+                                </View>
+
+                            </View>
+                        )
+                    })}
+
+
+                </View>
+            </ScrollView>
+
         </View>
     )
 }
@@ -586,18 +377,10 @@ const styles = StyleSheet.create({
         marginLeft: 5,
     },
 
-    continueReadingBookStyle: {
-        width: 75,
-        height: 110,
-        marginRight: 15,
-        marginBottom: 15
-    },
-
     continueReadingBookStyleFirstItem: {
-        width: 75,
-        height: 110,
-        marginRight: 15,
-        marginLeft: 35
+        width: 45,
+        height: 140,
+        marginRight: 43,
     },
 
     continueBookImageStyle: {
@@ -633,12 +416,10 @@ const styles = StyleSheet.create({
     },
 
     headerView12: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
         marginHorizontal: 20,
         marginTop: 20,
-        marginLeft: 35
+        marginLeft: 35,
     },
 
     headerView22: {
@@ -653,6 +434,7 @@ const styles = StyleSheet.create({
     headerTextStyle2: {
         fontFamily: 'Comic-Regular',
         fontSize: 30,
+        marginBottom: 15,
     },
 
     pointsContainer22: {
@@ -676,18 +458,169 @@ const styles = StyleSheet.create({
         marginLeft: '-7.5%',
     },
 
-    pointsTextStyle22: {
-        fontFamily: 'Comic-Regular',
-        textAlign: 'center',
-        fontSize: 15,
-        width: 45,
+    stickerContainer: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        marginBottom: 20,
+        width: '100%',
     },
 
-    pointsIconStyle22: {
-        resizeMode: 'contain',
-        height: 20,
-        width: 20,
+    modalStickerNameText: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 38,
+        color: 'white',
     },
+
+    modalStickerImage: {
+        width: 200,
+        height: 200,
+        marginTop: 100,
+    },
+
+    modalStickerCloseButton: {
+        borderRadius: 500,
+        borderWidth: 5,
+        width: 70,
+        height: 70,
+        marginTop: 30,
+        borderColor: colors.purpleBorder,
+        backgroundColor: colors.purpleHeaderContainer
+    },
+
+    modalStickerCloseButtonIcon: {
+        width: 40,
+        height: 40,
+        marginTop: 10,
+        marginLeft: 10
+    },
+
+    pointsContainer3: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        width: 120,
+        marginTop: 50,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.purpleBorder,
+        backgroundColor: colors.purpleHeaderContainer,
+    },
+
+    pointsTextStyle3: {
+        fontFamily: 'Comic-Light',
+        textAlign: 'center',
+        fontSize: 25,
+        width: 65,
+    },
+
+    pointsIconStyle3: {
+        resizeMode: 'contain',
+        height: 38,
+        width: 38,
+    },
+
+
+
+
+    //temporary dropdown styles
+
+
+    DropdownViewStyle: {
+        alignItems: 'flex-end',
+        marginRight: 10,
+        marginTop: 30,
+
+    },
+
+    DropdownStyle: {
+        backgroundColor: colors.purpleTagBG,
+        borderRadius: 15,
+        height: 30,
+        width: 90,
+        borderWidth: 2,
+        borderColor: colors.purpleBorder,
+        alignItems: 'center',
+        alignContent: 'center',
+        zIndex: 45
+
+    },
+
+    DropdownStyle2: {
+        backgroundColor: colors.purpleTagBG,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
+        height: 30,
+        width: 90,
+        borderWidth: 2,
+        borderColor: colors.purpleBorder,
+        alignItems: 'center',
+        alignContent: 'center',
+        zIndex: 45
+
+    },
+
+    DropdownTextStyle: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 18,
+        alignItems: 'center',
+        alignContent: 'center',
+
+    },
+
+    DropdownContainerStyle: {
+        borderBottomWidth: 2,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderColor: colors.purpleBorder,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+
+        width: 111.5,
+        height: 95,
+        marginRight: '-6.6%',
+        marginTop: '-6.3%',
+        backgroundColor: colors.purpleTagBG,
+
+    },
+
+    DropdownContainerTextStyle: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 19,
+        backgroundColor: colors.purpleTagBG,
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+
+    },
+
+    DropdownRowStyle: {
+        width: 105,
+        height: 35,
+        marginLeft: -10,
+
+    },
+
+    modalViewDarkenStyle: {
+        position: 'absolute',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: widthOfScreen,
+        height: heightOfScreen * 1.1,
+        backgroundColor: 'rgba(0,0,0,0.8)'
+    },
+
+    modalViewStyle: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: '80%',
+        borderTopRightRadius: 35,
+        borderTopLeftRadius: 35,
+        backgroundColor: colors.white,
+    },
+
+
 
 
 })
