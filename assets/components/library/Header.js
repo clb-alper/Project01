@@ -61,13 +61,15 @@ const Header = () => {
                             console.log(libraryCategories[index])
                             console.log(selectedItem)
 
-                            if (selectedItem == 'Tema') {
-                                setCategorySwitch(false)
-
-                            } else if (selectedItem == 'Alfabe') {
-                                setCategorySwitch(true)
+                            // taking the catagories from dropdown menu
+                            for (let index = 0; index < libraryCategories.length - 1; index++) {
+                                if (selectedItem == libraryCategories[index]) {
+                                    setCategorySwitch(index)
+                                }
                             }
-                        }}
+
+                        }
+                        }
 
                         buttonTextAfterSelection={(selectedItem, index) => {
                             return selectedItem
