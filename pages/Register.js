@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable,TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -9,8 +9,6 @@ import { auth } from '../firebase';
 
 
 const Register = ({navigation}) => {
-    var [isPress, setIsPress] = React.useState(false);
-
 
     var [email, setEmail] = React.useState();
     var [password, setPassword] = React.useState();
@@ -25,8 +23,6 @@ const Register = ({navigation}) => {
         })
         .catch(error => alert(error.message))
     }
-
-
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -43,8 +39,6 @@ const Register = ({navigation}) => {
     if (!fontsLoaded) {
         return null;
     }
-
-
 
     return (
         
@@ -114,8 +108,6 @@ const styles = StyleSheet.create({
     backgroundImage: {      
         resizeMode: 'contain',
         width: '110%',
-        height: '100%',
-        marginTop: -425,
     },
 
     register_container: {

@@ -117,8 +117,6 @@ const styles = StyleSheet.create({
     backgroundImage: {
         resizeMode: 'contain',
         width: '110%',
-        height: '100%',
-        marginTop: -425,
     },
 
     login_container: {
