@@ -1,7 +1,6 @@
 import { Dimensions } from 'react-native';
 import { useEffect, useState } from 'react';
 import React from 'react';
-import booksListData from '../data/booksListData';
 import { firebase } from '../../firebase'
 
 var widthOfScreen = Dimensions.get('window').width; //full width
