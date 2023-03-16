@@ -56,8 +56,8 @@ function SettingsStackScreen() {
         headerShown: false,
       }}>
       <SettingsStack.Screen name="GeneralSettings" component={Settings} />
-      <SettingsStack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation}/>
-      <SettingsStack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation}/>
+      <SettingsStack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
+      <SettingsStack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
     </SettingsStack.Navigator>
   );
 }
@@ -122,6 +122,7 @@ export default function App() {
   return (
     <RewardsProvider>
       <LibraryProvider>
+
         <DropdownProvider>
           <ModalProvider>
             <NavigationContainer>
@@ -140,6 +141,7 @@ export default function App() {
           </ModalProvider>
         </DropdownProvider>
       </LibraryProvider >
+
     </RewardsProvider>
   );
 }

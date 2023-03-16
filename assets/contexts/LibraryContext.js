@@ -14,6 +14,7 @@ const LibraryProvider = ({ children }) => {
     const bookWidth = (widthOfScreen - 55) / 3;
 
     const [DATA, setDATA] = useState();
+    const [sortedData, setSortedData] = useState();
     const [dataLetters, setDataLetters] = useState();
 
 
@@ -33,11 +34,7 @@ const LibraryProvider = ({ children }) => {
             else {
                 dataLetters.push(booksListData[i].title.substring(0, 1))
                 DATA.push({
-                    condition0: booksListData[i].title.substring(0, 1),
-                    condition1: booksListData[i].themeTag,
-                    condition2: booksListData[i].ageTag,
-                    condition3: booksListData[i].contentTag,
-
+                    condition: booksListData[i].title.substring(0, 1),
                     books: [{
                         id: booksListData[i].id,
                         title: booksListData[i].title,
@@ -52,11 +49,14 @@ const LibraryProvider = ({ children }) => {
                         ageTag: booksListData[i].ageTag,
                         contentTag: booksListData[i].contentTag,
                         rewardTag: booksListData[i].rewardTag,
+  
 
                     }]
                 })
             }
         }
+
+      
         return DATA
 
     }
@@ -89,10 +89,11 @@ const LibraryProvider = ({ children }) => {
                         })
                     })
 
-                    const indexedBooks = indexingBooks(bookList); 
+                    const indexedBooks = indexingBooks(bookList);
                     setDATA(indexedBooks);
                     setBookList(bookList);
-
+                    setSortedData(indexedBooks);
+                    
 
                 }
             )
@@ -100,12 +101,11 @@ const LibraryProvider = ({ children }) => {
     }, [])
 
 
-
-
-
-
     const contextData = {
         DATA,
+        setDATA,
+        sortedData,
+        setSortedData,
         dataLetters,
         categorySwitch,
         setCategorySwitch,

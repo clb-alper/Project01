@@ -11,7 +11,7 @@ var widthOfScreen = Dimensions.get('window').width; //full width
 const Header = () => {
 
     const { libraryCategories, closeLibraryDropdown, setCloseLibraryDropdown } = useContext(DropdownContext);
-    const { setCategorySwitch } = useContext(LibraryContext);
+    const { setSortedData, DATA, setCategorySwitch } = useContext(LibraryContext);
 
     const shadowOpt = {
         width: widthOfScreen,
@@ -23,6 +23,159 @@ const Header = () => {
         x: -1,
         y: -7,
     }
+
+    const handleCategorySwitch = (categorySelection) => {
+        // categorySelection == 0 -> alphabet (default)
+        // categorySelection == 1 -> categories 
+        // categorySelection == 2 -> age 
+        // categorySelection == 3 -> theme
+        
+        const rawData = [];
+        const sortedData = [];
+        // converting sorted data to rawData
+        for(let i = 0; i < DATA.length ; i++) {
+            for(let k =0; k < DATA[i].books.length; k++ ) {
+                rawData.push({
+                    id: DATA[i].books[k].id,
+                    title: DATA[i].books[k].title,
+                    image: DATA[i].books[k].image,
+                    itemColor: DATA[i].books[k].itemColor,
+                    itemBorder: DATA[i].books[k].itemBorder,
+                    itemColorBG: DATA[i].books[k].itemColorBG,
+                    itemTextColor: DATA[i].books[k].itemTextColor,
+                    itemDesc: DATA[i].books[k].itemDesc,
+                    bookProgress: DATA[i].books[k].bookProgress,
+                    themeTag: DATA[i].books[k].themeTag,
+                    ageTag: DATA[i].books[k].ageTag,
+                    contentTag: DATA[i].books[k].contentTag,
+                    rewardTag: DATA[i].books[k].rewardTag,
+                })
+            }
+        }
+
+
+        if(categorySelection == 0 ) {
+            for (let i = 0; i < rawData.length; i++) {
+                const index = sortedData.findIndex((cond) => cond.condition === rawData[i].title.substring(0,1));
+       
+                if(index > -1) {
+                    sortedData[index].books.push(rawData[i])
+                }
+                else {
+                    sortedData.push({
+                        condition: rawData[i].title.substring(0,1),
+                        books: [{
+                            id: rawData[i].id,
+                            title: rawData[i].title,
+                            image: rawData[i].image,
+                            itemColor: rawData[i].itemColor,
+                            itemBorder: rawData[i].itemBorder,
+                            itemColorBG: rawData[i].itemColorBG,
+                            itemTextColor: rawData[i].itemTextColor,
+                            itemDesc: rawData[i].itemDesc,
+                            bookProgress: rawData[i].bookProgress,
+                            ageTag: rawData[i].ageTag,
+                            contentTag: rawData[i].contentTag,
+                            rewardTag: rawData[i].rewardTag,
+                        }]
+                    })
+                }
+            }
+
+
+        }
+        else if(categorySelection == 1) {
+            for (let i = 0; i < rawData.length; i++) {
+                const index = sortedData.findIndex((cond) => cond.condition === rawData[i].contentTag);
+       
+                if(index > -1) {
+                    sortedData[index].books.push(rawData[i])
+                }
+                else {
+                    sortedData.push({
+                        condition: rawData[i].contentTag,
+                        books: [{
+                            id: rawData[i].id,
+                            title: rawData[i].title,
+                            image: rawData[i].image,
+                            itemColor: rawData[i].itemColor,
+                            itemBorder: rawData[i].itemBorder,
+                            itemColorBG: rawData[i].itemColorBG,
+                            itemTextColor: rawData[i].itemTextColor,
+                            itemDesc: rawData[i].itemDesc,
+                            bookProgress: rawData[i].bookProgress,
+                            ageTag: rawData[i].ageTag,
+                            contentTag: rawData[i].contentTag,
+                            rewardTag: rawData[i].rewardTag,
+                        }]
+                    })
+                }
+            }
+        }
+        else if(categorySelection == 2) {
+            for (let i = 0; i < rawData.length; i++) {
+                const index = sortedData.findIndex((cond) => cond.condition === rawData[i].ageTag);
+       
+                if(index > -1) {
+                    sortedData[index].books.push(rawData[i])
+                }
+                else {
+                    sortedData.push({
+                        condition: rawData[i].ageTag,
+                        books: [{
+                            id: rawData[i].id,
+                            title: rawData[i].title,
+                            image: rawData[i].image,
+                            itemColor: rawData[i].itemColor,
+                            itemBorder: rawData[i].itemBorder,
+                            itemColorBG: rawData[i].itemColorBG,
+                            itemTextColor: rawData[i].itemTextColor,
+                            itemDesc: rawData[i].itemDesc,
+                            bookProgress: rawData[i].bookProgress,
+                            ageTag: rawData[i].ageTag,
+                            contentTag: rawData[i].contentTag,
+                            rewardTag: rawData[i].rewardTag,
+                        }]
+                    })
+                }
+            }
+        }
+        else if (categorySelection == 3) {
+            for (let i = 0; i < rawData.length; i++) {
+                const index = sortedData.findIndex((cond) => cond.condition === rawData[i].themeTag);
+           
+                if(index > -1) {
+                    sortedData[index].books.push(rawData[i])
+                }
+                else {
+                    sortedData.push({
+                        condition: rawData[i].themeTag,
+                        books: [{
+                            id: rawData[i].id,
+                            title: rawData[i].title,
+                            image: rawData[i].image,
+                            itemColor: rawData[i].itemColor,
+                            itemBorder: rawData[i].itemBorder,
+                            itemColorBG: rawData[i].itemColorBG,
+                            itemTextColor: rawData[i].itemTextColor,
+                            itemDesc: rawData[i].itemDesc,
+                            bookProgress: rawData[i].bookProgress,
+                            ageTag: rawData[i].ageTag,
+                            contentTag: rawData[i].contentTag,
+                            rewardTag: rawData[i].rewardTag,
+                        }]
+                    })
+                }
+            }
+        }
+
+        // TODO: TR ALPHABET ENTEGRATION
+        sortedData.sort((a,b) => {
+            return a.condition > b.condition;
+        })
+        setSortedData(sortedData);
+
+    };
 
     return (
         <BoxShadow setting={shadowOpt}>
@@ -58,13 +211,14 @@ const Header = () => {
 
                         onSelect={(selectedItem, index) => {
                             setCloseLibraryDropdown(false)
-                            console.log(libraryCategories[index])
-                            console.log(selectedItem)
+                
 
                             // taking the catagories from dropdown menu
-                            for (let index = 0; index < libraryCategories.length - 1; index++) {
+                            for (let index = 0; index < libraryCategories.length; index++) {
                                 if (selectedItem == libraryCategories[index]) {
                                     setCategorySwitch(index)
+                                    // setData
+                                    handleCategorySwitch(index);
                                 }
                             }
 

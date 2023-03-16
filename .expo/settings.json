@@ -5,6 +5,6 @@
   "minify": false,
   "urlRandomness": null,
   "https": false,
-  "scheme": "exp+project01",
+  "scheme": null,
   "devClient": false
 }

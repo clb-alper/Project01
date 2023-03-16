@@ -3,11 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react
 import { BoxShadow } from 'react-native-shadow';
 import { LibraryContext } from '../../contexts/LibraryContext';
 import { ModalContext } from '../../contexts/ModalContext';
+import BookModal from '../BookModal';
 
 const BookShowcase = () => {
 
-    const { DATA, categorySwitch, bookWidth, bookList } = useContext(LibraryContext);
-    const { setModalVisible, setModalEntry } = useContext(ModalContext);
+    const { sortedData, DATA, setData, categorySwitch, bookWidth, bookList } = useContext(LibraryContext);
+    const { modalVisible, setModalVisible, setModalEntry } = useContext(ModalContext);
 
     const shadowOpt = {
         width: 95,
@@ -20,166 +21,166 @@ const BookShowcase = () => {
         y: 7,
     }
 
-    console.log("buradaburada")
-console.log(DATA)
+
 
     return (
         <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: 10 }}>
+            <BookModal />
             {
                 categorySwitch === 0 && (
-                    DATA.map((book, index) => {
+                    sortedData.map((book, index) => {
                         return (
                             <View key={index}>
-                                <Text style={styles.alphabetLettersStyle2}>{book.condition0}</Text>
-    
+                                <Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>
+
                                 <View style={styles.bookContainer} key={index}>
                                     {
-                                        book.books.map((bookDetail) => {
+                                        book.books.map((bookDetail, index2) => {
                                             return (
                                                 <View key={bookDetail.id} style={{ ...styles.bookContainer, width: bookWidth }}>
-    
-    
+
+
                                                     <TouchableOpacity
-                                                        key={index}
+                                                        key={index2}
                                                         onPress={() => { setModalVisible(true); setModalEntry(bookDetail); }}
                                                         activeOpacity={0.75}>
                                                         <BoxShadow setting={shadowOpt}>
                                                             <ImageBackground
-                                                                source={{uri : bookDetail.image}}
+                                                                source={{ uri: bookDetail.image }}
                                                                 imageStyle={styles.bookCoverStyle}>
                                                             </ImageBackground>
                                                         </BoxShadow>
                                                     </TouchableOpacity>
-    
+
                                                 </View>
-    
+
                                             )
                                         })
                                     }
                                 </View>
                             </View>
-    
+
                         )
                     })
                 )
-               
+
             }
-             {
+            {
                 categorySwitch === 1 && (
-                    DATA.map((book, index) => {
+                    sortedData.map((book, index) => {
                         return (
                             <View key={index}>
-                                <Text style={styles.alphabetLettersStyle2}>{book.condition1}</Text>
-    
+                                <Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>
+
                                 <View style={styles.bookContainer} key={index}>
                                     {
                                         book.books.map((bookDetail) => {
                                             return (
                                                 <View key={bookDetail.id} style={{ ...styles.bookContainer, width: bookWidth }}>
-    
-    
+
+
                                                     <TouchableOpacity
                                                         key={index}
                                                         onPress={() => { setModalVisible(true); setModalEntry(bookDetail); }}
                                                         activeOpacity={0.75}>
                                                         <BoxShadow setting={shadowOpt}>
                                                             <ImageBackground
-                                                                source={{uri : bookDetail.image}}
+                                                                source={{ uri: bookDetail.image }}
                                                                 imageStyle={styles.bookCoverStyle}>
                                                             </ImageBackground>
                                                         </BoxShadow>
                                                     </TouchableOpacity>
-    
+
                                                 </View>
-    
+
                                             )
                                         })
                                     }
                                 </View>
                             </View>
-    
+
                         )
                     })
                 )
-               
+
             }
-             {
+            {
                 categorySwitch === 2 && (
-                    DATA.map((book, index) => {
+                    sortedData.map((book, index) => {
                         return (
                             <View key={index}>
-                                <Text style={styles.alphabetLettersStyle2}>{book.condition2}</Text>
-    
+                                <Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>
+
                                 <View style={styles.bookContainer} key={index}>
                                     {
                                         book.books.map((bookDetail) => {
                                             return (
                                                 <View key={bookDetail.id} style={{ ...styles.bookContainer, width: bookWidth }}>
-    
-    
+
+
                                                     <TouchableOpacity
                                                         key={index}
                                                         onPress={() => { setModalVisible(true); setModalEntry(bookDetail); }}
                                                         activeOpacity={0.75}>
                                                         <BoxShadow setting={shadowOpt}>
                                                             <ImageBackground
-                                                                source={{uri : bookDetail.image}}
+                                                                source={{ uri: bookDetail.image }}
                                                                 imageStyle={styles.bookCoverStyle}>
                                                             </ImageBackground>
                                                         </BoxShadow>
                                                     </TouchableOpacity>
-    
+
                                                 </View>
-    
+
                                             )
                                         })
                                     }
                                 </View>
                             </View>
-    
+
                         )
                     })
                 )
-               
+
             }
-             {
+            {
                 categorySwitch === 3 && (
-                    DATA.map((book, index) => {
+                    sortedData.map((book, index) => {
                         return (
                             <View key={index}>
-                                <Text style={styles.alphabetLettersStyle2}>{book.condition3}</Text>
-    
+                                <Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>
+
                                 <View style={styles.bookContainer} key={index}>
                                     {
                                         book.books.map((bookDetail) => {
                                             return (
                                                 <View key={bookDetail.id} style={{ ...styles.bookContainer, width: bookWidth }}>
-    
-    
+
+
                                                     <TouchableOpacity
                                                         key={index}
                                                         onPress={() => { setModalVisible(true); setModalEntry(bookDetail); }}
                                                         activeOpacity={0.75}>
                                                         <BoxShadow setting={shadowOpt}>
                                                             <ImageBackground
-                                                                source={{uri : bookDetail.image}}
+                                                                source={{ uri: bookDetail.image }}
                                                                 imageStyle={styles.bookCoverStyle}>
                                                             </ImageBackground>
                                                         </BoxShadow>
                                                     </TouchableOpacity>
-    
+
                                                 </View>
-    
+
                                             )
                                         })
                                     }
                                 </View>
                             </View>
-    
+
                         )
                     })
                 )
-               
+
             }
 
         </View>
