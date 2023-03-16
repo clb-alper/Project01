@@ -6,7 +6,7 @@ import { ModalContext } from '../../contexts/ModalContext';
 
 const BookShowcase = () => {
 
-    const { DATA, categorySwitch, bookWidth } = useContext(LibraryContext);
+    const { DATA, categorySwitch, bookWidth, bookList } = useContext(LibraryContext);
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
 
     const shadowOpt = {
@@ -19,6 +19,9 @@ const BookShowcase = () => {
         x: -2,
         y: 7,
     }
+
+    console.log("buradaburada")
+console.log(DATA)
 
     return (
         <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: 10 }}>
@@ -41,7 +44,7 @@ const BookShowcase = () => {
                                                     activeOpacity={0.75}>
                                                     <BoxShadow setting={shadowOpt}>
                                                         <ImageBackground
-                                                            source={bookDetail.image}
+                                                            source={{uri : bookDetail.image}}
                                                             imageStyle={styles.bookCoverStyle}>
                                                         </ImageBackground>
                                                     </BoxShadow>
