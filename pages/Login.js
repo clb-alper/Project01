@@ -84,6 +84,10 @@ const Login = ({ navigation }) => {
                     onChangeText={text => setPassword(text)}
                 />
 
+                <TouchableOpacity onPress={() => navigation.navigate("ProfileSelect")}>
+                    <Text>{"FAST Giriş Yap"}</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
                     <Text style={styles.loginButtonText}>{"Giriş Yap"}</Text>
                 </TouchableOpacity>

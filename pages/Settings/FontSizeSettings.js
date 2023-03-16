@@ -16,6 +16,8 @@ const FontSizeSettings = () => {
 
     const { modalVisible } = useContext(ModalContext);
 
+    const [fontSizeNum, setFontSizeNum] = useState(14);
+
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
         'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
@@ -55,7 +57,7 @@ const FontSizeSettings = () => {
 
                         <View
                             style={[styles.rowContainer, { marginTop: '3%' }]}>
-                            <Text style={styles.settingsText}>Bildirimler</Text>
+                            <Text style={[styles.settingsText, {fontSize: fontSizeNum}]}>Bildirimler</Text>
 
                         </View>
 
@@ -65,17 +67,22 @@ const FontSizeSettings = () => {
                     <View style={styles.generalSettingsContainer}>
 
                         <View style={styles.numberContainer}>
-                            <Text>10</Text>
-                            <Text>18</Text>
-                            <Text>26</Text>
+                            <Text style={styles.sliderNumText}>10</Text>
+                            <Text style={styles.sliderNumText}>18</Text>
+                            <Text style={styles.sliderNumText}>26</Text>
                         </View>
                         <Slider
-                            style={{ width: 200, height: 40 }}
+                            style={{ width: 250, height: 40 }}
                             minimumValue={10}
                             maximumValue={26}
+                            step={1}
+                            value={fontSizeNum}
+                            onValueChange={(event) => setFontSizeNum(event)}
                             minimumTrackTintColor={colors.blueBorder}
                             maximumTrackTintColor="#000000"
                         />
+
+                        <Text>{fontSizeNum}</Text>
 
                     </View>
 
@@ -150,5 +157,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+
+    sliderNumText: {
+        fontFamily: 'Comic-Regular',
     }
 })
