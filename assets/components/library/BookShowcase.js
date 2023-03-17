@@ -25,7 +25,7 @@ const BookShowcase = () => {
 
     return (
         <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: 10 }}>
-            <BookModal />
+          {/* <BookModal />  */}
             {
                 categorySwitch === 0 && (
                     sortedData.map((book, index) => {
