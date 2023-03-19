@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableOpacity, 
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
-import { auth } from '../firebase';
+import { auth, firebase } from '../firebase';
 import { sendEmailVerification } from "firebase/auth";
 
 
@@ -18,33 +18,33 @@ const Register = ({ navigation }) => {
 
 
 
-    const handleSignUp = () => {
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredetials => {
-                const user = userCredetials.user;
-                console.log('Registered with:', user.email);
+    // const handleSignUp = () => {
+    //     auth
+    //         .createUserWithEmailAndPassword(email, password)
+    //         .then(userCredetials => {
+    //             const user = userCredetials.user;
+    //             console.log('Registered with:', user.email);
 
-                sendEmailVerification(auth.currentUser)  //not working properly
-            })
-            // CHECK FOR MORE ALERT SETTINGS 
-            // https://reactnative.dev/docs/alert
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    alert("Bu mail adresi kullanılıyor.")
-                }
-                if (error.code === 'auth/invalid-email') {
-                    Alert.alert(
-                        "Kayıt Hatası",
-                        "Bu mail adresi geçerli değil.",
-                    )
-                }
-            })
+    //             sendEmailVerification(auth.currentUser)  //not working properly
+    //         })
+    //         // CHECK FOR MORE ALERT SETTINGS 
+    //         // https://reactnative.dev/docs/alert
+    //         .catch(error => {
+    //             if (error.code === 'auth/email-already-in-use') {
+    //                 alert("Bu mail adresi kullanılıyor.")
+    //             }
+    //             if (error.code === 'auth/invalid-email') {
+    //                 Alert.alert(
+    //                     "Kayıt Hatası",
+    //                     "Bu mail adresi geçerli değil.",
+    //                 )
+    //             }
+    //         })
 
-    }
+    // }
 
 
-//TODO : something like that should run;
+    //TODO : something like that should run;
     // const handleSignUp = async () => {
     //     try {
     //         await
@@ -58,6 +58,18 @@ const Register = ({ navigation }) => {
 
 
 
+   
+
+    //created collection for users from sign-up but need improvement
+    const handleSignUp = () => {
+        auth
+            .createUserWithEmailAndPassword(email, password)
+            .then(userCredetials => {
+                firebase.firestore().collection('users').doc(userCredetials.user.uid).set({
+                    email : userCredetials.user.email
+                });
+            })
+    }
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
