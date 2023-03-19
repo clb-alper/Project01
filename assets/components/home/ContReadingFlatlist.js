@@ -49,7 +49,7 @@ const ContReadingFlatlist = () => {
                         })
                     })
                     setBookList(bookList)
-                    console.log(bookList)
+                    //console.log(bookList)
                 }
             )
     }, [])

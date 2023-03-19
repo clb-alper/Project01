@@ -12,8 +12,8 @@ const Login = ({ navigation }) => {
     var [isPress, setIsPress] = React.useState(false);
 
 
-    var [email, setEmail] = React.useState();
-    var [password, setPassword] = React.useState();
+    const [email, setEmail] = React.useState();
+    const [password, setPassword] = React.useState();
 
     const handleLogin = () => {
         auth
@@ -26,6 +26,16 @@ const Login = ({ navigation }) => {
             .catch(error => alert(error.message))
     }
 
+
+    
+    // auth.onAuthStateChanged(user => {
+    //     if (user) {
+    //         console.log('user logged in:', user)
+    //     } else {
+    //         console.log(' user logged out')
+    //     }
+    // })
+    
 
 
 
