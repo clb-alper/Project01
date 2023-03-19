@@ -18,16 +18,14 @@ const Register = ({ navigation }) => {
 
 
 
-    const handleSignUp = (userCredetials) => {
+    const handleSignUp = () => {
         auth
             .createUserWithEmailAndPassword(email, password)
-            .then(() => {
+            .then(userCredetials => {
                 const user = userCredetials.user;
                 console.log('Registered with:', user.email);
-                sendEmailVerification(auth.currentUser)
-                //not working properly
 
-
+                sendEmailVerification(auth.currentUser)  //not working properly
             })
             // CHECK FOR MORE ALERT SETTINGS 
             // https://reactnative.dev/docs/alert
@@ -45,13 +43,6 @@ const Register = ({ navigation }) => {
 
     }
 
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            console.log('user logged in:', user)
-        } else {
-            console.log(' user logged out')
-        }
-    })
 
 //TODO : something like that should run;
     // const handleSignUp = async () => {
