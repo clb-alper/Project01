@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
 import { auth, firebase } from '../firebase';
 import { sendEmailVerification } from "firebase/auth";
+import booksListData from '../assets/data/booksListData';
 
 
 const Register = ({ navigation }) => {
@@ -55,21 +56,33 @@ const Register = ({ navigation }) => {
     //         console.log("hata hata hata", e)
     //     }
     // }
+    const todoRef = firebase.firestore().collection('storyBooks');
 
-
-
-   
+    
+    
 
     //created collection for users from sign-up but need improvement
     const handleSignUp = () => {
         auth
             .createUserWithEmailAndPassword(email, password)
             .then(userCredetials => {
-                firebase.firestore().collection('users').doc(userCredetials.user.uid).set({
-                    email : userCredetials.user.email
+                firebase.firestore().collection('myUsers').doc(userCredetials.user.uid).set({
+                    email: userCredetials.user.email,
+                    [todoRef.id] : "DOTO: take here collection of storyBooks but thanks to noSQL db it's almost impossible",
+                    //https://stackoverflow.com/questions/46593953/nested-arrays-are-not-supported
+                    allBooksForUSer : firebase.firestore().collection('myUsers').doc(userCredetials.user.uid).collection('myUsersBooks').doc().set({
+                        allbooks : "usersAllBooks"
+                    }),
+                    favBooksForUser : firebase.firestore().collection('myUsers').doc(userCredetials.user.uid).collection('myUsersFavBooks').doc().set({
+                        favBooks : "userFavBooks"
+                    })
+                    
+                    
                 });
             })
     }
+
+
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
