@@ -57,9 +57,40 @@ const Register = ({ navigation }) => {
     //     }
     // }
     const todoRef = firebase.firestore().collection('storyBooks');
+    const [bookList, setBookList] = React.useState([]);
 
-    
-    
+    useEffect(() => {
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const bookList = []
+                    querySnapshot.forEach((doc) => {
+                        const { ageTag, bookProgress, contentTag, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
+                        bookList.push({
+                            id: doc.id,
+                            ageTag,
+                            bookProgress,
+                            contentTag,
+                            image,
+                            itemBorder,
+                            itemColor,
+                            itemColorBG,
+                            itemDesc,
+                            itemDescColor,
+                            rewardTag,
+                            themeTag,
+                            title,
+                        })
+                    })
+                    setBookList(bookList)
+                    //console.log(bookList)
+                }
+            )
+    }, [])
+
+    const allBooks = []
+    //allBooks = bookList
+
 
     //created collection for users from sign-up but need improvement
     const handleSignUp = () => {
@@ -68,17 +99,15 @@ const Register = ({ navigation }) => {
             .then(userCredetials => {
                 firebase.firestore().collection('myUsers').doc(userCredetials.user.uid).set({
                     email: userCredetials.user.email,
-                    [todoRef.id] : "DOTO: take here collection of storyBooks but thanks to noSQL db it's almost impossible",
+                    [todoRef.id]: "DOTO: take here collection of storyBooks but thanks to noSQL db it's almost impossible",
                     //https://stackoverflow.com/questions/46593953/nested-arrays-are-not-supported
-                    allBooksForUSer : firebase.firestore().collection('myUsers').doc(userCredetials.user.uid).collection('myUsersBooks').doc().set({
-                        allbooks : "usersAllBooks"
+                }),
+                    firebase.firestore().collection('myUsers').doc(userCredetials.user.uid).collection('myUsersBooks').doc().set({
+                        allbooks: "bookList"
                     }),
-                    favBooksForUser : firebase.firestore().collection('myUsers').doc(userCredetials.user.uid).collection('myUsersFavBooks').doc().set({
-                        favBooks : "userFavBooks"
+                    firebase.firestore().collection('myUsers').doc(userCredetials.user.uid).collection('myUsersFavBooks').doc().set({
+                        favBooks: "userFavBooks"
                     })
-                    
-                    
-                });
             })
     }
 
