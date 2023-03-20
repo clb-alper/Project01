@@ -93,7 +93,7 @@ const Register = ({ navigation }) => {
 
 
     //created collection for users from sign-up but need improvement
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         auth
             .createUserWithEmailAndPassword(email, password)
             .then(userCredetials => {
@@ -109,7 +109,17 @@ const Register = ({ navigation }) => {
                         favBooks: "userFavBooks"
                     })
             })
+
+        const snapshot = await firebase.firestore().collection('storyBooks').get()
+        snapshot.docs.map(doc => {
+            console.log(doc.id)
+            console.log(doc.data().bookProgress)
+        })
     }
+    console.log("çalıştı")
+    
+    //console.log(firebase.firestore().collection('storyBooks').doc())
+
 
 
 
