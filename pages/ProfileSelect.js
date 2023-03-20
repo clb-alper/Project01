@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
 import userData from '../assets/data/userData';
 import { BoxShadow } from 'react-native-shadow';
+import { auth, firebase } from '../firebase';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -30,17 +31,7 @@ const ProfileSelect = ({ navigation }) => {
     if (!fontsLoaded) {
         return null;
     }
-
-    /*const shadowOpt = {
-        width: 110,
-        height: 183,
-        color: "#000",
-        border: 6,
-        radius: 12,
-        opacity: 0.2,
-        x: -1.5,
-        y: 7,
-    }*/
+    
 
     var touchPropsLoginButton = {
         activeOpacity: 1,
@@ -50,6 +41,33 @@ const ProfileSelect = ({ navigation }) => {
         onPress: () => navigation.navigate('MainScreen')
 
     };
+
+    const handleCreateProfile = async () => {
+        // main user
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
+            email: firebase.auth().currentUser.email
+            
+        })
+
+        // sub user
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc("user4").set({
+            name: 'subuser1'
+        })
+
+        // // sub user's continueReading
+        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        // .doc("user4").collection('continueReading').doc().set({
+        //     bookId: '1',
+        //     progressStatus: '32'
+        // })
+
+        
+        // const snapshot = await firebase.firestore().collection('storyBooks').get()
+        // snapshot.docs.map(doc => {
+        //     console.log(doc.id)
+        //     console.log(doc.data().bookProgress)
+        // })
+    }
 
     return (
         <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
@@ -75,6 +93,7 @@ const ProfileSelect = ({ navigation }) => {
                         renderItem={({ item, index, separators }) => (
                             <View style={styles.profileStyle}>
 
+                                {/* map */}
                                 <TouchableOpacity
                                     key={item.key}
                                     onPress={() => navigation.navigate('MainScreen')}
@@ -89,9 +108,9 @@ const ProfileSelect = ({ navigation }) => {
 
                             </View>
                         )} />
-                    <TouchableHighlight {...touchPropsLoginButton} style={styles.editProfileButton}>
+                    <TouchableOpacity onPress={handleCreateProfile}  style={styles.editProfileButton}>
                         <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
 
