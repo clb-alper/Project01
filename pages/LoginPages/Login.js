@@ -4,8 +4,8 @@ import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import colors from '../assets/colors/colors';
-import { auth } from '../firebase';
+import colors from '../../assets/colors/colors';
+import { auth } from '../../firebase';
 
 
 const Login = ({ navigation }) => {
@@ -40,9 +40,9 @@ const Login = ({ navigation }) => {
 
 
     const [fontsLoaded] = useFonts({
-        'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
-        'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
-        'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
+        'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
+        'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
+        'Comic-Bold': require('../../assets/fonts/ComicNeue-Bold.ttf'),
     });
 
     const onLayoutRootView = useCallback(async () => {
@@ -69,7 +69,7 @@ const Login = ({ navigation }) => {
 
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
+            <Image source={require('../../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
             <View style={[styles.login_container, styles.shadowProp]}>
                 <View style={styles.loginHeaderView}>
                     <Text style={styles.loginHeader}>Giriş Yap</Text>

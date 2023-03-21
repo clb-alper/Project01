@@ -4,16 +4,16 @@ import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import colors from '../assets/colors/colors';
+import colors from '../../assets/colors/colors';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 
 const ForgotPass = ({ navigation }) => {
     var [isPress, setIsPress] = React.useState(false);
 
     const [fontsLoaded] = useFonts({
-        'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
-        'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
-        'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
+        'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
+        'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
+        'Comic-Bold': require('../../assets/fonts/ComicNeue-Bold.ttf'),
     });
 
     const onLayoutRootView = useCallback(async () => {
@@ -48,7 +48,7 @@ const ForgotPass = ({ navigation }) => {
         <AlertNotificationRoot>
             <View style={styles.container} onLayout={onLayoutRootView}>
                 <StatusBar style="auto" />
-                <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
+                <Image source={require('../../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
                 <View style={[styles.forgotpass_container, styles.shadowProp]}>
                     <View style={styles.forgotPassHeaderView}>
                         <Text style={styles.forgotPassHeader}>Şifremi Unuttum</Text>

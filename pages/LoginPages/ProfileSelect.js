@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import colors from '../assets/colors/colors';
-import userData from '../assets/data/userData';
-import { BoxShadow } from 'react-native-shadow';
-import { auth, firebase } from '../firebase';
+import colors from '../../assets/colors/colors';
+import userData from '../../assets/data/userData';
+import { auth, firebase } from '../../firebase';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -17,9 +16,9 @@ const ProfileSelect = ({ navigation }) => {
     var [isPress, setIsPress] = React.useState(false);
 
     const [fontsLoaded] = useFonts({
-        'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
-        'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
-        'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
+        'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
+        'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
+        'Comic-Bold': require('../../assets/fonts/ComicNeue-Bold.ttf'),
     });
 
     const onLayoutRootView = useCallback(async () => {
@@ -73,7 +72,7 @@ const ProfileSelect = ({ navigation }) => {
         <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
             <StatusBar style="light" />
 
-            <ImageBackground source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage}>
+            <ImageBackground source={require('../../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage}>
                 <View style={styles.profileSelectChildContainer}>
                 </View>
             </ImageBackground>
@@ -100,7 +99,7 @@ const ProfileSelect = ({ navigation }) => {
                                     activeOpacity={0.8}>
 
                                     <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
-                                        <Image source={require('../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
+                                        <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
                                     </View>
 
                                 </TouchableOpacity>

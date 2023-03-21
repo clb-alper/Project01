@@ -4,19 +4,14 @@ import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import colors from '../assets/colors/colors';
-import { auth, firebase } from '../firebase';
+import colors from '../../assets/colors/colors';
+import { auth, firebase } from '../../firebase';
 import { sendEmailVerification } from "firebase/auth";
-import booksListData from '../assets/data/booksListData';
-
 
 const Register = ({ navigation }) => {
 
     const [email, setEmail] = React.useState();
     const [password, setPassword] = React.useState();
-
-
-
 
 
     // const handleSignUp = () => {
@@ -80,9 +75,9 @@ const Register = ({ navigation }) => {
 
 
     const [fontsLoaded] = useFonts({
-        'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
-        'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
-        'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
+        'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
+        'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
+        'Comic-Bold': require('../../assets/fonts/ComicNeue-Bold.ttf'),
     });
 
     const onLayoutRootView = useCallback(async () => {
@@ -99,7 +94,7 @@ const Register = ({ navigation }) => {
 
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
+            <Image source={require('../../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
             <View style={[styles.register_container, styles.shadowProp]}>
                 <View style={styles.registerHeaderTextView}>
                     <Text style={styles.registerHeader}>Kayıt Ol</Text>
