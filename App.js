@@ -23,6 +23,7 @@ import AntIcons from 'react-native-vector-icons/AntDesign';
 import Settings from './pages/Settings/Settings';
 import NotificationSettings from './pages/Settings/NotificationSettings';
 import FontSizeSettings from './pages/Settings/FontSizeSettings';
+import ProfileAddEdit from './pages/LoginPages/ProfileAddEdit';
 
 const Tab = createBottomTabNavigator();
 
@@ -132,6 +133,7 @@ export default function App() {
                 }}>
                 <Stack.Screen name="Login" component={Login} options={TransitionAnim} />
                 <Stack.Screen name="ProfileSelect" component={ProfileSelect} options={TransitionAnim} />
+                <Stack.Screen name="ProfileAddEdit" component={ProfileAddEdit} options={TransitionAnim} />
                 <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
                 <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
                 <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />

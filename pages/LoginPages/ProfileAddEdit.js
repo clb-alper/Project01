@@ -11,7 +11,7 @@ import { auth, firebase } from '../../firebase';
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
-const ProfileSelect = ( {navigation}) => {
+const ProfileSelect = ({ navigation }) => {
 
     var [isPress, setIsPress] = React.useState(false);
 
@@ -78,56 +78,14 @@ const ProfileSelect = ( {navigation}) => {
             </ImageBackground>
             <SafeAreaView edges={['bottom', 'top']}>
                 <View style={styles.flatListStyle}>
-                    <Text style={styles.profileSelectHeader}>Profil Seçin</Text>
-                    <FlatList
-                        overScrollMode={'never'}
-                        horizontal={false}
-                        scrollEnabled={false}
-                        numColumns={2}
-                        viewAreaCoveragePercentThreshold={10}
-                        itemVisiblePercentThreshold={10}
-                        data={userData}
-                        keyExtractor={(item) => item.id}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item, index, separators }) => (
+                    <Text style={styles.profileSelectHeader}>İkonlar</Text>
 
-                            <>
-                                <View style={styles.profileStyle}>
-
-                                    {/* map */}
-                                    <TouchableOpacity
-                                        key={item.key}
-                                        onPress={() => navigation.navigate('MainScreen')}
-                                        activeOpacity={0.8}>
-
-                                        <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
-                                            <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
-                                        </View>
-
-
-
-                                    </TouchableOpacity>
-                                    <Text style={[styles.userNicknameStyle, { color: item.selectedColor }]}>{item.userNickname}</Text>
-
-                                </View>
-
-                            </>
-
-                        )} />
-
-                    {userData.length < 4 ?
-                        <TouchableOpacity onPress={() => navigation.navigate('ProfileAddEdit')} style={styles.addProfileButton}>
-                            <Text style={styles.addProfileButtonText}>Profil Ekle</Text>
-                        </TouchableOpacity>
-                        : null}
-
-                    <TouchableOpacity style={styles.editProfileButton}>
-                        <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
-                    </TouchableOpacity>
 
                 </View>
             </SafeAreaView>
-
+            <TouchableOpacity onPress={handleCreateProfile} style={{ width: 100, height: 100, backgroundColor: 'red' }}>
+                <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
+            </TouchableOpacity>
 
         </View>
     )
@@ -159,33 +117,6 @@ const styles = StyleSheet.create({
 
     },
 
-    backgroundDarkener: {
-        backgroundColor: 'red',
-    },
-
-    editProfileButton: {
-        marginBottom: heightOfScreen * 0.15,
-        width: '75%',
-        padding: 3,
-        backgroundColor: colors.pinkRegular,
-        borderWidth: 2,
-        borderRadius: 15,
-        borderColor: colors.pinkBorder
-    },
-
-    loginButtonText: {
-        fontFamily: 'Comic-Light',
-        textAlign: 'center',
-        fontSize: 24,
-    },
-
-    profileStyle: {
-        marginTop: 10,
-        marginRight: 15,
-        marginBottom: 15,
-        marginLeft: 20,
-    },
-
     profileSelectHeader: {
         fontFamily: 'Comic-Bold',
         textAlign: 'center',
@@ -196,51 +127,11 @@ const styles = StyleSheet.create({
 
     },
 
-    profileImageStyle: {
-        resizeMode: 'contain',
-        width: 120,
-        height: 120,
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginLeft: 5,
-
-    },
-
-    pfpBackground: {
-        width: 130,
-        height: 130,
-        borderRadius: 100,
-    },
-
-    userNicknameStyle: {
-        fontFamily: 'Comic-Bold',
-        textAlign: 'center',
-        fontSize: 20,
-        marginTop: 10,
-    },
-
     flatListStyle: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
 
-    },
-
-    addProfileButton: {
-        marginBottom: heightOfScreen * 0.02,
-        width: '75%',
-        padding: 3,
-        backgroundColor: colors.pinkRegular,
-        borderWidth: 2,
-        borderRadius: 15,
-        borderColor: colors.pinkBorder
-    },
-
-    addProfileButtonText: {
-        fontFamily: 'Comic-Light',
-        textAlign: 'center',
-        fontSize: 24,
     },
 
 })
