@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -8,12 +8,34 @@ import colors from '../../assets/colors/colors';
 import userData from '../../assets/data/userData';
 import { auth, firebase } from '../../firebase';
 
+
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
 const ProfileSelect = ( {navigation}) => {
 
-    var [isPress, setIsPress] = React.useState(false);
+  
+    const [profileList, setProfileList] = React.useState([]);
+    const todoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles');
+
+    useEffect(() => {
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const profileList = []
+                    querySnapshot.forEach((doc) => {
+                        const { name } = doc.data()
+                        profileList.push({
+                            id: doc.id,
+                            name
+                        })
+                    })
+                    setProfileList(profileList)
+                    
+                }
+            )
+    }, [])
+    console.log(profileList)
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -32,41 +54,9 @@ const ProfileSelect = ( {navigation}) => {
     }
 
 
-    var touchPropsLoginButton = {
-        activeOpacity: 1,
-        underlayColor: '#ffe0e7',
-        onHideUnderlay: () => setIsPress(false),
-        onShowUnderlay: () => setIsPress(true),
-        onPress: () => navigation.navigate('MainScreen')
+  
 
-    };
-
-    const handleCreateProfile = async () => {
-        // main user
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
-            email: firebase.auth().currentUser.email
-
-        })
-
-        // sub user
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc("user4").set({
-            name: 'subuser1'
-        })
-
-        // // sub user's continueReading
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        // .doc("user4").collection('continueReading').doc().set({
-        //     bookId: '1',
-        //     progressStatus: '32'
-        // })
-
-
-        // const snapshot = await firebase.firestore().collection('storyBooks').get()
-        // snapshot.docs.map(doc => {
-        //     console.log(doc.id)
-        //     console.log(doc.data().bookProgress)
-        // })
-    }
+    
 
     return (
         <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
@@ -86,7 +76,7 @@ const ProfileSelect = ( {navigation}) => {
                         numColumns={2}
                         viewAreaCoveragePercentThreshold={10}
                         itemVisiblePercentThreshold={10}
-                        data={userData}
+                        data={profileList}
                         keyExtractor={(item) => item.id}
                         showsHorizontalScrollIndicator={false}
                         renderItem={({ item, index, separators }) => (
@@ -115,8 +105,9 @@ const ProfileSelect = ( {navigation}) => {
 
                         )} />
 
-                    {userData.length < 4 ?
+                    {profileList.length < 4 ?
                         <TouchableOpacity onPress={() => navigation.navigate('ProfileAddEdit')} style={styles.addProfileButton}>
+                            {/* TODO: Kapladığı alan yok edilecek */}
                             <Text style={styles.addProfileButtonText}>Profil Ekle</Text>
                         </TouchableOpacity>
                         : null}

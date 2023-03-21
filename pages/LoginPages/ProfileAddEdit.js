@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
-import userData from '../../assets/data/userData';
 import { auth, firebase } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
 
@@ -14,7 +13,7 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 
 const ProfileSelect = ({ navigation }) => {
 
-    var [isPress, setIsPress] = React.useState(false);
+    const [profileName, setProfileName] = useState();
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -31,6 +30,8 @@ const ProfileSelect = ({ navigation }) => {
     if (!fontsLoaded) {
         return null;
     }
+
+    
 
     const iconArray = [
         {
@@ -55,14 +56,6 @@ const ProfileSelect = ({ navigation }) => {
         },
     ]
 
-    var touchPropsLoginButton = {
-        activeOpacity: 1,
-        underlayColor: '#ffe0e7',
-        onHideUnderlay: () => setIsPress(false),
-        onShowUnderlay: () => setIsPress(true),
-        onPress: () => navigation.navigate('MainScreen')
-
-    };
 
     const handleCreateProfile = async () => {
         // main user
@@ -72,8 +65,8 @@ const ProfileSelect = ({ navigation }) => {
         })
 
         // sub user
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc("user4").set({
-            name: 'subuser1'
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().set({
+            name: profileName,
         })
 
         // // sub user's continueReading
@@ -136,12 +129,14 @@ const ProfileSelect = ({ navigation }) => {
                         placeholder="İsim Giriniz"
                         placeholderTextColor={'#B8B8B8'}
                         keyboardType="text"
+                        value={profileName}
+                        onChangeText={(e) => setProfileName(e)}
                     />
                 </View>
 
             </SafeAreaView>
 
-            <TouchableOpacity style={styles.saveButton}>
+            <TouchableOpacity onPress={handleCreateProfile} style={styles.saveButton}>
                 <Text style={styles.saveButtonText}>Kaydet</Text>
             </TouchableOpacity>
 
