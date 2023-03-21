@@ -8,6 +8,7 @@ import colors from '../../assets/colors/colors';
 import userData from '../../assets/data/userData';
 import { auth, firebase } from '../../firebase';
 
+
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
@@ -30,6 +31,24 @@ const ProfileSelect = ({ navigation }) => {
     if (!fontsLoaded) {
         return null;
     }
+
+    const iconArray = [
+        {
+            image: '../../assets/images/icontest.png'
+        },
+        {
+            image: '../../assets/images/icontest.png'
+        },
+        {
+            image: '../../assets/images/icontest.png'
+        },
+        {
+            image: '../../assets/images/icontest.png'
+        },
+        {
+            image: '../../assets/images/icontest.png'
+        },
+    ]
 
 
     var touchPropsLoginButton = {
@@ -80,11 +99,44 @@ const ProfileSelect = ({ navigation }) => {
                 <View style={styles.flatListStyle}>
                     <Text style={styles.profileSelectHeader}>İkonlar</Text>
 
-
+                    <View style={{flexDirection:'row', }}>
+                        {iconArray.map((icon, index) => {
+                            return (
+                                <Text key={index} style={{marginLeft:30, color:colors.blueLight}}>
+                                   {icon.image}
+                                </Text>
+          
+                            )
+                        })}
+                    </View>
                 </View>
+
+                <View style={styles.flatListStyle}>
+                    <Text style={styles.profileSelectHeader}>Renkler</Text>
+
+                    <View style={{flexDirection:'row', }}>
+                        {iconArray.map((icon, index) => {
+                            return (
+                                <Text key={index} style={{marginLeft:30, color:colors.blueLight}}>
+                                   {icon.image}
+                                </Text>
+                            )
+                        })}
+                    </View>
+                </View>
+
+                <View style={styles.flatListStyle}>
+                    <Text style={styles.profileSelectHeader}>İsim</Text>
+
+                    <Text style={{color:colors.pinkRegular, fontSize:24, marginTop:-30}}>
+                        İsim Giriniz
+                    </Text>
+                </View>
+
+
             </SafeAreaView>
-            <TouchableOpacity onPress={handleCreateProfile} style={{ width: 100, height: 100, backgroundColor: 'red' }}>
-                <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
+            <TouchableOpacity style={styles.saveButton}>
+                <Text style={styles.saveButtonText}>KAYDET</Text>
             </TouchableOpacity>
 
         </View>
@@ -128,10 +180,27 @@ const styles = StyleSheet.create({
     },
 
     flatListStyle: {
-        flex: 1,
+        marginTop: -20,
         alignItems: 'center',
         justifyContent: 'center',
 
+    },
+
+    saveButton: {
+        marginTop: 70,
+        marginBottom: heightOfScreen * 0.15,
+        width: '30%',
+        padding: 3,
+        backgroundColor: colors.pinkRegular,
+        borderWidth: 2,
+        borderRadius: 15,
+        borderColor: colors.pinkBorder
+    },
+
+    saveButtonText: {
+        fontFamily: 'Comic-Light',
+        textAlign: 'center',
+        fontSize: 24,
     },
 
 })
