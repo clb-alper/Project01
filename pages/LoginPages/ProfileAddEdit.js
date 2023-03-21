@@ -7,7 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
 import userData from '../../assets/data/userData';
 import { auth, firebase } from '../../firebase';
-
+import { TextInput } from 'react-native-gesture-handler';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -34,22 +34,26 @@ const ProfileSelect = ({ navigation }) => {
 
     const iconArray = [
         {
-            image: '../../assets/images/icontest.png'
+            id: 1,
+            image: "require('../../assets/images/icontest.png')"
         },
         {
-            image: '../../assets/images/icontest.png'
+            id: 2,
+            image: "require('../../assets/images/icontest.png')"
         },
         {
-            image: '../../assets/images/icontest.png'
+            id: 3,
+            image: "require('../../assets/images/icontest.png')"
         },
         {
-            image: '../../assets/images/icontest.png'
+            id: 4,
+            image: "require('../../assets/images/icontest.png')"
         },
         {
-            image: '../../assets/images/icontest.png'
+            id: 5,
+            image: "require('../../assets/images/icontest.png')"
         },
     ]
-
 
     var touchPropsLoginButton = {
         activeOpacity: 1,
@@ -95,48 +99,50 @@ const ProfileSelect = ({ navigation }) => {
                 <View style={styles.profileSelectChildContainer}>
                 </View>
             </ImageBackground>
-            <SafeAreaView edges={['bottom', 'top']}>
-                <View style={styles.flatListStyle}>
-                    <Text style={styles.profileSelectHeader}>İkonlar</Text>
 
-                    <View style={{flexDirection:'row', }}>
+            <SafeAreaView edges={['bottom', 'top']}>
+
+                <View style={styles.iconMapStyle}>
+                    <Text style={styles.profileSelectHeader}>Ikonlar</Text>
+
+                    <View style={{ flexDirection: 'row', }}>
                         {iconArray.map((icon, index) => {
                             return (
-                                <Text key={index} style={{marginLeft:30, color:colors.blueLight}}>
-                                   {icon.image}
-                                </Text>
-          
+                                <ImageBackground key={index} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/project01-b18cf.appspot.com/o/icontest.png?alt=media&token=77150489-0217-4492-800d-e493d0d2d2c5" }} style={{ width: 50, height: 50 }} >
+                                </ImageBackground>
                             )
                         })}
                     </View>
+
                 </View>
 
-                <View style={styles.flatListStyle}>
+                <View style={styles.colorMapStyle}>
                     <Text style={styles.profileSelectHeader}>Renkler</Text>
 
-                    <View style={{flexDirection:'row', }}>
+                    <View style={{ flexDirection: 'row', }}>
                         {iconArray.map((icon, index) => {
                             return (
-                                <Text key={index} style={{marginLeft:30, color:colors.blueLight}}>
-                                   {icon.image}
-                                </Text>
+                                <ImageBackground key={index} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/project01-b18cf.appspot.com/o/icontest.png?alt=media&token=77150489-0217-4492-800d-e493d0d2d2c5" }} style={{ width: 50, height: 50 }} >
+                                </ImageBackground>
                             )
                         })}
                     </View>
                 </View>
 
-                <View style={styles.flatListStyle}>
-                    <Text style={styles.profileSelectHeader}>İsim</Text>
-
-                    <Text style={{color:colors.pinkRegular, fontSize:24, marginTop:-30}}>
-                        İsim Giriniz
-                    </Text>
+                <View style={styles.textViewStyle}>
+                    <Text style={styles.profileSelectHeader}>Isim</Text>
+                    <TextInput
+                        style={styles.nameInputStyle}
+                        placeholder="İsim Giriniz"
+                        placeholderTextColor={'#B8B8B8'}
+                        keyboardType="text"
+                    />
                 </View>
 
-
             </SafeAreaView>
+
             <TouchableOpacity style={styles.saveButton}>
-                <Text style={styles.saveButtonText}>KAYDET</Text>
+                <Text style={styles.saveButtonText}>Kaydet</Text>
             </TouchableOpacity>
 
         </View>
@@ -179,17 +185,31 @@ const styles = StyleSheet.create({
 
     },
 
-    flatListStyle: {
-        marginTop: -20,
+    iconMapStyle: {
+        marginTop: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+
+    colorMapStyle: {
+        marginTop: -75,
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
+
+    textViewStyle: {
+        marginTop: -75,
         alignItems: 'center',
         justifyContent: 'center',
 
     },
 
     saveButton: {
-        marginTop: 70,
+        marginTop: 60,
         marginBottom: heightOfScreen * 0.15,
-        width: '30%',
+        width: '50%',
         padding: 3,
         backgroundColor: colors.pinkRegular,
         borderWidth: 2,
@@ -202,5 +222,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 24,
     },
+
+    nameInputStyle: {
+        fontFamily: 'Comic-Bold',
+        fontSize: 45,
+        color: colors.blueContainer,
+        textAlign: 'center',
+        marginTop: -15
+    }
 
 })
