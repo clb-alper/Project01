@@ -15,6 +15,8 @@ const ProfileSelect = ({ navigation }) => {
 
     const [profileName, setProfileName] = useState();
 
+    const [iconIndex, setIconIndex] = useState();
+
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
         'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
@@ -30,8 +32,6 @@ const ProfileSelect = ({ navigation }) => {
     if (!fontsLoaded) {
         return null;
     }
-
-    
 
     const iconArray = [
         {
@@ -58,15 +58,16 @@ const ProfileSelect = ({ navigation }) => {
 
 
     const handleCreateProfile = async () => {
-        // main user
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
-            email: firebase.auth().currentUser.email
+        // // main user
+        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
+        //     email: firebase.auth().currentUser.email
 
-        })
+        // })
 
         // sub user
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().set({
             name: profileName,
+            profileIcon: iconIndex,
         })
 
         // // sub user's continueReading
@@ -101,13 +102,23 @@ const ProfileSelect = ({ navigation }) => {
                     <View style={{ flexDirection: 'row', }}>
                         {iconArray.map((icon, index) => {
                             return (
-                                <ImageBackground key={index} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/project01-b18cf.appspot.com/o/icontest.png?alt=media&token=77150489-0217-4492-800d-e493d0d2d2c5" }} style={{ width: 50, height: 50 }} >
-                                </ImageBackground>
+                                <TouchableOpacity
+                                    key={icon.key}
+                                    onPress={() => setIconIndex(index)}
+                                    activeOpacity={0.8}>
+
+                                    <ImageBackground key={index} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/project01-b18cf.appspot.com/o/icontest.png?alt=media&token=77150489-0217-4492-800d-e493d0d2d2c5" }} style={{ width: 50, height: 50 }} >
+                                    </ImageBackground>
+
+                                </TouchableOpacity>
+
                             )
                         })}
                     </View>
 
                 </View>
+
+                {console.log(iconIndex)}
 
                 <View style={styles.colorMapStyle}>
                     <Text style={styles.profileSelectHeader}>Renkler</Text>

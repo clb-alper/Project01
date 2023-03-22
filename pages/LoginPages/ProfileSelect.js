@@ -8,13 +8,11 @@ import colors from '../../assets/colors/colors';
 import userData from '../../assets/data/userData';
 import { auth, firebase } from '../../firebase';
 
-
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
-const ProfileSelect = ( {navigation}) => {
+const ProfileSelect = ({ navigation }) => {
 
-  
     const [profileList, setProfileList] = React.useState([]);
     const todoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles');
 
@@ -24,14 +22,15 @@ const ProfileSelect = ( {navigation}) => {
                 querySnapshot => {
                     const profileList = []
                     querySnapshot.forEach((doc) => {
-                        const { name } = doc.data()
+                        const { name, pColor } = doc.data()
                         profileList.push({
                             id: doc.id,
-                            name
+                            name,
+                            pColor
                         })
                     })
                     setProfileList(profileList)
-                    
+
                 }
             )
     }, [])
@@ -53,74 +52,75 @@ const ProfileSelect = ( {navigation}) => {
         return null;
     }
 
-
-  
-
-    
-
     return (
-        <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
-            <StatusBar style="light" />
-
+        <>
             <ImageBackground source={require('../../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage}>
                 <View style={styles.profileSelectChildContainer}>
                 </View>
             </ImageBackground>
-            <SafeAreaView edges={['bottom', 'top']}>
-                <View style={styles.flatListStyle}>
-                    <Text style={styles.profileSelectHeader}>Profil Seçin</Text>
-                    <FlatList
-                        overScrollMode={'never'}
-                        horizontal={false}
-                        scrollEnabled={false}
-                        numColumns={2}
-                        viewAreaCoveragePercentThreshold={10}
-                        itemVisiblePercentThreshold={10}
-                        data={profileList}
-                        keyExtractor={(item) => item.id}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item, index, separators }) => (
+            
+            <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
+    
+                <StatusBar style="light" />
+                <SafeAreaView edges={['bottom', 'top']}>
 
-                            <>
-                                <View style={styles.profileStyle}>
+                <Text style={styles.profileSelectHeader}>Profil Seçin</Text>
+                    
+                    <View style={styles.flatListStyle}>
 
-                                    {/* map */}
-                                    <TouchableOpacity
-                                        key={item.key}
-                                        onPress={() => navigation.navigate('MainScreen')}
-                                        activeOpacity={0.8}>
+                        <FlatList
+                            overScrollMode={'never'}
+                            horizontal={false}
+                            scrollEnabled={false}
+                            numColumns={2}
+                            viewAreaCoveragePercentThreshold={10}
+                            itemVisiblePercentThreshold={10}
+                            data={profileList}
+                            keyExtractor={(item) => item.id}
+                            showsHorizontalScrollIndicator={false}
+                            renderItem={({ item, index, separators }) => (
 
-                                        <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
-                                            <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
-                                        </View>
+                                <>
+                                    <View style={styles.profileStyle}>
+                                        <TouchableOpacity
+                                            key={item.key}
+                                            onPress={() => navigation.navigate('MainScreen')}
+                                            activeOpacity={0.8}>
 
+                                            <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
+                                                <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
+                                            </View>
 
+                                        </TouchableOpacity>
+                                        <Text style={[styles.userNicknameStyle, { color: item.pColor }]}>{item.name}</Text>
 
-                                    </TouchableOpacity>
-                                    <Text style={[styles.userNicknameStyle, { color: item.selectedColor }]}>{item.userNickname}</Text>
+                                    </View>
 
-                                </View>
+                                </>
 
-                            </>
+                            )} />
 
-                        )} />
+                    </View>
 
-                    {profileList.length < 4 ?
-                        <TouchableOpacity onPress={() => navigation.navigate('ProfileAddEdit')} style={styles.addProfileButton}>
-                            {/* TODO: Kapladığı alan yok edilecek */}
-                            <Text style={styles.addProfileButtonText}>Profil Ekle</Text>
+                    <View style={styles.buttonsViewStyle}>
+
+                        {profileList.length < 4 ?
+                            <TouchableOpacity onPress={() => navigation.navigate('ProfileAddEdit')} style={styles.addProfileButton}>
+                                {/* TODO: Kapladığı alan yok edilecek */}
+                                <Text style={styles.addProfileButtonText}>Profil Ekle</Text>
+                            </TouchableOpacity>
+                            : null}
+
+                        <TouchableOpacity style={styles.editProfileButton}>
+                            <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
                         </TouchableOpacity>
-                        : null}
 
-                    <TouchableOpacity style={styles.editProfileButton}>
-                        <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
-                    </TouchableOpacity>
+                    </View>
 
-                </View>
-            </SafeAreaView>
+                </SafeAreaView>
 
-
-        </View>
+            </View>
+        </>
     )
 }
 
@@ -128,7 +128,6 @@ export default ProfileSelect
 
 const styles = StyleSheet.create({
     profileSelectContainer: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -150,18 +149,8 @@ const styles = StyleSheet.create({
 
     },
 
-    backgroundDarkener: {
-        backgroundColor: 'red',
-    },
-
-    editProfileButton: {
-        marginBottom: heightOfScreen * 0.15,
-        width: '75%',
-        padding: 3,
-        backgroundColor: colors.pinkRegular,
-        borderWidth: 2,
-        borderRadius: 15,
-        borderColor: colors.pinkBorder
+    flatListStyle: {
+        height: 400
     },
 
     loginButtonText: {
@@ -180,11 +169,10 @@ const styles = StyleSheet.create({
     profileSelectHeader: {
         fontFamily: 'Comic-Bold',
         textAlign: 'center',
-        marginTop: 120,
+        marginTop: '30%',
+        marginBottom: '12%',
         fontSize: 40,
-        marginBottom: 50,
         color: colors.white,
-
     },
 
     profileImageStyle: {
@@ -211,15 +199,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 
-    flatListStyle: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-
+    editProfileButton: {
+        width: '75%',
+        padding: 3,
+        backgroundColor: colors.pinkRegular,
+        borderWidth: 2,
+        borderRadius: 15,
+        borderColor: colors.pinkBorder
     },
 
     addProfileButton: {
-        marginBottom: heightOfScreen * 0.02,
+        marginBottom: '5%',
         width: '75%',
         padding: 3,
         backgroundColor: colors.pinkRegular,
@@ -233,5 +223,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 24,
     },
+
+    buttonsViewStyle: {
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 
 })
