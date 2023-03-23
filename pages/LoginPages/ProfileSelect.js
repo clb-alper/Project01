@@ -92,7 +92,7 @@ const ProfileSelect = ({ navigation }) => {
                                             </View>
 
                                         </TouchableOpacity>
-                                        <Text style={[styles.userNicknameStyle, { color: item.profileColor }]}>{item.name}</Text>
+                                        <Text style={[styles.userNicknameStyle, { color: item.profileColor.regularColor }]}>{item.name}</Text>
 
                                     </View>
 

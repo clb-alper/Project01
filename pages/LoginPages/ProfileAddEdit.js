@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
 import { auth, firebase } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -16,7 +17,7 @@ const ProfileSelect = ({ navigation }) => {
     const [profileName, setProfileName] = useState();
 
     const [iconIndex, setIconIndex] = useState();
-    const [colorIndex, setColorIndex] = useState(colors.pinkRegular);
+    const [colorIndex, setColorIndex] = useState({ regularColor: colors.pinkLight, borderColor: colors.pinkBorder });
 
     const handleProfileColor = (colorHandle) => {
         switch (colorHandle) {
@@ -77,17 +78,52 @@ const ProfileSelect = ({ navigation }) => {
             id: 5,
             image: "require('../../assets/images/icontest.png')"
         },
+        {
+            id: 6,
+            image: "require('../../assets/images/icontest.png')"
+        },
+        {
+            id: 7,
+            image: "require('../../assets/images/icontest.png')"
+        },
+        {
+            id: 8,
+            image: "require('../../assets/images/icontest.png')"
+        },
+    ]
+
+    const colorArray = [
+        {
+            id: 1,
+            regularColor: colors.pinkLight,
+            borderColor: colors.pinkBorder
+        },
+        {
+            id: 2,
+            regularColor: colors.blueRegular,
+            borderColor: colors.blueBorder
+        },
+        {
+            id: 3,
+            regularColor: colors.greenRegular,
+            borderColor: colors.greenBorder
+        },
+        {
+            id: 4,
+            regularColor: colors.yellowRegular,
+            borderColor: colors.yellowBorder
+        },
+        {
+            id: 5,
+            regularColor: colors.purpleRegular,
+            borderColor: colors.purpleBorder
+        },
     ]
 
 
     const handleCreateProfile = async () => {
-        // // main user
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
-        //     email: firebase.auth().currentUser.email
 
-        // })
-
-        // sub user
+        // Sub User
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().set({
             name: profileName,
             profileIcon: iconIndex,
@@ -110,83 +146,98 @@ const ProfileSelect = ({ navigation }) => {
         // })
     }
 
-  
+
 
     return (
-        <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
-            <StatusBar style="light" />
-
+        <>
             <ImageBackground source={require('../../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage}>
                 <View style={styles.profileSelectChildContainer}>
                 </View>
             </ImageBackground>
 
-            <SafeAreaView edges={['bottom', 'top']}>
+            <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
+                <StatusBar style="light" />
 
-                <View style={styles.iconMapStyle}>
-                    <Text style={styles.profileSelectHeader}>Ikonlar</Text>
+                <SafeAreaView edges={['bottom', 'top']}>
 
-                    <View style={{ flexDirection: 'row', }}>
-                        {iconArray.map((icon, index) => {
-                            return (
+                    <View style={styles.iconMapStyle}>
+                        <Text style={styles.profileSelectHeader}>Ikonlar</Text>
+
+                        <FlatList
+                            overScrollMode={'never'}
+                            horizontal={false}
+                            scrollEnabled={false}
+                            numColumns={4}
+                            viewAreaCoveragePercentThreshold={10}
+                            itemVisiblePercentThreshold={10}
+                            data={iconArray}
+                            keyExtractor={(item) => item.id}
+                            showsHorizontalScrollIndicator={false}
+                            renderItem={({ item, index, separators }) => (
+
                                 <TouchableOpacity
-                                    key={icon.key}
+                                    key={item.id}
                                     onPress={() => setIconIndex(index)}
                                     activeOpacity={0.8}>
 
-                                    <ImageBackground key={index} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/project01-b18cf.appspot.com/o/icontest.png?alt=media&token=77150489-0217-4492-800d-e493d0d2d2c5" }} style={{ width: 50, height: 50 }} >
-                                    </ImageBackground>
+                                    <MaterialCommunityIcon key={index} name="dog" size={65} color={colorIndex.regularColor} style={styles.iconStyles} />
 
                                 </TouchableOpacity>
 
-                            )
-                        })}
+                            )} />
+
+
                     </View>
 
-                </View>
+                    <View style={styles.colorMapStyle}>
+                        <Text style={styles.profileColorHeader}>Renkler</Text>
 
-                {console.log(iconIndex)}
+                        <FlatList
+                            overScrollMode={'never'}
+                            horizontal={true}
+                            scrollEnabled={false}
+                            viewAreaCoveragePercentThreshold={10}
+                            itemVisiblePercentThreshold={10}
+                            data={colorArray}
+                            keyExtractor={(item) => item.id}
+                            showsHorizontalScrollIndicator={false}
+                            renderItem={({ item, index, separators }) => (
 
-                <View style={styles.colorMapStyle}>
-                    <Text style={styles.profileSelectHeader}>Renkler</Text>
-
-                    <View style={{ flexDirection: 'row', }}>
-                        {iconArray.map((icon, index) => {
-                            return (
                                 <TouchableOpacity
-                                    key={icon.key}
-                                    onPress={() => handleProfileColor(index)}
-                                    activeOpacity={0.8}
-                                >
+                                    key={item.id}
+                                    onPress={() => setColorIndex({ regularColor: item.regularColor, borderColor: item.borderColor })}
+                                    activeOpacity={0.8}>
 
-                                    <ImageBackground key={index} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/project01-b18cf.appspot.com/o/icontest.png?alt=media&token=77150489-0217-4492-800d-e493d0d2d2c5" }} style={{ width: 50, height: 50 }} >
-                                    </ImageBackground>
+                                    <View style={[styles.colorIconStyles, { backgroundColor: item.regularColor, borderColor: item.borderColor }]}>
+
+                                    </View>
 
                                 </TouchableOpacity>
-                            )
-                        })}
+
+                            )} />
+
                     </View>
-                </View>
 
-                <View style={styles.textViewStyle}>
-                    <Text style={styles.profileSelectHeader}>Isim</Text>
-                    <TextInput
-                        style={styles.nameInputStyle}
-                        placeholder="İsim Giriniz"
-                        placeholderTextColor={'#B8B8B8'}
-                        keyboardType="text"
-                        value={profileName}
-                        onChangeText={(e) => setProfileName(e)}
-                    />
-                </View>
+                    <View style={styles.textViewStyle}>
+                        <Text style={styles.profileNameHeader}>Isim</Text>
+                        <TextInput
+                            style={[styles.nameInputStyle, { color: colorIndex.regularColor }]}
+                            placeholder="İsim Giriniz"
+                            placeholderTextColor={'#B8B8B8'}
+                            keyboardType="text"
+                            value={profileName}
+                            onChangeText={(e) => setProfileName(e)}
+                        />
+                    </View>
 
-            </SafeAreaView>
+                </SafeAreaView>
 
-            <TouchableOpacity onPress={handleCreateProfile} style={styles.saveButton}>
-                <Text style={styles.saveButtonText}>Kaydet</Text>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={handleCreateProfile} style={[styles.saveButton, { backgroundColor: colorIndex.regularColor, borderColor: colorIndex.borderColor }]}>
+                    <Text style={styles.saveButtonText}>Kaydet</Text>
+                </TouchableOpacity>
 
-        </View>
+            </View>
+        </>
     )
 }
 
@@ -194,7 +245,6 @@ export default ProfileSelect
 
 const styles = StyleSheet.create({
     profileSelectContainer: {
-        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -219,43 +269,57 @@ const styles = StyleSheet.create({
     profileSelectHeader: {
         fontFamily: 'Comic-Bold',
         textAlign: 'center',
-        marginTop: 120,
         fontSize: 40,
-        marginBottom: 50,
+        marginBottom: 30,
         color: colors.white,
 
     },
 
+    profileColorHeader: {
+        fontFamily: 'Comic-Bold',
+        textAlign: 'center',
+        fontSize: 40,
+        marginBottom: 30,
+        color: colors.white,
+
+    },
+
+    profileNameHeader: {
+        fontFamily: 'Comic-Bold',
+        textAlign: 'center',
+        fontSize: 40,
+        marginBottom: 40,
+        color: colors.white,
+    },
+
     iconMapStyle: {
-        marginTop: 25,
+        marginTop: 110,
         alignItems: 'center',
         justifyContent: 'center',
+        height: 250
 
     },
 
     colorMapStyle: {
-        marginTop: -75,
+        marginTop: -10,
         alignItems: 'center',
         justifyContent: 'center',
-
+        height: 150
     },
 
     textViewStyle: {
-        marginTop: -75,
+        marginTop: 20,
         alignItems: 'center',
         justifyContent: 'center',
-
     },
 
     saveButton: {
-        marginTop: 60,
-        marginBottom: heightOfScreen * 0.15,
-        width: '50%',
+        marginTop: 25,
+        marginBottom: '5%',
+        width: '60%',
         padding: 3,
-        backgroundColor: colors.pinkLight,
         borderWidth: 2,
         borderRadius: 15,
-        borderColor: colors.pinkBorder
     },
 
     saveButtonText: {
@@ -266,10 +330,29 @@ const styles = StyleSheet.create({
 
     nameInputStyle: {
         fontFamily: 'Comic-Bold',
-        fontSize: 45,
-        color: colors.blueContainer,
+        fontSize: 40,
         textAlign: 'center',
         marginTop: -15
+    },
+
+    iconMapContainerStyle: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+    },
+
+    iconStyles: {
+        width: 65,
+        height: 65,
+        marginHorizontal: 8
+    },
+
+    colorIconStyles: {
+        width: 60,
+        height: 60,
+        marginHorizontal: 6,
+        borderRadius: 100,
+        borderWidth: 3
     }
+
 
 })
