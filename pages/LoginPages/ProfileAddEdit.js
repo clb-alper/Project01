@@ -128,16 +128,19 @@ const ProfileSelect = ({ navigation }) => {
             name: profileName,
             profileIcon: iconIndex,
             profileColor: colorIndex,
-
         })
 
         // // sub user's continueReading
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        // .doc("user4").collection('continueReading').doc().set({
+        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().collection('continueReading').doc().set({
         //     bookId: '1',
         //     progressStatus: '32'
         // })
 
+        // // sub user's continueReading
+        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().collection('test').doc().set({
+        //     bookId: '1',
+        //     progressStatus: '32'
+        // })
 
         // const snapshot = await firebase.firestore().collection('storyBooks').get()
         // snapshot.docs.map(doc => {

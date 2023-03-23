@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -7,11 +7,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
 import { auth, firebase } from '../../firebase';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { ProfileContext } from '../../assets/contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
 const ProfileSelect = ({ navigation }) => {
+
+    const { currentProfileSelected, setCurrentProfileSelected } = useContext(ProfileContext);
 
     const [profileList, setProfileList] = useState([]);
     const todoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles');
@@ -34,6 +37,15 @@ const ProfileSelect = ({ navigation }) => {
                 }
             )
     }, [])
+
+    useEffect(() => {
+
+
+        handleCreateCollections();
+        navigation.navigate("MainScreen");
+
+    }, [currentProfileSelected])
+
     console.log(profileList)
 
     const [fontsLoaded] = useFonts({
@@ -50,6 +62,26 @@ const ProfileSelect = ({ navigation }) => {
 
     if (!fontsLoaded) {
         return null;
+    }
+
+    const handleCreateCollections = async () => {
+
+        // sub user's continueReading
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc(currentProfileSelected).collection('continueReading').doc().set({
+
+        })
+
+        // // sub user's continueReading
+        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().collection('test').doc().set({
+        //     bookId: '1',
+        //     progressStatus: '32'
+        // })
+
+        // const snapshot = await firebase.firestore().collection('storyBooks').get()
+        // snapshot.docs.map(doc => {
+        //     console.log(doc.id)
+        //     console.log(doc.data().bookProgress)
+        // })
     }
 
     return (
@@ -96,21 +128,28 @@ const ProfileSelect = ({ navigation }) => {
                                         <View style={styles.profileStyle}>
                                             <TouchableOpacity
                                                 key={item.key}
-                                                onPress={() => navigation.navigate('MainScreen')}
-                                                activeOpacity={0.8}>
+                                                onPress={ () => setCurrentProfileSelected(item.id)}
+                                                activeOpacity={0.2}>
 
-                                                <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
-                                                    <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
+                                                <View style={[styles.profileStyle2, { backgroundColor: item.profileColor.regularColor, borderColor: item.profileColor.borderColor }]}>
+
+
+                                                    <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
+                                                        <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.profileColor.borderColor }]} />
+                                                    </View>
+
                                                 </View>
 
+                                                <Text style={[styles.userNicknameStyle, { color: item.profileColor.regularColor }]}>{item.name}</Text>
                                             </TouchableOpacity>
-                                            <Text style={[styles.userNicknameStyle, { color: item.profileColor.regularColor }]}>{item.name}</Text>
 
                                         </View>
 
                                     </>
 
                                 )} />}
+
+                                
 
 
                     </View>
@@ -161,7 +200,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: widthOfScreen,
         height: heightOfScreen * 1.1,
-
     },
 
     flatListStyle: {
@@ -184,6 +222,13 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
 
+    profileStyle2: {
+        height: 125,
+        width: 125,
+        borderRadius: 100,
+        borderWidth: 4
+    },
+
     profileSelectHeader: {
         fontFamily: 'Comic-Bold',
         textAlign: 'center',
@@ -195,13 +240,13 @@ const styles = StyleSheet.create({
 
     profileImageStyle: {
         resizeMode: 'contain',
-        width: 120,
-        height: 120,
+        width: 100,
+        height: 100,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 5,
-
+        marginLeft: 10,
+        marginTop: -13
     },
 
     pfpBackground: {
@@ -244,7 +289,8 @@ const styles = StyleSheet.create({
 
     buttonsViewStyle: {
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 10
     },
 
     addProfileButtonNoP: {
