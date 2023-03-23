@@ -53,7 +53,7 @@ const Settings = () => {
                                 <IonIcons
                                     name="notifications-outline"
                                     size={24}
-                                    color={colors.bluePFPBG}
+                                    color={colors.blueBorder}
                                     style={styles.badgeIconStyle}
                                 />
                             </View>
@@ -103,7 +103,7 @@ const Settings = () => {
                                 <IonIcons
                                     name="notifications-outline"
                                     size={24}
-                                    color={colors.bluePFPBG}
+                                    color={colors.blueBorder}
                                     style={styles.badgeIconStyle}
                                 />
                             </View>
@@ -150,7 +150,7 @@ const Settings = () => {
                                 <IonIcons
                                     name="notifications-outline"
                                     size={24}
-                                    color={colors.bluePFPBG}
+                                    color={colors.blueBorder}
                                     style={styles.badgeIconStyle}
                                 />
                             </View>
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     },
 
     iconNotifBG: {
-        backgroundColor: colors.blueContainer,
+        backgroundColor: colors.blueLibraryDropDown,
         width: 35,
         height: 35,
         paddingLeft: 4,
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     },
 
     iconBookBG: {
-        backgroundColor: colors.pinkRegular,
+        backgroundColor: colors.pinkLight,
         width: 35,
         height: 35,
         paddingLeft: 5,

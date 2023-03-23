@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         paddingRight: 50
     },
     statisticsLine: {
-        backgroundColor: colors.greenSpacer,
+        backgroundColor: colors.greenBorder,
         width: widthOfScreen / 1.95,
         height: 8,
         alignSelf: 'center',
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     },
     badgesLine: {
-        backgroundColor: colors.greenSpacer,
+        backgroundColor: colors.greenBorder,
         width: widthOfScreen / 1.70,
         height: 8,
         alignSelf: 'center',

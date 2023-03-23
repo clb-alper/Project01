@@ -57,7 +57,7 @@ export default Header
 const styles = StyleSheet.create({
 
     login_container: {
-        backgroundColor: colors.purpleHeaderContainer,
+        backgroundColor: colors.purpleRegular,
         width: '100%',
         height: 125,
         borderBottomLeftRadius: 40,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         borderWidth: 2,
         borderColor: colors.purpleBorder,
-        backgroundColor: colors.purpleHeaderContainer,
+        backgroundColor: colors.purpleRegular,
         paddingLeft: 12,
     },
 

@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         paddingLeft: 5,
         borderColor: colors.purpleBorder,
-        backgroundColor: colors.purpleHeaderContainer,
+        backgroundColor: colors.purpleRegular,
     },
 
     pointsTextStyle2: {
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     },
 
     DropdownStyle: {
-        backgroundColor: colors.purpleTagBG,
+        backgroundColor: colors.purpleRegular,
         borderRadius: 15,
         height: 30,
         width: 90,
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     },
 
     DropdownStyle2: {
-        backgroundColor: colors.purpleTagBG,
+        backgroundColor: colors.purpleRegular,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         height: 30,
@@ -243,14 +243,14 @@ const styles = StyleSheet.create({
         height: 95,
         marginRight: '-6.6%',
         marginTop: '-6.3%',
-        backgroundColor: colors.purpleTagBG,
+        backgroundColor: colors.purpleRegular,
 
     },
 
     DropdownContainerTextStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 19,
-        backgroundColor: colors.purpleTagBG,
+        backgroundColor: colors.purpleRegular,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
 

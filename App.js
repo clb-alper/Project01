@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
 
   tabNavStyle: {
     height: 55,
-    backgroundColor: colors.yellowTabBar,
+    backgroundColor: colors.yellowRegular,
   },
 
   tabNavLabelStyle: {
@@ -187,17 +187,17 @@ const styles = StyleSheet.create({
 
   dashboardTabNavStyle: {
     height: 55,
-    backgroundColor: colors.greenHeaderContainer,
+    backgroundColor: colors.greenRegular,
   },
 
   libraryTabNavStyle: {
     height: 55,
-    backgroundColor: colors.blueContainer,
+    backgroundColor: colors.blueRegular,
   },
 
   rewardsTabNavStyle: {
     height: 55,
-    backgroundColor: colors.purpleHeaderContainer,
+    backgroundColor: colors.purpleRegular,
   },
 
 });

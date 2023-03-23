@@ -94,7 +94,7 @@ const ReadingPage = () => {
                             onPress={speak}
                             activeOpacity={0.8}>
                             <View style={styles.voiceOverButton}>
-                                <IonIcons name="md-volume-high" size={55} color={colors.blueTagBorder} style={styles.voiceOverButtonImg} />
+                                <IonIcons name="md-volume-high" size={55} color={colors.blueBorder} style={styles.voiceOverButtonImg} />
                             </View>
                         </TouchableOpacity>
 
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         marginTop: 2,
         backgroundColor: colors.blueRegular,
         borderWidth: 4,
-        borderColor: colors.bluePFPBG,
+        borderColor: colors.blueBorder,
 
     },
 
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         height: 80,
         backgroundColor: colors.blueRegular,
         borderWidth: 4,
-        borderColor: colors.blueTagBorder,
+        borderColor: colors.blueBorder,
         marginTop: 30,
         marginBottom: 30,
         alignItems: 'center'

@@ -1,43 +1,32 @@
 const colors = {
-    yellowLight: '#FFF8ED',
-    yellowTabBar: '#FBE7C6',
-    yellowBorder: '#E0BF87',
-    yellowPointIcon: '#FFD600',
 
-    blueLight: '#E8FFFE',
-    blueTabBar: '#C6FFFD',
-    blueBorder: '#A4D7D5',
-    blueRegular: '#A0E7E5',
-    blueContainer: '#BBF2F0',
-    bluePFPBG: '#83C0BF',
-    blueTagBG: '#A0E7E5',
-    blueTagBorder: '#83C0BF',
-
-    pinkRegular: '#FFDAE0',
-    pinkBorder: '#FFB8C4',
-    pinkPFPBG: '#FFB0BE',
-    pinkTagBG: '#FFDAE0',
-    pinkTagBorder: '#FFB8C4',
-
-    purpleLight: '#E1DEED',
-    purpleHeaderContainer: '#C8BFE7',
-    purpleBorder: '#8C83AA',
-    purpleSpacer: '#8F82BB',
-    purplePFPBG: '#8F82BB',
-    purpleTagBG: '#C8BFE7',
-    purpleTagBorder: '#8F82BB',
-
-    greenLight: '#DEFFE8',
-    greenHeaderContainer: '#CBFFDA',
-    greenPointsBorder: '#85D29C',
-    greenSpacer: '#85D29C',
-    greenPFPBG: '#B4F8C8',
-    greenDashboardBar: '#85D29C',
-    greenTagBG: '#B4F8C8',
-    greenTagBorder: '#8AC69B',
-    
     black: '#000',
     white: '#FFF',
+
+    pinkRegular : '#FFB0BE',
+    pinkLight : '#FFDAE0',
+    pinkBorder : '#FFB8C4',
+
+    blueRegular: '#A0E7E5',
+    blueLight : '#E8FFFE',
+    blueBorder : '#83C0BF',
+    blueLibraryHeader : '#BBF2F0',
+    blueLibraryNavBar : '#85C8C5',
+    blueLibraryDropDown : '#C6FFFD',
+
+    greenRegular : '#B4F8C8',
+    greenLight : '#DEFFE8',
+    greenBorder : '#8AC69B',
+    greenDashboardHeader : '#CBFFDA',
+    greenDashboardNavBar : '#85D29C',
+
+    yellowRegular : '#FBE7C6',
+    yellowLight : '#FFF8ED',
+    yellowBorder : '#F1C986',
+    
+    purpleRegular : '#C8BFE7',
+    purpleLight : '#E1DEED',
+    purpleBorder : '#8F82BB',
 
     grayProgressBarBG: '#EBEBEB',
     grayProgressBarBorder: '#9D9D9D',
@@ -55,7 +44,8 @@ const colors = {
     emeraldBadgeBorder: '#00A804',
     
     diamondBadge: '#4EE2EC',
-    diamondBadgeBorder: '#3DA3AA'
+    diamondBadgeBorder: '#3DA3AA',
+    
 }
 
 export default colors;

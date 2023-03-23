@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         borderWidth: 2,
         borderColor: colors.yellowBorder,
-        backgroundColor: colors.yellowTabBar,
+        backgroundColor: colors.yellowRegular,
         paddingLeft: 10,
     },
 

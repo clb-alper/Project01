@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     editProfileButton: {
         width: '75%',
         padding: 3,
-        backgroundColor: colors.pinkRegular,
+        backgroundColor: colors.pinkLight,
         borderWidth: 2,
         borderRadius: 15,
         borderColor: colors.pinkBorder
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
         marginBottom: '5%',
         width: '75%',
         padding: 3,
-        backgroundColor: colors.pinkRegular,
+        backgroundColor: colors.pinkLight,
         borderWidth: 2,
         borderRadius: 15,
         borderColor: colors.pinkBorder

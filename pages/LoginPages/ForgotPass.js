@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '85%',
         padding: 12,
-        backgroundColor: colors.pinkRegular,
+        backgroundColor: colors.pinkLight,
         borderWidth: 2,
         borderRadius: 15,
         borderColor: colors.pinkBorder

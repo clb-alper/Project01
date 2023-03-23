@@ -245,7 +245,7 @@ export default Header
 const styles = StyleSheet.create({
 
     libContainer: {
-        backgroundColor: colors.blueContainer,
+        backgroundColor: colors.blueLibraryHeader,
         height: 125,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25,
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     },
 
     dropdownStyle: {
-        backgroundColor: colors.blueTabBar,
+        backgroundColor: colors.blueLibraryDropDown,
         borderRadius: 25,
         height: 40,
         width: 125,
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     },
 
     dropdownStyle2: {
-        backgroundColor: colors.blueTabBar,
+        backgroundColor: colors.blueLibraryDropDown,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         height: 40,
@@ -312,14 +312,14 @@ const styles = StyleSheet.create({
         height: 120,
         marginRight: '-6.6%',
         marginTop: '-6.3%',
-        backgroundColor: colors.blueTabBar,
+        backgroundColor: colors.blueLibraryDropDown,
 
     },
 
     dropdownContainerTextStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 19,
-        backgroundColor: colors.blueTabBar,
+        backgroundColor: colors.blueLibraryDropDown,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
 

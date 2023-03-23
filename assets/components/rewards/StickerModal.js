@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         height: 70,
         marginTop: 30,
         borderColor: colors.purpleBorder,
-        backgroundColor: colors.purpleHeaderContainer
+        backgroundColor: colors.purpleRegular
     },
 
     modalStickerCloseButtonIcon: {
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         paddingLeft: 5,
         borderColor: colors.purpleBorder,
-        backgroundColor: colors.purpleHeaderContainer,
+        backgroundColor: colors.purpleRegular,
     },
 
     pointsTextStyle3: {

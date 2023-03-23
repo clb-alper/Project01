@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     },
 
     alphabetViewStyle: {
-        backgroundColor: colors.blueContainer,
+        backgroundColor: colors.blueLibraryHeader,
         borderTopRightRadius: 25,
         height: heightOfScreen * 1.70,
         borderWidth: 0.7,

@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
         marginBottom: heightOfScreen * 0.15,
         width: '50%',
         padding: 3,
-        backgroundColor: colors.pinkRegular,
+        backgroundColor: colors.pinkLight,
         borderWidth: 2,
         borderRadius: 15,
         borderColor: colors.pinkBorder

@@ -33,7 +33,7 @@ const Header = () => {
                     <View style={styles.headerUserInfo}>
                         <Text style={styles.headerUser}>Merhaba Ömer</Text>
                         <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
-                        <Progress.Bar style={styles.progressBar} progress={0.75} height={7.5} width={250} color={colors.greenDashboardBar} />
+                        <Progress.Bar style={styles.progressBar} progress={0.75} height={7.5} width={250} color={colors.greenBorder} />
                     </View>
 
                     <View style={styles.pointsContainer}>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 30,
         paddingLeft: '5%',
         paddingRight: '5%',
-        backgroundColor: colors.greenHeaderContainer,
+        backgroundColor: colors.greenDashboardHeader,
         zIndex: 10
     },
     dashboardContainer: {
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         backgroundColor: colors.blueRegular,
         borderWidth: 4,
-        borderColor: colors.bluePFPBG,
+        borderColor: colors.blueBorder,
 
     },
 
@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
         width: 95,
         borderRadius: 25,
         borderWidth: 2,
-        borderColor: colors.greenSpacer,
-        backgroundColor: colors.greenHeaderContainer,
+        borderColor: colors.greenBorder,
+        backgroundColor: colors.greenDashboardHeader,
         paddingLeft: 10,
 
     },

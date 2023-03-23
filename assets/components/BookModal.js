@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
     },
 
     ageTagStyle: {
-        backgroundColor: colors.pinkTagBG,
-        borderColor: colors.pinkTagBorder,
+        backgroundColor: colors.pinkLight,
+        borderColor: colors.pinkBorder,
         alignItems: 'center',
         borderWidth: 3,
         marginRight: 7,
@@ -179,8 +179,8 @@ const styles = StyleSheet.create({
     },
 
     contentTagStyle: {
-        backgroundColor: colors.blueTagBG,
-        borderColor: colors.blueTagBorder,
+        backgroundColor: colors.blueRegular,
+        borderColor: colors.blueBorder,
         alignItems: 'center',
         borderWidth: 3,
         marginRight: 7,
@@ -191,8 +191,8 @@ const styles = StyleSheet.create({
     },
 
     themeTagStyle: {
-        backgroundColor: colors.greenTagBG,
-        borderColor: colors.greenTagBorder,
+        backgroundColor: colors.greenRegular,
+        borderColor: colors.greenBorder,
         alignItems: 'center',
         borderWidth: 3,
         marginRight: 7,
@@ -203,8 +203,8 @@ const styles = StyleSheet.create({
 
     rewardTagStyle: {
         flexDirection: 'row',
-        backgroundColor: colors.purpleTagBG,
-        borderColor: colors.purpleTagBorder,
+        backgroundColor: colors.purpleRegular,
+        borderColor: colors.purpleBorder,
         alignItems: 'center',
         borderWidth: 3,
         marginRight: 7,
