@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
@@ -159,77 +159,77 @@ const ProfileSelect = ({ navigation }) => {
                 <StatusBar style="light" />
 
                 <SafeAreaView edges={['bottom', 'top']}>
+                    <KeyboardAvoidingView behavior="padding" style={{ marginBottom: 20 }}>
+                        <View style={styles.iconMapStyle}>
+                            <Text style={styles.profileSelectHeader}>Ikonlar</Text>
 
-                    <View style={styles.iconMapStyle}>
-                        <Text style={styles.profileSelectHeader}>Ikonlar</Text>
+                            <FlatList
+                                overScrollMode={'never'}
+                                horizontal={false}
+                                scrollEnabled={false}
+                                numColumns={4}
+                                viewAreaCoveragePercentThreshold={10}
+                                itemVisiblePercentThreshold={10}
+                                data={iconArray}
+                                keyExtractor={(item) => item.id}
+                                showsHorizontalScrollIndicator={false}
+                                renderItem={({ item, index, separators }) => (
 
-                        <FlatList
-                            overScrollMode={'never'}
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={4}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={iconArray}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                            renderItem={({ item, index, separators }) => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={() => setIconIndex(index)}
+                                        activeOpacity={0.8}>
 
-                                <TouchableOpacity
-                                    key={item.id}
-                                    onPress={() => setIconIndex(index)}
-                                    activeOpacity={0.8}>
+                                        <MaterialCommunityIcon key={index} name="dog" size={65} color={colorIndex.regularColor} style={styles.iconStyles} />
 
-                                    <MaterialCommunityIcon key={index} name="dog" size={65} color={colorIndex.regularColor} style={styles.iconStyles} />
+                                    </TouchableOpacity>
 
-                                </TouchableOpacity>
-
-                            )} />
+                                )} />
 
 
-                    </View>
+                        </View>
 
-                    <View style={styles.colorMapStyle}>
-                        <Text style={styles.profileColorHeader}>Renkler</Text>
+                        <View style={styles.colorMapStyle}>
+                            <Text style={styles.profileColorHeader}>Renkler</Text>
 
-                        <FlatList
-                            overScrollMode={'never'}
-                            horizontal={true}
-                            scrollEnabled={false}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={colorArray}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                            renderItem={({ item, index, separators }) => (
+                            <FlatList
+                                overScrollMode={'never'}
+                                horizontal={true}
+                                scrollEnabled={false}
+                                viewAreaCoveragePercentThreshold={10}
+                                itemVisiblePercentThreshold={10}
+                                data={colorArray}
+                                keyExtractor={(item) => item.id}
+                                showsHorizontalScrollIndicator={false}
+                                renderItem={({ item, index, separators }) => (
 
-                                <TouchableOpacity
-                                    key={item.id}
-                                    onPress={() => setColorIndex({ regularColor: item.regularColor, borderColor: item.borderColor })}
-                                    activeOpacity={0.8}>
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={() => setColorIndex({ regularColor: item.regularColor, borderColor: item.borderColor })}
+                                        activeOpacity={0.8}>
 
-                                    <View style={[styles.colorIconStyles, { backgroundColor: item.regularColor, borderColor: item.borderColor }]}>
+                                        <View style={[styles.colorIconStyles, { backgroundColor: item.regularColor, borderColor: item.borderColor }]}>
 
-                                    </View>
+                                        </View>
 
-                                </TouchableOpacity>
+                                    </TouchableOpacity>
 
-                            )} />
+                                )} />
 
-                    </View>
+                        </View>
 
-                    <View style={styles.textViewStyle}>
-                        <Text style={styles.profileNameHeader}>Isim</Text>
-                        <TextInput
-                            style={[styles.nameInputStyle, { color: colorIndex.regularColor }]}
-                            placeholder="İsim Giriniz"
-                            placeholderTextColor={'#B8B8B8'}
-                            keyboardType="text"
-                            value={profileName}
-                            onChangeText={(e) => setProfileName(e)}
-                        />
-                    </View>
-
+                        <View style={styles.textViewStyle}>
+                            <Text style={styles.profileNameHeader}>Isim</Text>
+                            <TextInput
+                                style={[styles.nameInputStyle, { color: colorIndex.regularColor }]}
+                                placeholder="İsim Giriniz"
+                                placeholderTextColor={'#B8B8B8'}
+                                keyboardType="text"
+                                value={profileName}
+                                onChangeText={(e) => setProfileName(e)}
+                            />
+                        </View>
+                    </KeyboardAvoidingView>
                 </SafeAreaView>
 
                 <TouchableOpacity onPress={handleCreateProfile} style={[styles.saveButton, { backgroundColor: colorIndex.regularColor, borderColor: colorIndex.borderColor }]}>

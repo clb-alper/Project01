@@ -5,15 +5,15 @@ import { StyleSheet, Text, View, Image, Dimensions, ImageBackground, SafeAreaVie
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
-import userData from '../../assets/data/userData';
 import { auth, firebase } from '../../firebase';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
 const ProfileSelect = ({ navigation }) => {
 
-    const [profileList, setProfileList] = React.useState([]);
+    const [profileList, setProfileList] = useState([]);
     const todoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles');
 
     useEffect(() => {
@@ -58,62 +58,77 @@ const ProfileSelect = ({ navigation }) => {
                 <View style={styles.profileSelectChildContainer}>
                 </View>
             </ImageBackground>
-            
+
             <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
-    
+
                 <StatusBar style="light" />
                 <SafeAreaView edges={['bottom', 'top']}>
 
-                <Text style={styles.profileSelectHeader}>Profil Seçin</Text>
-                    
+                    <Text style={styles.profileSelectHeader}>Profil Seçin</Text>
+
                     <View style={styles.flatListStyle}>
 
-                        <FlatList
-                            overScrollMode={'never'}
-                            horizontal={false}
-                            scrollEnabled={false}
-                            numColumns={2}
-                            viewAreaCoveragePercentThreshold={10}
-                            itemVisiblePercentThreshold={10}
-                            data={profileList}
-                            keyExtractor={(item) => item.id}
-                            showsHorizontalScrollIndicator={false}
-                            renderItem={({ item, index, separators }) => (
+                        {profileList.length < 1 ?
+                            <View style={styles.addProfileButtonNoP}>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('ProfileAddEdit')}
+                                    activeOpacity={0.8}>
 
-                                <>
-                                    <View style={styles.profileStyle}>
-                                        <TouchableOpacity
-                                            key={item.key}
-                                            onPress={() => navigation.navigate('MainScreen')}
-                                            activeOpacity={0.8}>
+                                    <AntDesign name="pluscircleo" size={150} color={colors.pinkRegular} />
+                                    <Text style={styles.addProfileButtonTextNoP}>Profil Ekle</Text>
 
-                                            <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
-                                                <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
-                                            </View>
+                                </TouchableOpacity>
+                            </View>
 
-                                        </TouchableOpacity>
-                                        <Text style={[styles.userNicknameStyle, { color: item.profileColor.regularColor }]}>{item.name}</Text>
+                            : <FlatList
+                                overScrollMode={'never'}
+                                horizontal={false}
+                                scrollEnabled={false}
+                                numColumns={2}
+                                viewAreaCoveragePercentThreshold={10}
+                                itemVisiblePercentThreshold={10}
+                                data={profileList}
+                                keyExtractor={(item) => item.id}
+                                showsHorizontalScrollIndicator={false}
+                                renderItem={({ item, index, separators }) => (
 
-                                    </View>
+                                    <>
+                                        <View style={styles.profileStyle}>
+                                            <TouchableOpacity
+                                                key={item.key}
+                                                onPress={() => navigation.navigate('MainScreen')}
+                                                activeOpacity={0.8}>
 
-                                </>
+                                                <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
+                                                    <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.selectedColor }]} />
+                                                </View>
 
-                            )} />
+                                            </TouchableOpacity>
+                                            <Text style={[styles.userNicknameStyle, { color: item.profileColor.regularColor }]}>{item.name}</Text>
+
+                                        </View>
+
+                                    </>
+
+                                )} />}
+
 
                     </View>
 
                     <View style={styles.buttonsViewStyle}>
 
-                        {profileList.length < 4 ?
+                        {profileList.length < 4 && profileList.length != 0 ?
                             <TouchableOpacity onPress={() => navigation.navigate('ProfileAddEdit')} style={styles.addProfileButton}>
                                 {/* TODO: Kapladığı alan yok edilecek */}
                                 <Text style={styles.addProfileButtonText}>Profil Ekle</Text>
                             </TouchableOpacity>
                             : null}
 
-                        <TouchableOpacity style={styles.editProfileButton}>
-                            <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
-                        </TouchableOpacity>
+                        {profileList.length != 0 ?
+                            <TouchableOpacity style={styles.editProfileButton}>
+                                <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
+                            </TouchableOpacity>
+                            : null}
 
                     </View>
 
@@ -150,7 +165,10 @@ const styles = StyleSheet.create({
     },
 
     flatListStyle: {
+        justifyContent: 'center',
+        alignItems: 'center',
         height: 400,
+        width: 375
     },
 
     loginButtonText: {
@@ -225,9 +243,22 @@ const styles = StyleSheet.create({
     },
 
     buttonsViewStyle: {
-        width: 400,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+
+    addProfileButtonNoP: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5
+    },
+
+    addProfileButtonTextNoP: {
+        fontFamily: 'Comic-Bold',
+        textAlign: 'center',
+        marginTop: 15,
+        fontSize: 30,
+        color: colors.pinkRegular
     }
 
 })
