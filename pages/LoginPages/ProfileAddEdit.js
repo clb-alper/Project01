@@ -16,6 +16,29 @@ const ProfileSelect = ({ navigation }) => {
     const [profileName, setProfileName] = useState();
 
     const [iconIndex, setIconIndex] = useState();
+    const [colorIndex, setColorIndex] = useState(colors.pinkRegular);
+
+    const handleProfileColor = (colorHandle) => {
+        switch (colorHandle) {
+            case 0:
+                setColorIndex(colors.pinkRegular)
+                break;
+            case 1:
+                setColorIndex(colors.blueRegular)
+                break;
+            case 2:
+                setColorIndex(colors.greenHeaderContainer)
+                break;
+            case 3:
+                setColorIndex(colors.yellowBorder)
+                break;
+            case 4:
+                setColorIndex(colors.purpleLight)
+                break;
+            default:
+                setColorIndex(colors.pinkRegular)
+        }
+    }
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -68,6 +91,8 @@ const ProfileSelect = ({ navigation }) => {
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().set({
             name: profileName,
             profileIcon: iconIndex,
+            profileColor: colorIndex,
+
         })
 
         // // sub user's continueReading
@@ -84,6 +109,8 @@ const ProfileSelect = ({ navigation }) => {
         //     console.log(doc.data().bookProgress)
         // })
     }
+
+  
 
     return (
         <View style={styles.profileSelectContainer} onLayout={onLayoutRootView}>
@@ -126,8 +153,16 @@ const ProfileSelect = ({ navigation }) => {
                     <View style={{ flexDirection: 'row', }}>
                         {iconArray.map((icon, index) => {
                             return (
-                                <ImageBackground key={index} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/project01-b18cf.appspot.com/o/icontest.png?alt=media&token=77150489-0217-4492-800d-e493d0d2d2c5" }} style={{ width: 50, height: 50 }} >
-                                </ImageBackground>
+                                <TouchableOpacity
+                                    key={icon.key}
+                                    onPress={() => handleProfileColor(index)}
+                                    activeOpacity={0.8}
+                                >
+
+                                    <ImageBackground key={index} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/project01-b18cf.appspot.com/o/icontest.png?alt=media&token=77150489-0217-4492-800d-e493d0d2d2c5" }} style={{ width: 50, height: 50 }} >
+                                    </ImageBackground>
+
+                                </TouchableOpacity>
                             )
                         })}
                     </View>

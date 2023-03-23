@@ -22,11 +22,11 @@ const ProfileSelect = ({ navigation }) => {
                 querySnapshot => {
                     const profileList = []
                     querySnapshot.forEach((doc) => {
-                        const { name, pColor } = doc.data()
+                        const { name, profileColor } = doc.data()
                         profileList.push({
                             id: doc.id,
                             name,
-                            pColor
+                            profileColor
                         })
                     })
                     setProfileList(profileList)
@@ -92,7 +92,7 @@ const ProfileSelect = ({ navigation }) => {
                                             </View>
 
                                         </TouchableOpacity>
-                                        <Text style={[styles.userNicknameStyle, { color: item.pColor }]}>{item.name}</Text>
+                                        <Text style={[styles.userNicknameStyle, { color: item.profileColor }]}>{item.name}</Text>
 
                                     </View>
 
