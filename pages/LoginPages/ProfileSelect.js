@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     },
 
     flatListStyle: {
-        height: 400
+        height: 400,
     },
 
     loginButtonText: {
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     },
 
     editProfileButton: {
-        width: '75%',
+        width: '65%',
         padding: 3,
         backgroundColor: colors.pinkLight,
         borderWidth: 2,
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
 
     addProfileButton: {
         marginBottom: '5%',
-        width: '75%',
+        width: '65%',
         padding: 3,
         backgroundColor: colors.pinkLight,
         borderWidth: 2,
@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
     },
 
     buttonsViewStyle: {
+        width: 400,
         justifyContent: 'center',
         alignItems: 'center'
     }
