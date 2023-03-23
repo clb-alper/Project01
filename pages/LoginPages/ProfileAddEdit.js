@@ -28,13 +28,13 @@ const ProfileSelect = ({ navigation }) => {
                 setColorIndex(colors.blueRegular)
                 break;
             case 2:
-                setColorIndex(colors.greenHeaderContainer)
+                setColorIndex(colors.greenRegular)
                 break;
             case 3:
-                setColorIndex(colors.yellowBorder)
+                setColorIndex(colors.yellowRegular)
                 break;
             case 4:
-                setColorIndex(colors.purpleLight)
+                setColorIndex(colors.purpleRegular)
                 break;
             default:
                 setColorIndex(colors.pinkRegular)
