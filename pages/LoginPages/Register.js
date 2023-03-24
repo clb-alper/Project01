@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableOpacity, KeyboardAvoidingView, Alert } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -10,8 +10,14 @@ import { sendEmailVerification } from "firebase/auth";
 
 const Register = ({ navigation }) => {
 
-    const [email, setEmail] = React.useState();
-    const [password, setPassword] = React.useState();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [password2, setPassword2] = useState();
+    const [registerError, setRegisterError] = useState();
+    const [isVisible, setIsVisible] = useState('none');
+
+
+
 
 
     // const handleSignUp = () => {
@@ -54,24 +60,59 @@ const Register = ({ navigation }) => {
 
     //created collection for users from sign-up but need improvement
     const handleSignUp = async () => {
-        auth
+        if (password === password2){
+            auth
             .createUserWithEmailAndPassword(email, password)
             .then(userCredetials => {
                 firebase.firestore().collection('users').doc(userCredetials.user.uid).set({
                     email: userCredetials.user.email,
                     emailVerified: userCredetials.user.emailVerified,
                 })
-                    // firebase.firestore().collection('users').doc(userCredetials.user.uid).collection('userProfile')
+                sendEmailVerification(auth.currentUser)
             })
+            
+            .catch(error => {
+                console.log(error.code)
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        setRegisterError('Bu mail adresi zaten kullanılıyor...')
+                        setIsVisible('flex')
+                        break;
+                    case 'auth/invalid-email':
+                        setRegisterError('Bu mail adresi geçerli değil...')
+                        setIsVisible('flex')
+                        break;
+                    case 'auth/missing-email':
+                        setRegisterError('Email adresinizi girmeniz gerekiyor...')
+                        setIsVisible('flex')
+                        break;
+                    case 'auth/admin-restricted-operation':
+                        setRegisterError('Email ve Şifre giriniz...')
+                        setIsVisible('flex')
+                        break;
+                    case 'auth/weak-password':
+                        setRegisterError('Şifre en az 6 karakter içermelidir...')
+                        setIsVisible('flex')
+                        break;
 
-        // const snapshot = await firebase.firestore().collection('storyBooks').get()
-        // snapshot.docs.map(doc => {
-        //     console.log(doc.id)
-        //     console.log(doc.data().bookProgress)
-        // })
+                    default:
+                        setRegisterError('Kayıt sırasında bir hata ile karşılaşıldı...')
+                        setIsVisible('flex')
+                        break;
+                }
+            })
+        }
+        else {
+            setRegisterError('Şifreler aynı olmalıdır...')
+            setIsVisible('flex')
+        }
+
     }
 
-    //console.log(firebase.firestore().collection('storyBooks').doc())
+
+
+
+
 
 
     const [fontsLoaded] = useFonts({
@@ -100,6 +141,10 @@ const Register = ({ navigation }) => {
                     <Text style={styles.registerHeader}>Kayıt Ol</Text>
                 </View>
 
+                <Text style={{ color: '#f26d74', fontSize: 20, fontFamily: 'Comic-Bold', display: isVisible }}>
+                    {registerError}
+                </Text>
+
                 <TextInput
                     style={[styles.inputStyle, styles.emailInputStyle]}
                     placeholder="Email"
@@ -125,6 +170,8 @@ const Register = ({ navigation }) => {
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
                     keyboardType="text"
+                    value={password2}
+                    onChangeText={text => setPassword2(text)}
                 />
 
                 <TouchableOpacity onPress={handleSignUp} style={styles.registerButton}>

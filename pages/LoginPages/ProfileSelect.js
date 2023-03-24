@@ -38,13 +38,13 @@ const ProfileSelect = ({ navigation }) => {
             )
     }, [])
 
-    useEffect(() => {
+    // useEffect(() => {
 
 
-        handleCreateCollections();
-        navigation.navigate("MainScreen");
+    //     handleCreateCollections();
+    //     navigation.navigate("MainScreen");
 
-    }, [currentProfileSelected])
+    // }, [currentProfileSelected])
 
     console.log(profileList)
 
@@ -67,7 +67,8 @@ const ProfileSelect = ({ navigation }) => {
     const handleCreateCollections = async () => {
 
         // sub user's continueReading
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc(currentProfileSelected).collection('continueReading').doc().set({
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        .doc(currentProfileSelected).collection('continueReading').doc().set({
 
         })
 
@@ -128,7 +129,7 @@ const ProfileSelect = ({ navigation }) => {
                                         <View style={styles.profileStyle}>
                                             <TouchableOpacity
                                                 key={item.key}
-                                                onPress={ () => setCurrentProfileSelected(item.id)}
+                                                onPress={ () => {setCurrentProfileSelected(item.id); navigation.navigate('MainScreen')}}
                                                 activeOpacity={0.2}>
 
                                                 <View style={[styles.profileStyle2, { backgroundColor: item.profileColor.regularColor, borderColor: item.profileColor.borderColor }]}>
