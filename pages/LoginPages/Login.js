@@ -21,7 +21,7 @@ const Login = ({ navigation }) => {
             .then(userCredetials => {
                 const user = userCredetials.user;
                 navigation.navigate('ProfileSelect');
-                console.log('Logged in with:', user.email);
+                //console.log('Logged in with:', user.email);
             })
             .catch(error => alert(error.message))
     }

@@ -46,7 +46,7 @@ const ProfileSelect = ({ navigation }) => {
 
     // }, [currentProfileSelected])
 
-    console.log(profileList)
+    //console.log(profileList)
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),

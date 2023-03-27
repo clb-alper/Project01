@@ -5,10 +5,14 @@ import * as Progress from 'react-native-progress';
 import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
 import { auth, firebase } from '../../../firebase'
+import { ProfileContext } from '../../contexts/ProfileContext';
 
 const ContReadingFlatlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
+    const { currentProfileSelected, userBookProgress } = useContext(ProfileContext);
+
+
 
     const shadowOpt = {
         width: 110,
@@ -23,39 +27,62 @@ const ContReadingFlatlist = () => {
 
 
     const [bookList, setBookList] = React.useState([]);
-    const todoRef = firebase.firestore().collection('storyBooks');
+
+    const contUserBookRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected)
+        .collection('continueReading');
 
     useEffect(() => {
-        todoRef
+        contUserBookRef
             .onSnapshot(
                 querySnapshot => {
                     const bookList = []
                     querySnapshot.forEach((doc) => {
-                        const { ageTag, bookProgress, contentTag, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
-                        bookList.push({
-                            id: doc.id,
-                            ageTag,
-                            bookProgress,
-                            contentTag,
-                            image,
-                            itemBorder,
-                            itemColor,
-                            itemColorBG,
-                            itemDesc,
-                            itemDescColor,
-                            rewardTag,
-                            themeTag,
-                            title,
-                        })
+                        const contBookReading = doc.data()
+                        contBookReading.bookRef.get()
+                            .then(res => {
+                                contBookReading.bookData = res.data()
+                                contBookReading.bookData.id = res.id
+                                contBookReading.bookData.bookProgress = contBookReading.progress
+                                bookList.push(contBookReading.bookData)
+                                setBookList(bookList)                       
+                            })
                     })
-                    setBookList(bookList)
-                    //console.log(bookList)
                 }
             )
     }, [])
 
 
-
+    // useEffect(() => {
+    //     todoRef
+    //         .onSnapshot(
+    //             querySnapshot => {
+    //                 const bookList = []
+    //                 querySnapshot.forEach((doc) => {
+    //                     const { ageTag, bookProgress, contentTag, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
+    //                     if (doc.id) { }
+    //                     bookList.push({
+    //                         id: doc.id,
+    //                         ageTag,
+    //                         bookProgress,
+    //                         contentTag,
+    //                         image,
+    //                         itemBorder,
+    //                         itemColor,
+    //                         itemColorBG,
+    //                         itemDesc,
+    //                         itemDescColor,
+    //                         rewardTag,
+    //                         themeTag,
+    //                         title,
+    //                     })
+    //                 })
+    //                 setBookList(bookList)
+    //                 //console.log(bookList)
+    //             }
+    //         )
+    // }, [])
 
 
 
@@ -64,16 +91,19 @@ const ContReadingFlatlist = () => {
             <FlatList
                 overScrollMode={'never'}
                 data={bookList}
+                keyExtractor={(item) => item.id}
+                horizontal
+                showsHorizontalScrollIndicator={false}
                 renderItem={({ item, index }) => (
                     <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
                         <TouchableOpacity
-                            key={item.key}
-                            onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                            key={item.id}
+                            onPress={() => { setModalVisible(true); setModalEntry(item);}}
                             activeOpacity={0.75}>
 
                             <BoxShadow setting={shadowOpt}>
                                 <ImageBackground
-                                    source={{uri : item.image}}
+                                    source={{ uri: item.image }}
                                     imageStyle={styles.continueBookImageStyle}>
                                 </ImageBackground>
                             </BoxShadow>
@@ -85,9 +115,6 @@ const ContReadingFlatlist = () => {
                     </View>
                 )}
 
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
             />
         </View>
     )

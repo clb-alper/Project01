@@ -3,12 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from 'react
 import { BoxShadow } from 'react-native-shadow';
 import { LibraryContext } from '../../contexts/LibraryContext';
 import { ModalContext } from '../../contexts/ModalContext';
-import BookModal from '../BookModal';
 
 const BookShowcase = () => {
 
-    const { sortedData, DATA, setData, categorySwitch, bookWidth, bookList } = useContext(LibraryContext);
-    const { modalVisible, setModalVisible, setModalEntry } = useContext(ModalContext);
+    const { sortedData, categorySwitch, bookWidth } = useContext(LibraryContext);
+    const { setModalVisible, setModalEntry } = useContext(ModalContext);
 
     const shadowOpt = {
         width: 95,

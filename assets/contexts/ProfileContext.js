@@ -5,11 +5,14 @@ export const ProfileContext = React.createContext();
 
 const ProfileProvider = ({ children }) => {
 
-    const [currentProfileSelected, setCurrentProfileSelected] = useState('0Qhyn6dAsDUTpqYtamXB');
+    const [currentProfileSelected, setCurrentProfileSelected] = useState();
+    const [userBookProgress, setUserBookProgress] = useState();
 
     const contextData = {
         currentProfileSelected,
-        setCurrentProfileSelected
+        setCurrentProfileSelected,
+        userBookProgress,
+        setUserBookProgress
     }
 
     return (
