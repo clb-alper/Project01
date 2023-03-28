@@ -22,8 +22,6 @@ const FavoriteBooksFlastlist = () => {
         y: 7,
     }
 
-
-
     const [bookList, setBookList] = React.useState([]);
 
     const favUserBookRef = firebase.firestore()
@@ -43,8 +41,7 @@ const FavoriteBooksFlastlist = () => {
                                 favBookReading.bookData = res.data()
                                 favBookReading.bookData.id = res.id
                                 favBookReading.bookData.bookProgress = favBookReading.progress
-                                favBookReading.bookData.favorited = favBookReading.favorited                               
-
+                                favBookReading.bookData.favorited = favBookReading.favorited
                                 bookList.push(favBookReading.bookData)
                                 setBookList(bookList)
                             })

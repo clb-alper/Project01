@@ -109,7 +109,7 @@ const BookModal = () => {
                             onPress={handleAddFavorite}
 
                             activeOpacity={0.75}>
-                            <AntIcons name = {favorited ? "heart" : "hearto"} size={28} color="purple" style={styles.heartIconStyle} />
+                            <AntIcons name={modalEntry.favorited ? "heart" : "hearto"} size={28} color="purple" style={styles.heartIconStyle} />
 
 
                         </TouchableOpacity>
