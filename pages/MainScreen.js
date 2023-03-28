@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import DefaultFlatlist from '../assets/components/home/DefaultFlatlist';
 import FeaturedFlatlist from '../assets/components/home/FeaturedFlatlist';
 import ContReadingFlatlist from '../assets/components/home/ContReadingFlatlist';
+import NewBooksFlatlist from '../assets/components/home/NewBooksFlatlist';
 import Header from '../assets/components/home/Header';
 import BookModal from '../assets/components/BookModal';
 import { ModalContext } from '../assets/contexts/ModalContext';
@@ -66,7 +67,7 @@ const MainScreen = () => {
 
             <Text style={styles.otherBookHeader}>Yeni</Text>
 
-            <DefaultFlatlist />
+            <NewBooksFlatlist />
 
           </View>
 
