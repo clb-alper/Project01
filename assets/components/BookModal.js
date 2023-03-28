@@ -24,9 +24,9 @@ const BookModal = () => {
 
     const handleAddFavorite = async () => {
         setFavorited(!favorited);
+        modalEntry.favorited = favorited
         await handleCreateFavoriteBooks();
     }
-
 
     const db = firebase.firestore()
 
@@ -107,10 +107,8 @@ const BookModal = () => {
 
                         <TouchableOpacity
                             onPress={handleAddFavorite}
-
                             activeOpacity={0.75}>
                             <AntIcons name={modalEntry.favorited ? "heart" : "hearto"} size={28} color="purple" style={styles.heartIconStyle} />
-
 
                         </TouchableOpacity>
 

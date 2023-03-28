@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import colors from '../../colors/colors';
@@ -9,7 +9,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 const NewBooksFlatlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected } = useContext(ProfileContext);
+    const { currentProfileSelected, favorited } = useContext(ProfileContext);
 
     const isWithinLast7Days = (date) => {
         const now = new Date();
@@ -31,45 +31,66 @@ const NewBooksFlatlist = () => {
         y: 7,
     }
 
+    // firebase.firestore()
+    //     .collection('users').doc(firebase.auth().currentUser.uid)
+    //     .collection('userProfiles').doc(currentProfileSelected)
+    //     .collection('favoriteBooks').doc("GjVpa4yEYXjsG7ydtsUm").get()
+    //     .then(documentSnapshot => console.log(documentSnapshot.get('favorited')));
+
+    const getFavoriteBooks = async () => {
+        const userRef = firebase.firestore()
+            .collection('users').doc(firebase.auth().currentUser.uid)
+            .collection('userProfiles').doc(currentProfileSelected)
+            .collection('favoriteBooks');
+
+        const snapshot = await userRef.get();
+        const favorites = new Set();
+        snapshot.forEach(doc => favorites.add(doc.id));
+        return favorites;
+    };
 
     const [bookList, setBookList] = React.useState([]);
     const todoRef = firebase.firestore().collection('storyBooks')
 
 
     useEffect(() => {
-        todoRef
-            .onSnapshot(
-                querySnapshot => {
-                    const bookList = []
-                    querySnapshot.forEach((doc) => {
-                        const { ageTag, bookProgress, contentTag, dateAdded, favorited, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
+        const test = async () => {
+            const favorites = await getFavoriteBooks();
+            todoRef
+                .onSnapshot(
+                    querySnapshot => {
+                        const bookList = []
+                        querySnapshot.forEach((doc) => {
+                            const { ageTag, bookProgress, contentTag, dateAdded, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
 
-                        const givenDate = new Date(dateAdded.toDate());
+                            const givenDate = new Date(dateAdded.toDate());
 
-                        if (isWithinLast7Days(givenDate)) {
-                            bookList.push({
-                                id: doc.id,
-                                ageTag,
-                                bookProgress,
-                                contentTag,
-                                dateAdded,
-                                favorited,
-                                image,
-                                itemBorder,
-                                itemColor,
-                                itemColorBG,
-                                itemDesc,
-                                itemDescColor,
-                                rewardTag,
-                                themeTag,
-                                title,
-                            })
-                        }
-                    })
-                    setBookList(bookList)
-                }
-            )
-    }, [])
+                            if (isWithinLast7Days(givenDate)) {
+                                bookList.push({
+                                    id: doc.id,
+                                    favorited: favorites.has(doc.id),
+                                    ageTag,
+                                    bookProgress,
+                                    contentTag,
+                                    dateAdded,
+                                    image,
+                                    itemBorder,
+                                    itemColor,
+                                    itemColorBG,
+                                    itemDesc,
+                                    itemDescColor,
+                                    rewardTag,
+                                    themeTag,
+                                    title,
+                                })
+                            }
+                        })
+                        setBookList(bookList)
+                    }
+                )
+        }
+        test()
+    }, [favorited])
 
 
     return (

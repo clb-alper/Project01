@@ -15,7 +15,7 @@ const ProfileProvider = ({ children }) => {
         userBookProgress,
         setUserBookProgress,
         favorited,
-        setFavorited
+        setFavorited,
     }
 
     return (
