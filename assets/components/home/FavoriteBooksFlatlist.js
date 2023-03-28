@@ -3,22 +3,13 @@ import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList } from 'r
 import { BoxShadow } from 'react-native-shadow';
 import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
-import { firebase } from '../../../firebase'
+import { auth, firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
 
-const NewBooksFlatlist = () => {
+const FavoriteBooksFlastlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
     const { currentProfileSelected } = useContext(ProfileContext);
-
-    const isWithinLast7Days = (date) => {
-        const now = new Date();
-        const diffInMilliseconds = now - date;
-        const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
-
-        return diffInDays <= 7;
-    };
-
 
     const shadowOpt = {
         width: 110,
@@ -32,44 +23,37 @@ const NewBooksFlatlist = () => {
     }
 
 
-    const [bookList, setBookList] = React.useState([]);
-    const todoRef = firebase.firestore().collection('storyBooks')
 
+    const [bookList, setBookList] = React.useState([]);
+
+    const favUserBookRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected)
+        .collection('favoriteBooks');
 
     useEffect(() => {
-        todoRef
+        favUserBookRef
             .onSnapshot(
                 querySnapshot => {
                     const bookList = []
                     querySnapshot.forEach((doc) => {
-                        const { ageTag, bookProgress, contentTag, dateAdded, favorited, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
+                        const favBookReading = doc.data()
+                        favBookReading.bookRef.get()
+                            .then(res => {
+                                favBookReading.bookData = res.data()
+                                favBookReading.bookData.id = res.id
+                                favBookReading.bookData.bookProgress = favBookReading.progress
+                                favBookReading.bookData.favorited = favBookReading.favorited                               
 
-                        const givenDate = new Date(dateAdded.toDate());
-
-                        if (isWithinLast7Days(givenDate)) {
-                            bookList.push({
-                                id: doc.id,
-                                ageTag,
-                                bookProgress,
-                                contentTag,
-                                dateAdded,
-                                favorited,
-                                image,
-                                itemBorder,
-                                itemColor,
-                                itemColorBG,
-                                itemDesc,
-                                itemDescColor,
-                                rewardTag,
-                                themeTag,
-                                title,
+                                bookList.push(favBookReading.bookData)
+                                setBookList(bookList)
                             })
-                        }
                     })
-                    setBookList(bookList)
                 }
             )
     }, [])
+
+
 
 
     return (
@@ -104,7 +88,7 @@ const NewBooksFlatlist = () => {
     )
 }
 
-export default NewBooksFlatlist
+export default FavoriteBooksFlastlist
 
 const styles = StyleSheet.create({
 

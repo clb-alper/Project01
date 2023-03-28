@@ -12,6 +12,7 @@ import NewBooksFlatlist from '../assets/components/home/NewBooksFlatlist';
 import Header from '../assets/components/home/Header';
 import BookModal from '../assets/components/BookModal';
 import { ModalContext } from '../assets/contexts/ModalContext';
+import FavoriteBooksFlastlist from '../assets/components/home/FavoriteBooksFlatlist';
 
 const MainScreen = () => {
 
@@ -75,7 +76,7 @@ const MainScreen = () => {
 
             <Text style={styles.otherBookHeader}>Favorileriniz</Text>
 
-            <DefaultFlatlist />
+            <FavoriteBooksFlastlist />
 
           </View>
 

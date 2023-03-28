@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import * as Progress from 'react-native-progress';
 import { ModalContext } from '../contexts/ModalContext';
@@ -7,21 +7,78 @@ import { useNavigation } from '@react-navigation/native';
 import Modal from "react-native-modal";
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import { auth, firebase } from '../../firebase'
+import { ProfileContext } from '../contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full widthF
 
 const BookModal = () => {
 
-    const [favourited, setFavourited] = useState(false);
+    const [favoriteTest, setFavoriteTest] = useState();
 
     const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
+    const { currentProfileSelected, favorited, setFavorited } = useContext(ProfileContext);
 
     const navigation = useNavigation();
 
-    const handleAddFavourite = () => {
-        setFavourited(!favourited);
+    const handleAddFavorite = async () => {
+        setFavorited(!favorited);
+        await handleCreateFavoriteBooks();
     }
+
+
+    const db = firebase.firestore()
+
+    const handleCreateFavoriteBooks = async () => {
+
+        // sub user's favoriteBooks
+        if (favorited) {
+            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).set({
+                    favorited: favorited,
+                    bookRef: db.doc('storyBooks/' + modalEntry.id)
+                })
+        } else {
+            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).delete();
+        }
+        //     firebase.firestore()
+        //         .collection('users').doc(firebase.auth().currentUser.uid)
+        //         .collection('userProfiles').doc(currentProfileSelected)
+        //         .collection('favoriteBooks').doc(modalEntry.id)
+        //         .get().then((snapshot) => {
+        //             console.log("sdfsdf")
+        //             console.log(snapshot.data().favorited)
+        //             setFavoriteTest(snapshot.data().favorited)
+        //           
+        //         })
+    }
+
+
+    const [favoriteList, setFavoriteList] = React.useState([]);
+    const todoRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected)
+        .collection('favoriteBooks')
+
+    useEffect(() => {
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const favoriteList = []
+                    querySnapshot.forEach((doc) => {
+                        favoriteList.push(
+                            doc.id
+                        )
+                    })
+                    setFavoriteList(favoriteList)
+                    console.log(favoriteList)
+                }
+            )
+    }, [])
+    const isIdEqual = (id) => id == modalEntry.id
+
 
     return (
         <Modal
@@ -49,9 +106,11 @@ const BookModal = () => {
                             numberOfLines={1}>{modalEntry.title}</Text>
 
                         <TouchableOpacity
-                            onPress={handleAddFavourite}
+                            onPress={handleAddFavorite}
+
                             activeOpacity={0.75}>
-                            <AntIcons name={favourited ? "heart" : "hearto"} size={28} color="red" style={styles.heartIconStyle} />
+                            <AntIcons name = {favorited ? "heart" : "hearto"} size={28} color="purple" style={styles.heartIconStyle} />
+
 
                         </TouchableOpacity>
 

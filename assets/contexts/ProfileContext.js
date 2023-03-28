@@ -7,12 +7,15 @@ const ProfileProvider = ({ children }) => {
 
     const [currentProfileSelected, setCurrentProfileSelected] = useState();
     const [userBookProgress, setUserBookProgress] = useState(0.0);
+    const [favorited, setFavorited] = useState(false);
 
     const contextData = {
         currentProfileSelected,
         setCurrentProfileSelected,
         userBookProgress,
-        setUserBookProgress
+        setUserBookProgress,
+        favorited,
+        setFavorited
     }
 
     return (
