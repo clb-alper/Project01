@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import * as Progress from 'react-native-progress';
 import { ModalContext } from '../contexts/ModalContext';
@@ -13,9 +13,15 @@ var heightOfScreen = Dimensions.get('window').height; //full widthF
 
 const BookModal = () => {
 
+    const [favourited, setFavourited] = useState(false);
+
     const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
 
     const navigation = useNavigation();
+
+    const handleAddFavourite = () => {
+        setFavourited(!favourited);
+    }
 
     return (
         <Modal
@@ -33,12 +39,23 @@ const BookModal = () => {
         >
 
             <View style={styles.modalViewStyle}>
-                <Image source={{uri : modalEntry.image}} style={styles.modalBookImageStyle} />
+                <Image source={{ uri: modalEntry.image }} style={styles.modalBookImageStyle} />
+
                 <View style={styles.modalBookDetailHeader}>
-                    <Text
-                        style={styles.modalText}
-                        adjustsFontSizeToFit={true}
-                        numberOfLines={1}>{modalEntry.title}</Text>
+                    <View style={styles.titleHeartViewStyle}>
+                        <Text
+                            style={styles.modalText}
+                            adjustsFontSizeToFit={true}
+                            numberOfLines={1}>{modalEntry.title}</Text>
+
+                        <TouchableOpacity
+                            onPress={handleAddFavourite}
+                            activeOpacity={0.75}>
+                            <AntIcons name={favourited ? "heart" : "hearto"} size={28} color="red" style={styles.heartIconStyle} />
+
+                        </TouchableOpacity>
+
+                    </View>
                     <TouchableOpacity
                         onPress={() => setModalVisible(!modalVisible)}
                         activeOpacity={0.75}>
@@ -133,6 +150,7 @@ const styles = StyleSheet.create({
     },
 
     modalBookDetailHeader: {
+        width: '82%',
         top: -125,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -141,7 +159,6 @@ const styles = StyleSheet.create({
     modalText: {
         fontFamily: 'Comic-Regular',
         fontSize: 35,
-        width: 300,
         left: -20,
     },
 
@@ -255,4 +272,13 @@ const styles = StyleSheet.create({
         marginTop: 4,
         marginLeft: -2,
     },
+
+    heartIconStyle: {
+        marginTop: 7,
+        marginLeft: -4
+    },
+
+    titleHeartViewStyle: {
+        flexDirection: 'row',
+    }
 })
