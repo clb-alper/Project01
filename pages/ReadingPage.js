@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image } from 'react-native';
+import React, { useContext, useCallback, useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image, VirtualizedList } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -17,11 +17,32 @@ import { ProfileContext } from '../assets/contexts/ProfileContext';
 
 const ReadingPage = () => {
 
+    const [readingProgress, setReadingProgress] = useState();
+
     const { setModalVisible, modalVisible, modalEntry } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, setUserBookProgress } = useContext(ProfileContext);
 
-    const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
+    //const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
     const pageText2 = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar."
+
+    const dummyText = [
+        {
+            id: 1,
+            bookText: "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
+        },
+        {
+            id: 2,
+            bookText: "MEHMET 2"
+        },
+        {
+            id: 3,
+            bookText: "MEHMET 3"
+        },
+        {
+            id: 4,
+            bookText: "MEHMET 4"
+        },
+    ]
 
     const speak = () => {
         //const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
@@ -41,26 +62,19 @@ const ReadingPage = () => {
     const handleCreateCollections = async () => {
 
         // sub user's continueReading
-        setUserBookProgress(0.6)
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
-            progress : userBookProgress,
-            bookRef : db.doc('storyBooks/' + modalEntry.id)
-        })
-
-        // // sub user's continueReading
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().collection('test').doc().set({
-        //     bookId: '1',
-        //     progressStatus: '32'
-        // })
-
-        // const snapshot = await firebase.firestore().collection('storyBooks').get()
-        // snapshot.docs.map(doc => {
-        //     console.log(doc.id)
-        //     console.log(doc.data().bookProgress)
-        // })
+            .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+                progress: userBookProgress,
+                bookRef: db.doc('storyBooks/' + modalEntry.id)
+            })
     }
 
+    let onScrollEnd = (e) => {
+        let pageNumber = Math.min(Math.max(Math.floor(e.nativeEvent.contentOffset.x / 410 + 0.5) + 1, 0), dummyText.length);
+        const progressB = pageNumber / dummyText.length;
+        setUserBookProgress(progressB)
+        console.log(progressB);
+    }
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
@@ -96,7 +110,7 @@ const ReadingPage = () => {
                     <View style={styles.center}>
                         <View style={styles.header}>
                             <TouchableOpacity
-                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible);}}>
+                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible); }}>
                                 <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
                             <Text style={[styles.headerText, {}]}>Macera Adası</Text>
@@ -106,17 +120,35 @@ const ReadingPage = () => {
                             </View>
                         </View>
 
+                        <FlatList
+                            overScrollMode={'never'}
+                            data={dummyText}
+                            keyExtractor={(item) => item.id}
+                            horizontal
+                            pagingEnabled
+                            showsHorizontalScrollIndicator={false}
+                            onMomentumScrollEnd={onScrollEnd}
+                            renderItem={({ item, index }) => (
+                                <>
+                                    <View style={{ marginTop: 10, width: 410 }}>
 
-                        <BoxShadow setting={shadowOpt}>
-                            <Image
-                                source={require('../assets/images/maceraada.jpg')}
-                                style={styles.readingBookImage}>
-                            </Image>
-                        </BoxShadow>
+                                        <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
-                        <Text style={styles.mainText}>
-                            {pageText}
-                        </Text>
+                                            <BoxShadow setting={shadowOpt} >
+                                                <Image
+                                                    source={require('../assets/images/maceraada.jpg')}
+                                                    style={index != 0 ? styles.readingBookImage : styles.readingBookImageFirstItem}>
+                                                </Image>
+                                            </BoxShadow>
+                                        </View>
+
+                                        <Text style={styles.mainText}>
+                                            {item.bookText}
+                                        </Text>
+                                    </View>
+                                </>
+                            )}
+                        />
 
                         <TouchableOpacity
                             //onPress={speak}
@@ -149,6 +181,12 @@ const styles = StyleSheet.create({
     },
 
     readingBookImage: {
+        borderRadius: 40,
+        height: 250,
+        width: 350,
+    },
+
+    readingBookImageFirstItem: {
         borderRadius: 40,
         height: 250,
         width: 350,
