@@ -30,23 +30,6 @@ const FavoriteBooksFlastlist = () => {
         .collection('favoriteBooks');
 
 
-    const getFavoriteBooks = async () => {
-        const userRef = firebase.firestore()
-            .collection('users').doc(firebase.auth().currentUser.uid)
-            .collection('userProfiles').doc(currentProfileSelected)
-            .collection('favoriteBooks');
-
-        const snapshot = await userRef.get();
-        const favorites = new Set();
-        snapshot.forEach(doc => favorites.add(doc.id));
-        return favorites;
-    };
-
-    // const getFavoritedData = async () => {
-
-
-    // }
-
     useEffect(() => {
         favUserBookRef
             .onSnapshot(
@@ -61,7 +44,6 @@ const FavoriteBooksFlastlist = () => {
                                 .then(res => {
                                     favBookReading.bookData = res.data()
                                     favBookReading.bookData.id = res.id
-                                    favBookReading.bookData.bookProgress = favBookReading.progress
                                     favBookReading.bookData.favorited = favBookReading.favorited
                                     bookList.push(favBookReading.bookData)
                                     setBookList(bookList)

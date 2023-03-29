@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Text } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 import colors from '../../colors/colors';
@@ -38,84 +38,65 @@ const ContReadingFlatlist = () => {
             .onSnapshot(
                 querySnapshot => {
                     const bookList = []
-                    querySnapshot.forEach((doc) => {
-                        const contBookReading = doc.data()
-                        contBookReading.bookRef.get()
-                            .then(res => {
-                                contBookReading.bookData = res.data()
-                                contBookReading.bookData.id = res.id
-                                contBookReading.bookData.bookProgress = contBookReading.progress
-                                bookList.push(contBookReading.bookData)
-                                setBookList(bookList)                       
-                            })
-                    })
+                    if (querySnapshot.empty) {
+                        setBookList([])
+                    } else {
+                        querySnapshot.forEach((doc) => {
+                            const contBookReading = doc.data()
+                            contBookReading.bookRef.get()
+                                .then(res => {
+                                    contBookReading.bookData = res.data()
+                                    contBookReading.bookData.id = res.id
+                                    contBookReading.bookData.bookProgress = contBookReading.progress
+                                    bookList.push(contBookReading.bookData)
+                                    setBookList(bookList)
+                                })
+                        })
+                    }
                 }
             )
     }, [])
 
 
-    // useEffect(() => {
-    //     todoRef
-    //         .onSnapshot(
-    //             querySnapshot => {
-    //                 const bookList = []
-    //                 querySnapshot.forEach((doc) => {
-    //                     const { ageTag, bookProgress, contentTag, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
-    //                     if (doc.id) { }
-    //                     bookList.push({
-    //                         id: doc.id,
-    //                         ageTag,
-    //                         bookProgress,
-    //                         contentTag,
-    //                         image,
-    //                         itemBorder,
-    //                         itemColor,
-    //                         itemColorBG,
-    //                         itemDesc,
-    //                         itemDescColor,
-    //                         rewardTag,
-    //                         themeTag,
-    //                         title,
-    //                     })
-    //                 })
-    //                 setBookList(bookList)
-    //                 //console.log(bookList)
-    //             }
-    //         )
-    // }, [])
-
-
-
     return (
         <View>
-            <FlatList
-                overScrollMode={'never'}
-                data={bookList}
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-                        <TouchableOpacity
-                            key={item.id}
-                            onPress={() => { setModalVisible(true); setModalEntry(item);}}
-                            activeOpacity={0.75}>
 
-                            <BoxShadow setting={shadowOpt}>
-                                <ImageBackground
-                                    source={{ uri: item.image }}
-                                    imageStyle={styles.continueBookImageStyle}>
-                                </ImageBackground>
-                            </BoxShadow>
+            {bookList.length == 0 ?
+                <View>
+                    <Text>
+                        DOTO : add Text
+                    </Text>
+                </View>
+                :
+                <FlatList
+                    overScrollMode={'never'}
+                    data={bookList}
+                    keyExtractor={(item) => item.id}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item, index }) => (
+                        <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+                            <TouchableOpacity
+                                key={item.id}
+                                onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                activeOpacity={0.75}>
 
-                            <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
+                                <BoxShadow setting={shadowOpt}>
+                                    <ImageBackground
+                                        source={{ uri: item.image }}
+                                        imageStyle={styles.continueBookImageStyle}>
+                                    </ImageBackground>
+                                </BoxShadow>
 
-                        </TouchableOpacity>
+                                <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
 
-                    </View>
-                )}
+                            </TouchableOpacity>
 
-            />
+                        </View>
+                    )}
+
+                />
+            }
         </View>
     )
 }
