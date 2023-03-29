@@ -9,7 +9,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 const FavoriteBooksFlastlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected } = useContext(ProfileContext);
+    const { currentProfileSelected, readed, favorited } = useContext(ProfileContext);
 
     const shadowOpt = {
         width: 110,
@@ -29,31 +29,43 @@ const FavoriteBooksFlastlist = () => {
         .collection('userProfiles').doc(currentProfileSelected)
         .collection('favoriteBooks');
 
+    const getFavData = () => favUserBookRef
+        .onSnapshot(
+            querySnapshot => {
+                const bookList = []
+                if (querySnapshot.empty) {
+                    setBookList([])
+                } else {
+                    querySnapshot.forEach((doc) => {
+                        const favBookReading = doc.data()
+                        favBookReading.bookRef.get()
+                            .then(res => {
+                                favBookReading.bookData = res.data()
+                                favBookReading.bookData.id = res.id
+                                favBookReading.bookData.favorited = favBookReading.favorited
+                                bookList.push(favBookReading.bookData)
+                            })
+                        favBookReading.contRef.get()
+                            .then(res => {
+                                if (res.exists) {
+                                    favBookReading.bookData.bookProgress = res.data().progress
+                                    setBookList(bookList)
+                                } else {
+                                    setBookList(bookList)
+                                }
+                            })
+                    })
+                }
+            }
+        )
 
     useEffect(() => {
-        favUserBookRef
-            .onSnapshot(
-                querySnapshot => {
-                    const bookList = []
-                    if (querySnapshot.empty) {
-                        setBookList([])
-                    } else {
-                        querySnapshot.forEach((doc) => {
-                            const favBookReading = doc.data()
-                            favBookReading.bookRef.get()
-                                .then(res => {
-                                    favBookReading.bookData = res.data()
-                                    favBookReading.bookData.id = res.id
-                                    favBookReading.bookData.favorited = favBookReading.favorited
-                                    bookList.push(favBookReading.bookData)
-                                    setBookList(bookList)
-                                })
-                        })
-                    }
-                }
-            )
-    }, [])
+        getFavData()
+    }, [favorited])
 
+    useEffect(() => {
+        getFavData()
+    }, [readed])
 
     return (
         <View>

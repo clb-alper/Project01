@@ -105,9 +105,9 @@ const NewBooksFlatlist = () => {
         getNewBooksData()
     }, [favorited])
 
-    // useEffect(() => {
-    //     getNewBooksData()
-    // }, [readed])
+    useEffect(() => {
+        getNewBooksData()
+    }, [readed])
 
     return (
         <View>

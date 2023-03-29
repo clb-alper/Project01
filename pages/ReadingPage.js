@@ -58,7 +58,7 @@ const ReadingPage = () => {
     const db = firebase.firestore()
 
     const handleCreateCollections = async () => {
-        // setReaded(!readed)
+        setReaded(!readed)
         // sub user's continueReading
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
             .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({

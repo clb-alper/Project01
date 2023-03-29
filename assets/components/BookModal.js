@@ -34,7 +34,8 @@ const BookModal = () => {
             await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).set({
                     favorited: true,
-                    bookRef: db.doc('storyBooks/' + modalEntry.id)
+                    bookRef: db.doc('storyBooks/' + modalEntry.id),
+                    contRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/continueReading/' + modalEntry.id)
                 })
 
         } else {
