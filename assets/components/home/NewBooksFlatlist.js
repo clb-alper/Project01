@@ -31,11 +31,6 @@ const NewBooksFlatlist = () => {
         y: 7,
     }
 
-    // firebase.firestore()
-    //     .collection('users').doc(firebase.auth().currentUser.uid)
-    //     .collection('userProfiles').doc(currentProfileSelected)
-    //     .collection('favoriteBooks').doc("GjVpa4yEYXjsG7ydtsUm").get()
-    //     .then(documentSnapshot => console.log(documentSnapshot.get('favorited')));
 
     const getFavoriteBooks = async () => {
         const userRef = firebase.firestore()
@@ -49,47 +44,51 @@ const NewBooksFlatlist = () => {
         return favorites;
     };
 
+
     const [bookList, setBookList] = React.useState([]);
     const todoRef = firebase.firestore().collection('storyBooks')
 
+    const getNewBooksData = async () => {
+        const favorites = await getFavoriteBooks();
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const bookList = []
+                    querySnapshot.forEach((doc) => {
+                        const { 
+                            ageTag, bookProgress, contentTag, dateAdded, image, 
+                            itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, 
+                            rewardTag, themeTag, title } = doc.data()
+
+                        const givenDate = new Date(dateAdded.toDate());
+
+                        if (isWithinLast7Days(givenDate)) {
+                            bookList.push({
+                                id: doc.id,
+                                favorited: favorites.has(doc.id),
+                                ageTag,
+                                bookProgress,
+                                contentTag,
+                                dateAdded,
+                                image,
+                                itemBorder,
+                                itemColor,
+                                itemColorBG,
+                                itemDesc,
+                                itemDescColor,
+                                rewardTag,
+                                themeTag,
+                                title,
+                            })
+                        }
+                    })
+                    setBookList(bookList)
+                }
+            )
+    }
 
     useEffect(() => {
-        const test = async () => {
-            const favorites = await getFavoriteBooks();
-            todoRef
-                .onSnapshot(
-                    querySnapshot => {
-                        const bookList = []
-                        querySnapshot.forEach((doc) => {
-                            const { ageTag, bookProgress, contentTag, dateAdded, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
-
-                            const givenDate = new Date(dateAdded.toDate());
-
-                            if (isWithinLast7Days(givenDate)) {
-                                bookList.push({
-                                    id: doc.id,
-                                    favorited: favorites.has(doc.id),
-                                    ageTag,
-                                    bookProgress,
-                                    contentTag,
-                                    dateAdded,
-                                    image,
-                                    itemBorder,
-                                    itemColor,
-                                    itemColorBG,
-                                    itemDesc,
-                                    itemDescColor,
-                                    rewardTag,
-                                    themeTag,
-                                    title,
-                                })
-                            }
-                        })
-                        setBookList(bookList)
-                    }
-                )
-        }
-        test()
+        getNewBooksData()
     }, [favorited])
 
 

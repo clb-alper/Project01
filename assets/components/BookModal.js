@@ -15,8 +15,6 @@ var heightOfScreen = Dimensions.get('window').height; //full widthF
 
 const BookModal = () => {
 
-    const [favoriteTest, setFavoriteTest] = useState();
-
     const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, favorited, setFavorited } = useContext(ProfileContext);
 
@@ -24,60 +22,29 @@ const BookModal = () => {
 
     const handleAddFavorite = async () => {
         setFavorited(!favorited);
-        modalEntry.favorited = favorited
+        modalEntry.favorited = !modalEntry.favorited;
         await handleCreateFavoriteBooks();
     }
 
     const db = firebase.firestore()
 
     const handleCreateFavoriteBooks = async () => {
-
         // sub user's favoriteBooks
-        if (favorited) {
-            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        
+        if (modalEntry.favorited) {
+            await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).set({
-                    favorited: favorited,
+                    favorited: true,
                     bookRef: db.doc('storyBooks/' + modalEntry.id)
                 })
+            
         } else {
-            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).delete();
+           
         }
-        //     firebase.firestore()
-        //         .collection('users').doc(firebase.auth().currentUser.uid)
-        //         .collection('userProfiles').doc(currentProfileSelected)
-        //         .collection('favoriteBooks').doc(modalEntry.id)
-        //         .get().then((snapshot) => {
-        //             console.log("sdfsdf")
-        //             console.log(snapshot.data().favorited)
-        //             setFavoriteTest(snapshot.data().favorited)
-        //           
-        //         })
     }
 
-
-    const [favoriteList, setFavoriteList] = React.useState([]);
-    const todoRef = firebase.firestore()
-        .collection('users').doc(firebase.auth().currentUser.uid)
-        .collection('userProfiles').doc(currentProfileSelected)
-        .collection('favoriteBooks')
-
-    useEffect(() => {
-        todoRef
-            .onSnapshot(
-                querySnapshot => {
-                    const favoriteList = []
-                    querySnapshot.forEach((doc) => {
-                        favoriteList.push(
-                            doc.id
-                        )
-                    })
-                    setFavoriteList(favoriteList)
-                    console.log(favoriteList)
-                }
-            )
-    }, [])
-    const isIdEqual = (id) => id == modalEntry.id
 
 
     return (
