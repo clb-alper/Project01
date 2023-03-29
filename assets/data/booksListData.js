@@ -15,7 +15,6 @@ const booksListData = [
         contentTag: 'Oyunlu',
         themeTag: 'Hayvan',
         rewardTag: 'Okuma Ödülü: 60',
-        favorited : false,
     },
     // {
     //     id: 'book2',

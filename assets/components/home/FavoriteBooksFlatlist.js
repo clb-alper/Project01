@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Text } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
@@ -29,6 +29,7 @@ const FavoriteBooksFlastlist = () => {
         .collection('userProfiles').doc(currentProfileSelected)
         .collection('favoriteBooks');
 
+
     const getFavoriteBooks = async () => {
         const userRef = firebase.firestore()
             .collection('users').doc(firebase.auth().currentUser.uid)
@@ -41,63 +42,73 @@ const FavoriteBooksFlastlist = () => {
         return favorites;
     };
 
-    const getFavoritedData = async () => {
-        const favorites = await getFavoriteBooks();
+    // const getFavoritedData = async () => {
+
+
+    // }
+
+    useEffect(() => {
         favUserBookRef
             .onSnapshot(
                 querySnapshot => {
                     const bookList = []
-                    querySnapshot.forEach((doc) => {
-                        const favBookReading = doc.data()
-                        favBookReading.bookRef.get()
-                            .then(res => {
-                                favBookReading.bookData = res.data()
-                                favBookReading.bookData.id = res.id
-                                favBookReading.bookData.bookProgress = favBookReading.progress
-                                favBookReading.bookData.favorited = favorites.has(doc.id)
-                                bookList.push(favBookReading.bookData)
-                                setBookList(bookList)
-                            })
-                    })
+                    if (querySnapshot.empty) {
+                        setBookList([])
+                    } else {
+                        querySnapshot.forEach((doc) => {
+                            const favBookReading = doc.data()
+                            favBookReading.bookRef.get()
+                                .then(res => {
+                                    favBookReading.bookData = res.data()
+                                    favBookReading.bookData.id = res.id
+                                    favBookReading.bookData.bookProgress = favBookReading.progress
+                                    favBookReading.bookData.favorited = favBookReading.favorited
+                                    bookList.push(favBookReading.bookData)
+                                    setBookList(bookList)
+                                })
+                        })
+                    }
                 }
             )
-    }
-
-    useEffect(() => {
-        getFavoritedData()
     }, [])
-
-    console.log(bookList)
 
 
     return (
         <View>
-            <FlatList
-                overScrollMode={'never'}
-                data={bookList}
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                    <View style={index != 0 ? styles.newBookStyle : styles.newBookStyleFirstItem}>
-                        <TouchableOpacity
-                            key={item.id}
-                            onPress={() => { setModalVisible(true); setModalEntry(item); }}
-                            activeOpacity={0.75}>
+            {bookList.length == 0 ?
+                <View>
+                    <Text>
+                        DOTO : add Text
+                    </Text>
+                </View>
+                :
+                <FlatList
+                    overScrollMode={'never'}
+                    data={bookList}
+                    keyExtractor={(item) => item.id}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item, index }) => (
+                        <View style={index != 0 ? styles.newBookStyle : styles.newBookStyleFirstItem}>
+                            <TouchableOpacity
+                                key={item.id}
+                                onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                activeOpacity={0.75}>
 
-                            <BoxShadow setting={shadowOpt}>
-                                <ImageBackground
-                                    source={{ uri: item.image }}
-                                    imageStyle={styles.newBookImageStyle}>
-                                </ImageBackground>
-                            </BoxShadow>
+                                <BoxShadow setting={shadowOpt}>
+                                    <ImageBackground
+                                        source={{ uri: item.image }}
+                                        imageStyle={styles.newBookImageStyle}>
+                                    </ImageBackground>
+                                </BoxShadow>
 
-                        </TouchableOpacity>
+                            </TouchableOpacity>
 
-                    </View>
-                )}
+                        </View>
+                    )}
 
-            />
+                />
+            }
         </View>
     )
 }
