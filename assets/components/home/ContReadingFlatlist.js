@@ -10,7 +10,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 const ContReadingFlatlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userBookProgress } = useContext(ProfileContext);
+    const { currentProfileSelected, userBookProgress, favorited } = useContext(ProfileContext);
 
 
 
@@ -49,14 +49,22 @@ const ContReadingFlatlist = () => {
                                     contBookReading.bookData.id = res.id
                                     contBookReading.bookData.bookProgress = contBookReading.progress
                                     bookList.push(contBookReading.bookData)
-                                    setBookList(bookList)
                                 })
+                            contBookReading.favRef.get()
+                                .then(res => {
+                                    if (res.exists) {
+                                        contBookReading.bookData.favorited = res.data().favorited
+                                        setBookList(bookList)
+                                    } else {
+                                        setBookList(bookList)
+                                    }
+                                })
+
                         })
                     }
                 }
             )
-    }, [])
-
+    }, [favorited])
 
     return (
         <View>

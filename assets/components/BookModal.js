@@ -16,7 +16,7 @@ var heightOfScreen = Dimensions.get('window').height; //full widthF
 const BookModal = () => {
 
     const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, favorited, setFavorited } = useContext(ProfileContext);
+    const { currentProfileSelected, favorited, setFavorited, userBookProgress } = useContext(ProfileContext);
 
     const navigation = useNavigation();
 
@@ -29,23 +29,24 @@ const BookModal = () => {
     const db = firebase.firestore()
 
     const handleCreateFavoriteBooks = async () => {
-        // sub user's favoriteBooks
-        
+
         if (modalEntry.favorited) {
             await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).set({
                     favorited: true,
                     bookRef: db.doc('storyBooks/' + modalEntry.id)
                 })
-            
+
         } else {
             await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).delete();
-           
+
         }
     }
 
-
+    useEffect(() => {
+        modalEntry.bookProgress = userBookProgress
+    }, [userBookProgress])
 
     return (
         <Modal

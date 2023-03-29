@@ -9,7 +9,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 const NewBooksFlatlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, favorited } = useContext(ProfileContext);
+    const { currentProfileSelected, favorited, readed } = useContext(ProfileContext);
 
     const isWithinLast7Days = (date) => {
         const now = new Date();
@@ -44,30 +44,44 @@ const NewBooksFlatlist = () => {
         return favorites;
     };
 
+    const getProgressOfBooks = async () => {
+        const userRef = firebase.firestore()
+            .collection('users').doc(firebase.auth().currentUser.uid)
+            .collection('userProfiles').doc(currentProfileSelected)
+            .collection('continueReading');
+
+        const snapshot = await userRef.get();
+        const progress = [];
+        snapshot.forEach(doc => progress.push({ id: doc.id, progress: doc.data().progress }));
+        return progress;
+    };
+
 
     const [bookList, setBookList] = React.useState([]);
     const todoRef = firebase.firestore().collection('storyBooks')
 
     const getNewBooksData = async () => {
         const favorites = await getFavoriteBooks();
+        const progresses = await getProgressOfBooks();
         todoRef
             .onSnapshot(
                 querySnapshot => {
                     const bookList = []
                     querySnapshot.forEach((doc) => {
-                        const { 
-                            ageTag, bookProgress, contentTag, dateAdded, image, 
-                            itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, 
+                        const {
+                            ageTag, contentTag, dateAdded, image,
+                            itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor,
                             rewardTag, themeTag, title } = doc.data()
 
                         const givenDate = new Date(dateAdded.toDate());
 
                         if (isWithinLast7Days(givenDate)) {
+                            //console.log(progresses.find(id => id.id === doc.id).progress)
                             bookList.push({
                                 id: doc.id,
                                 favorited: favorites.has(doc.id),
+                                bookProgress: progresses.find(id => id.id === doc.id).progress,
                                 ageTag,
-                                bookProgress,
                                 contentTag,
                                 dateAdded,
                                 image,
@@ -91,6 +105,9 @@ const NewBooksFlatlist = () => {
         getNewBooksData()
     }, [favorited])
 
+    // useEffect(() => {
+    //     getNewBooksData()
+    // }, [readed])
 
     return (
         <View>

@@ -17,10 +17,8 @@ import { ProfileContext } from '../assets/contexts/ProfileContext';
 
 const ReadingPage = () => {
 
-    const [readingProgress, setReadingProgress] = useState();
-
     const { setModalVisible, modalVisible, modalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userBookProgress, setUserBookProgress } = useContext(ProfileContext);
+    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded } = useContext(ProfileContext);
 
     //const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
     const pageText2 = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar."
@@ -60,12 +58,13 @@ const ReadingPage = () => {
     const db = firebase.firestore()
 
     const handleCreateCollections = async () => {
-
+        // setReaded(!readed)
         // sub user's continueReading
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
             .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
                 progress: userBookProgress,
-                bookRef: db.doc('storyBooks/' + modalEntry.id)
+                bookRef: db.doc('storyBooks/' + modalEntry.id),
+                favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
             })
     }
 
@@ -110,7 +109,7 @@ const ReadingPage = () => {
                     <View style={styles.center}>
                         <View style={styles.header}>
                             <TouchableOpacity
-                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible); }}>
+                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible);}}>
                                 <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
                             <Text style={[styles.headerText, {}]}>Macera Adası</Text>
