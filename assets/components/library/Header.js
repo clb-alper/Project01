@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import colors from '../../colors/colors';
 import { BoxShadow } from 'react-native-shadow';
@@ -10,8 +10,8 @@ var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
 
-    const { libraryCategories, closeLibraryDropdown, setCloseLibraryDropdown } = useContext(DropdownContext);
-    const { setSortedData, DATA, setCategorySwitch } = useContext(LibraryContext);
+    const { libraryCategories, closeLibraryDropdown, setCloseLibraryDropdown, failSafe, setFailSafe } = useContext(DropdownContext);
+    const { setSortedData, DATA, setCategorySwitch, effectHandle } = useContext(LibraryContext);
 
     const shadowOpt = {
         width: widthOfScreen,
@@ -24,17 +24,21 @@ const Header = () => {
         y: -7,
     }
 
+    useEffect(() => {
+        typeof (DATA) == 'undefined' ? null : handleCategorySwitch(0);
+    }, [DATA])
+
     const handleCategorySwitch = (categorySelection) => {
         // categorySelection == 0 -> alphabet (default)
         // categorySelection == 1 -> categories 
         // categorySelection == 2 -> age 
         // categorySelection == 3 -> theme
-        
+
         const rawData = [];
         const sortedData = [];
         // converting sorted data to rawData
-        for(let i = 0; i < DATA.length ; i++) {
-            for(let k =0; k < DATA[i].books.length; k++ ) {
+        for (let i = 0; i < DATA.length; i++) {
+            for (let k = 0; k < DATA[i].books.length; k++) {
                 rawData.push({
                     id: DATA[i].books[k].id,
                     title: DATA[i].books[k].title,
@@ -44,6 +48,7 @@ const Header = () => {
                     itemColorBG: DATA[i].books[k].itemColorBG,
                     itemTextColor: DATA[i].books[k].itemTextColor,
                     itemDesc: DATA[i].books[k].itemDesc,
+                    favorited: DATA[i].books[k].favorited,
                     bookProgress: DATA[i].books[k].bookProgress,
                     themeTag: DATA[i].books[k].themeTag,
                     ageTag: DATA[i].books[k].ageTag,
@@ -54,16 +59,16 @@ const Header = () => {
         }
 
 
-        if(categorySelection == 0 ) {
+        if (categorySelection == 0) {
             for (let i = 0; i < rawData.length; i++) {
-                const index = sortedData.findIndex((cond) => cond.condition === rawData[i].title.substring(0,1));
-       
-                if(index > -1) {
+                const index = sortedData.findIndex((cond) => cond.condition === rawData[i].title.substring(0, 1));
+
+                if (index > -1) {
                     sortedData[index].books.push(rawData[i])
                 }
                 else {
                     sortedData.push({
-                        condition: rawData[i].title.substring(0,1),
+                        condition: rawData[i].title.substring(0, 1),
                         books: [{
                             id: rawData[i].id,
                             title: rawData[i].title,
@@ -73,6 +78,7 @@ const Header = () => {
                             itemColorBG: rawData[i].itemColorBG,
                             itemTextColor: rawData[i].itemTextColor,
                             itemDesc: rawData[i].itemDesc,
+                            favorited: rawData[i].favorited,
                             bookProgress: rawData[i].bookProgress,
                             ageTag: rawData[i].ageTag,
                             contentTag: rawData[i].contentTag,
@@ -84,11 +90,11 @@ const Header = () => {
 
 
         }
-        else if(categorySelection == 1) {
+        else if (categorySelection == 1) {
             for (let i = 0; i < rawData.length; i++) {
                 const index = sortedData.findIndex((cond) => cond.condition === rawData[i].contentTag);
-       
-                if(index > -1) {
+
+                if (index > -1) {
                     sortedData[index].books.push(rawData[i])
                 }
                 else {
@@ -103,6 +109,7 @@ const Header = () => {
                             itemColorBG: rawData[i].itemColorBG,
                             itemTextColor: rawData[i].itemTextColor,
                             itemDesc: rawData[i].itemDesc,
+                            favorited: rawData[i].favorited,
                             bookProgress: rawData[i].bookProgress,
                             ageTag: rawData[i].ageTag,
                             contentTag: rawData[i].contentTag,
@@ -112,11 +119,11 @@ const Header = () => {
                 }
             }
         }
-        else if(categorySelection == 2) {
+        else if (categorySelection == 2) {
             for (let i = 0; i < rawData.length; i++) {
                 const index = sortedData.findIndex((cond) => cond.condition === rawData[i].ageTag);
-       
-                if(index > -1) {
+
+                if (index > -1) {
                     sortedData[index].books.push(rawData[i])
                 }
                 else {
@@ -131,6 +138,7 @@ const Header = () => {
                             itemColorBG: rawData[i].itemColorBG,
                             itemTextColor: rawData[i].itemTextColor,
                             itemDesc: rawData[i].itemDesc,
+                            favorited: rawData[i].favorited,
                             bookProgress: rawData[i].bookProgress,
                             ageTag: rawData[i].ageTag,
                             contentTag: rawData[i].contentTag,
@@ -143,8 +151,8 @@ const Header = () => {
         else if (categorySelection == 3) {
             for (let i = 0; i < rawData.length; i++) {
                 const index = sortedData.findIndex((cond) => cond.condition === rawData[i].themeTag);
-           
-                if(index > -1) {
+
+                if (index > -1) {
                     sortedData[index].books.push(rawData[i])
                 }
                 else {
@@ -159,6 +167,7 @@ const Header = () => {
                             itemColorBG: rawData[i].itemColorBG,
                             itemTextColor: rawData[i].itemTextColor,
                             itemDesc: rawData[i].itemDesc,
+                            favorited: rawData[i].favorited,
                             bookProgress: rawData[i].bookProgress,
                             ageTag: rawData[i].ageTag,
                             contentTag: rawData[i].contentTag,
@@ -170,7 +179,7 @@ const Header = () => {
         }
 
         // TODO: TR ALPHABET ENTEGRATION
-        sortedData.sort((a,b) => {
+        sortedData.sort((a, b) => {
             return a.condition > b.condition;
         })
         setSortedData(sortedData);
@@ -211,7 +220,7 @@ const Header = () => {
 
                         onSelect={(selectedItem, index) => {
                             setCloseLibraryDropdown(false)
-                
+
 
                             // taking the catagories from dropdown menu
                             for (let index = 0; index < libraryCategories.length; index++) {
