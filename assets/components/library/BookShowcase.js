@@ -50,7 +50,7 @@ const BookShowcase = () => {
                         itemColorBG: booksListData[i].itemColorBG,
                         itemTextColor: booksListData[i].itemTextColor,
                         itemDesc: booksListData[i].itemDesc,
-                        favorited: false,
+                        favorited: booksListData[i].favorited,
                         bookProgress: booksListData[i].bookProgress,
                         themeTag: booksListData[i].themeTag,
                         ageTag: booksListData[i].ageTag,
@@ -154,7 +154,7 @@ const BookShowcase = () => {
 
 
                 {
-                    categorySwitch === 0 && (
+                    categorySwitch === 0 && (   
                         sortedData.map((book, index) => {
                             return (
                                 <View key={index}>
@@ -165,7 +165,6 @@ const BookShowcase = () => {
                                             book.books.map((bookDetail, index2) => {
                                                 return (
                                                     <View key={bookDetail.id} style={{ ...styles.bookContainer, width: bookWidth }}>
-
 
                                                         <TouchableOpacity
                                                             key={index2}

@@ -10,6 +10,7 @@ const booksListData = [
         itemColorBG: 'rgba(72, 127, 154, 0.8)',
         itemTextColor: colors.white,
         itemDesc: "Pepe'nin hayatı, yaşadığı binanın dördüncü katına daha önce hiç görmediği bir çocuğun taşınmasıyla değişir. Bu çocuk onun tanıdığı diğer çocuklardan farklıdır. Hiçbir zaman evden dışarı çıkmaz. Penceresinde kilit olduğu için camdan dışarı bile bakamaz ve zamanının çoğunu resim çizerek geçirir.",
+        favorited: false,
         bookProgress: 0.6,
         ageTag: '8-12 Yaş',
         contentTag: 'Oyunlu',
