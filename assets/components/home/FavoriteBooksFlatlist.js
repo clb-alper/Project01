@@ -40,10 +40,16 @@ const FavoriteBooksFlastlist = () => {
                         const favBookReading = doc.data()
                         favBookReading.bookRef.get()
                             .then(res => {
-                                favBookReading.bookData = res.data()
-                                favBookReading.bookData.id = res.id
-                                favBookReading.bookData.favorited = favBookReading.favorited
-                                bookList.push(favBookReading.bookData)
+                                try {
+                                    favBookReading.bookData = res.data()
+                                    favBookReading.bookData.id = res.id
+                                    favBookReading.bookData.favorited = favBookReading.favorited
+                                    bookList.push(favBookReading.bookData)
+                                }
+                                catch (e){
+                                    console.log(e)
+                                }
+
                             })
                         favBookReading.contRef.get()
                             .then(res => {
