@@ -27,6 +27,7 @@ const ContReadingFlatlist = () => {
 
 
     const [bookList, setBookList] = React.useState([]);
+    //const [demoList, setDemoList] = React.useState([]);
 
     const contUserBookRef = firebase.firestore()
         .collection('users').doc(firebase.auth().currentUser.uid)
@@ -65,6 +66,42 @@ const ContReadingFlatlist = () => {
                 }
             )
     }, [favorited])
+
+
+    // bookList.forEach(async (book) => {
+    //     var myObject = {}
+
+    //     const progress = book.bookProgress
+    //     const content = book.contentTag
+    //     const age = book.ageTag
+    //     const theme = book.themeTag
+    //     const name = book.title
+
+    //     var myObject = { name: name, progress: progress, content: content, age: age, theme: theme }
+
+
+    //     // demoList.forEach((myBook) => {
+    //     //     if (myBook.name === myObject.name) {
+    //     //         console.log(myBook.name, myObject.name)
+    //     //         console.log(myObject.name, "is alreadt exist")
+    //     //         //console.log(myBook.name, myObject.name)
+    //     //     } else if ((myBook.name != myObject.name && 
+    //     //         typeof (myBook.name) != 'undefined' &&
+    //     //         typeof (myObject.name) != 'undefined')) {
+
+    //     //         console.log(myBook.name, myObject.name)
+    //     //         demoList.push(myObject)
+    //     //         console.log(myObject.name, "have been pushed")
+    //     //     }
+    //     // })
+
+    //     demoList.push(myObject)
+    //     console.log(demoList)
+    // })
+
+
+
+
 
     return (
         <View>
