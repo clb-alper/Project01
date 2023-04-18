@@ -120,7 +120,7 @@ const ProfileSelect = ({ navigation }) => {
         },
     ]
 
-
+    
     const handleCreateProfile = async () => {
 
         // Sub User
@@ -128,27 +128,10 @@ const ProfileSelect = ({ navigation }) => {
             name: profileName,
             profileIcon: iconIndex,
             profileColor: colorIndex,
+            tagsAdded : false,                      
         })
 
-        // // sub user's continueReading
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().collection('continueReading').doc().set({
-        //     bookId: '1',
-        //     progressStatus: '32'
-        // })
-
-        // // sub user's continueReading
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().collection('test').doc().set({
-        //     bookId: '1',
-        //     progressStatus: '32'
-        // })
-
-        // const snapshot = await firebase.firestore().collection('storyBooks').get()
-        // snapshot.docs.map(doc => {
-        //     console.log(doc.id)
-        //     console.log(doc.data().bookProgress)
-        // })
     }
-
 
 
     return (

@@ -20,6 +20,74 @@ const ReadingPage = () => {
     const { setModalVisible, modalVisible, modalEntry } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded } = useContext(ProfileContext);
 
+    const [isBack, setIsBack] = useState(false);
+
+
+
+
+    const userProfileRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected);
+
+
+    useEffect(() => {
+
+        userProfileRef
+            .onSnapshot(
+                querySnapshot => {
+                    const isTagAdded = querySnapshot.data().tagsAdded
+
+                    if (isTagAdded === false) {
+                    
+                        handleTagData()
+                      
+                        userProfileRef.update({
+                            tagsAdded : true
+                        })
+                    }
+                }
+            )
+
+        
+
+
+        // if (isBack === true) {
+
+        //     bookList.forEach((book) => {
+        //         var myObject = {}
+
+        //         const progress = book.bookProgress
+        //         const content = book.contentTag
+        //         const age = book.ageTag
+        //         const theme = book.themeTag
+        //         const name = book.title
+
+        //         var myObject = { name: name, progress: progress, content: content, age: age, theme: theme }
+
+        //         // bookList.forEach((myBook) => {
+        //         //     if (myBook.name === myObject.name) {
+        //         //         console.log(myBook.name, myObject.name)
+        //         //         console.log(myObject.name, "is alreadt exist")
+        //         //         //console.log(myBook.name, myObject.name)
+        //         //     } else if ((myBook.name != myObject.name && 
+        //         //         typeof (myBook.name) != 'undefined' &&
+        //         //         typeof (myObject.name) != 'undefined')) {
+
+        //         //         console.log(myBook.name, myObject.name)
+        //         //         demoList.push(myObject)
+        //         //         console.log(myObject.name, "have been pushed")
+        //         //     }
+        //         // })
+
+        //         //demoList.push(myObject)
+        //         //console.log(demoList)
+        //     })
+        // } else {
+        //     console.log(isBack)
+        // }
+    }, [isBack])
+
+
     //const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
     const pageText2 = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar."
 
@@ -62,11 +130,37 @@ const ReadingPage = () => {
         // sub user's continueReading
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
             .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+                //update it with update() function don't use set for everytime a progress achived
                 progress: userBookProgress,
                 bookRef: db.doc('storyBooks/' + modalEntry.id),
                 favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
             })
     }
+
+
+    const handleTagData = async () => {
+        // sub user's tagData
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('tagData').doc('ageTagData').set({
+                ageOf3to6Value: 0,
+                ageOf6to9Value: 0,
+                ageOf9to12Value: 0,
+                ageOf12plusValue: 0
+            })
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('tagData').doc('contentTagData').set({
+                puzzleTagValue: 0,
+                quizTagValue: 0
+            })
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('tagData').doc('themeTagData').set({
+                natureTagValue: 0,
+                animalTagValue: 0,
+                cityTagValue: 0,
+                adventureTagValue: 0
+            })
+    }
+
 
     let onScrollEnd = (e) => {
         let pageNumber = Math.min(Math.max(Math.floor(e.nativeEvent.contentOffset.x / 410 + 0.5) + 1, 0), dummyText.length);
@@ -96,8 +190,9 @@ const ReadingPage = () => {
         y: 5,
     }
 
-    return (
 
+
+    return (
 
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
@@ -109,7 +204,7 @@ const ReadingPage = () => {
                     <View style={styles.center}>
                         <View style={styles.header}>
                             <TouchableOpacity
-                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible);}}>
+                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible); setIsBack(true) }}>
                                 <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
                             <Text style={[styles.headerText, {}]}>Macera Adası</Text>
