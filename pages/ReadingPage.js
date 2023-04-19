@@ -155,6 +155,19 @@ const ReadingPage = () => {
                             }
                             text= text.substring(1, text.length)
                             pagesRaw[i].storyText = text;
+
+
+                            let z = 0
+                            z = pagesRaw.length / images.length 
+
+                            for (let a = 0; a < images.length; a++) {
+                                for (let b = 0; b <= z ; b++){
+                                    pagesRaw[b].image = images[b]
+                                }
+                            }
+
+
+
                             
                             text = '';
                         }
@@ -329,10 +342,10 @@ const ReadingPage = () => {
                                         <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
                                             <BoxShadow setting={shadowOpt} >
-                                                {/* <Image
-                                                    source={{ uri: item.images[0] }}
+                                                <Image
+                                                    source={{ uri: item.image }}
                                                     style={index != 0 ? styles.readingBookImage : styles.readingBookImageFirstItem}>
-                                                </Image> */}
+                                                </Image>
                                             </BoxShadow>
                                         </View>
 
