@@ -145,30 +145,26 @@ const ReadingPage = () => {
                             if ((currentPage.length >= wordsPerPage) && contentText[i].includes('.')) {
                                 pagesRaw.push(currentPage);
                                 currentPage = [];
-                            } 
+                            }
                         }
 
                         let text = '';
-                        for(let i = 0; i < pagesRaw.length; i++) {
-                            for (let k = 0; k < pagesRaw[i].length; k++){
+                        for (let i = 0; i < pagesRaw.length; i++) {
+                            for (let k = 0; k < pagesRaw[i].length; k++) {
                                 text = text + ' ' + pagesRaw[i][k];
                             }
-                            text= text.substring(1, text.length)
+                            text = text.substring(1, text.length)
                             pagesRaw[i].storyText = text;
 
-
                             let z = 0
-                            z = pagesRaw.length / images.length 
+                            z = pagesRaw.length / images.length
 
-                            for (let a = 0; a < images.length; a++) {
-                                for (let b = 0; b <= z ; b++){
-                                    pagesRaw[b].image = images[b]
+                            for (let a = 0; a <= images.length; a++) {
+                                for (let b = 0; b <= z; b++) {
+                                    pagesRaw[i].image = images[b]
                                 }
                             }
 
-
-
-                            
                             text = '';
                         }
                         console.log(pagesRaw[5].storyText)
@@ -276,8 +272,8 @@ const ReadingPage = () => {
 
 
     let onScrollEnd = (e) => {
-        let pageNumber = Math.min(Math.max(Math.floor(e.nativeEvent.contentOffset.x / 410 + 0.5) + 1, 0), dummyText.length);
-        const progressB = pageNumber / dummyText.length;
+        let pageNumber = Math.min(Math.max(Math.floor(e.nativeEvent.contentOffset.x / 410 + 0.5) + 1, 0), pages.length);
+        const progressB = pageNumber / pages.length;
         setUserBookProgress(progressB)
         console.log(progressB);
     }
