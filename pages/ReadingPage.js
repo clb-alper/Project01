@@ -22,6 +22,7 @@ const ReadingPage = () => {
 
     const [bookContent, setBookContent] = useState([]);
     const [bookPageColor, setBookPageColor] = useState();
+    const [pages, setPages] = useState([]);
 
     const [userInfo, setUserInfo] = useState([]);
 
@@ -113,6 +114,12 @@ const ReadingPage = () => {
 
     const bookContentRef = firebase.firestore().collection('storyBooks').doc(modalEntry.id).collection('bookContent')
 
+
+    // state fontu
+    const font = 24;
+
+
+    let contentText;
     const getBookContentData = async () => {
         bookContentRef
             .onSnapshot(
@@ -121,6 +128,39 @@ const ReadingPage = () => {
                     querySnapshot.forEach((doc) => {
                         const { images, pageBGColor, storyText } = doc.data()
 
+                        contentText = storyText.split(" ");
+                        contentText = contentText.filter((word) => {
+                            if (word !== "") {
+                                return true
+                            }
+                        });
+
+                        let pagesRaw = [];
+                        let currentPage = [];
+                        let wordsPerPage = 80;
+
+                        for (let i = 0; i < contentText.length; i++) {
+                            currentPage.push(contentText[i]);
+
+                            if ((currentPage.length >= wordsPerPage) && contentText[i].includes('.')) {
+                                pagesRaw.push(currentPage);
+                                currentPage = [];
+                            } 
+                        }
+
+                        let text = '';
+                        for(let i = 0; i < pagesRaw.length; i++) {
+                            for (let k = 0; k < pagesRaw[i].length; k++){
+                                text = text + ' ' + pagesRaw[i][k];
+                            }
+                            text= text.substring(1, text.length)
+                            pagesRaw[i].storyText = text;
+                            
+                            text = '';
+                        }
+                        console.log(pagesRaw[5].storyText)
+
+                        setPages(pagesRaw);
                         bookContent.push({
                             images,
                             pageBGColor,
@@ -276,7 +316,7 @@ const ReadingPage = () => {
 
                         <FlatList
                             overScrollMode={'never'}
-                            data={bookContent}
+                            data={pages}
                             keyExtractor={(item) => item.id}
                             horizontal
                             pagingEnabled
@@ -284,15 +324,15 @@ const ReadingPage = () => {
                             onMomentumScrollEnd={onScrollEnd}
                             renderItem={({ item, index }) => (
                                 <>
-                                    <View style={{ marginTop: 10, width: 410 }}>
+                                    <View key={index} style={{ marginTop: 10, width: 410 }}>
 
                                         <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
                                             <BoxShadow setting={shadowOpt} >
-                                                <Image
+                                                {/* <Image
                                                     source={{ uri: item.images[0] }}
                                                     style={index != 0 ? styles.readingBookImage : styles.readingBookImageFirstItem}>
-                                                </Image>
+                                                </Image> */}
                                             </BoxShadow>
                                         </View>
 
