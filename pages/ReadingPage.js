@@ -234,7 +234,7 @@ const ReadingPage = () => {
                                 onPress={() => { navigation.goBack(); setModalVisible(!modalVisible); setIsBack(true) }}>
                                 <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
-                            <Text style={[styles.headerText, {}]}>Macera Adası</Text>
+                            <Text style={[styles.headerText, {}]}>{modalEntry.title}</Text>
 
                             <View style={styles.headerIconContainerStyle}>
                                 <Image source={require('../assets/images/icontest.png')} style={styles.headerIconStyle}></Image>
@@ -275,8 +275,8 @@ const ReadingPage = () => {
                             //onPress={speak}
                             onPress={handleCreateCollections}
                             activeOpacity={0.8}>
-                            <View style={styles.voiceOverButton}>
-                                <IonIcons name="md-volume-high" size={55} color={colors.blueBorder} style={styles.voiceOverButtonImg} />
+                            <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
+                                <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
                             </View>
                         </TouchableOpacity>
 
@@ -374,9 +374,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         width: 80,
         height: 80,
-        backgroundColor: colors.blueRegular,
         borderWidth: 4,
-        borderColor: colors.blueBorder,
         marginTop: 30,
         marginBottom: 30,
         alignItems: 'center'
