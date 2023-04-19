@@ -20,72 +20,71 @@ const ReadingPage = () => {
     const { setModalVisible, modalVisible, modalEntry } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded } = useContext(ProfileContext);
 
+    const [bookContent, setBookContent] = useState([]);
+    const [bookPageColor, setBookPageColor] = useState();
+
     const [isBack, setIsBack] = useState(false);
 
 
+    // const userProfileRef = firebase.firestore()
+    //     .collection('users').doc(firebase.auth().currentUser.uid)
+    //     .collection('userProfiles').doc(currentProfileSelected);
 
 
-    const userProfileRef = firebase.firestore()
-        .collection('users').doc(firebase.auth().currentUser.uid)
-        .collection('userProfiles').doc(currentProfileSelected);
+    // useEffect(() => {
+
+    //     userProfileRef
+    //         .onSnapshot(
+    //             querySnapshot => {
+    //                 const isTagAdded = querySnapshot.data().tagsAdded
+
+    //                 if (isTagAdded === false) {
+
+    //                     handleTagData()
+
+    //                     userProfileRef.update({
+    //                         tagsAdded : true
+    //                     })
+    //                 }
+    //             }
+    //         )
 
 
-    useEffect(() => {
+    //     // if (isBack === true) {
 
-        userProfileRef
-            .onSnapshot(
-                querySnapshot => {
-                    const isTagAdded = querySnapshot.data().tagsAdded
+    //     //     bookList.forEach((book) => {
+    //     //         var myObject = {}
 
-                    if (isTagAdded === false) {
-                    
-                        handleTagData()
-                      
-                        userProfileRef.update({
-                            tagsAdded : true
-                        })
-                    }
-                }
-            )
+    //     //         const progress = book.bookProgress
+    //     //         const content = book.contentTag
+    //     //         const age = book.ageTag
+    //     //         const theme = book.themeTag
+    //     //         const name = book.title
 
-        
+    //     //         var myObject = { name: name, progress: progress, content: content, age: age, theme: theme }
 
+    //     //         // bookList.forEach((myBook) => {
+    //     //         //     if (myBook.name === myObject.name) {
+    //     //         //         console.log(myBook.name, myObject.name)
+    //     //         //         console.log(myObject.name, "is alreadt exist")
+    //     //         //         //console.log(myBook.name, myObject.name)
+    //     //         //     } else if ((myBook.name != myObject.name && 
+    //     //         //         typeof (myBook.name) != 'undefined' &&
+    //     //         //         typeof (myObject.name) != 'undefined')) {
 
-        // if (isBack === true) {
+    //     //         //         console.log(myBook.name, myObject.name)
+    //     //         //         demoList.push(myObject)
+    //     //         //         console.log(myObject.name, "have been pushed")
+    //     //         //     }
+    //     //         // })
 
-        //     bookList.forEach((book) => {
-        //         var myObject = {}
-
-        //         const progress = book.bookProgress
-        //         const content = book.contentTag
-        //         const age = book.ageTag
-        //         const theme = book.themeTag
-        //         const name = book.title
-
-        //         var myObject = { name: name, progress: progress, content: content, age: age, theme: theme }
-
-        //         // bookList.forEach((myBook) => {
-        //         //     if (myBook.name === myObject.name) {
-        //         //         console.log(myBook.name, myObject.name)
-        //         //         console.log(myObject.name, "is alreadt exist")
-        //         //         //console.log(myBook.name, myObject.name)
-        //         //     } else if ((myBook.name != myObject.name && 
-        //         //         typeof (myBook.name) != 'undefined' &&
-        //         //         typeof (myObject.name) != 'undefined')) {
-
-        //         //         console.log(myBook.name, myObject.name)
-        //         //         demoList.push(myObject)
-        //         //         console.log(myObject.name, "have been pushed")
-        //         //     }
-        //         // })
-
-        //         //demoList.push(myObject)
-        //         //console.log(demoList)
-        //     })
-        // } else {
-        //     console.log(isBack)
-        // }
-    }, [isBack])
+    //     //         //demoList.push(myObject)
+    //     //         //console.log(demoList)
+    //     //     })
+    //     // } else {
+    //     //     console.log(isBack)
+    //     // }
+    // }, [isBack])
 
 
     //const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
@@ -109,6 +108,34 @@ const ReadingPage = () => {
             bookText: "MEHMET 4"
         },
     ]
+
+    const bookContentRef = firebase.firestore().collection('storyBooks').doc(modalEntry.id).collection('bookContent')
+
+    const getBookContentData = async () => {
+        // console.log(bookContentRef.data())
+        bookContentRef
+            .onSnapshot(
+                querySnapshot => {
+                    const bookContent = []
+                    querySnapshot.forEach((doc) => {
+                        const { images, pageBGColor, storyText } = doc.data()
+
+                        bookContent.push({
+                            images,
+                            pageBGColor,
+                            storyText,
+                        })
+
+                        setBookPageColor(pageBGColor)
+                    })
+                    setBookContent(bookContent)
+                }
+            )
+    }
+
+    useEffect(() => {
+        getBookContentData()
+    }, [])
 
     const speak = () => {
         //const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
@@ -138,28 +165,28 @@ const ReadingPage = () => {
     }
 
 
-    const handleTagData = async () => {
-        // sub user's tagData
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('tagData').doc('ageTagData').set({
-                ageOf3to6Value: 0,
-                ageOf6to9Value: 0,
-                ageOf9to12Value: 0,
-                ageOf12plusValue: 0
-            })
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('tagData').doc('contentTagData').set({
-                puzzleTagValue: 0,
-                quizTagValue: 0
-            })
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('tagData').doc('themeTagData').set({
-                natureTagValue: 0,
-                animalTagValue: 0,
-                cityTagValue: 0,
-                adventureTagValue: 0
-            })
-    }
+    // const handleTagData = async () => {
+    //     // sub user's tagData
+    //     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+    //         .doc(currentProfileSelected).collection('tagData').doc('ageTagData').set({
+    //             ageOf3to6Value: 0,
+    //             ageOf6to9Value: 0,
+    //             ageOf9to12Value: 0,
+    //             ageOf12plusValue: 0
+    //         })
+    //     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+    //         .doc(currentProfileSelected).collection('tagData').doc('contentTagData').set({
+    //             puzzleTagValue: 0,
+    //             quizTagValue: 0
+    //         })
+    //     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+    //         .doc(currentProfileSelected).collection('tagData').doc('themeTagData').set({
+    //             natureTagValue: 0,
+    //             animalTagValue: 0,
+    //             cityTagValue: 0,
+    //             adventureTagValue: 0
+    //         })
+    // }
 
 
     let onScrollEnd = (e) => {
@@ -194,7 +221,7 @@ const ReadingPage = () => {
 
     return (
 
-        <View style={styles.container} onLayout={onLayoutRootView}>
+        <View style={[styles.container, {backgroundColor: bookPageColor}]} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
 
             <SafeAreaView>
@@ -216,7 +243,7 @@ const ReadingPage = () => {
 
                         <FlatList
                             overScrollMode={'never'}
-                            data={dummyText}
+                            data={bookContent}
                             keyExtractor={(item) => item.id}
                             horizontal
                             pagingEnabled
@@ -230,14 +257,14 @@ const ReadingPage = () => {
 
                                             <BoxShadow setting={shadowOpt} >
                                                 <Image
-                                                    source={require('../assets/images/maceraada.jpg')}
+                                                    source={{ uri: item.images[0] }}
                                                     style={index != 0 ? styles.readingBookImage : styles.readingBookImageFirstItem}>
                                                 </Image>
                                             </BoxShadow>
                                         </View>
 
                                         <Text style={styles.mainText}>
-                                            {item.bookText}
+                                            {item.storyText}
                                         </Text>
                                     </View>
                                 </>
@@ -271,7 +298,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexGrow: 1,
         alignItems: 'center',
-        backgroundColor: colors.blueLight,
     },
 
     readingBookImage: {
@@ -294,7 +320,7 @@ const styles = StyleSheet.create({
 
     mainText: {
         fontFamily: 'Comic-Regular',
-        fontSize: 23,
+        fontSize: 20,
         marginLeft: '7%',
         marginRight: '7%',
         marginTop: 30,
