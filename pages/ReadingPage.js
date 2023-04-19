@@ -23,6 +23,8 @@ const ReadingPage = () => {
     const [bookContent, setBookContent] = useState([]);
     const [bookPageColor, setBookPageColor] = useState();
 
+    const [userInfo, setUserInfo] = useState([]);
+
     const [isBack, setIsBack] = useState(false);
 
 
@@ -112,7 +114,6 @@ const ReadingPage = () => {
     const bookContentRef = firebase.firestore().collection('storyBooks').doc(modalEntry.id).collection('bookContent')
 
     const getBookContentData = async () => {
-        // console.log(bookContentRef.data())
         bookContentRef
             .onSnapshot(
                 querySnapshot => {
@@ -132,6 +133,38 @@ const ReadingPage = () => {
                 }
             )
     }
+
+    // BUNU CONTEXTE AT ANA SAYFADA USEFFECT KULLANIP STATE KOYT
+    // const userProfileRef = firebase.firestore()
+    //     .collection('users').doc(firebase.auth().currentUser.uid)
+    //     .collection('userProfiles');
+
+    // const getProfileInformation = async () => {
+    //     // console.log(bookContentRef.data())
+    //     userProfileRef
+    //         .onSnapshot(
+    //             querySnapshot => {
+    //                 const userInfo = []
+    //                 querySnapshot.forEach((doc) => {
+    //                     if (doc.id === currentProfileSelected) {
+    //                         const { name, profileColor, profileIcon } = doc.data()
+
+    //                         userInfo.push({
+    //                             name,
+    //                             profileColor,
+    //                             profileIcon,
+    //                         })
+    //                     }
+    //                 })
+    //                 setUserInfo(userInfo)
+    //             }
+    //         )
+    // }
+
+    // useEffect(() => {
+    //     getProfileInformation()
+    //     console.log(userInfo)
+    // }, [])
 
     useEffect(() => {
         getBookContentData()
@@ -221,7 +254,7 @@ const ReadingPage = () => {
 
     return (
 
-        <View style={[styles.container, {backgroundColor: bookPageColor}]} onLayout={onLayoutRootView}>
+        <View style={[styles.container, { backgroundColor: bookPageColor }]} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
 
             <SafeAreaView>
