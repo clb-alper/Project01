@@ -156,14 +156,9 @@ const ReadingPage = () => {
                             text = text.substring(1, text.length)
                             pagesRaw[i].storyText = text;
 
-                            let z = 0
-                            z = pagesRaw.length / images.length
+                            let imageIndex = Math.floor(i / 3) % images.length;
+                            pagesRaw[i].image = images[imageIndex];
 
-                            for (let a = 0; a <= images.length; a++) {
-                                for (let b = 0; b <= z; b++) {
-                                    pagesRaw[i].image = images[b]
-                                }
-                            }
 
                             text = '';
                         }
