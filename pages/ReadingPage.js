@@ -126,7 +126,7 @@ const ReadingPage = () => {
                             case 17:
                                 wordsPerPage = 120
                                 break
-                            case 18:                                
+                            case 18:
                             case 19:
                                 wordsPerPage = 110
                                 break
@@ -140,7 +140,7 @@ const ReadingPage = () => {
                                 break
                             case 24:
                                 wordsPerPage = 85
-                                break                                
+                                break
                             default: wordsPerPage = 95
                                 break
                         }
@@ -349,23 +349,25 @@ const ReadingPage = () => {
                                         <Text style={[styles.mainText, { fontSize: userFontSize }]}>
                                             {item.storyText}
                                         </Text>
+
+                                        <TouchableOpacity
+                                            //onPress={speak}
+                                            onPress={handleCreateCollections}
+                                            activeOpacity={0.8}>
+                                            <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
+                                                <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <Text style={styles.pageNumberText}>
+                                            {index+1} / {pages.length}
+                                        </Text>
                                     </View>
                                 </>
                             )}
                         />
 
-                        <TouchableOpacity
-                            //onPress={speak}
-                            onPress={handleCreateCollections}
-                            activeOpacity={0.8}>
-                            <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
-                                <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
-                            </View>
-                        </TouchableOpacity>
 
-                        <Text style={styles.pageNumberText}>
-                            01/10
-                        </Text>
                     </View>
                 </ScrollView>
             </SafeAreaView>
