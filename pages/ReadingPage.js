@@ -28,6 +28,8 @@ const ReadingPage = () => {
 
     const [isBack, setIsBack] = useState(false);
 
+    const [userFontSize, setUserFontSize] = useState(18);
+
 
     // const userProfileRef = firebase.firestore()
     //     .collection('users').doc(firebase.auth().currentUser.uid)
@@ -93,30 +95,9 @@ const ReadingPage = () => {
     //const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
     const pageText2 = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar."
 
-    const dummyText = [
-        {
-            id: 1,
-            bookText: "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
-        },
-        {
-            id: 2,
-            bookText: "MEHMET 2"
-        },
-        {
-            id: 3,
-            bookText: "MEHMET 3"
-        },
-        {
-            id: 4,
-            bookText: "MEHMET 4"
-        },
-    ]
 
     const bookContentRef = firebase.firestore().collection('storyBooks').doc(modalEntry.id).collection('bookContent')
 
-
-    // state fontu
-    const font = 24;
 
 
     let contentText;
@@ -137,7 +118,34 @@ const ReadingPage = () => {
 
                         let pagesRaw = [];
                         let currentPage = [];
-                        let wordsPerPage = 80;
+
+                        let wordsPerPage = 0;
+
+                        switch (userFontSize) {
+                            case 16:
+                            case 17:
+                                wordsPerPage = 120
+                                break
+                            case 18:                                
+                            case 19:
+                                wordsPerPage = 110
+                                break
+                            case 20:
+                            case 21:
+                                wordsPerPage = 100
+                                break
+                            case 22:
+                            case 23:
+                                wordsPerPage = 90
+                                break
+                            case 24:
+                                wordsPerPage = 85
+                                break                                
+                            default: wordsPerPage = 95
+                                break
+                        }
+
+
 
                         for (let i = 0; i < contentText.length; i++) {
                             currentPage.push(contentText[i]);
@@ -156,13 +164,12 @@ const ReadingPage = () => {
                             text = text.substring(1, text.length)
                             pagesRaw[i].storyText = text;
 
-                            let imageIndex = Math.floor(i / 3) % images.length;
+                            let imageIndex = Math.floor(i / (pagesRaw.length / images.length)) % images.length;
                             pagesRaw[i].image = images[imageIndex];
-
 
                             text = '';
                         }
-                        console.log(pagesRaw[5].storyText)
+
 
                         setPages(pagesRaw);
                         bookContent.push({
@@ -270,7 +277,6 @@ const ReadingPage = () => {
         let pageNumber = Math.min(Math.max(Math.floor(e.nativeEvent.contentOffset.x / 410 + 0.5) + 1, 0), pages.length);
         const progressB = pageNumber / pages.length;
         setUserBookProgress(progressB)
-        console.log(progressB);
     }
 
     const onLayoutRootView = useCallback(async () => {
@@ -340,7 +346,7 @@ const ReadingPage = () => {
                                             </BoxShadow>
                                         </View>
 
-                                        <Text style={styles.mainText}>
+                                        <Text style={[styles.mainText, { fontSize: userFontSize }]}>
                                             {item.storyText}
                                         </Text>
                                     </View>
@@ -397,7 +403,6 @@ const styles = StyleSheet.create({
 
     mainText: {
         fontFamily: 'Comic-Regular',
-        fontSize: 20,
         marginLeft: '7%',
         marginRight: '7%',
         marginTop: 30,
