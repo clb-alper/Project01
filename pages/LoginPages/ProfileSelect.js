@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { Component, useContext, useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -8,16 +8,30 @@ import colors from '../../assets/colors/colors';
 import { auth, firebase } from '../../firebase';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ProfileContext } from '../../assets/contexts/ProfileContext';
+import Skeleton from '../../skeleton';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
+
 
 const ProfileSelect = ({ navigation }) => {
 
     const { currentProfileSelected, setCurrentProfileSelected } = useContext(ProfileContext);
 
     const [profileList, setProfileList] = useState([]);
+
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+    const loadUserView = async () => {
+        await sleep(2000)
+        setIsLoaded(true)
+    }
+
     const todoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles');
+
 
     useEffect(() => {
         todoRef
@@ -33,10 +47,13 @@ const ProfileSelect = ({ navigation }) => {
                         })
                     })
                     setProfileList(profileList)
-
+                    loadUserView()
                 }
             )
     }, [])
+
+
+
 
     // useEffect(() => {
 
@@ -68,9 +85,9 @@ const ProfileSelect = ({ navigation }) => {
 
         // sub user's continueReading
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        .doc(currentProfileSelected).collection('continueReading').doc().set({
+            .doc(currentProfileSelected).collection('continueReading').doc().set({
 
-        })
+            })
 
         // // sub user's continueReading
         // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().collection('test').doc().set({
@@ -83,6 +100,7 @@ const ProfileSelect = ({ navigation }) => {
         //     console.log(doc.id)
         //     console.log(doc.data().bookProgress)
         // })
+
     }
 
     return (
@@ -101,19 +119,8 @@ const ProfileSelect = ({ navigation }) => {
 
                     <View style={styles.flatListStyle}>
 
-                        {profileList.length < 1 ?
-                            <View style={styles.addProfileButtonNoP}>
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('ProfileAddEdit')}
-                                    activeOpacity={0.8}>
-
-                                    <AntDesign name="pluscircleo" size={150} color={colors.pinkRegular} />
-                                    <Text style={styles.addProfileButtonTextNoP}>Profil Ekle</Text>
-
-                                </TouchableOpacity>
-                            </View>
-
-                            : <FlatList
+                        {!(profileList.length < 1) ?
+                            <FlatList
                                 overScrollMode={'never'}
                                 horizontal={false}
                                 scrollEnabled={false}
@@ -129,31 +136,57 @@ const ProfileSelect = ({ navigation }) => {
                                         <View style={styles.profileStyle}>
                                             <TouchableOpacity
                                                 key={item.key}
-                                                onPress={ () => {setCurrentProfileSelected(item.id); navigation.navigate('MainScreen')}}
+                                                onPress={() => { setCurrentProfileSelected(item.id); navigation.navigate('MainScreen') }}
                                                 activeOpacity={0.2}>
 
-                                                <View style={[styles.profileStyle2, { backgroundColor: item.profileColor.regularColor, borderColor: item.profileColor.borderColor }]}>
+                                                {isLoaded ?
+                                                    <>
+                                                        <View style={[styles.profileStyle2, { backgroundColor: item.profileColor.regularColor, borderColor: item.profileColor.borderColor }]}>
 
+                                                            <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
+                                                                <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.profileColor.borderColor }]} />
+                                                            </View>
 
-                                                    <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
-                                                        <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.profileColor.borderColor }]} />
+                                                        </View>
+                                                        <Text style={[styles.userNicknameStyle, { color: item.profileColor.regularColor }]}>{item.name}</Text>
+                                                    </>
+                                                    :
+                                                    <View>
+                                                        <Skeleton
+                                                            height={styles.profileStyle2.height}
+                                                            width={styles.profileStyle2.width}
+                                                            style={styles.profileStyle2}
+                                                        >
+                                                        </Skeleton>
+                                                        <Skeleton
+                                                            height={24}
+                                                            width={125}
+                                                            style={[styles.userNicknameStyle]}
+                                                        >
+                                                        </Skeleton>
                                                     </View>
-
-                                                </View>
-
-                                                <Text style={[styles.userNicknameStyle, { color: item.profileColor.regularColor }]}>{item.name}</Text>
+                                                }
                                             </TouchableOpacity>
-
                                         </View>
-
                                     </>
+                                )} />
 
-                                )} />}
+                            :
+                            <View style={styles.addProfileButtonNoP}>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('ProfileAddEdit')}
+                                    activeOpacity={0.8}>
 
-                                
+                                    <AntDesign name="pluscircleo" size={150} color={colors.pinkRegular} />
+                                    <Text style={styles.addProfileButtonTextNoP}>Profil Ekle</Text>
 
+                                </TouchableOpacity>
+                            </View>
+
+                        }
 
                     </View>
+
 
                     <View style={styles.buttonsViewStyle}>
 
@@ -306,6 +339,15 @@ const styles = StyleSheet.create({
         marginTop: 15,
         fontSize: 30,
         color: colors.pinkRegular
+    },
+
+    skeletonStyle: {
+        height: 250,
+        width: 350,
+        borderRadius: 8,
+        marginTop: 16
     }
+
+
 
 })

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image, VirtualizedList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image, VirtualizedList, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -13,9 +13,12 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { auth, firebase } from '../firebase';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
+import Skeleton from '../skeleton';
 
 
 const ReadingPage = () => {
+
+    const widthOfScreen = Dimensions.get('window').width
 
     const { setModalVisible, modalVisible, modalEntry } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded } = useContext(ProfileContext);
@@ -30,6 +33,15 @@ const ReadingPage = () => {
 
     const [userFontSize, setUserFontSize] = useState(18);
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+    const loadUserView = async () => {
+        await sleep(2000)
+        setIsLoaded(true)
+    }
 
     // const userProfileRef = firebase.firestore()
     //     .collection('users').doc(firebase.auth().currentUser.uid)
@@ -219,6 +231,7 @@ const ReadingPage = () => {
 
     useEffect(() => {
         getBookContentData()
+        loadUserView()
     }, [])
 
     const speak = () => {
@@ -239,6 +252,7 @@ const ReadingPage = () => {
     const handleCreateCollections = async () => {
         setReaded(!readed)
         // sub user's continueReading
+
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
             .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
                 //update it with update() function don't use set for everytime a progress achived
@@ -301,7 +315,6 @@ const ReadingPage = () => {
     }
 
 
-
     return (
 
         <View style={[styles.container, { backgroundColor: bookPageColor }]} onLayout={onLayoutRootView}>
@@ -324,49 +337,92 @@ const ReadingPage = () => {
                             </View>
                         </View>
 
-                        <FlatList
-                            overScrollMode={'never'}
-                            data={pages}
-                            keyExtractor={(item) => item.id}
-                            horizontal
-                            pagingEnabled
-                            showsHorizontalScrollIndicator={false}
-                            onMomentumScrollEnd={onScrollEnd}
-                            renderItem={({ item, index }) => (
-                                <>
-                                    <View key={index} style={{ marginTop: 10, width: 410 }}>
+                        {isLoaded ?
+                            <FlatList
+                                overScrollMode={'never'}
+                                data={pages}
+                                keyExtractor={(item) => item.id}
+                                horizontal
+                                pagingEnabled
+                                showsHorizontalScrollIndicator={false}
+                                onMomentumScrollEnd={onScrollEnd}
+                                renderItem={({ item, index }) => (
+                                    <>
+                                        <View key={index} style={{ marginTop: 10, width: 410 }}>
 
-                                        <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
+                                            <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
-                                            <BoxShadow setting={shadowOpt} >
-                                                <Image
-                                                    source={{ uri: item.image }}
-                                                    style={index != 0 ? styles.readingBookImage : styles.readingBookImageFirstItem}>
-                                                </Image>
-                                            </BoxShadow>
-                                        </View>
-
-                                        <Text style={[styles.mainText, { fontSize: userFontSize }]}>
-                                            {item.storyText}
-                                        </Text>
-
-                                        <TouchableOpacity
-                                            //onPress={speak}
-                                            onPress={handleCreateCollections}
-                                            activeOpacity={0.8}>
-                                            <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
-                                                <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
+                                                <BoxShadow setting={shadowOpt} >
+                                                    <Image
+                                                        source={{ uri: item.image }}
+                                                        style={index != 0 ? styles.readingBookImage : styles.readingBookImageFirstItem}>
+                                                    </Image>
+                                                </BoxShadow>
                                             </View>
-                                        </TouchableOpacity>
 
-                                        <Text style={styles.pageNumberText}>
-                                            {index+1} / {pages.length}
-                                        </Text>
-                                    </View>
-                                </>
-                            )}
-                        />
+                                            <Text style={[styles.mainText, { fontSize: userFontSize }]}>
+                                                {item.storyText}
+                                            </Text>
 
+                                            <TouchableOpacity
+                                                //onPress={speak}
+                                                onPress={handleCreateCollections}
+                                                activeOpacity={0.8}>
+                                                <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
+                                                    <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <Text style={styles.pageNumberText}>
+                                                {index + 1} / {pages.length}
+                                            </Text>
+                                        </View>
+                                    </>
+                                )}
+                            />
+                            :
+                            <>
+
+                                <Skeleton
+                                    height={styles.readingBookImage.height}
+                                    width={styles.readingBookImage.width}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ borderRadius: styles.readingBookImage.borderRadius }, { marginTop: 3 }]}
+                                />
+                                <Skeleton
+                                    height={userFontSize}
+                                    width={widthOfScreen * 0.85}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ marginTop: 30 }]}
+                                />
+                                <Skeleton
+                                    height={userFontSize}
+                                    width={widthOfScreen * 0.85}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ marginTop: 5 }]}
+                                />
+                                <Skeleton
+                                    height={userFontSize}
+                                    width={widthOfScreen * 0.85}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ marginTop: 5 }]}
+                                />
+                                <Skeleton
+                                    height={userFontSize}
+                                    width={widthOfScreen * 0.85}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ marginTop: 5 }]}
+                                />
+                                <Skeleton
+                                    height={userFontSize}
+                                    width={widthOfScreen * 0.85}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ marginTop: 5 }]}
+                                />
+                               
+
+                            </>
+                        }
 
                     </View>
                 </ScrollView>
