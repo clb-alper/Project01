@@ -9,12 +9,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { ModalContext } from '../../assets/contexts/ModalContext';
 import Slider from '@react-native-community/slider';
+import { ProfileContext } from '../../assets/contexts/ProfileContext';
 
 const FontSizeSettings = () => {
 
     const navigation = useNavigation();
 
     const { modalVisible } = useContext(ModalContext);
+    const { userPrefFontSize, setUserPrefFontSize } = useContext(ProfileContext);
 
     const [fontSizeNum, setFontSizeNum] = useState(20);
 
@@ -61,7 +63,7 @@ const FontSizeSettings = () => {
                         >
                             <View
                                 style={[styles.rowContainer, { marginTop: '3%' }]}>
-                                <Text style={[styles.textViewText, { fontSize: fontSizeNum }]}>
+                                <Text style={[styles.textViewText, { fontSize: userPrefFontSize }]}>
                                     Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi.
                                 </Text>
 
@@ -87,8 +89,8 @@ const FontSizeSettings = () => {
                                 minimumValue={16}
                                 maximumValue={24}
                                 step={1}
-                                value={fontSizeNum}
-                                onValueChange={(e) => setFontSizeNum(e)}
+                                value={userPrefFontSize}
+                                onValueChange={(e) => setUserPrefFontSize(e)}
                                 minimumTrackTintColor={colors.blueRegular}
                                 maximumTrackTintColor="#000000"
                                 thumbTintColor={colors.blueRegular}

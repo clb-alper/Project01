@@ -8,7 +8,7 @@ import colors from '../../assets/colors/colors';
 import { auth, firebase } from '../../firebase';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ProfileContext } from '../../assets/contexts/ProfileContext';
-import Skeleton from '../../skeleton';
+import Skeleton from '../../assets/components/skeleton';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -26,7 +26,7 @@ const ProfileSelect = ({ navigation }) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const loadUserView = async () => {
-        await sleep(900)
+        await sleep(1200)
         setIsLoaded(true)
     }
 
@@ -157,14 +157,15 @@ const ProfileSelect = ({ navigation }) => {
                                             <Skeleton
                                                 height={styles.profileStyle2.height}
                                                 width={styles.profileStyle2.width}
-                                                style={styles.profileStyle2}
-                                            //backgroundColor={colors.black}
+                                                style={[styles.profileStyle2, {borderWidth: 0}]}
+                                                backgroundColor= 'rgba(0,0,0,0.30)'
                                             >
                                             </Skeleton>
                                             <Skeleton
                                                 height={24}
                                                 width={125}
-                                                style={[styles.userNicknameStyle]}
+                                                style={[styles.userNicknameStyle, {borderRadius: 10}]}
+                                                backgroundColor= 'rgba(0,0,0,0.30)'
                                             >
                                             </Skeleton>
 

@@ -9,6 +9,7 @@ const ProfileProvider = ({ children }) => {
     const [userBookProgress, setUserBookProgress] = useState(0.0);
     const [favorited, setFavorited] = useState(false);
     const [readed, setReaded] = useState();
+    const [userPrefFontSize, setUserPrefFontSize] = useState(20);
 
     const contextData = {
         currentProfileSelected,
@@ -18,7 +19,9 @@ const ProfileProvider = ({ children }) => {
         favorited,
         setFavorited,
         readed,
-        setReaded
+        setReaded,
+        userPrefFontSize,
+        setUserPrefFontSize
     }
 
     return (
