@@ -11,10 +11,12 @@ const Skeleton = ({ width, height, style, backgroundColor }) => {
             Animated.timing(translateX, {
                 toValue: width,
                 useNativeDriver: true,
-                duration: 1000,
+                duration: 1300,
             })
         ).start()
     }, [width])
+
+
 
     return (
         <View
@@ -25,20 +27,23 @@ const Skeleton = ({ width, height, style, backgroundColor }) => {
                     backgroundColor: backgroundColor,
                     overflow: "hidden",
                 },
-                style
+                style,
+                
             ])}>
-            <Animated.View style={{ width: "130%", height: "100%", transform: [{ translateX: translateX }] }}>
+            <Animated.View style={{ width: "100%", height: "100%", transform: [{ translateX: translateX }] }}>
                 <LinearGradient
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ width: "180%", height: "100%" }}
                     colors={[
                         'transparent',
                         colors.blueLight,
                         colors.blueRegular,
-                        colors.purpleRegular,
                         colors.pinkRegular,
                         colors.pinkLight,
                         'transparent'
                     ]}
+
+                    //start={{ x: 1, y: 1 }}
+
                     start={{ x: 0.2, y: 0.3 }}
                     end={{ x: 0.7, y: 0.8 }}
                 >

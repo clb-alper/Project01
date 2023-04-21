@@ -39,7 +39,7 @@ const ReadingPage = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const loadUserView = async () => {
-        await sleep(2000)
+        await sleep(900)
         setIsLoaded(true)
     }
 
@@ -330,11 +330,25 @@ const ReadingPage = () => {
                                 onPress={() => { navigation.goBack(); setModalVisible(!modalVisible); setIsBack(true) }}>
                                 <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
+
                             <Text style={[styles.headerText, {}]}>{modalEntry.title}</Text>
 
-                            <View style={styles.headerIconContainerStyle}>
-                                <Image source={require('../assets/images/icontest.png')} style={styles.headerIconStyle}></Image>
-                            </View>
+                            {isLoaded ?
+                                <View style={styles.headerIconContainerStyle}>
+                                    <Image source={require('../assets/images/icontest.png')} style={styles.headerIconStyle}></Image>
+                                </View>
+                                :
+                                <Skeleton
+                                    height={styles.headerIconContainerStyle.height}
+                                    width={styles.headerIconContainerStyle.width}
+                                    backgroundColor={colors.grayProgressBarBG}
+                                    style={[{borderRadius:styles.headerIconContainerStyle.borderRadius}]}
+                                   
+                                >
+                                </Skeleton>
+                            }
+
+
                         </View>
 
                         {isLoaded ?
@@ -347,42 +361,42 @@ const ReadingPage = () => {
                                 showsHorizontalScrollIndicator={false}
                                 onMomentumScrollEnd={onScrollEnd}
                                 renderItem={({ item, index }) => (
-                                    <>
-                                        <View key={index} style={{ marginTop: 10, width: 410 }}>
 
-                                            <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
+                                    <View key={index} style={{ marginTop: 10, width: 410 }}>
 
-                                                <BoxShadow setting={shadowOpt} >
-                                                    <Image
-                                                        source={{ uri: item.image }}
-                                                        style={index != 0 ? styles.readingBookImage : styles.readingBookImageFirstItem}>
-                                                    </Image>
-                                                </BoxShadow>
-                                            </View>
+                                        <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
-                                            <Text style={[styles.mainText, { fontSize: userFontSize }]}>
-                                                {item.storyText}
-                                            </Text>
-
-                                            <TouchableOpacity
-                                                //onPress={speak}
-                                                onPress={handleCreateCollections}
-                                                activeOpacity={0.8}>
-                                                <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
-                                                    <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
-                                                </View>
-                                            </TouchableOpacity>
-
-                                            <Text style={styles.pageNumberText}>
-                                                {index + 1} / {pages.length}
-                                            </Text>
+                                            <BoxShadow setting={shadowOpt} >
+                                                <Image
+                                                    source={{ uri: item.image }}
+                                                    style={index != 0 ? styles.readingBookImage : styles.readingBookImageFirstItem}>
+                                                </Image>
+                                            </BoxShadow>
                                         </View>
-                                    </>
+
+                                        <Text style={[styles.mainText, { fontSize: userFontSize }]}>
+                                            {item.storyText}
+                                        </Text>
+
+                                        <TouchableOpacity
+                                            //onPress={speak}
+                                            onPress={handleCreateCollections}
+                                            activeOpacity={0.8}>
+                                            <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
+                                                <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <Text style={styles.pageNumberText}>
+                                            {index + 1} / {pages.length}
+                                        </Text>
+                                    </View>
+
                                 )}
                             />
                             :
-                            <>
 
+                            <View key={1} >
                                 <Skeleton
                                     height={styles.readingBookImage.height}
                                     width={styles.readingBookImage.width}
@@ -399,29 +413,45 @@ const ReadingPage = () => {
                                     height={userFontSize}
                                     width={widthOfScreen * 0.85}
                                     backgroundColor={modalEntry.itemBorder}
-                                    style={[{ marginTop: 5 }]}
+                                    style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userFontSize}
                                     width={widthOfScreen * 0.85}
                                     backgroundColor={modalEntry.itemBorder}
-                                    style={[{ marginTop: 5 }]}
+                                    style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userFontSize}
                                     width={widthOfScreen * 0.85}
                                     backgroundColor={modalEntry.itemBorder}
-                                    style={[{ marginTop: 5 }]}
+                                    style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userFontSize}
                                     width={widthOfScreen * 0.85}
                                     backgroundColor={modalEntry.itemBorder}
-                                    style={[{ marginTop: 5 }]}
+                                    style={[{ marginTop: 7 }]}
                                 />
-                               
-
-                            </>
+                                <Skeleton
+                                    height={userFontSize}
+                                    width={widthOfScreen * 0.85}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ marginTop: 7 }]}
+                                />
+                                <Skeleton
+                                    height={userFontSize}
+                                    width={widthOfScreen * 0.85}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ marginTop: 7 }]}
+                                />
+                                <Skeleton
+                                    height={userFontSize}
+                                    width={widthOfScreen * 0.85}
+                                    backgroundColor={modalEntry.itemBorder}
+                                    style={[{ marginTop: 7 }]}
+                                />
+                            </View>
                         }
 
                     </View>
