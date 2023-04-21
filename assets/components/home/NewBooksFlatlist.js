@@ -80,7 +80,7 @@ const NewBooksFlatlist = () => {
                             bookList.push({
                                 id: doc.id,
                                 favorited: favorites.has(doc.id),
-                                bookProgress: progresses.find(id => id.id === doc.id).progress,
+                                bookProgress: typeof (progresses.find(id => id.id === doc.id)) == 'undefined' ? 0 : progresses.find(id => id.id === doc.id).progress,
                                 ageTag,
                                 contentTag,
                                 dateAdded,
