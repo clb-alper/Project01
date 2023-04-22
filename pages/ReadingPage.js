@@ -14,6 +14,9 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import { auth, firebase } from '../firebase';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
 import Skeleton from '../assets/components/skeleton';
+import axios from 'axios';
+
+
 
 const widthOfScreen = Dimensions.get('window').width
 const heightOfScreen = Dimensions.get('window').height
@@ -26,6 +29,7 @@ const ReadingPage = () => {
     const [bookContent, setBookContent] = useState([]);
     const [bookPageColor, setBookPageColor] = useState();
     const [pages, setPages] = useState([]);
+    const [words, setWords] = useState([]);
 
     const [userInfo, setUserInfo] = useState([]);
 
@@ -130,7 +134,7 @@ const ReadingPage = () => {
 
                         let pagesRaw = [];
                         let currentPage = [];
-
+                        let wordsRaw = [];
                         let wordsPerPage = 0;
 
                         switch (userPrefFontSize) {
@@ -161,12 +165,16 @@ const ReadingPage = () => {
 
                         for (let i = 0; i < contentText.length; i++) {
                             currentPage.push(contentText[i]);
-
                             if ((currentPage.length >= wordsPerPage) && contentText[i].includes('.')) {
                                 pagesRaw.push(currentPage);
+                                wordsRaw.push(currentPage);
                                 currentPage = [];
                             }
                         }
+                        // wordsRaw[0].map((word) => {
+                        //     console.log(word, 'page')
+                        // })
+                        setWords(wordsRaw);
 
                         let text = '';
                         for (let i = 0; i < pagesRaw.length; i++) {
@@ -181,7 +189,6 @@ const ReadingPage = () => {
 
                             text = '';
                         }
-
 
                         setPages(pagesRaw);
                         bookContent.push({
@@ -315,6 +322,29 @@ const ReadingPage = () => {
     }
 
 
+    const handleTranslateWord = async (word) => {
+
+        const url = 'https://api.mymemory.translated.net/get';
+
+          const response = await axios.get(url, {
+            params: {
+              q: word,
+              langpair: `tr|en`,
+            },
+          });
+
+          console.log(word, ' -> ', response.data.responseData.translatedText)
+          if (response.data && response.data.responseData && response.data.responseData.translatedText) {
+            const translatedText = response.data.responseData.translatedText;
+            // show on modal
+            return translatedText;
+          } else {
+            throw new Error('Translation API response format is not as expected.');
+          }
+    
+
+    }
+
     return (
 
         <View style={[styles.container, { backgroundColor: bookPageColor }]} onLayout={onLayoutRootView}>
@@ -351,6 +381,16 @@ const ReadingPage = () => {
 
                         </View>
 
+                        {/* 
+
+                        {words[0].map((word, index) => {
+                            return (
+                                <TouchableOpacity key={index}>
+                                    <Text onPress={() => console.log(word)}>{word}</Text>
+                                </TouchableOpacity>
+                            )
+                        })} */}
+
                         {isLoaded ?
                             <FlatList
                                 overScrollMode={'never'}
@@ -373,11 +413,32 @@ const ReadingPage = () => {
                                                 </Image>
                                             </BoxShadow>
                                         </View>
+                                        <View>
+                                            {
+                                                // Dışardaki Text i değiştirirsen error veriyor yusuf buranın görüntüsünü düzelt.
+                                                <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
+                                                    return (
+                                                        <>
+                                                            <Text onPress={() => handleTranslateWord(word)}>{word}</Text>
+                                                            <Text> </Text>
+                                                        </>
 
-                                        <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}>
-                                            {item.storyText}
-                                        </Text>
+                                                    )
 
+                                                })}
+
+                                                </Text>
+                                                // words[index].map((word) => {
+                                                //     console.log('page index', index)
+
+                                                //     { console.log(word, 'oradaolacagiz') }
+                                                //     <Text >{word}</Text>
+                                                // })
+                                            }
+                                        </View>
+
+
+                                 
                                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 15 }}>
 
                                             <TouchableOpacity
