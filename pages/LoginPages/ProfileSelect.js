@@ -148,9 +148,9 @@ const ProfileSelect = ({ navigation }) => {
                                 renderItem={({ item, index, separators }) => (
 
                                     <View style={styles.profileStyle}>
-                                        <TouchableOpacity
+                                        <View
                                             key={item.key}
-                                            onPress={() => { setCurrentProfileSelected(item.id); navigation.navigate('MainScreen') }}
+                                            // onPress={() => { setCurrentProfileSelected(item.id); navigation.navigate('MainScreen') }}
                                             activeOpacity={0.2}>
 
 
@@ -169,7 +169,7 @@ const ProfileSelect = ({ navigation }) => {
                                             >
                                             </Skeleton>
 
-                                        </TouchableOpacity>
+                                        </View>
                                     </View>
 
                                 )} />
