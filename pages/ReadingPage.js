@@ -15,6 +15,7 @@ import { auth, firebase } from '../firebase';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
 import Skeleton from '../assets/components/Skeleton';
 import axios from 'axios';
+import { Translator } from '../assets/components/Translator';
 
 
 
@@ -322,28 +323,28 @@ const ReadingPage = () => {
     }
 
 
-    const handleTranslateWord = async (word) => {
+    // HANDLE TRANSLATE WORD
+    // const handleTranslateWord = async (word) => {
 
-        const url = 'https://api.mymemory.translated.net/get';
+    //     const url = 'https://api.mymemory.translated.net/get';
 
-          const response = await axios.get(url, {
-            params: {
-              q: word,
-              langpair: `tr|en`,
-            },
-          });
+    //       const response = await axios.get(url, {
+    //         params: {
+    //           q: word,
+    //           langpair: `tr|en`,
+    //         },
+    //       });
 
-          console.log(word, ' -> ', response.data.responseData.translatedText)
-          if (response.data && response.data.responseData && response.data.responseData.translatedText) {
-            const translatedText = response.data.responseData.translatedText;
-            // show on modal
-            return translatedText;
-          } else {
-            throw new Error('Translation API response format is not as expected.');
-          }
-    
+    //       console.log(word, ' -> ', response.data.responseData.translatedText)
+    //       if (response.data && response.data.responseData && response.data.responseData.translatedText) {
+    //         const translatedText = response.data.responseData.translatedText;
+    //         // show on modal
+    //         return translatedText;
+    //       } else {
+    //         throw new Error('Translation API response format is not as expected.');
+    //       }
 
-    }
+    // }
 
     return (
 
@@ -419,7 +420,7 @@ const ReadingPage = () => {
                                                 <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
                                                     return (
                                                         <>
-                                                            <Text onPress={() => handleTranslateWord(word)}>{word}</Text>
+                                                            <Text onPress={() => Translator(word)}>{word}</Text>
                                                             <Text> </Text>
                                                         </>
 
