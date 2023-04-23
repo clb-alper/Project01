@@ -8,7 +8,7 @@ import colors from '../../assets/colors/colors';
 import { auth, firebase } from '../../firebase';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { ProfileContext } from '../../assets/contexts/ProfileContext';
-import Skeleton from '../../assets/components/skeleton';
+import Skeleton from '../../assets/components/Skeleton';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width

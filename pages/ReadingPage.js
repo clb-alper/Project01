@@ -13,7 +13,7 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { auth, firebase } from '../firebase';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
-import Skeleton from '../assets/components/skeleton';
+import Skeleton from '../assets/components/Skeleton';
 import axios from 'axios';
 
 
