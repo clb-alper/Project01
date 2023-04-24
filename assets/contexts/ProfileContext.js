@@ -1,15 +1,61 @@
 import { useState } from 'react';
 import React from 'react';
+import { auth, firebase } from '../../firebase';
 
 export const ProfileContext = React.createContext();
 
 const ProfileProvider = ({ children }) => {
 
     const [currentProfileSelected, setCurrentProfileSelected] = useState();
+    const [currentProfileSelectedInfo, setCurrentProfileSelectedInfo] = useState();
+    const [currentAccountInfo, setCurrentAccountInfo] = useState();
     const [userBookProgress, setUserBookProgress] = useState(0.0);
     const [favorited, setFavorited] = useState(false);
     const [readed, setReaded] = useState();
     const [userPrefFontSize, setUserPrefFontSize] = useState(20);
+
+    const getProfileInfoData = async () => {
+        const profileInfoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        profileInfoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const profileInfoData = []
+                    querySnapshot.forEach((doc) => {                    
+                        if (doc.id === currentProfileSelected) {
+                            const { name, profileColor, profileIcon } = doc.data()
+                            profileInfoData.push({
+                                id: doc.id,
+                                name,
+                                profileColor,
+                                profileIcon
+                            })
+                        }
+
+                    })
+                    setCurrentProfileSelectedInfo(profileInfoData)
+                }
+            )
+    }
+
+    const getAccountInfoData = async () => {
+        const accountInfoRef = firebase.firestore().collection('users')
+        accountInfoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const accountInfoData = []
+                    querySnapshot.forEach((doc) => {                    
+                        if (doc.id === firebase.auth().currentUser.uid) {
+                            const { email } = doc.data()
+                            accountInfoData.push({
+                                email,
+                            })
+                        }
+
+                    })
+                    setCurrentAccountInfo(accountInfoData)
+                }
+            )
+    }
 
     const contextData = {
         currentProfileSelected,
@@ -21,7 +67,13 @@ const ProfileProvider = ({ children }) => {
         readed,
         setReaded,
         userPrefFontSize,
-        setUserPrefFontSize
+        setUserPrefFontSize,
+        getProfileInfoData,
+        currentProfileSelectedInfo,
+        setCurrentProfileSelectedInfo,
+        getAccountInfoData,
+        currentAccountInfo,
+        setCurrentAccountInfo
     }
 
     return (

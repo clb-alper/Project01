@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useContext } from 'react'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -8,12 +8,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { ModalContext } from '../../assets/contexts/ModalContext';
+import { ProfileContext } from '../../assets/contexts/ProfileContext';
 
 const Settings = () => {
 
     const navigation = useNavigation();
 
     const { modalVisible } = useContext(ModalContext);
+    const { currentProfileSelectedInfo, currentAccountInfo } = useContext(ProfileContext);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -41,6 +43,22 @@ const Settings = () => {
                 <ScrollView showsVerticalScrollIndicator={false}
                     overScrollMode={'never'}>
                     <Text style={styles.settingsHeader}>Ayarlar</Text>
+
+                    <View style={styles.dashboardContainer}>
+
+                        <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
+                            <Image source={require('../../assets/images/icontest.png')} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
+                        </View>
+
+                        <View style={styles.headerUserInfo}>
+                            <Text style={styles.headerUser}>Profil Ismi: {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
+                            <Text style={styles.settingsHeaderEmail}>Hesap Emaili: {typeof (currentAccountInfo) == 'undefined' ? "Default" : currentAccountInfo[0].email}</Text>
+                        </View>
+                        <View style={[styles.headerUserInfo, { marginLeft: 5 }]}>
+                            <Text style={styles.headerUser}>Log Out</Text>
+                        </View>
+
+                    </View>
 
                     <Text style={styles.generalSettingsHeader}>Genel</Text>
                     <View style={styles.generalSettingsContainer}>
@@ -216,7 +234,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Comic-Regular',
         fontSize: 35,
         marginLeft: '7%',
-        marginTop: '10%'
+        marginTop: '7%'
     },
 
     generalSettingsContainer: {
@@ -275,6 +293,58 @@ const styles = StyleSheet.create({
         marginRight: '6.5%',
         marginBottom: '3%',
         marginTop: '3%'
-    }
+    },
+
+    headerIconContainerStyle: {
+        resizeMode: 'contain',
+        width: 70,
+        height: 70,
+        borderRadius: 100,
+        borderWidth: 4,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: -7
+    },
+
+    headerIconStyle: {
+        resizeMode: 'contain',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 60,
+        height: 60,
+    },
+
+    headerUserInfo: {
+        paddingLeft: 10,
+        paddingTop: 2,
+    },
+
+    headerUser: {
+        marginTop: 15,
+        marginLeft: 2,
+        fontSize: 20,
+        fontFamily: 'Comic-Regular',
+    },
+
+    dashboardContainer: {
+        flexDirection: "row",
+        backgroundColor: '#FFF1D9',
+        marginTop: '7%',
+        marginLeft: '7.5%',
+        marginRight: '7.5%',
+        paddingLeft: '5%',
+        borderRadius: 10,
+        borderWidth: 2.5,
+        borderColor: '#ffe1ad'
+    },
+
+    settingsHeaderEmail: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 13,
+        marginTop: 2,
+        marginLeft: 2
+    },
+
 
 })

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -13,16 +13,23 @@ import Header from '../assets/components/home/Header';
 import BookModal from '../assets/components/BookModal';
 import { ModalContext } from '../assets/contexts/ModalContext';
 import FavoriteBooksFlastlist from '../assets/components/home/FavoriteBooksFlatlist';
+import { ProfileContext } from '../assets/contexts/ProfileContext';
 
 const MainScreen = () => {
 
   const { modalVisible } = useContext(ModalContext);
+  const { getProfileInfoData, getAccountInfoData, currentAccountInfo } = useContext(ProfileContext);
 
   const [fontsLoaded] = useFonts({
     'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
     'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
     'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
   });
+
+  useEffect(() => {
+    getProfileInfoData()
+    getAccountInfoData()
+  }, [])
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {

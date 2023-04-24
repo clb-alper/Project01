@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext }  from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import colors from '../../colors/colors';
 import * as Progress from 'react-native-progress';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { BoxShadow } from 'react-native-shadow';
+import { ProfileContext } from '../../contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
+
+    const { currentProfileSelectedInfo } = useContext(ProfileContext);
 
     const shadowOpt = {
         width: widthOfScreen,
@@ -26,12 +29,12 @@ const Header = () => {
             <View style={styles.dashboardHeader}>
                 <View style={styles.dashboardContainer}>
 
-                    <View style={styles.headerIconContainerStyle}>
-                        <Image source={require('../../images/icontest.png')} style={styles.headerIconStyle}></Image>
+                    <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
+                        <Image source={require('../../images/icontest.png')} style={[styles.headerIconStyle, {tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"]}]}></Image>
                     </View>
 
                     <View style={styles.headerUserInfo}>
-                        <Text style={styles.headerUser}>Merhaba Ömer</Text>
+                        <Text style={styles.headerUser}>Merhaba {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
                         <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
                         <Progress.Bar style={styles.progressBar} progress={0.75} height={7.5} width={250} color={colors.greenBorder} />
                     </View>
@@ -103,10 +106,7 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         borderRadius: 100,
-        backgroundColor: colors.blueRegular,
         borderWidth: 4,
-        borderColor: colors.blueBorder,
-
     },
 
     headerIconStyle: {
@@ -116,8 +116,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 60,
         height: 60,
-        tintColor: colors.blueLight
-
     },
 
     headerUserInfo: {

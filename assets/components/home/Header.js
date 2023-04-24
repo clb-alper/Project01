@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import colors from '../../colors/colors';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import { ProfileContext } from '../../contexts/ProfileContext';
 
 const Header = () => {
+
+    const { currentProfileSelectedInfo } = useContext(ProfileContext);
+
     return (
         <View style={styles.headerView1}>
 
@@ -14,7 +18,7 @@ const Header = () => {
                 style={styles.headerTextStyle}
                 adjustsFontSizeToFit={true}
                 numberOfLines={1}>
-                Hoşgeldin Ömer
+                Hoşgeldin {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}
             </Text>
 
             <View style={styles.headerView2}>
