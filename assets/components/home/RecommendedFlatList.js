@@ -16,7 +16,8 @@ const RecommendedFlatList = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const myTimeOut = async () => {
-        await sleep(1500)
+        await sleep(2000);
+        getRecommendedData();
     }
 
     const shadowOpt = {
@@ -31,8 +32,11 @@ const RecommendedFlatList = () => {
     }
 
 
-    const [bookList, setBookList] = React.useState([]);
+    const [bookList, setBookList] = useState([]);
     const [tagList, setTagList] = useState([]);
+
+    let sortedAgeTags = []
+    let sortedThemeTags = []
 
 
     const userTagDataRef = firebase.firestore()
@@ -41,56 +45,10 @@ const RecommendedFlatList = () => {
         .collection('tagData');
 
     useEffect(() => {
-        userTagDataRef
-            .onSnapshot(
-                querySnapshot => {
-                    const tagList = []
-                    if (querySnapshot.empty) {
-                        setTagList([])
-                    } else {
-                        querySnapshot.forEach((doc) => {
-                            if (doc.id === 'ageTagData') {
-                                const { ageOf3to6Value, ageOf6to9Value, ageOf9to12Value, ageOf12plusValue } = doc.data()
-                                tagList.push({
-                                    ageOf3to6Value,
-                                    ageOf6to9Value,
-                                    ageOf9to12Value,
-                                    ageOf12plusValue
-                                })
-                            } else if (doc.id === 'themeTagData') {
-                                const { adventureTagValue, animalTagValue, cityTagValue, natureTagValue } = doc.data()
-                                tagList.push({
-                                    adventureTagValue,
-                                    animalTagValue,
-                                    cityTagValue,
-                                    natureTagValue
-                                })
-                            }
-                        })
-                        setTagList(tagList)
-                    }
-                }
-            )
-    }, [readed])
+
+    }, [])
 
     //console.log(tagList)
-
-    let sortedAgeTags = []
-    let sortedContentTags = []
-
-    let keysSorted = []
-    for (let i = 0; i < tagList.length; i++) {
-
-        // sorting most common tag to least
-        keysSorted[i] = Object.keys(tagList[i]).sort(function (a, b) { return tagList[i][b] - tagList[i][a] })
-
-
-
-    }
-
-    sortedAgeTags = keysSorted[0]
-    sortedContentTags = keysSorted[1]
-
 
     const getFavoriteBooks = async () => {
         const userRef = firebase.firestore()
@@ -116,75 +74,121 @@ const RecommendedFlatList = () => {
         return progress;
     };
 
-
     //const [bookList, setBookList] = React.useState([]);
-    const todoRef = firebase.firestore().collection('storyBooks')
+    const todoRef = firebase.firestore().collection('storyBooks').orderBy("themeTag", "asc")
 
-    const getNewBooksData = async () => {
-        const favorites = await getFavoriteBooks();
-        const progresses = await getProgressOfBooks();
-        todoRef
+    const getRecommendedData = async () => {
+        userTagDataRef
             .onSnapshot(
                 querySnapshot => {
-                    const bookList = []
-                    querySnapshot.forEach((doc) => {
-                        const {
-                            ageTag, contentTag, dateAdded, image,
-                            itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor,
-                            rewardTag, themeTag, title } = doc.data()
-
-                        for (let i = 0; i < sortedAgeTags.length; i++) {
-                            for (let k = 0; k < sortedContentTags.length; k++) {
-                                if (k - i > 1) {
-                                    i++;
-                                    break;
-                                }
-                                console.log(i, k)
-
+                    const tagList = []
+                    if (querySnapshot.empty) {
+                        setTagList([])
+                    } else {
+                        querySnapshot.forEach((doc) => {
+                            if (doc.id === 'ageTagData') {
+                                const { ageOf3to6Value, ageOf6to9Value, ageOf9to12Value, ageOf12plusValue } = doc.data()
+                                tagList.push({
+                                    "3-6 Yaş": ageOf3to6Value,
+                                    "6-9 Yaş": ageOf6to9Value,
+                                    "9-12 Yaş": ageOf9to12Value,
+                                    "12+ Yaş": ageOf12plusValue
+                                })
+                            } else if (doc.id === 'themeTagData') {
+                                const { adventureTagValue, animalTagValue, cityTagValue, natureTagValue } = doc.data()
+                                tagList.push({
+                                    "Macera": adventureTagValue,
+                                    "Hayvan": animalTagValue,
+                                    "Şehir": cityTagValue,
+                                    "Doğa": natureTagValue
+                                })
                             }
-                        }
-
-                        bookList.push({
-                            id: doc.id,
-                            favorited: favorites.has(doc.id),
-                            bookProgress: typeof (progresses.find(id => id.id === doc.id)) == 'undefined' ? 0 : progresses.find(id => id.id === doc.id).progress,
-                            ageTag,
-                            contentTag,
-                            dateAdded,
-                            image,
-                            itemBorder,
-                            itemColor,
-                            itemColorBG,
-                            itemDesc,
-                            itemDescColor,
-                            rewardTag,
-                            themeTag,
-                            title,
                         })
-
-                    })
-                    setBookList(bookList)
+                        setTagList(tagList)
+                    }
                 }
             )
-    }
 
+        if (tagList.length > 1) {
+            let keysSorted = []
+            for (let i = 0; i < tagList.length; i++) {
 
+                // sorting most common tag to least
+                keysSorted[i] = Object.keys(tagList[i]).sort(function (a, b) { return tagList[i][b] - tagList[i][a] })
 
-
-    for (let i = 0; i < 4; i++) {
-        for (let k = 0; k < 4; k++) {
-            if (k - i > 1) {
-                break;
             }
-            if (i - k > 2) {
-                break;
-            }
-            console.log("tnew", i, k)
+            sortedAgeTags = keysSorted[0]
+            sortedThemeTags = keysSorted[1]
 
+            console.log(sortedThemeTags)
+
+            const favorites = await getFavoriteBooks();
+            const progresses = await getProgressOfBooks();
+
+            todoRef
+                .onSnapshot(
+                    querySnapshot => {
+                        const bookList = []
+                        querySnapshot.forEach((doc) => {
+                            const {
+                                ageTag, contentTag, dateAdded, image,
+                                itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor,
+                                rewardTag, themeTag, title } = doc.data()
+
+                            for (let i = 0; i < 4; i++) {
+                                for (let k = 0; k < 4; k++) {
+                                    if (k - i >= 2) {
+                                        continue;
+                                    }
+                                    else if (i - k >= 2) {
+                                        continue;
+                                    }
+
+                                    //console.log(themeTag, " + ", sortedThemeTags[k], ageTag, " + ",  sortedAgeTags[i], ageTag === sortedAgeTags[i] && themeTag === sortedThemeTags[k])
+                                    if (tagList[0][sortedAgeTags[i]] != 0 && tagList[1][sortedThemeTags[k]] != 0) {
+                                        if (ageTag === sortedAgeTags[i] && themeTag === sortedThemeTags[k]) {   
+                                            console.log(ageTag, "+", sortedAgeTags[i], "+" , themeTag, "+", sortedThemeTags[0])                                       
+                                            bookList.push({
+                                                id: doc.id,
+                                                favorited: favorites.has(doc.id),
+                                                bookProgress: typeof (progresses.find(id => id.id === doc.id)) == 'undefined' ? 0 : progresses.find(id => id.id === doc.id).progress,
+                                                ageTag,
+                                                contentTag,
+                                                dateAdded,
+                                                image,
+                                                itemBorder,
+                                                itemColor,
+                                                itemColorBG,
+                                                itemDesc,
+                                                itemDescColor,
+                                                rewardTag,
+                                                themeTag,
+                                                title,
+                                            })
+                                            console.log()
+                                        }
+
+
+                                    }
+
+                                }
+                            }
+
+                        })
+                        setBookList(bookList)
+                    }
+                )
         }
     }
 
+    // UseEffect Gariplik ilk açıldığında error.
+    useEffect(() => {
+        myTimeOut()
+    }, [readed])
 
+    useEffect(() => {
+        myTimeOut()
+    }, [favorited])
 
     return (
         <View>
