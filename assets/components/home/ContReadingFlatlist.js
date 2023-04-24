@@ -68,12 +68,9 @@ const ContReadingFlatlist = () => {
                                     if (res.exists) {
                                         contBookReading.bookData.favorited = res.data().favorited
                                         setBookList(bookList)
-                                        //handleTagDataOfConts()
                                     } else {
                                         setBookList(bookList)
-                                        //handleTagDataOfConts()
                                     }
-                                    //setDummy(true)
                                     timeOutOfTags()
                                 })
 

@@ -12,7 +12,12 @@ const RecommendedFlatList = () => {
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, favorited, readed } = useContext(ProfileContext);
 
-
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+    const myTimeOut = async () => {
+        await sleep(1500)
+    }
 
     const shadowOpt = {
         width: 110,
@@ -70,29 +75,115 @@ const RecommendedFlatList = () => {
 
     //console.log(tagList)
 
+    let sortedAgeTags = []
+    let sortedContentTags = []
 
-
-
+    let keysSorted = []
     for (let i = 0; i < tagList.length; i++) {
 
         // sorting most common tag to least
-        let keysSorted = Object.keys(tagList[i]).sort(function (a, b) { return tagList[i][b] - tagList[i][a] })
-       
+        keysSorted[i] = Object.keys(tagList[i]).sort(function (a, b) { return tagList[i][b] - tagList[i][a] })
 
 
 
-        // let max = 0;
-        // let maxKey = "";
-
-        // for (let char in tagList[i]) {
-        //     if (tagList[i][char] > max) {
-        //         max = tagList[i][char];
-        //         maxKey = char
-        //     }
-        // }
-
-        // console.log(maxKey)
     }
+
+    sortedAgeTags = keysSorted[0]
+    sortedContentTags = keysSorted[1]
+
+
+    const getFavoriteBooks = async () => {
+        const userRef = firebase.firestore()
+            .collection('users').doc(firebase.auth().currentUser.uid)
+            .collection('userProfiles').doc(currentProfileSelected)
+            .collection('favoriteBooks');
+
+        const snapshot = await userRef.get();
+        const favorites = new Set();
+        snapshot.forEach(doc => favorites.add(doc.id));
+        return favorites;
+    };
+
+    const getProgressOfBooks = async () => {
+        const userRef = firebase.firestore()
+            .collection('users').doc(firebase.auth().currentUser.uid)
+            .collection('userProfiles').doc(currentProfileSelected)
+            .collection('continueReading');
+
+        const snapshot = await userRef.get();
+        const progress = [];
+        snapshot.forEach(doc => progress.push({ id: doc.id, progress: doc.data().progress }));
+        return progress;
+    };
+
+
+    //const [bookList, setBookList] = React.useState([]);
+    const todoRef = firebase.firestore().collection('storyBooks')
+
+    const getNewBooksData = async () => {
+        const favorites = await getFavoriteBooks();
+        const progresses = await getProgressOfBooks();
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const bookList = []
+                    querySnapshot.forEach((doc) => {
+                        const {
+                            ageTag, contentTag, dateAdded, image,
+                            itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor,
+                            rewardTag, themeTag, title } = doc.data()
+
+                        for (let i = 0; i < sortedAgeTags.length; i++) {
+                            for (let k = 0; k < sortedContentTags.length; k++) {
+                                if (k - i > 1) {
+                                    i++;
+                                    break;
+                                }
+                                console.log(i, k)
+
+                            }
+                        }
+
+                        bookList.push({
+                            id: doc.id,
+                            favorited: favorites.has(doc.id),
+                            bookProgress: typeof (progresses.find(id => id.id === doc.id)) == 'undefined' ? 0 : progresses.find(id => id.id === doc.id).progress,
+                            ageTag,
+                            contentTag,
+                            dateAdded,
+                            image,
+                            itemBorder,
+                            itemColor,
+                            itemColorBG,
+                            itemDesc,
+                            itemDescColor,
+                            rewardTag,
+                            themeTag,
+                            title,
+                        })
+
+                    })
+                    setBookList(bookList)
+                }
+            )
+    }
+
+
+
+
+    for (let i = 0; i < 4; i++) {
+        for (let k = 0; k < 4; k++) {
+            if (k - i > 1) {
+                break;
+            }
+            if (i - k > 2) {
+                break;
+            }
+            console.log("tnew", i, k)
+
+        }
+    }
+
 
 
     return (
