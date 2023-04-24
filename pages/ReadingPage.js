@@ -401,11 +401,12 @@ const ReadingPage = () => {
                                 pagingEnabled
                                 showsHorizontalScrollIndicator={false}
                                 onMomentumScrollEnd={onScrollEnd}
+                                ListFooterComponent={() => <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen}}><Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu</Text></View>}
                                 renderItem={({ item, index }) => (
 
                                     <View key={item.id} style={{ marginTop: 10, width: widthOfScreen }}>
 
-                                        <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
+                                        <View key={item.id} style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
                                             <BoxShadow setting={shadowOpt} >
                                                 <Image
@@ -417,7 +418,7 @@ const ReadingPage = () => {
                                         <View>
                                             {
                                                 // Dışardaki Text i değiştirirsen error veriyor yusuf buranın görüntüsünü düzelt.
-                                                <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
+                                                <Text key={item.id} style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
                                                     return (
                                                         <>
                                                             <Text onPress={() => Translator(word)}>{word}</Text>
@@ -461,7 +462,7 @@ const ReadingPage = () => {
                             />
                             :
 
-                            <View key={1} >
+                            <View>
                                 <Skeleton
                                     height={styles.readingBookImage.height}
                                     width={styles.readingBookImage.width}
