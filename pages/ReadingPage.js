@@ -14,7 +14,6 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import { auth, firebase } from '../firebase';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
 import Skeleton from '../assets/components/Skeleton';
-import axios from 'axios';
 import { Translator } from '../assets/components/Translator';
 
 
@@ -35,8 +34,6 @@ const ReadingPage = () => {
     const [userInfo, setUserInfo] = useState([]);
 
     const [isBack, setIsBack] = useState(false);
-
-    const [userFontSize, setUserFontSize] = useState(18);
 
     const [isLoaded, setIsLoaded] = useState(false);
 
