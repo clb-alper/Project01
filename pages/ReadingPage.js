@@ -395,14 +395,15 @@ const ReadingPage = () => {
                         {isLoaded ?
                             <FlatList
                                 overScrollMode={'never'}
-                                data={pages}
+                                data={pages}                              
                                 keyExtractor={(item) => item.id}
                                 horizontal
-                                pagingEnabled
+                                pagingEnabled                               
                                 showsHorizontalScrollIndicator={false}
+                                initialScrollIndex={Math.floor(0.3 * pages.length)} // 0.3ü databaseden progress olarak al
                                 onMomentumScrollEnd={onScrollEnd}
                                 ListFooterComponent={() => <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen}}><Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu</Text></View>}
-                                renderItem={({ item, index }) => (
+                                renderItem={({ item, index }) => (                                   
 
                                     <View key={item.id} style={{ marginTop: 10, width: widthOfScreen }}>
 
