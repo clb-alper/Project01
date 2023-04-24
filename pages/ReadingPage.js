@@ -45,9 +45,10 @@ const ReadingPage = () => {
         setIsLoaded(true)
     }
 
-    // const userProfileRef = firebase.firestore()
-    //     .collection('users').doc(firebase.auth().currentUser.uid)
-    //     .collection('userProfiles').doc(currentProfileSelected);
+    const userProfileRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected);
+
 
 
     // useEffect(() => {
@@ -67,6 +68,8 @@ const ReadingPage = () => {
     //                 }
     //             }
     //         )
+
+            
 
 
     //     // if (isBack === true) {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Text } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
@@ -10,9 +10,16 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 const ContReadingFlatlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userBookProgress, favorited } = useContext(ProfileContext);
+    const { currentProfileSelected, userBookProgress, favorited, readed } = useContext(ProfileContext);
+    const [dummy, setDummy] = useState(false);
 
-
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+    const timeOutOfTags = async () => {
+        await sleep(1500)
+        setDummy(true)
+    }
 
     const shadowOpt = {
         width: 110,
@@ -32,6 +39,12 @@ const ContReadingFlatlist = () => {
         .collection('users').doc(firebase.auth().currentUser.uid)
         .collection('userProfiles').doc(currentProfileSelected)
         .collection('continueReading');
+
+
+    const userTagDataRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected)
+        .collection('tagData');
 
     useEffect(() => {
         contUserBookRef
@@ -55,16 +68,104 @@ const ContReadingFlatlist = () => {
                                     if (res.exists) {
                                         contBookReading.bookData.favorited = res.data().favorited
                                         setBookList(bookList)
+                                        //handleTagDataOfConts()
                                     } else {
                                         setBookList(bookList)
+                                        //handleTagDataOfConts()
                                     }
+                                    //setDummy(true)
+                                    timeOutOfTags()
                                 })
 
                         })
                     }
                 }
             )
+
     }, [favorited])
+
+    
+   
+    let age3to6Value = 0;
+        let age6to9Value = 0;
+        let age9to12Value = 0;
+        let age12PlusValue = 0;
+    
+        let adventureValue = 0;
+        let animalValue = 0;
+        let natureValue = 0;
+        let cityValue = 0;
+
+        bookList.forEach(element => {
+            if (element.ageTag === "3-6 Yaş") {
+                age3to6Value += element.bookProgress;
+            } else if (element.ageTag === "6-9 Yaş") {
+                age6to9Value += element.bookProgress;
+            } else if (element.ageTag === "9-12 Yaş") {
+                age9to12Value += element.bookProgress;
+            } else if (element.ageTag === "12+ Yaş") {
+                age12PlusValue += element.bookProgress;
+            }
+        });
+
+        bookList.forEach(element => {
+            if (element.themeTag === "Macera") {
+                adventureValue += element.bookProgress;
+            } else if (element.themeTag === "Hayvan") {
+                animalValue += element.bookProgress;
+            } else if (element.themeTag === "Doğa") {
+                natureValue += element.bookProgress;
+            } else if (element.themeTag === "Şehir") {
+                cityValue += element.bookProgress;
+            }
+        });
+
+        const TagDataObj = {
+            ageTags: {
+                age3to6Value,
+                age6to9Value,
+                age9to12Value,
+                age12PlusValue,
+            },
+            contentTags: {
+                adventureValue,
+                animalValue,
+                natureValue,
+                cityValue
+            }
+        }
+
+
+    const handleTagDataOfConts = () => {
+    
+        // sub user's tagData
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('tagData').doc('ageTagData').set({
+                ageOf3to6Value: TagDataObj.ageTags.age3to6Value != 0 ? TagDataObj.ageTags.age3to6Value : 9,
+                ageOf6to9Value: TagDataObj.ageTags.age6to9Value,
+                ageOf9to12Value: TagDataObj.ageTags.age9to12Value,
+                ageOf12plusValue: TagDataObj.ageTags.age12PlusValue
+            })
+        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        //     .doc(currentProfileSelected).collection('tagData').doc('contentTagData').update({
+        //         puzzleTagValue: 0,
+        //         quizTagValue: 0
+        //     })
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('tagData').doc('themeTagData').set({
+                natureTagValue: TagDataObj.contentTags.natureValue,
+                animalTagValue: TagDataObj.contentTags.animalValue,
+                cityTagValue: TagDataObj.contentTags.cityValue,
+                adventureTagValue: TagDataObj.contentTags.adventureValue
+            })
+    }
+
+
+    useEffect(() => {
+        if(dummy){
+            handleTagDataOfConts()
+        }
+    }, [readed])
 
 
 

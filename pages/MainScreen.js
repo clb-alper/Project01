@@ -14,6 +14,7 @@ import BookModal from '../assets/components/BookModal';
 import { ModalContext } from '../assets/contexts/ModalContext';
 import FavoriteBooksFlastlist from '../assets/components/home/FavoriteBooksFlatlist';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
+import RecommendedFlatList from '../assets/components/home/RecommendedFlatList';
 
 const MainScreen = () => {
 
@@ -91,7 +92,7 @@ const MainScreen = () => {
 
             <Text style={styles.otherBookHeader}>Size Önerilenler</Text>
 
-            <DefaultFlatlist />
+            <RecommendedFlatList />
 
           </View>
 
