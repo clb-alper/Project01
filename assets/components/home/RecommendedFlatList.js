@@ -248,8 +248,6 @@ const RecommendedFlatList = () => {
                                     </ImageBackground>
                                 </BoxShadow>
 
-                                <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
-
                             </TouchableOpacity>
 
                         </View>
