@@ -2,6 +2,7 @@ import { useState } from 'react';
 import React from 'react';
 import booksListData from '../data/booksListData';
 import stickerData from '../data/stickerData';
+import translationData from '../data/translationData';
 
 
 export const ModalContext = React.createContext();
@@ -15,6 +16,9 @@ const ModalProvider = ({ children }) => {
     const [stickerModalEntry, setStickerModalEntry] = useState(stickerData);
     const [stickerModalVisible, setStickerModalVisible] = useState(false);
 
+    const [translationModalEntry, setTranslationModalEntry] = useState(translationData);
+    const [translationModalVisible, setTranslationModalVisible] = useState(false);
+
 
     const contextData = {
         modalVisible,
@@ -25,7 +29,12 @@ const ModalProvider = ({ children }) => {
         stickerModalVisible,
         setStickerModalVisible,
         stickerModalEntry,
-        setStickerModalEntry
+        setStickerModalEntry,
+
+        translationModalEntry,
+        setTranslationModalEntry,
+        translationModalVisible,
+        setTranslationModalVisible
     }
 
     return (

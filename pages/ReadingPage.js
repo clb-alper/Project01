@@ -15,6 +15,7 @@ import { auth, firebase } from '../firebase';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
 import Skeleton from '../assets/components/Skeleton';
 import { Translator } from '../assets/components/Translator';
+import TranslationModal from '../assets/components/TranslationModal';
 
 
 
@@ -23,7 +24,7 @@ const heightOfScreen = Dimensions.get('window').height
 
 const ReadingPage = () => {
 
-    const { setModalVisible, modalVisible, modalEntry } = useContext(ModalContext);
+    const { setModalVisible, modalVisible, modalEntry, setTranslationModalVisible, setTranslationModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize, getFontLocalStorage } = useContext(ProfileContext);
 
     const [bookContent, setBookContent] = useState([]);
@@ -69,7 +70,7 @@ const ReadingPage = () => {
     //             }
     //         )
 
-            
+
 
 
     //     // if (isBack === true) {
@@ -352,6 +353,7 @@ const ReadingPage = () => {
     return (
 
         <View style={[styles.container, { backgroundColor: bookPageColor }]} onLayout={onLayoutRootView}>
+            <TranslationModal />
             <StatusBar style="auto" />
 
             <SafeAreaView>
@@ -398,15 +400,15 @@ const ReadingPage = () => {
                         {isLoaded ?
                             <FlatList
                                 overScrollMode={'never'}
-                                data={pages}                              
+                                data={pages}
                                 keyExtractor={(item) => item.id}
                                 horizontal
-                                pagingEnabled                               
+                                pagingEnabled
                                 showsHorizontalScrollIndicator={false}
-                                // initialScrollIndex={Math.floor(0.3 * pages.length)} // 0.3ü databaseden progress olarak al
+                                initialScrollIndex={Math.floor(modalEntry.bookProgress * pages.length)-1} // 0.3ü databaseden progress olarak al
                                 onMomentumScrollEnd={onScrollEnd}
-                                ListFooterComponent={() => <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen}}><Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu</Text></View>}
-                                renderItem={({ item, index }) => (                                   
+                                ListFooterComponent={() => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen }}><Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu</Text></View>}
+                                renderItem={({ item, index }) => (
 
                                     <View key={item.id} style={{ marginTop: 10, width: widthOfScreen }}>
 
@@ -425,7 +427,7 @@ const ReadingPage = () => {
                                                 <Text key={item.id} style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
                                                     return (
                                                         <>
-                                                            <Text onPress={() => Translator(word)}>{word}</Text>
+                                                            <Text onPress={async ()  => {setTranslationModalVisible(true); setTranslationModalEntry({trTranslation: word, engTranslation: await Translator(word)}); }}>{word}</Text>
                                                             <Text> </Text>
                                                         </>
 
@@ -444,7 +446,7 @@ const ReadingPage = () => {
                                         </View>
 
 
-                                 
+
                                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 15 }}>
 
                                             <TouchableOpacity

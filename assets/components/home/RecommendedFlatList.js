@@ -12,13 +12,32 @@ const RecommendedFlatList = () => {
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, favorited, readed } = useContext(ProfileContext);
 
+    const [loaded, setLoaded] = useState(false);
+
     const sleep = milliseconds => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const myTimeOut = async () => {
-        await sleep(2000);
-        getRecommendedData();
+        await sleep(1000);
+        setLoaded(true)
+        //getRecommendedData();
     }
+
+    useEffect(() => {
+        myTimeOut();
+    }, [])
+
+    useEffect(() => {
+        getRecommendedData()
+    }, [loaded])
+
+    useEffect(() => {
+        getRecommendedData()
+    }, [readed])
+
+    useEffect(() => {
+        getRecommendedData()
+    }, [favorited])
 
     const shadowOpt = {
         width: 110,
@@ -43,10 +62,6 @@ const RecommendedFlatList = () => {
         .collection('users').doc(firebase.auth().currentUser.uid)
         .collection('userProfiles').doc(currentProfileSelected)
         .collection('tagData');
-
-    useEffect(() => {
-
-    }, [])
 
     //console.log(tagList)
 
@@ -75,7 +90,7 @@ const RecommendedFlatList = () => {
     };
 
     //const [bookList, setBookList] = React.useState([]);
-    const todoRef = firebase.firestore().collection('storyBooks').orderBy("themeTag", "asc")
+    const todoRef = firebase.firestore().collection('storyBooks')
 
     const getRecommendedData = async () => {
         userTagDataRef
@@ -120,7 +135,7 @@ const RecommendedFlatList = () => {
             sortedAgeTags = keysSorted[0]
             sortedThemeTags = keysSorted[1]
 
-            console.log(sortedThemeTags)
+            //console.log(sortedThemeTags)
 
             const favorites = await getFavoriteBooks();
             const progresses = await getProgressOfBooks();
@@ -144,51 +159,64 @@ const RecommendedFlatList = () => {
                                         continue;
                                     }
 
+                                    let progress = typeof (progresses.find(id => id.id === doc.id)) == 'undefined' ? 0 : progresses.find(id => id.id === doc.id).progress;
                                     //console.log(themeTag, " + ", sortedThemeTags[k], ageTag, " + ",  sortedAgeTags[i], ageTag === sortedAgeTags[i] && themeTag === sortedThemeTags[k])
-                                    if (tagList[0][sortedAgeTags[i]] != 0 && tagList[1][sortedThemeTags[k]] != 0) {
-                                        if (ageTag === sortedAgeTags[i] && themeTag === sortedThemeTags[k]) {   
-                                            console.log(ageTag, "+", sortedAgeTags[i], "+" , themeTag, "+", sortedThemeTags[0])                                       
-                                            bookList.push({
-                                                id: doc.id,
-                                                favorited: favorites.has(doc.id),
-                                                bookProgress: typeof (progresses.find(id => id.id === doc.id)) == 'undefined' ? 0 : progresses.find(id => id.id === doc.id).progress,
-                                                ageTag,
-                                                contentTag,
-                                                dateAdded,
-                                                image,
-                                                itemBorder,
-                                                itemColor,
-                                                itemColorBG,
-                                                itemDesc,
-                                                itemDescColor,
-                                                rewardTag,
-                                                themeTag,
-                                                title,
-                                            })
-                                            console.log()
+                                    if (progress === 0) {
+                                        if (tagList[0][sortedAgeTags[i]] != 0 && tagList[1][sortedThemeTags[k]] != 0) {
+                                            if (ageTag === sortedAgeTags[i] && themeTag === sortedThemeTags[k]) {
+                                                //console.log(ageTag, "+", sortedAgeTags[i], "+" , themeTag, "+", sortedThemeTags[0])                                       
+                                                bookList.push({
+                                                    id: doc.id,
+                                                    favorited: favorites.has(doc.id),
+                                                    bookProgress: typeof (progresses.find(id => id.id === doc.id)) == 'undefined' ? 0 : progresses.find(id => id.id === doc.id).progress,
+                                                    ageTag,
+                                                    contentTag,
+                                                    dateAdded,
+                                                    image,
+                                                    itemBorder,
+                                                    itemColor,
+                                                    itemColorBG,
+                                                    itemDesc,
+                                                    itemDescColor,
+                                                    rewardTag,
+                                                    themeTag,
+                                                    title,
+                                                    sortedAgeTagValue: tagList[0][sortedAgeTags[i]],
+                                                    sortedThemeTagValue: tagList[1][sortedThemeTags[k]]
+                                                })
+                                            }
                                         }
-
-
                                     }
-
                                 }
                             }
 
                         })
+                        bookList.sort(function (a, b) { return b.sortedAgeTagValue - a.sortedAgeTagValue })
+                        bookList.sort(function (a, b) { return b.sortedThemeTagValue - a.sortedThemeTagValue })
                         setBookList(bookList)
                     }
                 )
         }
     }
 
-    // UseEffect Gariplik ilk açıldığında error.
-    useEffect(() => {
-        myTimeOut()
-    }, [readed])
+    // useEffect(() => {
+    //     console.log("İLK")
+    //     setTimeout(() => { getRecommendedData(); console.log("asd") }, 2000)
+    //     setTimeout(() => {console.log(tagList)}, 2500)
+    //     setTimeout(() => {console.log(bookList)}, 2500)
+    //     console.log("İki")
+    // }, [])
 
-    useEffect(() => {
-        myTimeOut()
-    }, [favorited])
+    // UseEffect Gariplik ilk açıldığında error.
+    // useEffect(() => {
+    //     myTimeOut()
+    // }, [readed])
+
+    // useEffect(() => {
+    //     myTimeOut()
+    // }, [favorited])
+
+
 
     return (
         <View>
