@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import colors from '../../assets/colors/colors';
 import { StatusBar } from 'expo-status-bar';
@@ -10,15 +10,40 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import { ModalContext } from '../../assets/contexts/ModalContext';
 import Slider from '@react-native-community/slider';
 import { ProfileContext } from '../../assets/contexts/ProfileContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
 
 const FontSizeSettings = () => {
 
     const navigation = useNavigation();
 
     const { modalVisible } = useContext(ModalContext);
-    const { userPrefFontSize, setUserPrefFontSize } = useContext(ProfileContext);
+    const { userPrefFontSize, setUserPrefFontSize, getFontLocalStorage } = useContext(ProfileContext);
 
     const [fontSizeNum, setFontSizeNum] = useState(20);
+
+
+    useEffect(() => {
+        getFontLocalStorage()
+    }, [])
+    useEffect(() => {
+        getFontLocalStorage()
+    }, [userPrefFontSize])
+
+    const handleFontLocalStorage = async (e) => {
+        setUserPrefFontSize(e)
+
+        try {
+            await AsyncStorage.setItem('@profileFontSize:key', e.toString());
+        } catch (error) {
+            console.error(error);
+        }
+        console.log(e, 'eeee')
+    }
+
+
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -35,6 +60,11 @@ const FontSizeSettings = () => {
     if (!fontsLoaded) {
         return null;
     }
+
+
+
+
+
 
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
@@ -90,7 +120,7 @@ const FontSizeSettings = () => {
                                 maximumValue={24}
                                 step={1}
                                 value={userPrefFontSize}
-                                onValueChange={(e) => setUserPrefFontSize(e)}
+                                onValueChange={handleFontLocalStorage}
                                 minimumTrackTintColor={colors.blueRegular}
                                 maximumTrackTintColor="#000000"
                                 thumbTintColor={colors.blueRegular}

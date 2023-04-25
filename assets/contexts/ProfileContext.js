@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import React from 'react';
 import { auth, firebase } from '../../firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 export const ProfileContext = React.createContext();
 
@@ -14,13 +17,27 @@ const ProfileProvider = ({ children }) => {
     const [readed, setReaded] = useState();
     const [userPrefFontSize, setUserPrefFontSize] = useState(20);
 
+
+
+
+
+    const getFontLocalStorage = async () => {
+        setUserPrefFontSize(await AsyncStorage.getItem('@profileFontSize:key'));
+        if (userPrefFontSize !== null) {
+            console.log('storage value', userPrefFontSize)
+        } else {
+            console.log('no size')
+        }
+
+    }
+
     const getProfileInfoData = async () => {
         const profileInfoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
         profileInfoRef
             .onSnapshot(
                 querySnapshot => {
                     const profileInfoData = []
-                    querySnapshot.forEach((doc) => {                    
+                    querySnapshot.forEach((doc) => {
                         if (doc.id === currentProfileSelected) {
                             const { name, profileColor, profileIcon } = doc.data()
                             profileInfoData.push({
@@ -43,7 +60,7 @@ const ProfileProvider = ({ children }) => {
             .onSnapshot(
                 querySnapshot => {
                     const accountInfoData = []
-                    querySnapshot.forEach((doc) => {                    
+                    querySnapshot.forEach((doc) => {
                         if (doc.id === firebase.auth().currentUser.uid) {
                             const { email } = doc.data()
                             accountInfoData.push({
@@ -73,7 +90,8 @@ const ProfileProvider = ({ children }) => {
         setCurrentProfileSelectedInfo,
         getAccountInfoData,
         currentAccountInfo,
-        setCurrentAccountInfo
+        setCurrentAccountInfo,
+        getFontLocalStorage
     }
 
     return (

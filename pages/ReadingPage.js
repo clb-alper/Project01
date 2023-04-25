@@ -24,7 +24,7 @@ const heightOfScreen = Dimensions.get('window').height
 const ReadingPage = () => {
 
     const { setModalVisible, modalVisible, modalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize } = useContext(ProfileContext);
+    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize, getFontLocalStorage } = useContext(ProfileContext);
 
     const [bookContent, setBookContent] = useState([]);
     const [bookPageColor, setBookPageColor] = useState();
@@ -238,9 +238,12 @@ const ReadingPage = () => {
     // }, [])
 
     useEffect(() => {
-        getBookContentData()
         loadUserView()
+        getBookContentData()
+        getFontLocalStorage()
+
     }, [])
+
 
     const speak = () => {
         //const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
@@ -400,7 +403,7 @@ const ReadingPage = () => {
                                 horizontal
                                 pagingEnabled                               
                                 showsHorizontalScrollIndicator={false}
-                                initialScrollIndex={Math.floor(0.3 * pages.length)} // 0.3ü databaseden progress olarak al
+                                // initialScrollIndex={Math.floor(0.3 * pages.length)} // 0.3ü databaseden progress olarak al
                                 onMomentumScrollEnd={onScrollEnd}
                                 ListFooterComponent={() => <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen}}><Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu</Text></View>}
                                 renderItem={({ item, index }) => (                                   
