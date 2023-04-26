@@ -50,7 +50,7 @@ const FeaturedFlatlist = () => {
 
 
     const [bookList, setBookList] = React.useState([]);
-    const todoRef = firebase.firestore().collection('storyBooks').orderBy("dateAdded", "asc")
+    const todoRef = firebase.firestore().collection('storyBooks').orderBy("favoriteCount", "desc")
 
     const getNewBooksData = async () => {
         const favorites = await getFavoriteBooks();
@@ -65,6 +65,7 @@ const FeaturedFlatlist = () => {
                             itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor,
                             rewardTag, themeTag, title, itemTextColor } = doc.data()
 
+                        if (bookList.length <= 4) {
                             bookList.push({
                                 id: doc.id,
                                 favorited: favorites.has(doc.id),
@@ -83,8 +84,10 @@ const FeaturedFlatlist = () => {
                                 title,
                                 itemTextColor
                             })
-                        
+                        }
+
                     })
+
                     setBookList(bookList)
                 }
             )
@@ -103,7 +106,7 @@ const FeaturedFlatlist = () => {
                     <View style={{ marginTop: 10 }}>
 
                         <ImageBackground
-                            source={{uri: item.image}}
+                            source={{ uri: item.image }}
                             imageStyle={styles.featuredBookBG}
                             blurRadius={0.8}>
                         </ImageBackground>
@@ -125,7 +128,7 @@ const FeaturedFlatlist = () => {
                                 activeOpacity={0.75}>
                                 <BoxShadow setting={shadowOpt}>
                                     <ImageBackground
-                                        source={{uri: item.image}}
+                                        source={{ uri: item.image }}
                                         imageStyle={styles.continueBookImageStyle}>
                                     </ImageBackground>
                                 </BoxShadow>

@@ -15,22 +15,56 @@ var heightOfScreen = Dimensions.get('window').height; //full widthF
 
 const BookModal = () => {
 
+    const [favoriteCountList, setFavoriteCountList] = useState([]);
     const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, favorited, setFavorited, userBookProgress } = useContext(ProfileContext);
 
     const navigation = useNavigation();
 
+    const todoRef = firebase.firestore().collection('storyBooks')
+
+    const getFavoriteCountData = async () => {
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const favoriteCountList = []
+                    querySnapshot.forEach((doc) => {
+                        const { favoriteCount } = doc.data()
+                        if (modalEntry.id === doc.id) {
+                            favoriteCountList.push({
+                                favoriteCount
+                            })
+                        }
+                    })
+                    setFavoriteCountList(favoriteCountList)
+                }
+            )
+    }
+
     const handleAddFavorite = async () => {
         setFavorited(!favorited);
         modalEntry.favorited = !modalEntry.favorited;
         await handleCreateFavoriteBooks();
+
     }
 
     const db = firebase.firestore()
 
+    useEffect(() => {
+        getFavoriteCountData();
+    }, [])
+
+    useEffect(() => {
+        getFavoriteCountData();
+    }, [favorited])
+
     const handleCreateFavoriteBooks = async () => {
 
+        console.log(favoriteCountList[0])
         if (modalEntry.favorited) {
+            firebase.firestore().collection('storyBooks').doc(modalEntry.id).update({
+                favoriteCount: favoriteCountList[0].favoriteCount + 1,
+            })
             await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).set({
                     favorited: true,
@@ -39,6 +73,9 @@ const BookModal = () => {
                 })
 
         } else {
+            firebase.firestore().collection('storyBooks').doc(modalEntry.id).update({
+                favoriteCount: favoriteCountList[0].favoriteCount - 1,
+            })
             await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).delete();
 

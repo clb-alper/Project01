@@ -54,18 +54,17 @@ const FavoriteBooksFlastlist = () => {
                         favBookReading.contRef.get()
                             .then(res => {
                                 if (res.exists) {
-                                    console.log(bookList[0].title)
-                                    favBookReading.bookData.bookProgress = res.data().progress
-                                    // Alfabeye göre sıralama
-                                    bookList.sort(function (a, b) {
-                                        if (a.title < b.title) {
-                                            return -1;
-                                        }
-                                        if (a.title > b.title) {
-                                            return 1;
-                                        }
-                                        return 0;
-                                    });
+                                    typeof (favBookReading.bookData.bookProgress = res.data().progress) == 'undefined' ? null : favBookReading.bookData.bookProgress = res.data().progress,
+                                        // Alfabeye göre sıralama
+                                        bookList.sort(function (a, b) {
+                                            if (a.title < b.title) {
+                                                return -1;
+                                            }
+                                            if (a.title > b.title) {
+                                                return 1;
+                                            }
+                                            return 0;
+                                        });
                                     setBookList(bookList)
                                 } else {
                                     bookList.sort(function (a, b) {
