@@ -9,13 +9,31 @@ import AntIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { auth, firebase } from '../../firebase'
 import { ProfileContext } from '../contexts/ProfileContext';
+import Skeleton from './Skeleton';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full widthF
 
 const TranslationModal = () => {
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
     const { translationModalVisible, setTranslationModalVisible, translationModalEntry, setTranslationModalEntry } = useContext(ModalContext);
+
+    const trValue = typeof (translationModalEntry.trTranslation) != 'undefined' ? (translationModalEntry.trTranslation.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")).charAt(0).toUpperCase() + (translationModalEntry.trTranslation.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")).slice(1) : ""
+    const engValue = typeof (translationModalEntry.engTranslation) != 'undefined' ? (translationModalEntry.engTranslation.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")).charAt(0).toUpperCase() + (translationModalEntry.engTranslation.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")).slice(1) : ""
+
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+    const loadUserView = async () => {
+        await sleep(700)
+        setIsLoaded(true)
+    }
+
+    useEffect(() => {
+        loadUserView()
+    }, [translationModalEntry])
 
     return (
         <Modal
@@ -27,10 +45,9 @@ const TranslationModal = () => {
             useNativeDriver={true}
             useNativeDriverForBackdrop={true}
             backdropColor={"rgba(0,0,0,0)"}
-            onBackdropPress={() => setTranslationModalVisible(!translationModalVisible)}
+            onBackdropPress={() => { setTranslationModalVisible(!translationModalVisible); setIsLoaded(false) }}
             onRequestClose={() => {
                 setTranslationModalVisible(!translationModalVisible);
-                setTranslationModalEntry({ trTranslation: "", engTranslation: "" })
             }}
             style={{ margin: 0 }}
         >
@@ -42,29 +59,43 @@ const TranslationModal = () => {
 
                     </View>
                     <TouchableOpacity
-                        onPress={() => setTranslationModalVisible(!translationModalVisible)}
+                        onPress={() => { setTranslationModalVisible(!translationModalVisible); setIsLoaded(false) }}
                         activeOpacity={0.75}>
-                        <IonIcons name="ios-close" size={40} color="#000" style={styles.modalBookDetailHeaderClose} />
+                        <IonIcons name="ios-close" size={35} color="#000" style={styles.modalBookDetailHeaderClose} />
                     </TouchableOpacity>
                 </View>
 
-                <View style={styles.dashboardContainer}>
-                    <View>
-                        <Text style={styles.mainText2}> Türkçe </Text>
+                {isLoaded ?
+                    <View style={styles.dashboardContainer}>
                         <Text
-                            adjustsFontSizeToFit
+                            style={{ fontSize: 80 }}
                             numberOfLines={1}
-                            style={styles.mainText}> {typeof (translationModalEntry.trTranslation) != 'undefined' ? (translationModalEntry.trTranslation.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")).charAt(0).toUpperCase() + (translationModalEntry.trTranslation.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")).slice(1) : ""} </Text>
+                            adjustsFontSizeToFit={true}>
+                            {trValue} 🇹🇷    {engValue} 🇺🇸
+                        </Text>
                     </View>
-                    <Text style={styles.mainText}> = </Text>
-                    <View>
-                        <Text style={styles.mainText2}> İngilizce </Text>
-                        <Text
-                            adjustsFontSizeToFit
-                            numberOfLines={1}
-                            style={styles.mainText}> {typeof (translationModalEntry.engTranslation) != 'undefined' ? (translationModalEntry.engTranslation.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")).charAt(0).toUpperCase() + (translationModalEntry.engTranslation.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")).slice(1) : ""} </Text>
+                    :
+                    <View style={{flexDirection: 'row'}}>
+                        <Skeleton
+                            height={30}
+                            width={160}
+                            backgroundColor={colors.grayProgressBarBG}
+                            style={[{ borderRadius: 20, marginRight: 20, marginTop: 10 }]}
+
+                        >
+                        </Skeleton>
+                        <Skeleton
+                            height={30}
+                            width={160}
+                            backgroundColor={colors.grayProgressBarBG}
+                            style={[{ borderRadius: 20,  marginTop: 10 }]}
+
+                        >
+                        </Skeleton>
                     </View>
-                </View>
+
+
+                }
 
             </View>
         </Modal>
@@ -79,7 +110,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: '170%',
+        marginTop: '175%',
         borderTopRightRadius: 35,
         borderTopLeftRadius: 35,
         backgroundColor: colors.white,
@@ -88,8 +119,8 @@ const styles = StyleSheet.create({
     dashboardContainer: {
         justifyContent: "center",
         alignItems: "center",
-        flexDirection: "row",
-        marginTop: -30,
+        width: widthOfScreen * 0.9,
+        marginTop: 10
     },
 
     translationNameContainer: {
@@ -117,9 +148,11 @@ const styles = StyleSheet.create({
 
     modalBookDetailHeader: {
         width: '92%',
-        top: -25,
+        top: 3,
+        right: 11,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        position: 'absolute'
     },
 
 
