@@ -34,6 +34,7 @@ const ContReadingFlatlist = () => {
 
 
     const [bookList, setBookList] = React.useState([]);
+    const [contReadingBookList, setContReadingBookList] = useState([]);
 
     const contUserBookRef = firebase.firestore()
         .collection('users').doc(firebase.auth().currentUser.uid)
@@ -51,6 +52,7 @@ const ContReadingFlatlist = () => {
             .onSnapshot(
                 querySnapshot => {
                     const bookList = []
+                    const contReadingBookList = [];
                     if (querySnapshot.empty) {
                         setBookList([])
                     } else {
@@ -62,14 +64,24 @@ const ContReadingFlatlist = () => {
                                     contBookReading.bookData.id = res.id
                                     contBookReading.bookData.bookProgress = contBookReading.progress
                                     bookList.push(contBookReading.bookData)
+                                    if (contBookReading.bookData.bookProgress != 1) {
+                                        contReadingBookList.push(contBookReading.bookData)
+                                    }
+
                                 })
                             contBookReading.favRef.get()
                                 .then(res => {
                                     if (res.exists) {
                                         contBookReading.bookData.favorited = res.data().favorited
+                                        bookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
+                                        contReadingBookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
                                         setBookList(bookList)
+                                        setContReadingBookList(contReadingBookList)
                                     } else {
+                                        bookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
+                                        contReadingBookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
                                         setBookList(bookList)
+                                        setContReadingBookList(contReadingBookList)
                                     }
                                     timeOutOfTags()
                                 })
@@ -78,63 +90,62 @@ const ContReadingFlatlist = () => {
                     }
                 }
             )
-
     }, [favorited])
 
-    
-   
+
+
     let age3to6Value = 0;
-        let age6to9Value = 0;
-        let age9to12Value = 0;
-        let age12PlusValue = 0;
-    
-        let adventureValue = 0;
-        let animalValue = 0;
-        let natureValue = 0;
-        let cityValue = 0;
+    let age6to9Value = 0;
+    let age9to12Value = 0;
+    let age12PlusValue = 0;
 
-        bookList.forEach(element => {
-            if (element.ageTag === "3-6 Yaş") {
-                age3to6Value += element.bookProgress;
-            } else if (element.ageTag === "6-9 Yaş") {
-                age6to9Value += element.bookProgress;
-            } else if (element.ageTag === "9-12 Yaş") {
-                age9to12Value += element.bookProgress;
-            } else if (element.ageTag === "12+ Yaş") {
-                age12PlusValue += element.bookProgress;
-            }
-        });
+    let adventureValue = 0;
+    let animalValue = 0;
+    let natureValue = 0;
+    let cityValue = 0;
 
-        bookList.forEach(element => {
-            if (element.themeTag === "Macera") {
-                adventureValue += element.bookProgress;
-            } else if (element.themeTag === "Hayvan") {
-                animalValue += element.bookProgress;
-            } else if (element.themeTag === "Doğa") {
-                natureValue += element.bookProgress;
-            } else if (element.themeTag === "Şehir") {
-                cityValue += element.bookProgress;
-            }
-        });
-
-        const TagDataObj = {
-            ageTags: {
-                age3to6Value,
-                age6to9Value,
-                age9to12Value,
-                age12PlusValue,
-            },
-            contentTags: {
-                adventureValue,
-                animalValue,
-                natureValue,
-                cityValue
-            }
+    bookList.forEach(element => {
+        if (element.ageTag === "3-6 Yaş") {
+            age3to6Value += element.bookProgress;
+        } else if (element.ageTag === "6-9 Yaş") {
+            age6to9Value += element.bookProgress;
+        } else if (element.ageTag === "9-12 Yaş") {
+            age9to12Value += element.bookProgress;
+        } else if (element.ageTag === "12+ Yaş") {
+            age12PlusValue += element.bookProgress;
         }
+    });
+
+    bookList.forEach(element => {
+        if (element.themeTag === "Macera") {
+            adventureValue += element.bookProgress;
+        } else if (element.themeTag === "Hayvan") {
+            animalValue += element.bookProgress;
+        } else if (element.themeTag === "Doğa") {
+            natureValue += element.bookProgress;
+        } else if (element.themeTag === "Şehir") {
+            cityValue += element.bookProgress;
+        }
+    });
+
+    const TagDataObj = {
+        ageTags: {
+            age3to6Value,
+            age6to9Value,
+            age9to12Value,
+            age12PlusValue,
+        },
+        contentTags: {
+            adventureValue,
+            animalValue,
+            natureValue,
+            cityValue
+        }
+    }
 
 
     const handleTagDataOfConts = () => {
-    
+
         // sub user's tagData
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
             .doc(currentProfileSelected).collection('tagData').doc('ageTagData').set({
@@ -159,7 +170,7 @@ const ContReadingFlatlist = () => {
 
 
     useEffect(() => {
-        if(dummy){
+        if (dummy) {
             handleTagDataOfConts()
         }
     }, [readed])
@@ -169,7 +180,7 @@ const ContReadingFlatlist = () => {
     return (
         <View>
 
-            {bookList.length == 0 ?
+            {contReadingBookList.length == 0 ?
                 <View>
                     <Text>
                         DOTO : add Text
@@ -178,12 +189,14 @@ const ContReadingFlatlist = () => {
                 :
                 <FlatList
                     overScrollMode={'never'}
-                    data={bookList}
+                    data={contReadingBookList}
                     keyExtractor={(item) => item.id}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item, index }) => (
-                        <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+
+
+                        < View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem} >
                             <TouchableOpacity
                                 key={item.id}
                                 onPress={() => { setModalVisible(true); setModalEntry(item); }}
@@ -201,11 +214,13 @@ const ContReadingFlatlist = () => {
                             </TouchableOpacity>
 
                         </View>
+
                     )}
+
 
                 />
             }
-        </View>
+        </View >
     )
 }
 

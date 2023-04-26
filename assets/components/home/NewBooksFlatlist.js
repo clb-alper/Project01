@@ -58,7 +58,7 @@ const NewBooksFlatlist = () => {
 
 
     const [bookList, setBookList] = React.useState([]);
-    const todoRef = firebase.firestore().collection('storyBooks')
+    const todoRef = firebase.firestore().collection('storyBooks').orderBy("dateAdded", "desc")
 
     const getNewBooksData = async () => {
         const favorites = await getFavoriteBooks();

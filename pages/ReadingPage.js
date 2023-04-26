@@ -183,6 +183,7 @@ const ReadingPage = () => {
                             for (let k = 0; k < pagesRaw[i].length; k++) {
                                 text = text + ' ' + pagesRaw[i][k];
                             }
+
                             text = text.substring(1, text.length)
                             pagesRaw[i].storyText = text;
 
@@ -401,18 +402,17 @@ const ReadingPage = () => {
                             <FlatList
                                 overScrollMode={'never'}
                                 data={pages}
-                                keyExtractor={(item) => item.id}
+                                keyExtractor={(item, index) => {return item[0]+index}}
                                 horizontal
                                 pagingEnabled
                                 showsHorizontalScrollIndicator={false}
-                                initialScrollIndex={Math.floor(modalEntry.bookProgress * pages.length)-1} // 0.3ü databaseden progress olarak al
+                                initialScrollIndex={Math.floor(modalEntry.bookProgress * pages.length) - 1} // 0.3ü databaseden progress olarak al
                                 onMomentumScrollEnd={onScrollEnd}
                                 ListFooterComponent={() => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen }}><Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu</Text></View>}
                                 renderItem={({ item, index }) => (
 
-                                    <View key={item.id} style={{ marginTop: 10, width: widthOfScreen }}>
-
-                                        <View key={item.id} style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
+                                    <View key={item[0]+index} style={{ marginTop: 10, width: widthOfScreen }}>
+                                        <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
                                             <BoxShadow setting={shadowOpt} >
                                                 <Image
@@ -424,11 +424,11 @@ const ReadingPage = () => {
                                         <View>
                                             {
                                                 // Dışardaki Text i değiştirirsen error veriyor yusuf buranın görüntüsünü düzelt.
-                                                <Text key={item.id} style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
+                                                <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
                                                     return (
                                                         <>
-                                                            <Text onPress={async ()  => {setTranslationModalVisible(true); setTranslationModalEntry({trTranslation: word, engTranslation: await Translator(word)}); }}>{word}</Text>
-                                                            <Text> </Text>
+                                                            <Text onPress={async () => { setTranslationModalVisible(true); setTranslationModalEntry({ trTranslation: word, engTranslation: await Translator(word) }); }}>{word}</Text>
+                                                            <Text > </Text>
                                                         </>
 
                                                     )
@@ -468,7 +468,7 @@ const ReadingPage = () => {
                             />
                             :
 
-                            <View>
+                            <View key={1}>
                                 <Skeleton
                                     height={styles.readingBookImage.height}
                                     width={styles.readingBookImage.width}
