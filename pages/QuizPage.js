@@ -254,12 +254,14 @@ const QuizPage = () => {
                                         <View style={{ flexDirection: 'row' }}>
                                             <Text style={styles.resultCorrectWrongText}>Dogru: {correctAnswers}</Text>
                                             <View style={styles.correctIcon}>
+                                                <Octicons name="check" size={20} color={colors.greenBorder} style={{ marginBottom: 1 }} />
                                             </View>
                                         </View>
 
                                         <View style={{ flexDirection: 'row' }}>
                                             <Text style={styles.resultCorrectWrongText}>Yanlış: {wrongAnswers}</Text>
                                             <View style={styles.wrongIcon}>
+                                                <IonIcons name="close" size={23} color={colors.pinkDarkBorder} style={{ marginBottom: 1 }} />
                                             </View>
                                         </View>
 
@@ -410,7 +412,7 @@ const styles = StyleSheet.create({
         marginTop: 45,
         backgroundColor: colors.yellowRegular,
         width: widthOfScreen * 0.8,
-        height: 150,
+        height: 148,
         borderRadius: 25,
         borderWidth: 3,
         borderColor: colors.yellowBorder,
@@ -459,7 +461,9 @@ const styles = StyleSheet.create({
         borderColor: colors.greenBorder,
         borderRadius: 100,
         marginLeft: 7,
-        marginTop: 22
+        marginTop: 22,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
     wrongIcon: {
@@ -472,6 +476,8 @@ const styles = StyleSheet.create({
         marginRight: 20,
         marginTop: 22,
         marginLeft: 7,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 
 })
