@@ -196,7 +196,7 @@ const QuizPage = () => {
                                                             { backgroundColor: colors.greenRegular, borderColor: colors.greenBorder }
                                                             :
                                                             index != quizList[quizIndex - 1].correctAnswerIndex && currentAnswerIndex === index ?
-                                                                { backgroundColor: colors.pinkRegular, borderColor: '#db8a99' }
+                                                                { backgroundColor: colors.pinkRegular, borderColor: colors.pinkDarkBorder }
                                                                 :
                                                                 { backgroundColor: colors.yellowRegular }]}
                                                         activeOpacity={0.7}
@@ -248,9 +248,22 @@ const QuizPage = () => {
                             :
                             <>
                                 <View style={styles.resultContainer}>
-                                    <Text style={{ alignSelf: 'center' }}>Sonuç</Text>
-                                    <Text>Doğru {correctAnswers}</Text>
-                                    <Text>Yanlış {wrongAnswers}</Text>
+                                    <Text style={styles.resultHeaderText}>Sonuç</Text>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <Text style={styles.resultCorrectWrongText}>Dogru: {correctAnswers}</Text>
+                                            <View style={styles.correctIcon}>
+                                            </View>
+                                        </View>
+
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <Text style={styles.resultCorrectWrongText}>Yanlış: {wrongAnswers}</Text>
+                                            <View style={styles.wrongIcon}>
+                                            </View>
+                                        </View>
+
+                                    </View>
                                 </View>
 
                                 <View style={styles.rewardContainer}>
@@ -397,7 +410,7 @@ const styles = StyleSheet.create({
         marginTop: 45,
         backgroundColor: colors.yellowRegular,
         width: widthOfScreen * 0.8,
-        height: 200,
+        height: 150,
         borderRadius: 25,
         borderWidth: 3,
         borderColor: colors.yellowBorder,
@@ -423,5 +436,42 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: colors.yellowBorder
     },
+
+    resultHeaderText: {
+        fontSize: 38,
+        fontFamily: 'Comic-Regular',
+        alignSelf: 'center',
+        marginTop: 15
+    },
+
+    resultCorrectWrongText: {
+        fontSize: 28,
+        fontFamily: 'Comic-Regular',
+        marginLeft: 20,
+        marginTop: 20
+    },
+
+    correctIcon: {
+        backgroundColor: colors.greenRegular,
+        height: 30,
+        width: 30,
+        borderWidth: 2,
+        borderColor: colors.greenBorder,
+        borderRadius: 100,
+        marginLeft: 7,
+        marginTop: 22
+    },
+
+    wrongIcon: {
+        backgroundColor: colors.pinkRegular,
+        height: 30,
+        width: 30,
+        borderWidth: 2,
+        borderColor: colors.pinkDarkBorder,
+        borderRadius: 100,
+        marginRight: 20,
+        marginTop: 22,
+        marginLeft: 7,
+    }
 
 })

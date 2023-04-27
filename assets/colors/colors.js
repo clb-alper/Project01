@@ -6,6 +6,7 @@ const colors = {
     pinkRegular : '#FFB0BE',
     pinkLight : '#FFDAE0',
     pinkBorder : '#FFB8C4',
+    pinkDarkBorder: '#DB8A99',
 
     blueRegular: '#A0E7E5',
     blueLight : '#E8FFFE',
