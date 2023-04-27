@@ -402,16 +402,28 @@ const ReadingPage = () => {
                             <FlatList
                                 overScrollMode={'never'}
                                 data={pages}
-                                keyExtractor={(item, index) => {return item[0]+index}}
+                                keyExtractor={(item, index) => { return item[0] + index }}
                                 horizontal
                                 pagingEnabled
                                 showsHorizontalScrollIndicator={false}
                                 initialScrollIndex={Math.floor(modalEntry.bookProgress * pages.length) - 1} // 0.3ü databaseden progress olarak al
                                 onMomentumScrollEnd={onScrollEnd}
-                                ListFooterComponent={() => <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen }}><Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu</Text></View>}
+                                ListFooterComponent={() =>
+                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen }}>
+                                        <Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu
+                                        </Text>
+                                        <TouchableOpacity
+                                            onPress={() => { navigation.navigate('QuizPage') }}
+                                            activeOpacity={0.8}>
+                                            <View>
+                                                <IonIcons name="play" size={70} />
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                }
                                 renderItem={({ item, index }) => (
 
-                                    <View key={item[0]+index} style={{ marginTop: 10, width: widthOfScreen }}>
+                                    <View key={item[0] + index} style={{ marginTop: 10, width: widthOfScreen }}>
                                         <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
                                             <BoxShadow setting={shadowOpt} >
