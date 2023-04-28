@@ -14,7 +14,7 @@ const ProfileProvider = ({ children }) => {
     const [currentAccountInfo, setCurrentAccountInfo] = useState();
     const [userBookProgress, setUserBookProgress] = useState(0.0);
     const [favorited, setFavorited] = useState(false);
-    const [readed, setReaded] = useState();
+    const [readed, setReaded] = useState(false);
     const [userPrefFontSize, setUserPrefFontSize] = useState(20);
     const [userPointsData, setUserPointsData] = useState();
 

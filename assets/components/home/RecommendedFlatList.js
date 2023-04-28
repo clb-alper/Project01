@@ -24,7 +24,7 @@ const RecommendedFlatList = () => {
     }
 
     useEffect(() => {
-        myTimeOut();
+        getRecommendedData()
     }, [])
 
     useEffect(() => {
