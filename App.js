@@ -78,6 +78,13 @@ function HomeScreen() {
         overflow: 'hidden',
       }}>
 
+      <Tab.Screen name="Home" component={MainScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <IonIcons name={focused ? "home" : "home-outline"} size={29} color="#000" />
+          ),
+        }} />
+
       <Tab.Screen name="Library" component={Library}
         options={{
           tabBarStyle: styles.libraryTabNavStyle,
@@ -92,13 +99,6 @@ function HomeScreen() {
           tabBarIcon: ({ focused }) => (
             <FAIcons name={focused ? "user" : "user-o"} size={28} color="#000" />
           )
-        }} />
-
-      <Tab.Screen name="Home" component={MainScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <IonIcons name={focused ? "home" : "home-outline"} size={29} color="#000" />
-          ),
         }} />
 
       <Tab.Screen name="RewardsScreen" component={RewardsScreen}
