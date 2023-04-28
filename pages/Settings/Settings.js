@@ -6,6 +6,7 @@ import colors from '../../assets/colors/colors';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { ModalContext } from '../../assets/contexts/ModalContext';
 import { ProfileContext } from '../../assets/contexts/ProfileContext';
@@ -54,8 +55,20 @@ const Settings = () => {
                             <Text style={styles.headerUser}>Profil Ismi: {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
                             <Text style={styles.settingsHeaderEmail}>Hesap Emaili: {typeof (currentAccountInfo) == 'undefined' ? "Default" : currentAccountInfo[0].email}</Text>
                         </View>
-                        <View style={[styles.headerUserInfo, { marginLeft: 5 }]}>
-                            <Text style={styles.headerUser}>Log Out</Text>
+                        <View style={[styles.headerUserInfo2, { marginLeft: 5 }]}>
+                            <TouchableOpacity
+                                onPress={() => { navigation.navigate('ProfileSelect') }}
+                                activeOpacity={0.6}>
+                                <View style={styles.logOutButtonContainer}>
+                                    <MaterialCommunityIcons
+                                        name="logout"
+                                        size={24}
+                                        color={colors.black}
+                                        style={styles.badgeIconStyle}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+
                         </View>
 
                     </View>
@@ -316,13 +329,19 @@ const styles = StyleSheet.create({
     },
 
     headerUserInfo: {
+        marginTop: 22,
+        paddingLeft: 10,
+        paddingTop: 2,
+        marginRight: 10
+    },
+
+    headerUserInfo2: {
+        marginTop: 22,
         paddingLeft: 10,
         paddingTop: 2,
     },
 
     headerUser: {
-        marginTop: 15,
-        marginLeft: 2,
         fontSize: 20,
         fontFamily: 'Comic-Regular',
     },
@@ -345,6 +364,18 @@ const styles = StyleSheet.create({
         marginTop: 2,
         marginLeft: 2
     },
+
+    logOutButtonContainer: {
+        backgroundColor: colors.yellowRegular,
+        borderWidth: 2,
+        borderColor: colors.yellowBorder,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 2,
+        padding: 4,
+        paddingLeft: 6,
+    }
 
 
 })

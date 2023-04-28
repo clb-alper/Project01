@@ -21,13 +21,14 @@ const Login = ({ navigation }) => {
             .then(userCredetials => {
                 const user = userCredetials.user;
                 navigation.navigate('ProfileSelect');
-                //console.log('Logged in with:', user.email);
+
+                // 1.0 Versiyonunda Aktif Et
+                // setEmail();
+                // setPassword();
             })
             .catch(error => alert(error.message))
     }
 
-
-    
     // auth.onAuthStateChanged(user => {
     //     if (user) {
     //         console.log('user logged in:', user)
@@ -35,8 +36,6 @@ const Login = ({ navigation }) => {
     //         console.log(' user logged out')
     //     }
     // })
-    
-
 
 
     const [fontsLoaded] = useFonts({

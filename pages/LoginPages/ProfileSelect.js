@@ -30,8 +30,7 @@ const ProfileSelect = ({ navigation }) => {
         setIsLoaded(true)
     }
 
-    const todoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles');
-
+    const todoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').orderBy('name', 'asc');
 
     useEffect(() => {
         todoRef
@@ -67,19 +66,6 @@ const ProfileSelect = ({ navigation }) => {
         }
     ]
 
-
-
-
-    // useEffect(() => {
-
-
-    //     handleCreateCollections();
-    //     navigation.navigate("MainScreen");
-
-    // }, [currentProfileSelected])
-
-    //console.log(profileList)
-
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
         'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
@@ -94,28 +80,6 @@ const ProfileSelect = ({ navigation }) => {
 
     if (!fontsLoaded) {
         return null;
-    }
-
-    const handleCreateCollections = async () => {
-
-        // sub user's continueReading
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('continueReading').doc().set({
-
-            })
-
-        // // sub user's continueReading
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().collection('test').doc().set({
-        //     bookId: '1',
-        //     progressStatus: '32'
-        // })
-
-        // const snapshot = await firebase.firestore().collection('storyBooks').get()
-        // snapshot.docs.map(doc => {
-        //     console.log(doc.id)
-        //     console.log(doc.data().bookProgress)
-        // })
-
     }
 
     return (
@@ -157,15 +121,15 @@ const ProfileSelect = ({ navigation }) => {
                                             <Skeleton
                                                 height={styles.profileStyle2.height}
                                                 width={styles.profileStyle2.width}
-                                                style={[styles.profileStyle2, {borderWidth: 0}]}
-                                                backgroundColor= 'rgba(0,0,0,0.30)'
+                                                style={[styles.profileStyle2, { borderWidth: 0 }]}
+                                                backgroundColor='rgba(0,0,0,0.30)'
                                             >
                                             </Skeleton>
                                             <Skeleton
                                                 height={24}
                                                 width={125}
-                                                style={[styles.userNicknameStyle, {borderRadius: 10}]}
-                                                backgroundColor= 'rgba(0,0,0,0.30)'
+                                                style={[styles.userNicknameStyle, { borderRadius: 10 }]}
+                                                backgroundColor='rgba(0,0,0,0.30)'
                                             >
                                             </Skeleton>
 
@@ -245,9 +209,21 @@ const ProfileSelect = ({ navigation }) => {
                             : null}
 
                         {profileList.length != 0 ?
-                            <TouchableOpacity style={styles.editProfileButton}>
-                                <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
-                            </TouchableOpacity>
+                            <>
+                                <TouchableOpacity
+                                    style={styles.editProfileButton}
+                                    onPress={() => { console.log('Düzenle Buton') }}
+                                >
+                                    <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    style={[styles.editProfileButton, {marginTop: 15}]}
+                                    onPress={() => { navigation.navigate('Login'); auth.signOut().then(() => console.log('User signed out!')); }}
+                                >
+                                    <Text style={styles.loginButtonText}>Çıkış Yap</Text>
+                                </TouchableOpacity>
+                            </>
                             : null}
 
                     </View>

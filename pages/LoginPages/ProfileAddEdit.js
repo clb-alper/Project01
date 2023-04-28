@@ -8,16 +8,19 @@ import colors from '../../assets/colors/colors';
 import { auth, firebase } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
-const ProfileSelect = ({ navigation }) => {
+const ProfileSelect = () => {
 
     const [profileName, setProfileName] = useState();
 
     const [iconIndex, setIconIndex] = useState();
     const [colorIndex, setColorIndex] = useState({ regularColor: colors.pinkLight, borderColor: colors.pinkBorder });
+
+    const navigation = useNavigation();
 
     const handleProfileColor = (colorHandle) => {
         switch (colorHandle) {
@@ -120,7 +123,7 @@ const ProfileSelect = ({ navigation }) => {
         },
     ]
 
-    
+
     const handleCreateProfile = async () => {
 
         // Sub User
@@ -128,10 +131,10 @@ const ProfileSelect = ({ navigation }) => {
             name: profileName,
             profileIcon: iconIndex,
             profileColor: colorIndex,
-            tagsAdded : false,
-            points: 0                      
+            tagsAdded: false,
+            points: 0
         })
-
+        setTimeout(() => { navigation.goBack() }, 600)
     }
 
 
