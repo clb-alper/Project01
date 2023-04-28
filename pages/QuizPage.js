@@ -8,6 +8,7 @@ import { FlatList } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
+import AntIcons from 'react-native-vector-icons/AntDesign';
 import * as Progress from 'react-native-progress';
 import { useNavigation } from '@react-navigation/native';
 import { ModalContext } from '../assets/contexts/ModalContext'
@@ -126,12 +127,18 @@ const QuizPage = () => {
 
                 <View style={styles.innerContainer}>
                     <View style={styles.quizHeader}>
-                        <TouchableOpacity
-                            onPress={() => { navigation.goBack(); }}>
-                            <Octicons name="arrow-left" size={45} color="#000" style={styles.goBackIcon} />
-                        </TouchableOpacity>
+                        {!isFinished ?
+                            <TouchableOpacity
+                                onPress={() => { navigation.goBack(); }}>
+                                <Octicons name="arrow-left" size={45} color="#000" style={styles.goBackIcon} />
+                            </TouchableOpacity>
+                            :
+                            <View>
 
-                        <Text style={styles.headerText}>Quiz</Text>
+                            </View>
+                        }
+
+                        <Text style={!isFinished ? styles.headerText : [styles.headerText, { marginLeft: 28 }]}>Quiz</Text>
 
                         <View>
 
@@ -183,7 +190,7 @@ const QuizPage = () => {
 
                                         <FlatList
                                             overScrollMode={'never'}
-                                            keyExtractor={(item) => item.id}
+                                            keyExtractor={(item) => item}
                                             data={quizList[index].answers}
                                             showsHorizontalScrollIndicator={false}
                                             renderItem={({ item, index }) => (
@@ -269,12 +276,23 @@ const QuizPage = () => {
                                 </View>
 
                                 <View style={styles.rewardContainer}>
-                                    <Text>Ödül</Text>
-                                    <Text>1500</Text>
+                                    <Text style={styles.rewardResultHeaderText}>Ödül</Text>
+                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 4 }}>
+                                        <Text style={styles.rewardResultText}>{Math.floor((correctAnswers / quizList.length) * 25) * 10}</Text>
+                                        <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />
+                                    </View>
+
                                 </View>
 
                                 <View style={styles.finishContainer}>
-                                    <Text>Bitir</Text>
+                                    <TouchableOpacity
+                                        onPress={() => { navigation.goBack() }}
+                                        activeOpacity={0.8}>
+                                        <View>
+                                            <Text style={styles.finishButtonText}>Bitir</Text>
+                                        </View>
+                                    </TouchableOpacity>
+
                                 </View>
                             </>
                         :
@@ -422,7 +440,7 @@ const styles = StyleSheet.create({
         marginTop: 25,
         backgroundColor: colors.yellowRegular,
         width: widthOfScreen * 0.8,
-        height: 100,
+        height: 120,
         borderRadius: 25,
         borderWidth: 3,
         borderColor: colors.yellowBorder,
@@ -436,7 +454,9 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 25,
         borderWidth: 3,
-        borderColor: colors.yellowBorder
+        borderColor: colors.yellowBorder,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     resultHeaderText: {
@@ -478,6 +498,30 @@ const styles = StyleSheet.create({
         marginLeft: 7,
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
+
+    rewardResultHeaderText: {
+        fontSize: 38,
+        fontFamily: 'Comic-Regular',
+        alignSelf: 'center',
+        marginTop: 15
+    },
+
+    rewardResultText: {
+        fontSize: 28,
+        fontFamily: 'Comic-Regular',
+        marginTop: 8
+    },
+
+    pointsIconStyle: {
+        marginTop: 7,
+        marginLeft: 5
+    },
+
+    finishButtonText: {
+        fontSize: 30,
+        fontFamily: 'Comic-Regular',
+        alignSelf: 'center',
+    },
 
 })
