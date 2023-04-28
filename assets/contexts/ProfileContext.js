@@ -16,9 +16,7 @@ const ProfileProvider = ({ children }) => {
     const [favorited, setFavorited] = useState(false);
     const [readed, setReaded] = useState();
     const [userPrefFontSize, setUserPrefFontSize] = useState(20);
-
-
-
+    const [userPointsData, setUserPointsData] = useState();
 
 
     const getFontLocalStorage = async () => {
@@ -91,7 +89,9 @@ const ProfileProvider = ({ children }) => {
         getAccountInfoData,
         currentAccountInfo,
         setCurrentAccountInfo,
-        getFontLocalStorage
+        getFontLocalStorage,
+        userPointsData,
+        setUserPointsData
     }
 
     return (

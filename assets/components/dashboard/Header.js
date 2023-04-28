@@ -1,4 +1,4 @@
-import React, { useContext }  from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import colors from '../../colors/colors';
 import * as Progress from 'react-native-progress';
@@ -11,7 +11,7 @@ var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
 
-    const { currentProfileSelectedInfo } = useContext(ProfileContext);
+    const { currentProfileSelectedInfo, userPointsData } = useContext(ProfileContext);
 
     const shadowOpt = {
         width: widthOfScreen,
@@ -30,11 +30,11 @@ const Header = () => {
                 <View style={styles.dashboardContainer}>
 
                     <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
-                        <Image source={require('../../images/icontest.png')} style={[styles.headerIconStyle, {tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"]}]}></Image>
+                        <Image source={require('../../images/icontest.png')} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
                     </View>
 
                     <View style={styles.headerUserInfo}>
-                        <Text style={styles.headerUser}>Merhaba {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
+                        <Text style={styles.headerUser}>{typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
                         <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
                         <Progress.Bar style={styles.progressBar} progress={0.75} height={7.5} width={250} color={colors.greenBorder} />
                     </View>
@@ -45,7 +45,7 @@ const Header = () => {
                             style={styles.pointsTextStyle}
                             adjustsFontSizeToFit={true}
                             numberOfLines={1}>
-                            1750
+                            {userPointsData}
                         </Text>
 
                         <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />
@@ -77,7 +77,7 @@ const Header = () => {
 export default Header;
 
 const styles = StyleSheet.create({
-    
+
     dashboardHeader: {
         paddingTop: '15%',
         borderBottomLeftRadius: 30,
@@ -123,8 +123,9 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingTop: 2,
         flexDirection: 'column',
-        alignItems: 'center',
-        marginBottom: 15
+        marginBottom: 15,
+        width: widthOfScreen * 0.5,
+        marginTop: -3
     },
 
     headerUser: {
@@ -135,7 +136,6 @@ const styles = StyleSheet.create({
     headerUserLevel: {
         marginTop: '1%',
         fontFamily: 'Comic-Regular',
-        marginLeft: -25,
         fontSize: 14,
     },
 

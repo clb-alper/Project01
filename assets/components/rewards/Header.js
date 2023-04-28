@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import colors from '../../colors/colors';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { BoxShadow } from 'react-native-shadow';
+import { ProfileContext } from '../../contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
+
+    const { userPointsData } = useContext(ProfileContext);
 
     const shadowOpt = {
         width: widthOfScreen,
@@ -39,7 +42,7 @@ const Header = () => {
                                 style={styles.pointsTextStyle}
                                 adjustsFontSizeToFit={true}
                                 numberOfLines={1}>
-                                1750
+                                {userPointsData}
                             </Text>
 
                             <AntIcons name="star" size={30} color="#FFD600" style={styles.pointsIconStyle} />

@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ModalContext } from '../assets/contexts/ModalContext'
 import { auth, firebase } from '../firebase';
 import Skeleton from '../assets/components/Skeleton'
+import { ProfileContext } from '../assets/contexts/ProfileContext'
 
 const widthOfScreen = Dimensions.get('window').width
 const heightOfScreen = Dimensions.get('window').height
@@ -39,6 +40,7 @@ const QuizPage = () => {
     const [isFinished, setIsFinished] = useState(false);
 
     const { modalEntry } = useContext(ModalContext);
+    const { userPointsData, currentProfileSelected } = useContext(ProfileContext);
 
     const sleep = milliseconds => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -108,6 +110,14 @@ const QuizPage = () => {
 
     const handleQuizResults = () => {
         console.log(correctAnswers, " + ", wrongAnswers)
+    }
+
+    const handleQuizPointsReward = () => {
+        firebase.firestore()
+            .collection('users').doc(firebase.auth().currentUser.uid)
+            .collection('userProfiles').doc(currentProfileSelected).update({
+                points: userPointsData + Math.floor((correctAnswers / quizList.length) * 25) * 10,
+            })
     }
 
     const scrollToIndex = (e) => {
@@ -286,7 +296,7 @@ const QuizPage = () => {
 
                                 <View style={styles.finishContainer}>
                                     <TouchableOpacity
-                                        onPress={() => { navigation.goBack() }}
+                                        onPress={() => { navigation.goBack(); handleQuizPointsReward() }}
                                         activeOpacity={0.8}>
                                         <View>
                                             <Text style={styles.finishButtonText}>Bitir</Text>

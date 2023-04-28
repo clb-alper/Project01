@@ -128,7 +128,8 @@ const ProfileSelect = ({ navigation }) => {
             name: profileName,
             profileIcon: iconIndex,
             profileColor: colorIndex,
-            tagsAdded : false,                      
+            tagsAdded : false,
+            points: 0                      
         })
 
     }

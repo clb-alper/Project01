@@ -4,10 +4,37 @@ import colors from '../../colors/colors';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { auth, firebase } from '../../../firebase'
 
 const Header = () => {
 
-    const { currentProfileSelectedInfo } = useContext(ProfileContext);
+    const { currentProfileSelectedInfo, currentProfileSelected, userPointsData, setUserPointsData } = useContext(ProfileContext);
+
+    const profileRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles');
+
+    const getProfilePointsData = async () => {
+        profileRef
+            .onSnapshot(
+                querySnapshot => {
+                    const userPointsData = []
+                    querySnapshot.forEach((doc) => {
+                        const { points } = doc.data()
+                        if (currentProfileSelected === doc.id) {
+                            userPointsData.push({
+                                points
+                            })
+                        }
+                    })
+                    setUserPointsData(userPointsData[0].points)
+                }
+            )
+    }
+
+    useEffect(() => {
+        getProfilePointsData();
+    }, [])
 
     return (
         <View style={styles.headerView1}>
@@ -28,7 +55,7 @@ const Header = () => {
                         style={styles.pointsTextStyle}
                         adjustsFontSizeToFit={true}
                         numberOfLines={1}>
-                        1750
+                        {userPointsData}
                     </Text>
 
                     <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />
