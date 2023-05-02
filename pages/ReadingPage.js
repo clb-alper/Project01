@@ -211,37 +211,7 @@ const ReadingPage = () => {
             )
     }
 
-    // BUNU CONTEXTE AT ANA SAYFADA USEFFECT KULLANIP STATE KOYT
-    // const userProfileRef = firebase.firestore()
-    //     .collection('users').doc(firebase.auth().currentUser.uid)
-    //     .collection('userProfiles');
 
-    // const getProfileInformation = async () => {
-    //     // console.log(bookContentRef.data())
-    //     userProfileRef
-    //         .onSnapshot(
-    //             querySnapshot => {
-    //                 const userInfo = []
-    //                 querySnapshot.forEach((doc) => {
-    //                     if (doc.id === currentProfileSelected) {
-    //                         const { name, profileColor, profileIcon } = doc.data()
-
-    //                         userInfo.push({
-    //                             name,
-    //                             profileColor,
-    //                             profileIcon,
-    //                         })
-    //                     }
-    //                 })
-    //                 setUserInfo(userInfo)
-    //             }
-    //         )
-    // }
-
-    // useEffect(() => {
-    //     getProfileInformation()
-    //     console.log(userInfo)
-    // }, [])
 
     useEffect(() => {
         loadUserView()
@@ -297,30 +267,6 @@ const ReadingPage = () => {
     }
 
 
-    // const handleTagData = async () => {
-    //     // sub user's tagData
-    //     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-    //         .doc(currentProfileSelected).collection('tagData').doc('ageTagData').set({
-    //             ageOf3to6Value: 0,
-    //             ageOf6to9Value: 0,
-    //             ageOf9to12Value: 0,
-    //             ageOf12plusValue: 0
-    //         })
-    //     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-    //         .doc(currentProfileSelected).collection('tagData').doc('contentTagData').set({
-    //             puzzleTagValue: 0,
-    //             quizTagValue: 0
-    //         })
-    //     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-    //         .doc(currentProfileSelected).collection('tagData').doc('themeTagData').set({
-    //             natureTagValue: 0,
-    //             animalTagValue: 0,
-    //             cityTagValue: 0,
-    //             adventureTagValue: 0
-    //         })
-    // }
-
-
     let onScrollEnd = (e) => {
         let pageNumber = Math.min(Math.max(Math.floor(e.nativeEvent.contentOffset.x / 410 + 0.5) + 1, 0), pages.length);
         const progressB = pageNumber / pages.length;
@@ -349,28 +295,7 @@ const ReadingPage = () => {
     }
 
 
-    // HANDLE TRANSLATE WORD
-    // const handleTranslateWord = async (word) => {
 
-    //     const url = 'https://api.mymemory.translated.net/get';
-
-    //       const response = await axios.get(url, {
-    //         params: {
-    //           q: word,
-    //           langpair: `tr|en`,
-    //         },
-    //       });
-
-    //       console.log(word, ' -> ', response.data.responseData.translatedText)
-    //       if (response.data && response.data.responseData && response.data.responseData.translatedText) {
-    //         const translatedText = response.data.responseData.translatedText;
-    //         // show on modal
-    //         return translatedText;
-    //       } else {
-    //         throw new Error('Translation API response format is not as expected.');
-    //       }
-
-    // }
 
     return (
 
@@ -409,16 +334,6 @@ const ReadingPage = () => {
 
                         </View>
 
-                        {/* 
-
-                        {words[0].map((word, index) => {
-                            return (
-                                <TouchableOpacity key={index}>
-                                    <Text onPress={() => console.log(word)}>{word}</Text>
-                                </TouchableOpacity>
-                            )
-                        })} */}
-
                         {isLoaded ?
                             <FlatList
                                 overScrollMode={'never'}
@@ -456,7 +371,6 @@ const ReadingPage = () => {
                                         </View>
                                         <View>
                                             {
-                                                // Dışardaki Text i değiştirirsen error veriyor yusuf buranın görüntüsünü düzelt.
                                                 <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
                                                     return (
                                                         <>
@@ -469,12 +383,6 @@ const ReadingPage = () => {
                                                 })}
 
                                                 </Text>
-                                                // words[index].map((word) => {
-                                                //     console.log('page index', index)
-
-                                                //     { console.log(word, 'oradaolacagiz') }
-                                                //     <Text >{word}</Text>
-                                                // })
                                             }
                                         </View>
 
