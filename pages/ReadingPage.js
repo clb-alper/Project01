@@ -263,9 +263,12 @@ const ReadingPage = () => {
     // Disabling the back press button of the phone
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-    },[])
-     
+    }, [])
+
     const handleBackButtonClick = () => {
+        navigation.goBack();
+        setModalVisible(!modalVisible);
+        setIsBack(true)
         return true;
     };
 
