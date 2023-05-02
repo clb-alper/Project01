@@ -17,7 +17,7 @@ const ContReadingFlatlist = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const timeOutOfTags = async () => {
-        await sleep(1500)
+        await sleep(800)
         setDummy(true)
     }
 
@@ -61,12 +61,21 @@ const ContReadingFlatlist = () => {
                             contBookReading.bookRef.get()
                                 .then(res => {
                                     contBookReading.bookData = res.data()
+                                    firebase.firestore().collection('storyBooks').doc(doc.id).collection('bookContent').doc(doc.id).get().then((snapshot) => {
+                                        if (snapshot.exists) {
+                                            contBookReading.bookData.bookContent = snapshot.data()
+                                        }else {
+                                            console.log("snapshot not exist")
+                                        }
+
+                                    })
                                     contBookReading.bookData.id = res.id
                                     contBookReading.bookData.bookProgress = contBookReading.progress
                                     bookList.push(contBookReading.bookData)
                                     if (contBookReading.bookData.bookProgress != 1) {
                                         contReadingBookList.push(contBookReading.bookData)
                                     }
+
 
                                 })
                             contBookReading.favRef.get()
@@ -149,16 +158,11 @@ const ContReadingFlatlist = () => {
         // sub user's tagData
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
             .doc(currentProfileSelected).collection('tagData').doc('ageTagData').set({
-                ageOf3to6Value: TagDataObj.ageTags.age3to6Value != 0 ? TagDataObj.ageTags.age3to6Value : 9,
+                ageOf3to6Value: TagDataObj.ageTags.age3to6Value,
                 ageOf6to9Value: TagDataObj.ageTags.age6to9Value,
                 ageOf9to12Value: TagDataObj.ageTags.age9to12Value,
                 ageOf12plusValue: TagDataObj.ageTags.age12PlusValue
             })
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        //     .doc(currentProfileSelected).collection('tagData').doc('contentTagData').update({
-        //         puzzleTagValue: 0,
-        //         quizTagValue: 0
-        //     })
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
             .doc(currentProfileSelected).collection('tagData').doc('themeTagData').set({
                 natureTagValue: TagDataObj.contentTags.natureValue,
@@ -169,12 +173,38 @@ const ContReadingFlatlist = () => {
     }
 
 
+
+    let readedBooks = 0;
+    let readedWords = 0;
+
+    bookList.forEach(element => {
+        if (element.bookProgress === 1.0) {
+            readedBooks = readedBooks + 1;
+        }
+        if (typeof (element.bookContent) != 'undefined') {
+            let words = element.bookContent.storyText.split(" ").length
+            readedWords = Math.floor(readedWords + element.bookProgress * words)
+        }
+    });
+
+
+    const handleStatistics = () => {
+
+        // sub user's tagData
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('statisticsData').doc('bookStats').set({
+                readedBooks: readedBooks,
+                readedWords: readedWords,
+            })
+    }
+
+
     useEffect(() => {
         if (dummy) {
             handleTagDataOfConts()
+            handleStatistics()
         }
     }, [readed])
-
 
 
     return (
