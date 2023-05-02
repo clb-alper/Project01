@@ -16,6 +16,10 @@ import { ProfileContext } from '../assets/contexts/ProfileContext';
 import Skeleton from '../assets/components/Skeleton';
 import { Translator } from '../assets/components/Translator';
 import TranslationModal from '../assets/components/TranslationModal';
+import { BackHandler } from 'react-native';
+
+
+
 
 
 
@@ -253,6 +257,20 @@ const ReadingPage = () => {
     };
 
     const navigation = useNavigation();
+
+
+
+    // Disabling the back press button of the phone
+    useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+    },[])
+     
+    const handleBackButtonClick = () => {
+        return true;
+    };
+
+
+
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),

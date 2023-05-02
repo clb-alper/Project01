@@ -27,6 +27,7 @@ import ProfileAddEdit from './pages/LoginPages/ProfileAddEdit';
 import ProfileProvider from './assets/contexts/ProfileContext';
 import QuizPage from './pages/QuizPage';
 
+
 const Tab = createBottomTabNavigator();
 
 const TransitionAnim = {
@@ -139,7 +140,7 @@ export default function App() {
                   <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
                   <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
                   <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
-                  <Stack.Screen name="ReadingPage" component={ReadingPage} options={TransitionAnim} />
+                  <Stack.Screen name="ReadingPage" component={ReadingPage} options={[TransitionAnim,{gestureEnabled:false}]} />
                   <Stack.Screen name="QuizPage" component={QuizPage} options={TransitionAnim} />
                 </Stack.Navigator>
               </NavigationContainer>
