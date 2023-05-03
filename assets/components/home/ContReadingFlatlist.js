@@ -6,6 +6,7 @@ import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
 import { auth, firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
+import ContReadingFlatlistSkeleton from '../ContReadingFlatlistSkeleton';
 
 const ContReadingFlatlist = () => {
 
@@ -17,7 +18,7 @@ const ContReadingFlatlist = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const timeOutOfTags = async () => {
-        await sleep(800)
+        await sleep(1200)
         setDummy(true)
     }
 
@@ -64,7 +65,7 @@ const ContReadingFlatlist = () => {
                                     firebase.firestore().collection('storyBooks').doc(doc.id).collection('bookContent').doc(doc.id).get().then((snapshot) => {
                                         if (snapshot.exists) {
                                             contBookReading.bookData.bookContent = snapshot.data()
-                                        }else {
+                                        } else {
                                             console.log("snapshot not exist")
                                         }
 
@@ -100,8 +101,6 @@ const ContReadingFlatlist = () => {
                 }
             )
     }, [favorited])
-
-
 
     let age3to6Value = 0;
     let age6to9Value = 0;
@@ -216,45 +215,48 @@ const ContReadingFlatlist = () => {
     return (
         <View>
 
-            {contReadingBookList.length == 0 ?
-                <View>
-                    <Text>
-                        DOTO : add Text
-                    </Text>
-                </View>
+            {dummy ?
+                contReadingBookList.length == 0 && dummy ?
+                    <View>
+                        <Text>
+                            DOTO : add Text
+                        </Text>
+                    </View>
+                    :
+                    <FlatList
+                        overScrollMode={'never'}
+                        data={contReadingBookList}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+
+
+                            < View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem} >
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                    activeOpacity={0.75}>
+
+                                    <BoxShadow setting={shadowOpt}>
+                                        <ImageBackground
+                                            source={{ uri: item.image }}
+                                            imageStyle={styles.continueBookImageStyle}>
+                                        </ImageBackground>
+                                    </BoxShadow>
+
+                                    <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
+
+                                </TouchableOpacity>
+
+                            </View>
+
+                        )}
+
+
+                    />
                 :
-                <FlatList
-                    overScrollMode={'never'}
-                    data={contReadingBookList}
-                    keyExtractor={(item) => item.id}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item, index }) => (
-
-
-                        < View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem} >
-                            <TouchableOpacity
-                                key={item.id}
-                                onPress={() => { setModalVisible(true); setModalEntry(item); }}
-                                activeOpacity={0.75}>
-
-                                <BoxShadow setting={shadowOpt}>
-                                    <ImageBackground
-                                        source={{ uri: item.image }}
-                                        imageStyle={styles.continueBookImageStyle}>
-                                    </ImageBackground>
-                                </BoxShadow>
-
-                                <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
-
-                            </TouchableOpacity>
-
-                        </View>
-
-                    )}
-
-
-                />
+                <ContReadingFlatlistSkeleton />
             }
         </View >
     )

@@ -63,7 +63,7 @@ const StatisticsSection = () => {
                 <View style={styles.statisticsMainSecondRow}>
 
                     <View style={styles.statisticsMainFirstRowElem}>
-                        <Text style={styles.userStatistics}>28</Text>
+                        <Text style={styles.userStatistics}>{typeof (userPointsData) === 'undefined' ? 0 : userPointsData.totalQuizzesCompleted}</Text>
                         <View>
                             <Text style={styles.userStatisticsTitle}>Quiz</Text>
                             <Text style={styles.userStatisticsTitle}>Tamamlandı</Text>

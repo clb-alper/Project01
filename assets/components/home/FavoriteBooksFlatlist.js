@@ -1,15 +1,26 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Text } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
 import { auth, firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
+import FlatlistSkeleton from '../FlatlistSkeleton';
 
 const FavoriteBooksFlastlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, readed, favorited } = useContext(ProfileContext);
+
+    const [dummy, setDummy] = useState(false);
+
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+    const timeOutOfTags = async () => {
+        await sleep(1400)
+        setDummy(true)
+    }
 
     const shadowOpt = {
         width: 110,
@@ -77,6 +88,7 @@ const FavoriteBooksFlastlist = () => {
                                         return 0;
                                     });
                                     setBookList(bookList)
+                                    timeOutOfTags()
                                 }
                             })
                     })
@@ -94,39 +106,42 @@ const FavoriteBooksFlastlist = () => {
 
     return (
         <View>
-            {bookList.length == 0 ?
-                <View>
-                    <Text>
-                        DOTO : add Text
-                    </Text>
-                </View>
+            {dummy ?
+                bookList.length == 0 && dummy ?
+                    <View>
+                        <Text>
+                            DOTO : add Text
+                        </Text>
+                    </View>
+                    :
+                    <FlatList
+                        overScrollMode={'never'}
+                        data={bookList}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <View style={index != 0 ? styles.newBookStyle : styles.newBookStyleFirstItem}>
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                    activeOpacity={0.75}>
+
+                                    <BoxShadow setting={shadowOpt}>
+                                        <ImageBackground
+                                            source={{ uri: item.image }}
+                                            imageStyle={styles.newBookImageStyle}>
+                                        </ImageBackground>
+                                    </BoxShadow>
+
+                                </TouchableOpacity>
+
+                            </View>
+                        )}
+
+                    />
                 :
-                <FlatList
-                    overScrollMode={'never'}
-                    data={bookList}
-                    keyExtractor={(item) => item.id}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item, index }) => (
-                        <View style={index != 0 ? styles.newBookStyle : styles.newBookStyleFirstItem}>
-                            <TouchableOpacity
-                                key={item.id}
-                                onPress={() => { setModalVisible(true); setModalEntry(item); }}
-                                activeOpacity={0.75}>
-
-                                <BoxShadow setting={shadowOpt}>
-                                    <ImageBackground
-                                        source={{ uri: item.image }}
-                                        imageStyle={styles.newBookImageStyle}>
-                                    </ImageBackground>
-                                </BoxShadow>
-
-                            </TouchableOpacity>
-
-                        </View>
-                    )}
-
-                />
+                <FlatlistSkeleton />
             }
         </View>
     )

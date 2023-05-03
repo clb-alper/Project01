@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -15,6 +15,7 @@ import { ModalContext } from '../assets/contexts/ModalContext';
 import FavoriteBooksFlastlist from '../assets/components/home/FavoriteBooksFlatlist';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
 import RecommendedFlatList from '../assets/components/home/RecommendedFlatList';
+import FlatlistSkeleton from '../assets/components/ContReadingFlatlistSkeleton';
 
 const MainScreen = () => {
 

@@ -20,11 +20,12 @@ const Header = () => {
                 querySnapshot => {
                     const userPointsData = []
                     querySnapshot.forEach((doc) => {
-                        const { points, totalPoints } = doc.data()
+                        const { points, totalPoints, totalQuizzesCompleted } = doc.data()
                         if (currentProfileSelected === doc.id) {
                             userPointsData.push({
                                 points,
-                                totalPoints
+                                totalPoints,
+                                totalQuizzesCompleted
                             })
                         }
                     })

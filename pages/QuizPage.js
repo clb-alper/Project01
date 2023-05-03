@@ -118,6 +118,7 @@ const QuizPage = () => {
             .collection('userProfiles').doc(currentProfileSelected).update({
                 points: userPointsData.points + Math.floor((correctAnswers / quizList.length) * 25) * 10,
                 totalPoints: userPointsData.totalPoints + Math.floor((correctAnswers / quizList.length) * 25) * 10,
+                totalQuizzesCompleted: userPointsData.totalQuizzesCompleted + 1
             })
     }
 
