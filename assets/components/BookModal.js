@@ -56,6 +56,14 @@ const BookModal = () => {
 
     useEffect(() => {
         getFavoriteCountData();
+    }, [modalEntry.id])
+
+    useEffect(() => {
+        getFavoriteCountData();
+    }, [modalEntry])
+
+    useEffect(() => {
+        getFavoriteCountData();
     }, [favorited])
 
     const handleCreateFavoriteBooks = async () => {

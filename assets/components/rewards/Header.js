@@ -42,7 +42,7 @@ const Header = () => {
                                 style={styles.pointsTextStyle}
                                 adjustsFontSizeToFit={true}
                                 numberOfLines={1}>
-                                {userPointsData}
+                                 {typeof (userPointsData) === 'undefined' ? "" : userPointsData.points}
                             </Text>
 
                             <AntIcons name="star" size={30} color="#FFD600" style={styles.pointsIconStyle} />

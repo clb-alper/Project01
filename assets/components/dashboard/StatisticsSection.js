@@ -10,7 +10,7 @@ const StatisticsSection = () => {
 
     const [userStatisticsData, setUserStatisticsData] = useState([]);
 
-    const { currentProfileSelected } = useContext(ProfileContext);
+    const { currentProfileSelected, userPointsData } = useContext(ProfileContext);
 
     const profileRef = firebase.firestore()
         .collection('users').doc(firebase.auth().currentUser.uid)
@@ -51,11 +51,11 @@ const StatisticsSection = () => {
 
                 <View style={styles.statisticsMainFirstRow}>
                     <View style={styles.statisticsMainFirstRowElem}>
-                        <Text style={styles.userStatistics}>{userStatisticsData.readedBooks}</Text>
+                        <Text style={styles.userStatistics}>{typeof (userStatisticsData) === 'undefined' ? 0 : userStatisticsData.readedBooks}</Text>
                         <Text style={styles.userStatisticsTitle}>Kitap Okundu</Text>
                     </View>
                     <View style={styles.statisticsMainFirstRowElem}>
-                        <Text style={styles.userStatistics}>{userStatisticsData.readedWords}</Text>
+                        <Text style={styles.userStatistics}>{typeof (userStatisticsData) === 'undefined' ? 0 : userStatisticsData.readedWords}</Text>
                         <Text style={styles.userStatisticsTitle}>Kelime Okundu</Text>
                     </View>
                 </View>
@@ -71,7 +71,7 @@ const StatisticsSection = () => {
                     </View>
 
                     <View style={styles.statisticsMainFirstRowElem}>
-                        <Text style={styles.userStatistics}>2460</Text>
+                        <Text style={styles.userStatistics}>{typeof (userPointsData) === 'undefined' ? 0 : userPointsData.totalPoints}</Text>
                         <View>
                             <Text style={styles.userStatisticsTitle}>Toplam Puan</Text>
                             <Text style={styles.userStatisticsTitle}>Kazanıldı</Text>

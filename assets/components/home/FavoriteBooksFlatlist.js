@@ -54,7 +54,7 @@ const FavoriteBooksFlastlist = () => {
                         favBookReading.contRef.get()
                             .then(res => {
                                 if (res.exists) {
-                                    typeof (favBookReading.bookData.bookProgress = res.data().progress) == 'undefined' ? null : favBookReading.bookData.bookProgress = res.data().progress,
+                                    typeof (favBookReading) === 'undefined' ? null : favBookReading.bookData.bookProgress = res.data().progress,
                                         // Alfabeye göre sıralama
                                         bookList.sort(function (a, b) {
                                             if (a.title < b.title) {

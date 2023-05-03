@@ -116,7 +116,8 @@ const QuizPage = () => {
         firebase.firestore()
             .collection('users').doc(firebase.auth().currentUser.uid)
             .collection('userProfiles').doc(currentProfileSelected).update({
-                points: userPointsData + Math.floor((correctAnswers / quizList.length) * 25) * 10,
+                points: userPointsData.points + Math.floor((correctAnswers / quizList.length) * 25) * 10,
+                totalPoints: userPointsData.totalPoints + Math.floor((correctAnswers / quizList.length) * 25) * 10,
             })
     }
 
@@ -296,7 +297,7 @@ const QuizPage = () => {
 
                                 <View style={styles.finishContainer}>
                                     <TouchableOpacity
-                                        onPress={() => { navigation.goBack(); handleQuizPointsReward() }}
+                                        onPress={() => { handleQuizPointsReward(); navigation.goBack(); }}
                                         activeOpacity={0.8}>
                                         <View>
                                             <Text style={styles.finishButtonText}>Bitir</Text>

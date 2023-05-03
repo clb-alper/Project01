@@ -9,7 +9,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 
 const RecommendedFlatList = () => {
 
-    const { setModalVisible, setModalEntry } = useContext(ModalContext);
+    const { setModalVisible, setModalEntry, modalVisible } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, favorited, readed } = useContext(ProfileContext);
 
     const [loaded, setLoaded] = useState(false);
@@ -20,16 +20,20 @@ const RecommendedFlatList = () => {
     const myTimeOut = async () => {
         await sleep(1000);
         setLoaded(true)
-        //getRecommendedData();
+        getRecommendedData();
     }
 
     useEffect(() => {
-        getRecommendedData()
+        myTimeOut()
     }, [])
 
     useEffect(() => {
         getRecommendedData()
     }, [loaded])
+
+    useEffect(() => {
+        getRecommendedData()
+    }, [modalVisible])
 
     useEffect(() => {
         getRecommendedData()

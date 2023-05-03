@@ -20,14 +20,15 @@ const Header = () => {
                 querySnapshot => {
                     const userPointsData = []
                     querySnapshot.forEach((doc) => {
-                        const { points } = doc.data()
+                        const { points, totalPoints } = doc.data()
                         if (currentProfileSelected === doc.id) {
                             userPointsData.push({
-                                points
+                                points,
+                                totalPoints
                             })
                         }
                     })
-                    setUserPointsData(userPointsData[0].points)
+                    setUserPointsData(userPointsData[0])
                 }
             )
     }
@@ -55,7 +56,7 @@ const Header = () => {
                         style={styles.pointsTextStyle}
                         adjustsFontSizeToFit={true}
                         numberOfLines={1}>
-                        {userPointsData}
+                        {typeof (userPointsData) === 'undefined' ? "" : userPointsData.points}
                     </Text>
 
                     <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />

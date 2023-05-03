@@ -9,7 +9,7 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 
 const ContReadingFlatlist = () => {
 
-    const { setModalVisible, setModalEntry } = useContext(ModalContext);
+    const { setModalVisible, setModalEntry, modalVisible } = useContext(ModalContext);
     const { currentProfileSelected, userBookProgress, favorited, readed } = useContext(ProfileContext);
     const [dummy, setDummy] = useState(false);
 
@@ -198,6 +198,12 @@ const ContReadingFlatlist = () => {
             })
     }
 
+    useEffect(() => {
+        if (dummy) {
+            handleTagDataOfConts()
+            handleStatistics()
+        }
+    }, [modalVisible])
 
     useEffect(() => {
         if (dummy) {
