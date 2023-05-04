@@ -1,64 +1,84 @@
-import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import colors from '../../colors/colors';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import { auth, firebase } from '../../../firebase';
+import { ModalContext } from '../../contexts/ModalContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
 const BadgesSection = () => {
+
+    const [badgesList, setBadgesList] = useState([]);
+    const badgesRef = firebase.firestore().collection('badges')
+
+    const { setBadgeModalVisible, setBadgeModalEntry } = useContext(ModalContext);
+
+    const getBadgesData = async () => {
+        badgesRef
+            .onSnapshot(
+                querySnapshot => {
+                    const badgesList = []
+                    querySnapshot.forEach((doc) => {
+                        const { name, description, tiers } = doc.data()
+
+                        badgesList.push({
+                            name,
+                            description,
+                            tiers
+                        })
+                    })
+                    setBadgesList(badgesList)
+                }
+            )
+    }
+
+    useEffect(() => {
+        getBadgesData();
+    }, [])
+
     return (
+
         <View style={styles.rosettes}>
+            {/* <View style={styles.statisticsMainFirstRow}>
+                    <View style={styles.bronzeBadgeStyle}>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                    </View>
+                    <View style={styles.silverBadgeStyle}>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                    </View>
+                    <View style={styles.goldBadgeStyle}>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                    </View>
+                    <View style={styles.emeraldBadgeStyle}>
+                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                    </View>
+
+                </View>               */}
             <View style={styles.statisticsHeader}>
                 <Text style={styles.statisticsText}>Rozetler</Text>
                 <View style={styles.badgesLine}></View>
             </View>
             <View style={styles.rosettesMain}>
-                <View style={styles.statisticsMainFirstRow}>
-                    <View style={styles.bronzeBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.silverBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.goldBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.emeraldBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
+                {
+                    typeof (badgesList) === 'undefined' ? null :
 
-                </View>
-                <View style={styles.statisticsMainFirstRow}>
-                    <View style={styles.diamondBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.bronzeBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.silverBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.goldBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
+                        badgesList.map((badges, index) => {
+                            return (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={{ marginRight: 10 }}
+                                    onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
+                                >
+                                    <View style={styles.bronzeBadgeStyle}>
+                                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
 
-                </View>
-
-                <View style={styles.statisticsMainFirstRow}>
-                    <View style={styles.bronzeBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.silverBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.goldBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-                    <View style={styles.emeraldBadgeStyle}>
-                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                    </View>
-
-                </View>
+                                    </View>
+                                    <Text style={{ fontSize: 10, alignSelf: 'center' }}>{badges.name}</Text>
+                                </TouchableOpacity>
+                            )
+                        })
+                }
 
             </View>
         </View>
@@ -122,8 +142,10 @@ const styles = StyleSheet.create({
     },
     rosettesMain: {
         padding: 10,
-        flexDirection: 'column',
+        flexDirection: 'row',
         marginTop: 10,
+        marginLeft: 10,
+        alignSelf: 'center'
     },
     statisticsMainFirstRow: {
         flexDirection: 'row',

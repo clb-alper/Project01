@@ -16,6 +16,9 @@ const ModalProvider = ({ children }) => {
     const [stickerModalEntry, setStickerModalEntry] = useState(stickerData);
     const [stickerModalVisible, setStickerModalVisible] = useState(false);
 
+    const [badgeModalEntry, setBadgeModalEntry] = useState(stickerData);
+    const [badgeModalVisible, setBadgeModalVisible] = useState(false);
+
     const [translationModalEntry, setTranslationModalEntry] = useState(translationData);
     const [translationModalVisible, setTranslationModalVisible] = useState(false);
 
@@ -34,7 +37,12 @@ const ModalProvider = ({ children }) => {
         translationModalEntry,
         setTranslationModalEntry,
         translationModalVisible,
-        setTranslationModalVisible
+        setTranslationModalVisible,
+
+        badgeModalEntry,
+        setBadgeModalEntry,
+        badgeModalVisible,
+        setBadgeModalVisible
     }
 
     return (
