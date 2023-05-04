@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Dimensions, Text } from 'react-native';
 import booksListData from '../../data/booksListData';
 import { BoxShadow } from 'react-native-shadow';
 import { ModalContext } from '../../contexts/ModalContext';
 import { firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
+import FeaturedFlatlistSkeleton from '../skeletons/FeaturedFlatlistSkeleton';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
@@ -12,6 +13,17 @@ const FeaturedFlatlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, favorited, readed } = useContext(ProfileContext);
+
+    const [dummy, setDummy] = useState(false);
+
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+    const dummyTimeout = async () => {
+        // await sleep(500)
+        setDummy(true)
+    }
 
     const shadowOpt = {
         width: 110,
@@ -89,6 +101,7 @@ const FeaturedFlatlist = () => {
                     })
 
                     setBookList(bookList)
+                    dummyTimeout()
                 }
             )
     }
@@ -99,50 +112,54 @@ const FeaturedFlatlist = () => {
 
     return (
         <View>
-            <FlatList
-                overScrollMode={'never'}
-                data={bookList}
-                renderItem={({ item, index }) => (
-                    <View style={{ marginTop: 10 }}>
+            {dummy ?
+                <FlatList
+                    overScrollMode={'never'}
+                    data={bookList}
+                    renderItem={({ item, index }) => (
+                        <View style={{ marginTop: 10 }}>
 
-                        <ImageBackground
-                            source={{ uri: item.image }}
-                            imageStyle={styles.featuredBookBG}
-                            blurRadius={0.8}>
-                        </ImageBackground>
+                            <ImageBackground
+                                source={{ uri: item.image }}
+                                imageStyle={styles.featuredBookBG}
+                                blurRadius={0.8}>
+                            </ImageBackground>
 
-                        <Text style={[styles.featuredBookTitle, { color: item.itemTextColor }]}>Öne Çıkan</Text>
+                            <Text style={[styles.featuredBookTitle, { color: item.itemTextColor }]}>Öne Çıkan</Text>
 
-                        <Text
-                            style={[styles.featuredBookDescription, { color: item.itemTextColor }]}
-                            adjustsFontSizeToFit={false}
-                            numberOfLines={8}>
-                            {item.itemDesc}
-                        </Text>
+                            <Text
+                                style={[styles.featuredBookDescription, { color: item.itemTextColor }]}
+                                adjustsFontSizeToFit={false}
+                                numberOfLines={8}>
+                                {item.itemDesc}
+                            </Text>
 
-                        <View borderColor={item.itemBorder} backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
+                            <View borderColor={item.itemBorder} backgroundColor={item.itemColorBG} style={index != 0 ? styles.featuredBookStyle : styles.featuredBookStyleFirstItem}>
 
-                            <TouchableOpacity
-                                key={item.key}
-                                onPress={() => { setModalVisible(true); setModalEntry(item); }}
-                                activeOpacity={0.75}>
-                                <BoxShadow setting={shadowOpt}>
-                                    <ImageBackground
-                                        source={{ uri: item.image }}
-                                        imageStyle={styles.continueBookImageStyle}>
-                                    </ImageBackground>
-                                </BoxShadow>
-                            </TouchableOpacity>
+                                <TouchableOpacity
+                                    key={item.key}
+                                    onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                    activeOpacity={0.75}>
+                                    <BoxShadow setting={shadowOpt}>
+                                        <ImageBackground
+                                            source={{ uri: item.image }}
+                                            imageStyle={styles.continueBookImageStyle}>
+                                        </ImageBackground>
+                                    </BoxShadow>
+                                </TouchableOpacity>
 
+                            </View>
                         </View>
-                    </View>
-                )}
+                    )}
 
-                keyExtractor={(item) => item.id}
-                horizontal
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-            />
+                    keyExtractor={(item) => item.id}
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                />
+                :
+                <FeaturedFlatlistSkeleton />
+            }
         </View>
     )
 }

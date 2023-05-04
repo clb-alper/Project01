@@ -1,7 +1,7 @@
 import { Animated, StyleSheet, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import colors from '../colors/colors';
+import colors from '../../colors/colors';
 
 // başlangıç noktasını parametre olarak ver ve diğer her yerde düzenle.
 const Skeleton = ({ width, height, style, backgroundColor }) => {

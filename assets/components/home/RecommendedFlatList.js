@@ -6,6 +6,7 @@ import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
 import { auth, firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
+import FlatlistSkeleton from '../skeletons/FlatlistSkeleton';
 
 const RecommendedFlatList = () => {
 
@@ -13,6 +14,7 @@ const RecommendedFlatList = () => {
     const { currentProfileSelected, userBookProgress, favorited, readed } = useContext(ProfileContext);
 
     const [loaded, setLoaded] = useState(false);
+    const [dummy, setDummy] = useState(false);
 
     const sleep = milliseconds => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -21,6 +23,11 @@ const RecommendedFlatList = () => {
         await sleep(1000);
         setLoaded(true)
         getRecommendedData();
+    }
+
+    const dummyTimeout = async () => {
+        // await sleep(1100)
+        setDummy(true)
     }
 
     useEffect(() => {
@@ -198,6 +205,7 @@ const RecommendedFlatList = () => {
                         bookList.sort(function (a, b) { return b.sortedAgeTagValue - a.sortedAgeTagValue })
                         bookList.sort(function (a, b) { return b.sortedThemeTagValue - a.sortedThemeTagValue })
                         setBookList(bookList)
+                        dummyTimeout()
                     }
                 )
         }
@@ -225,39 +233,42 @@ const RecommendedFlatList = () => {
     return (
         <View>
 
-            {bookList.length == 0 ?
-                <View>
-                    <Text>
-                        DOTO : add Text
-                    </Text>
-                </View>
+            {dummy ?
+                bookList.length == 0 && dummy ?
+                    <View>
+                        <Text>
+                            DOTO : add Text
+                        </Text>
+                    </View>
+                    :
+                    <FlatList
+                        overScrollMode={'never'}
+                        data={bookList}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                    activeOpacity={0.75}>
+
+                                    <BoxShadow setting={shadowOpt}>
+                                        <ImageBackground
+                                            source={{ uri: item.image }}
+                                            imageStyle={styles.continueBookImageStyle}>
+                                        </ImageBackground>
+                                    </BoxShadow>
+
+                                </TouchableOpacity>
+
+                            </View>
+                        )}
+
+                    />
                 :
-                <FlatList
-                    overScrollMode={'never'}
-                    data={bookList}
-                    keyExtractor={(item) => item.id}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item, index }) => (
-                        <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-                            <TouchableOpacity
-                                key={item.id}
-                                onPress={() => { setModalVisible(true); setModalEntry(item); }}
-                                activeOpacity={0.75}>
-
-                                <BoxShadow setting={shadowOpt}>
-                                    <ImageBackground
-                                        source={{ uri: item.image }}
-                                        imageStyle={styles.continueBookImageStyle}>
-                                    </ImageBackground>
-                                </BoxShadow>
-
-                            </TouchableOpacity>
-
-                        </View>
-                    )}
-
-                />
+                <FlatlistSkeleton />
             }
         </View>
     )

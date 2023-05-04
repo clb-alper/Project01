@@ -5,11 +5,23 @@ import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
 import { firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
+import FlatlistSkeleton from '../skeletons/FlatlistSkeleton';
 
 const NewBooksFlatlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, favorited, readed } = useContext(ProfileContext);
+
+    const [dummy, setDummy] = useState(false);
+
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+    const dummyTimeout = async () => {
+        // await sleep(1100)
+        setDummy(true)
+    }
 
     const isWithinLast7Days = (date) => {
         const now = new Date();
@@ -97,6 +109,7 @@ const NewBooksFlatlist = () => {
                         }
                     })
                     setBookList(bookList)
+                    dummyTimeout()
                 }
             )
     }
@@ -111,32 +124,36 @@ const NewBooksFlatlist = () => {
 
     return (
         <View>
-            <FlatList
-                overScrollMode={'never'}
-                data={bookList}
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                    <View style={index != 0 ? styles.newBookStyle : styles.newBookStyleFirstItem}>
-                        <TouchableOpacity
-                            key={item.id}
-                            onPress={() => { setModalVisible(true); setModalEntry(item); }}
-                            activeOpacity={0.75}>
+            {dummy ?
+                <FlatList
+                    overScrollMode={'never'}
+                    data={bookList}
+                    keyExtractor={(item) => item.id}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item, index }) => (
+                        <View style={index != 0 ? styles.newBookStyle : styles.newBookStyleFirstItem}>
+                            <TouchableOpacity
+                                key={item.id}
+                                onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                activeOpacity={0.75}>
 
-                            <BoxShadow setting={shadowOpt}>
-                                <ImageBackground
-                                    source={{ uri: item.image }}
-                                    imageStyle={styles.newBookImageStyle}>
-                                </ImageBackground>
-                            </BoxShadow>
+                                <BoxShadow setting={shadowOpt}>
+                                    <ImageBackground
+                                        source={{ uri: item.image }}
+                                        imageStyle={styles.newBookImageStyle}>
+                                    </ImageBackground>
+                                </BoxShadow>
 
-                        </TouchableOpacity>
+                            </TouchableOpacity>
 
-                    </View>
-                )}
+                        </View>
+                    )}
 
-            />
+                />
+                :
+                <FlatlistSkeleton />
+            }
         </View>
     )
 }

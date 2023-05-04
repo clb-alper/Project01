@@ -15,7 +15,6 @@ import { ModalContext } from '../assets/contexts/ModalContext';
 import FavoriteBooksFlastlist from '../assets/components/home/FavoriteBooksFlatlist';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
 import RecommendedFlatList from '../assets/components/home/RecommendedFlatList';
-import FlatlistSkeleton from '../assets/components/ContReadingFlatlistSkeleton';
 
 const MainScreen = () => {
 

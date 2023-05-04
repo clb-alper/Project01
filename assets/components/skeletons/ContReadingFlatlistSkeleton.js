@@ -1,12 +1,12 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import Skeleton from './Skeleton';
-import colors from '../colors/colors';
+import colors from '../../colors/colors';
 import { BoxShadow } from 'react-native-shadow';
 
 const widthOfScreen = Dimensions.get('window').width
 
-const FlatlistSkeleton = () => {
+const ContReadingFlatlistSkeleton = () => {
 
     const shadowOpt = {
         width: 110,
@@ -20,7 +20,7 @@ const FlatlistSkeleton = () => {
     }
 
     return (
-        <View style={{ flexDirection: 'row', marginBottom: 47 }}>
+        <View style={{ flexDirection: 'row', marginBottom: 37 }}>
             <View>
                 <BoxShadow setting={shadowOpt}>
                     <Skeleton
@@ -28,6 +28,13 @@ const FlatlistSkeleton = () => {
                         width={113}
                         backgroundColor={colors.grayProgressBarBG}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
+                    />
+
+                    <Skeleton
+                        height={8}
+                        width={112}
+                        backgroundColor={colors.grayProgressBarBG}
+                        style={[{ borderRadius: 12, marginTop: 12, marginLeft: 25 }]}
                     />
                 </BoxShadow>
             </View>
@@ -40,6 +47,13 @@ const FlatlistSkeleton = () => {
                         backgroundColor={colors.grayProgressBarBG}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
                     />
+
+                    <Skeleton
+                        height={8}
+                        width={112}
+                        backgroundColor={colors.grayProgressBarBG}
+                        style={[{ borderRadius: 12, marginTop: 12, marginLeft: 25 }]}
+                    />
                 </BoxShadow>
             </View>
 
@@ -51,12 +65,19 @@ const FlatlistSkeleton = () => {
                         backgroundColor={colors.grayProgressBarBG}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
                     />
+
+                    <Skeleton
+                        height={8}
+                        width={112}
+                        backgroundColor={colors.grayProgressBarBG}
+                        style={[{ borderRadius: 12, marginTop: 12, marginLeft: 25 }]}
+                    />
                 </BoxShadow>
             </View>
         </View>
     )
 }
 
-export default FlatlistSkeleton
+export default ContReadingFlatlistSkeleton
 
 const styles = StyleSheet.create({})

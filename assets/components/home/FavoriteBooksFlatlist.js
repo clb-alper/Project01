@@ -5,7 +5,7 @@ import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
 import { auth, firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
-import FlatlistSkeleton from '../FlatlistSkeleton';
+import FlatlistSkeleton from '../skeletons/FlatlistSkeleton';
 
 const FavoriteBooksFlastlist = () => {
 
@@ -18,7 +18,7 @@ const FavoriteBooksFlastlist = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const timeOutOfTags = async () => {
-        await sleep(1400)
+        // await sleep(850)
         setDummy(true)
     }
 
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
         height: 200,
         marginTop: 10,
         marginRight: 15,
-        marginBottom: 15
+        marginBottom: 10
     },
 
     newBookStyleFirstItem: {

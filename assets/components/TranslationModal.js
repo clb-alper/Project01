@@ -9,7 +9,7 @@ import AntIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { auth, firebase } from '../../firebase'
 import { ProfileContext } from '../contexts/ProfileContext';
-import Skeleton from './Skeleton';
+import Skeleton from './skeletons/Skeleton';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full widthF

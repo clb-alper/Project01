@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useContext, useCallback, useEffect, useState } from 'react';
+import React, { useContext, useCallback, useEffect, useState, useRef } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, FlatList, Image, VirtualizedList, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -13,15 +13,10 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { auth, firebase } from '../firebase';
 import { ProfileContext } from '../assets/contexts/ProfileContext';
-import Skeleton from '../assets/components/Skeleton';
+import Skeleton from '../assets/components/skeletons/Skeleton';
 import { Translator } from '../assets/components/Translator';
 import TranslationModal from '../assets/components/TranslationModal';
 import { BackHandler } from 'react-native';
-
-
-
-
-
 
 const widthOfScreen = Dimensions.get('window').width
 const heightOfScreen = Dimensions.get('window').height
@@ -35,6 +30,8 @@ const ReadingPage = () => {
     const [bookPageColor, setBookPageColor] = useState();
     const [pages, setPages] = useState([]);
     const [words, setWords] = useState([]);
+
+    const [flRef, setFlRef] = useState();
 
     const [userInfo, setUserInfo] = useState([]);
 
@@ -53,8 +50,6 @@ const ReadingPage = () => {
     const userProfileRef = firebase.firestore()
         .collection('users').doc(firebase.auth().currentUser.uid)
         .collection('userProfiles').doc(currentProfileSelected);
-
-
 
     // useEffect(() => {
 
@@ -336,6 +331,7 @@ const ReadingPage = () => {
 
                         {isLoaded ?
                             <FlatList
+                                ref={(ref) => { setFlRef(ref) }}
                                 overScrollMode={'never'}
                                 data={pages}
                                 keyExtractor={(item, index) => { return item[0] + index }}
@@ -343,6 +339,12 @@ const ReadingPage = () => {
                                 pagingEnabled
                                 showsHorizontalScrollIndicator={false}
                                 initialScrollIndex={Math.floor(modalEntry.bookProgress * pages.length) - 1} // 0.3ü databaseden progress olarak al
+                                onScrollToIndexFailed={info => {
+                                    const wait = new Promise(resolve => setTimeout(resolve, 500));
+                                    wait.then(() => {
+                                        flRef.current?.scrollToIndex({ index: info.index, animated: true });
+                                    });
+                                }}
                                 onMomentumScrollEnd={onScrollEnd}
                                 ListFooterComponent={() =>
                                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen }}>

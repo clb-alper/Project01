@@ -6,7 +6,7 @@ import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
 import { auth, firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
-import ContReadingFlatlistSkeleton from '../ContReadingFlatlistSkeleton';
+import ContReadingFlatlistSkeleton from '../skeletons/ContReadingFlatlistSkeleton';
 
 const ContReadingFlatlist = () => {
 
@@ -17,8 +17,9 @@ const ContReadingFlatlist = () => {
     const sleep = milliseconds => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
+
     const timeOutOfTags = async () => {
-        await sleep(1200)
+        await sleep(700)
         setDummy(true)
     }
 
@@ -48,7 +49,7 @@ const ContReadingFlatlist = () => {
         .collection('userProfiles').doc(currentProfileSelected)
         .collection('tagData');
 
-    useEffect(() => {
+    const getContReadingData = async () => {
         contUserBookRef
             .onSnapshot(
                 querySnapshot => {
@@ -92,15 +93,44 @@ const ContReadingFlatlist = () => {
                                         contReadingBookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
                                         setBookList(bookList)
                                         setContReadingBookList(contReadingBookList)
-                                    }
-                                    timeOutOfTags()
-                                })
 
+                                    }
+                                })
                         })
+
                     }
+                    timeOutOfTags()
                 }
             )
+
+    }
+
+    useEffect(() => {
+        getContReadingData()
+    }, [])
+
+    useEffect(() => {
+        getContReadingData()
+    }, [readed])
+
+    useEffect(() => {
+        getContReadingData()
     }, [favorited])
+
+
+    useEffect(() => {
+        if (dummy) {
+            handleTagDataOfConts()
+            handleStatistics()
+        }
+    }, [modalVisible])
+
+    useEffect(() => {
+        if (dummy) {
+            handleTagDataOfConts()
+            handleStatistics()
+        }
+    }, [readed])
 
     let age3to6Value = 0;
     let age6to9Value = 0;
@@ -151,7 +181,6 @@ const ContReadingFlatlist = () => {
         }
     }
 
-
     const handleTagDataOfConts = () => {
 
         // sub user's tagData
@@ -171,8 +200,6 @@ const ContReadingFlatlist = () => {
             })
     }
 
-
-
     let readedBooks = 0;
     let readedWords = 0;
 
@@ -186,7 +213,6 @@ const ContReadingFlatlist = () => {
         }
     });
 
-
     const handleStatistics = () => {
 
         // sub user's tagData
@@ -197,26 +223,12 @@ const ContReadingFlatlist = () => {
             })
     }
 
-    useEffect(() => {
-        if (dummy) {
-            handleTagDataOfConts()
-            handleStatistics()
-        }
-    }, [modalVisible])
-
-    useEffect(() => {
-        if (dummy) {
-            handleTagDataOfConts()
-            handleStatistics()
-        }
-    }, [readed])
-
 
     return (
         <View>
 
             {dummy ?
-                contReadingBookList.length == 0 && dummy ?
+                contReadingBookList.length === 0 ?
                     <View>
                         <Text>
                             DOTO : add Text

@@ -13,7 +13,7 @@ import * as Progress from 'react-native-progress';
 import { useNavigation } from '@react-navigation/native';
 import { ModalContext } from '../assets/contexts/ModalContext'
 import { auth, firebase } from '../firebase';
-import Skeleton from '../assets/components/Skeleton'
+import Skeleton from '../assets/components/skeletons/Skeleton'
 import { ProfileContext } from '../assets/contexts/ProfileContext'
 
 const widthOfScreen = Dimensions.get('window').width
