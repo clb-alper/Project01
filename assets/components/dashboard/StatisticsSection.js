@@ -39,6 +39,14 @@ const StatisticsSection = () => {
         getUserStatisticsData();
     }, [])
 
+    useEffect(() => {
+        getUserStatisticsData();
+    }, [userStatisticsData])
+
+    useEffect(() => {
+        getUserStatisticsData();
+    }, [userPointsData])
+
     return (
         <View style={styles.statistics}>
 
@@ -109,7 +117,7 @@ const styles = StyleSheet.create({
     },
 
     userStatistics: {
-        fontSize: 30,
+        fontSize: 33,
         textAlign: 'center',
         fontFamily: 'Comic-Regular'
     },

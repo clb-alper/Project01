@@ -19,9 +19,9 @@ const BookShowcase = () => {
         color: "#000",
         border: 6,
         radius: 12,
-        opacity: 0.2,
-        x: -2,
-        y: 7,
+        opacity: 0.17,
+        x: 0,
+        y: 5,
     }
 
     const indexingBooks = (booksListData) => {
