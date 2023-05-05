@@ -13,25 +13,37 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 const BadgeModal = () => {
 
     const [currentStatistic, setCurrentStatistic] = useState();
-
     const { badgeModalVisible, setBadgeModalVisible, badgeModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userPointsData, userStatisticsData, setUserStatisticsData, badgesList } = useContext(ProfileContext);
+    const { userStatisticsData, setBadgeLevelStyle } = useContext(ProfileContext);
 
     const badgeNameControl = () => {
-        for (let i = 0; i < badgeModalEntry.tiers.length; i++){
-            if (userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[i]) {
-                continue;
+        if (typeof (badgeModalEntry.tiers) != 'undefined') {
+            for (let i = 0; i < badgeModalEntry.tiers.length; i++) {
+                if (userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[i]) {
+                    if (i >= 3) {
+                        setCurrentStatistic(userStatisticsData[badgeModalEntry.statisticName])
+                    }
+                }
+                else {
+
+                    setCurrentStatistic(badgeModalEntry.tiers[i])
+
+                    break;
+                }
             }
-            else {
-                setCurrentStatistic(badgeModalEntry.tiers[i])
-                break;
-            }
-        } 
+        }
+        else {
+
+        }
     }
 
     useEffect(() => {
         badgeNameControl()
     }, [badgeModalEntry.name])
+
+    useEffect(() => {
+        badgeNameControl()
+    }, [userStatisticsData[badgeModalEntry.statisticName]])
 
 
     return (
@@ -52,7 +64,18 @@ const BadgeModal = () => {
 
             <View style={{ alignItems: 'center', marginTop: -50 }}>
                 <View>
-                    <View style={userStatisticsData[badgeModalEntry.statisticName] > 500 ? styles.silverBadgeStyle : styles.bronzeBadgeStyle}>
+                    <View style={
+                        typeof (badgeModalEntry.tiers) != 'undefined' ?
+                            userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[0] ?
+                                userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[1] ?
+                                    userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[2] ?
+                                        userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[3] ?
+                                            styles.diamondBadgeStyle :
+                                            styles.emeraldBadgeStyle :
+                                        styles.goldBadgeStyle :
+                                    styles.silverBadgeStyle : styles.bronzeBadgeStyle
+                            :
+                            null}>
                     </View>
                 </View>
                 <View>
@@ -63,21 +86,21 @@ const BadgeModal = () => {
 
                 <View>
                     <Text style={styles.modalStickerNameText}>
-                        {userStatisticsData[badgeModalEntry.statisticName]}
-                        /
-                        {currentStatistic}
+                        {typeof (userStatisticsData[badgeModalEntry.statisticName]) === 'undefined' ? 0 : userStatisticsData[badgeModalEntry.statisticName]}
+                        {currentStatistic <= userStatisticsData[badgeModalEntry.statisticName] ? "" : "/" + currentStatistic}
+
                     </Text>
                 </View>
                 <View style={styles.pointsContainer3}>
 
-                    <Text style={{ color: colors.white }}>
+                    <Text style={{ color: colors.white, fontFamily: 'Comic-Regular', fontSize: 20, width: widthOfScreen*0.8, textAlign: 'center'}}>
                         {badgeModalEntry.description}
                     </Text>
 
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => setBadgeModalVisible(!badgeModalVisible)}
+                    onPress={() => {setBadgeModalVisible(!badgeModalVisible)}}
                     activeOpacity={0.75}
                     style={styles.modalStickerCloseButton}>
                     <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
@@ -86,7 +109,7 @@ const BadgeModal = () => {
             </View>
 
 
-        </Modal>
+        </Modal >
     )
 }
 
@@ -111,8 +134,8 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         marginTop: 30,
-        borderColor: colors.purpleBorder,
-        backgroundColor: colors.purpleRegular
+        borderColor: colors.greenBorder,
+        backgroundColor: colors.greenRegular
     },
 
     modalStickerCloseButtonIcon: {
@@ -145,6 +168,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 50,
         paddingLeft: 5,
+        alignItems: 'center'
     },
 
     pointsTextStyle3: {
@@ -172,6 +196,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.bronzeBadge,
         borderColor: colors.bronzeBadgeBorder
     },
+
     silverBadgeStyle: {
         width: 200,
         height: 200,
@@ -182,4 +207,38 @@ const styles = StyleSheet.create({
         backgroundColor: colors.silverBadge,
         borderColor: colors.silverBadgeBorder,
     },
+
+    goldBadgeStyle: {
+        width: 200,
+        height: 200,
+        alignItems: 'center',
+        paddingTop: 5,
+        borderWidth: 5,
+        borderRadius: 100,
+        backgroundColor: colors.goldBadge,
+        borderColor: colors.goldBadgeBorder,
+    },
+
+    emeraldBadgeStyle: {
+        width: 200,
+        height: 200,
+        alignItems: 'center',
+        paddingTop: 5,
+        borderWidth: 5,
+        borderRadius: 100,
+        backgroundColor: colors.emeraldBadge,
+        borderColor: colors.emeraldBadgeBorder,
+    },
+
+    diamondBadgeStyle: {
+        width: 200,
+        height: 200,
+        alignItems: 'center',
+        paddingTop: 5,
+        borderWidth: 5,
+        borderRadius: 100,
+        backgroundColor: colors.diamondBadge,
+        borderColor: colors.diamondBadgeBorder,
+    },
+
 })

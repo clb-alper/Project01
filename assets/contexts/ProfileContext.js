@@ -18,7 +18,10 @@ const ProfileProvider = ({ children }) => {
     const [userPrefFontSize, setUserPrefFontSize] = useState(20);
     const [userPointsData, setUserPointsData] = useState();
     const [userStatisticsData, setUserStatisticsData] = useState([]);
+
+    // Badge Contexts
     const [badgesList, setBadgesList] = useState([]);
+    const [badgeLevelStyle, setBadgeLevelStyle] = useState(0);
 
     const getFontLocalStorage = async () => {
         setUserPrefFontSize(Number(await AsyncStorage.getItem('@profileFontSize:key')));
@@ -96,7 +99,9 @@ const ProfileProvider = ({ children }) => {
         userStatisticsData,
         setUserStatisticsData,
         badgesList,
-        setBadgesList
+        setBadgesList,
+        badgeLevelStyle,
+        setBadgeLevelStyle
     }
 
     return (

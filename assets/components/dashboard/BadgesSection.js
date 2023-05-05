@@ -13,7 +13,7 @@ const BadgesSection = () => {
     const badgesRef = firebase.firestore().collection('badges')
 
     const { setBadgeModalVisible, setBadgeModalEntry } = useContext(ModalContext);
-    const { badgesList, setBadgesList } = useContext(ProfileContext);
+    const { badgesList, setBadgesList, badgeLevelStyle, userStatisticsData } = useContext(ProfileContext);
 
     const getBadgesData = async () => {
         badgesRef
@@ -21,7 +21,7 @@ const BadgesSection = () => {
                 querySnapshot => {
                     const badgesList = []
                     querySnapshot.forEach((doc) => {
-                        const { name, description, tiers, statisticName} = doc.data()
+                        const { name, description, tiers, statisticName } = doc.data()
 
                         badgesList.push({
                             name,
@@ -72,11 +72,18 @@ const BadgesSection = () => {
                                     style={{ marginRight: 10, marginBottom: 20 }}
                                     onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
                                 >
-                                    <View style={styles.bronzeBadgeStyle}>
+                                    <View style={
+                                        userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
+                                            userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
+                                                userStatisticsData[badges.statisticName] >= badges.tiers[2] ?
+                                                    userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
+                                                        styles.diamondBadgeStyle :
+                                                        styles.emeraldBadgeStyle :
+                                                    styles.goldBadgeStyle :
+                                                styles.silverBadgeStyle : styles.bronzeBadgeStyle}>
                                         <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
 
                                     </View>
-                                    <Text style={{ fontSize: 12, alignSelf: 'center', fontFamily: 'Comic-Regular' }}>{badges.name}</Text>
                                 </TouchableOpacity>
                             )
                         })
