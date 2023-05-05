@@ -132,8 +132,6 @@ const ProfileSelect = () => {
             profileIcon: iconIndex,
             profileColor: colorIndex,
             tagsAdded: false,
-            points: 0,
-            totalPoints: 0
         })
         setTimeout(() => { navigation.goBack() }, 600)
     }

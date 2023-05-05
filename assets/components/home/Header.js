@@ -12,7 +12,7 @@ const Header = () => {
 
     const profileRef = firebase.firestore()
         .collection('users').doc(firebase.auth().currentUser.uid)
-        .collection('userProfiles');
+        .collection('userProfiles').doc(currentProfileSelected).collection('statisticsData');
 
     const getProfilePointsData = async () => {
         profileRef
@@ -20,14 +20,12 @@ const Header = () => {
                 querySnapshot => {
                     const userPointsData = []
                     querySnapshot.forEach((doc) => {
-                        const { points, totalPoints, totalQuizzesCompleted } = doc.data()
-                        if (currentProfileSelected === doc.id) {
+                        const { points } = doc.data()
+
                             userPointsData.push({
                                 points,
-                                totalPoints,
-                                totalQuizzesCompleted
                             })
-                        }
+
                     })
                     setUserPointsData(userPointsData[0])
                 }

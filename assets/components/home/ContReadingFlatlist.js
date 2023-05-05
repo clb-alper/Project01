@@ -217,7 +217,7 @@ const ContReadingFlatlist = () => {
 
         // sub user's tagData
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('statisticsData').doc('bookStats').set({
+            .doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
                 readedBooks: readedBooks,
                 readedWords: readedWords,
             })

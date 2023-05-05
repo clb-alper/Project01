@@ -17,6 +17,8 @@ const ProfileProvider = ({ children }) => {
     const [readed, setReaded] = useState(false);
     const [userPrefFontSize, setUserPrefFontSize] = useState(20);
     const [userPointsData, setUserPointsData] = useState();
+    const [userStatisticsData, setUserStatisticsData] = useState([]);
+    const [badgesList, setBadgesList] = useState([]);
 
     const getFontLocalStorage = async () => {
         setUserPrefFontSize(Number(await AsyncStorage.getItem('@profileFontSize:key')));
@@ -91,6 +93,10 @@ const ProfileProvider = ({ children }) => {
         getFontLocalStorage,
         userPointsData,
         setUserPointsData,
+        userStatisticsData,
+        setUserStatisticsData,
+        badgesList,
+        setBadgesList
     }
 
     return (

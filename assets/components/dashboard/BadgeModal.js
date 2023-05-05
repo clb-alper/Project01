@@ -1,19 +1,41 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import colors from '../../colors/colors'
 import { ModalContext } from '../../contexts/ModalContext';
 import Modal from "react-native-modal";
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import { ProfileContext } from '../../contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
 const BadgeModal = () => {
 
+    const [currentStatistic, setCurrentStatistic] = useState();
+
     const { badgeModalVisible, setBadgeModalVisible, badgeModalEntry } = useContext(ModalContext);
+    const { currentProfileSelected, userPointsData, userStatisticsData, setUserStatisticsData, badgesList } = useContext(ProfileContext);
+
+    const badgeNameControl = () => {
+        for (let i = 0; i < badgeModalEntry.tiers.length; i++){
+            if (userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[i]) {
+                continue;
+            }
+            else {
+                setCurrentStatistic(badgeModalEntry.tiers[i])
+                break;
+            }
+        } 
+    }
+
+    useEffect(() => {
+        badgeNameControl()
+    }, [badgeModalEntry.name])
+
 
     return (
+
         <Modal
             animationIn={'flipInY'}
             animationOut={'flipOutY'}
@@ -30,12 +52,20 @@ const BadgeModal = () => {
 
             <View style={{ alignItems: 'center', marginTop: -50 }}>
                 <View>
-                    <View style={styles.bronzeBadgeStyle}>
+                    <View style={userStatisticsData[badgeModalEntry.statisticName] > 500 ? styles.silverBadgeStyle : styles.bronzeBadgeStyle}>
                     </View>
                 </View>
                 <View>
                     <Text style={styles.modalStickerNameText}>
                         {badgeModalEntry.name}
+                    </Text>
+                </View>
+
+                <View>
+                    <Text style={styles.modalStickerNameText}>
+                        {userStatisticsData[badgeModalEntry.statisticName]}
+                        /
+                        {currentStatistic}
                     </Text>
                 </View>
                 <View style={styles.pointsContainer3}>
@@ -141,5 +171,15 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         backgroundColor: colors.bronzeBadge,
         borderColor: colors.bronzeBadgeBorder
+    },
+    silverBadgeStyle: {
+        width: 200,
+        height: 200,
+        alignItems: 'center',
+        paddingTop: 5,
+        borderWidth: 5,
+        borderRadius: 100,
+        backgroundColor: colors.silverBadge,
+        borderColor: colors.silverBadgeBorder,
     },
 })

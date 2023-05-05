@@ -8,9 +8,8 @@ var widthOfScreen = Dimensions.get('window').width; //full width
 
 const StatisticsSection = () => {
 
-    const [userStatisticsData, setUserStatisticsData] = useState([]);
 
-    const { currentProfileSelected, userPointsData } = useContext(ProfileContext);
+    const { currentProfileSelected, userPointsData, userStatisticsData, setUserStatisticsData } = useContext(ProfileContext);
 
     const profileRef = firebase.firestore()
         .collection('users').doc(firebase.auth().currentUser.uid)
@@ -22,11 +21,13 @@ const StatisticsSection = () => {
                 querySnapshot => {
                     const userStatisticsData = []
                     querySnapshot.forEach((doc) => {
-                        const { readedBooks, readedWords } = doc.data()
+                        const { readedBooks, readedWords, totalPoints, totalQuizzesCompleted } = doc.data()
 
                         userStatisticsData.push({
                             readedBooks,
-                            readedWords
+                            readedWords,
+                            totalPoints,
+                            totalQuizzesCompleted
                         })
 
                     })
@@ -39,13 +40,13 @@ const StatisticsSection = () => {
         getUserStatisticsData();
     }, [])
 
-    useEffect(() => {
-        getUserStatisticsData();
-    }, [userStatisticsData])
+    // useEffect(() => {
+    //     getUserStatisticsData();
+    // }, [userStatisticsData])
 
-    useEffect(() => {
-        getUserStatisticsData();
-    }, [userPointsData])
+    // useEffect(() => {
+    //     getUserStatisticsData();
+    // }, [userPointsData])
 
     return (
         <View style={styles.statistics}>
@@ -71,7 +72,7 @@ const StatisticsSection = () => {
                 <View style={styles.statisticsMainSecondRow}>
 
                     <View style={styles.statisticsMainFirstRowElem}>
-                        <Text style={styles.userStatistics}>{typeof (userPointsData) === 'undefined' ? 0 : userPointsData.totalQuizzesCompleted}</Text>
+                        <Text style={styles.userStatistics}>{typeof (userStatisticsData) === 'undefined' ? 0 : userStatisticsData.totalQuizzesCompleted}</Text>
                         <View>
                             <Text style={styles.userStatisticsTitle}>Quiz</Text>
                             <Text style={styles.userStatisticsTitle}>Tamamlandı</Text>
@@ -79,7 +80,7 @@ const StatisticsSection = () => {
                     </View>
 
                     <View style={styles.statisticsMainFirstRowElem}>
-                        <Text style={styles.userStatistics}>{typeof (userPointsData) === 'undefined' ? 0 : userPointsData.totalPoints}</Text>
+                        <Text style={styles.userStatistics}>{typeof (userStatisticsData) === 'undefined' ? 0 : userStatisticsData.totalPoints}</Text>
                         <View>
                             <Text style={styles.userStatisticsTitle}>Toplam Puan</Text>
                             <Text style={styles.userStatisticsTitle}>Kazanıldı</Text>

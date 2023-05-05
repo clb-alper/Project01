@@ -4,15 +4,16 @@ import colors from '../../colors/colors';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { auth, firebase } from '../../../firebase';
 import { ModalContext } from '../../contexts/ModalContext';
+import { ProfileContext } from '../../contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
 const BadgesSection = () => {
 
-    const [badgesList, setBadgesList] = useState([]);
     const badgesRef = firebase.firestore().collection('badges')
 
     const { setBadgeModalVisible, setBadgeModalEntry } = useContext(ModalContext);
+    const { badgesList, setBadgesList } = useContext(ProfileContext);
 
     const getBadgesData = async () => {
         badgesRef
@@ -20,12 +21,13 @@ const BadgesSection = () => {
                 querySnapshot => {
                     const badgesList = []
                     querySnapshot.forEach((doc) => {
-                        const { name, description, tiers } = doc.data()
+                        const { name, description, tiers, statisticName} = doc.data()
 
                         badgesList.push({
                             name,
                             description,
-                            tiers
+                            tiers,
+                            statisticName
                         })
                     })
                     setBadgesList(badgesList)
@@ -67,14 +69,14 @@ const BadgesSection = () => {
                             return (
                                 <TouchableOpacity
                                     key={index}
-                                    style={{ marginRight: 10 }}
+                                    style={{ marginRight: 10, marginBottom: 20 }}
                                     onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
                                 >
                                     <View style={styles.bronzeBadgeStyle}>
                                         <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
 
                                     </View>
-                                    <Text style={{ fontSize: 10, alignSelf: 'center' }}>{badges.name}</Text>
+                                    <Text style={{ fontSize: 12, alignSelf: 'center', fontFamily: 'Comic-Regular' }}>{badges.name}</Text>
                                 </TouchableOpacity>
                             )
                         })
@@ -143,9 +145,9 @@ const styles = StyleSheet.create({
     rosettesMain: {
         padding: 10,
         flexDirection: 'row',
-        marginTop: 10,
-        marginLeft: 10,
-        alignSelf: 'center'
+        flexWrap: "wrap",
+        alignItems: 'center',
+        width: widthOfScreen,
     },
     statisticsMainFirstRow: {
         flexDirection: 'row',
