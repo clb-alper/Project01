@@ -5,6 +5,7 @@ import IonIcons from 'react-native-vector-icons/Ionicons';
 import { auth, firebase } from '../../../firebase';
 import { ModalContext } from '../../contexts/ModalContext';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import Rainbow from '../Rainbow';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
@@ -72,6 +73,42 @@ const BadgesSection = () => {
                                     style={{ marginRight: 10, marginBottom: 20 }}
                                     onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
                                 >
+                                    {/* 
+                                    <View>
+                                        {
+                                            userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
+                                                <View
+                                                    style={{ alignItems: 'center' }}
+                                                >
+
+                                                    <Rainbow height={100}
+                                                        width={300}
+                                                        duration={4000}
+                                                        toValue={-380}
+                                                        fromValue={-130}
+                                                        backgroundColor={colors.white}
+                                                        style={styles.rainbowBadgeStyle}>
+
+                                                    </Rainbow>
+                                                    <IonIcons name="ios-book-outline" size={48} color="#000" 
+                                                    style = {styles.rainbowIconStyle} />
+
+                                                </View>
+                                                : <View style={
+
+                                                    userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
+                                                        userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
+                                                            userStatisticsData[badges.statisticName] >= badges.tiers[2] ?
+                                                                userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
+                                                                    styles.diamondBadgeStyle :
+                                                                    styles.emeraldBadgeStyle :
+                                                                styles.goldBadgeStyle :
+                                                            styles.silverBadgeStyle : styles.bronzeBadgeStyle
+                                                }>
+                                                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                                                </View>
+
+                                        } */}
                                     <View style={
                                         userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
                                             userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
@@ -82,7 +119,6 @@ const BadgesSection = () => {
                                                     styles.goldBadgeStyle :
                                                 styles.silverBadgeStyle : styles.bronzeBadgeStyle}>
                                         <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-
                                     </View>
                                 </TouchableOpacity>
                             )
@@ -220,6 +256,15 @@ const styles = StyleSheet.create({
         borderColor: colors.diamondBadgeBorder,
     },
 
+    rainbowBadgeStyle: {
+        width: 80,
+        height: 80,
+        alignItems: 'center',
+        borderWidth: 5,
+        borderRadius: 100,
+        marginTop: -10
+    },
+
     badgeIconStyle: {
         resizeMode: 'contain',
         flex: 1,
@@ -227,5 +272,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 5,
         marginLeft: 3,
+    },
+
+    rainbowIconStyle: {
+        resizeMode: 'contain',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: -65,
     },
 })

@@ -6,6 +6,7 @@ import Modal from "react-native-modal";
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import Rainbow from '../Rainbow';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -64,6 +65,37 @@ const BadgeModal = () => {
 
             <View style={{ alignItems: 'center', marginTop: -50 }}>
                 <View>
+                    {/* {typeof (badgeModalEntry.tiers) != 'undefined' ?
+                        userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[3] ?
+                            <Rainbow
+                                height={200}
+                                width={200}
+                                toValue={-1000}
+                                fromValue={-350}
+                                duration={5000}
+                                backgroundColor={colors.grayProgressBarBG}
+                                style={[{ borderRadius: 500}]}
+                            />
+
+                            : <View style={
+                                typeof (badgeModalEntry.tiers) != 'undefined' ?
+                                    userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[0] ?
+                                        userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[1] ?
+                                            userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[2] ?
+                                                userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[3] ?
+                                                    styles.diamondBadgeStyle :
+                                                    styles.emeraldBadgeStyle :
+                                                styles.goldBadgeStyle :
+                                            styles.silverBadgeStyle : styles.bronzeBadgeStyle
+                                    :
+                                    null}>
+
+                            </View>
+
+                        : <View>
+
+                        </View>
+                    } */}
                     <View style={
                         typeof (badgeModalEntry.tiers) != 'undefined' ?
                             userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[0] ?
@@ -93,14 +125,14 @@ const BadgeModal = () => {
                 </View>
                 <View style={styles.pointsContainer3}>
 
-                    <Text style={{ color: colors.white, fontFamily: 'Comic-Regular', fontSize: 20, width: widthOfScreen*0.8, textAlign: 'center'}}>
+                    <Text style={{ color: colors.white, fontFamily: 'Comic-Regular', fontSize: 20, width: widthOfScreen * 0.8, textAlign: 'center' }}>
                         {badgeModalEntry.description}
                     </Text>
 
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => {setBadgeModalVisible(!badgeModalVisible)}}
+                    onPress={() => { setBadgeModalVisible(!badgeModalVisible) }}
                     activeOpacity={0.75}
                     style={styles.modalStickerCloseButton}>
                     <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
