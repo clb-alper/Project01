@@ -22,6 +22,8 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
             })
         ).start()
 
+        // Animasyon tam bittiği yerde başlıyor ama başlarken yavaş ondan biraz garip duruyor
+
     }, [])
 
 
@@ -58,14 +60,27 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
                         // colors.blueRegular,
 
 
-                        colors.purpleRegular,
-                        colors.blueRegular,
-                        colors.yellowRegular,
-                        colors.blueRegular,
-                        colors.yellowRegular,
-                        colors.purpleRegular,
-                        colors.blueRegular,
-                        colors.yellowRegular,
+                        // Sıra
+                        // colors.purpleRegular,
+                        // colors.blueRegular,
+                        // colors.yellowRegular,
+                        // colors.blueRegular,
+                        // colors.yellowRegular,
+                        // colors.purpleRegular,
+                        // colors.blueRegular,
+                        // colors.yellowRegular,
+
+                        '#FF0000',
+                        '#9400D3',
+                        '#4B0082',
+                        '#0000FF',
+                        '#00FF00',
+                        '#FFFF00',
+                        '#FF7F00',
+                        '#FF0000',
+                        '#9400D3',
+                        '#4B0082',
+                        '#0000FF',
 
 
 

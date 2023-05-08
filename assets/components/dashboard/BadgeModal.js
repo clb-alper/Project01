@@ -71,8 +71,9 @@ const BadgeModal = () => {
                                 height={200}
                                 width={200}
                                 fromValue={-600}
-                                toValue={-25}                               
-                                duration={2500}
+                                toValue={-40}  
+                                // -25 bizim renkler için toValue={-40}                             
+                                duration={7500}
                                 backgroundColor={'rgba(0,0,0,0.25)'}
                                 style={[{ borderRadius: 500 }]}
                             />
