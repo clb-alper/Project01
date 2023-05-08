@@ -73,7 +73,7 @@ const BadgeModal = () => {
                                 fromValue={-600}
                                 toValue={-40}  
                                 // -25 bizim renkler için toValue={-40}                             
-                                duration={7500}
+                                duration={5000}
                                 backgroundColor={'rgba(0,0,0,0.25)'}
                                 style={[{ borderRadius: 500 }]}
                             />

@@ -2,6 +2,7 @@ import { Animated, StyleSheet, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import colors from '../colors/colors'
+import { Easing } from "react-native";
 
 // başlangıç noktasını parametre olarak ver ve diğer her yerde düzenle.
 const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fromValue }) => {
@@ -19,6 +20,7 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
                 toValue: toValue,
                 useNativeDriver: true,
                 duration: duration,
+                easing: Easing.linear,
             })
         ).start()
 
