@@ -7,23 +7,32 @@ import colors from '../colors/colors'
 const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fromValue }) => {
 
 
- 
 
-    const translateX = useRef(new Animated.Value(fromValue )).current;
-  
+
+    const translateX = useRef(new Animated.Value(fromValue)).current;
+    const translateY = useRef(new Animated.Value(fromValue)).current;
+
     useEffect(() => {
- 
+
         Animated.loop(
             Animated.timing(translateX, {
                 toValue: toValue,
                 useNativeDriver: true,
                 duration: duration,
-            }) 
+            })
+        ).start()
+
+        Animated.loop(
+            Animated.timing(translateY, {
+                toValue: toValue,
+                useNativeDriver: true,
+                duration: duration,
+            })
         ).start()
 
     }, [])
 
-  
+
 
 
 
@@ -39,9 +48,9 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
                 style,
 
             ])}>
-            <Animated.View style={{ width: "100%", height: "100%", transform: [{ translateX: translateX }] }}>
+            <Animated.View style={{ transform: [{ translateX: translateX }, { translateY: translateY }] }}>
                 <LinearGradient
-                    style={{ width: "900%", height: "100%" }}
+                    style={{ width: 200, height: 200, borderRadius: 999 }}
                     colors={[
 
                         // colors.blueLight,
@@ -56,33 +65,20 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
                         // colors.blueLight,
                         // colors.blueRegular,
 
-      
-                        colors.yellowRegular,             
-                        colors.purpleRegular,          
-                        colors.greenRegular,
-                        colors.blueRegular,
-                        colors.yellowRegular,
-                        colors.purpleRegular,
-                        colors.greenRegular,
-                        colors.blueRegular,
-                        colors.yellowRegular,
-                        colors.purpleRegular,
-                        colors.greenRegular,
-                        colors.blueRegular,
-                        colors.yellowRegular,
-                        colors.purpleRegular,
-                        colors.greenRegular,
-                        colors.blueRegular,
 
-    
-
-    
+                        colors.blueRegular,
+                        colors.yellowRegular,
+                        colors.purpleRegular,
+                        colors.yellowRegular,
+                        colors.blueRegular,
+                       
                     ]}
 
                     //start={{ x: 1, y: 1 }}
 
-                    start={{ x: 0.2, y: 0.3 }}
-                    end={{ x: 0.7, y: 0.8 }}
+                    start={{ x: 1, y: 1 }}
+                    end={{ x: 0, y: 0 }}
+                //locations={[0.25, 0.50, 0.75]}
                 >
 
                 </LinearGradient>

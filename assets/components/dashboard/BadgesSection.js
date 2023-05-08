@@ -73,25 +73,26 @@ const BadgesSection = () => {
                                     style={{ marginRight: 10, marginBottom: 20 }}
                                     onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
                                 >
-                                    {/* 
+
                                     <View>
                                         {
-                                            userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
+                                            userStatisticsData[badges.statisticName] >= badges.tiers[4] ?
                                                 <View
                                                     style={{ alignItems: 'center' }}
                                                 >
 
-                                                    <Rainbow height={100}
-                                                        width={300}
-                                                        duration={4000}
-                                                        toValue={-380}
-                                                        fromValue={-130}
+                                                    <Rainbow
+                                                        height={200}
+                                                        width={200}
+                                                        fromValue={-200}
+                                                        toValue={0}
+                                                        duration={2500}
                                                         backgroundColor={colors.white}
                                                         style={styles.rainbowBadgeStyle}>
 
                                                     </Rainbow>
-                                                    <IonIcons name="ios-book-outline" size={48} color="#000" 
-                                                    style = {styles.rainbowIconStyle} />
+                                                    <IonIcons name="ios-book-outline" size={48} color="#000"
+                                                        style={styles.rainbowIconStyle} />
 
                                                 </View>
                                                 : <View style={
@@ -108,8 +109,9 @@ const BadgesSection = () => {
                                                     <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
                                                 </View>
 
-                                        } */}
-                                    <View style={
+                                        }
+                                    </View>
+                                    {/* <View style={
                                         userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
                                             userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
                                                 userStatisticsData[badges.statisticName] >= badges.tiers[2] ?
@@ -119,7 +121,7 @@ const BadgesSection = () => {
                                                     styles.goldBadgeStyle :
                                                 styles.silverBadgeStyle : styles.bronzeBadgeStyle}>
                                         <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                                    </View>
+                                    </View> */}
                                 </TouchableOpacity>
                             )
                         })

@@ -21,7 +21,7 @@ const BadgeModal = () => {
         if (typeof (badgeModalEntry.tiers) != 'undefined') {
             for (let i = 0; i < badgeModalEntry.tiers.length; i++) {
                 if (userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[i]) {
-                    if (i >= 3) {
+                    if (i >= 4) {
                         setCurrentStatistic(userStatisticsData[badgeModalEntry.statisticName])
                     }
                 }
@@ -65,16 +65,16 @@ const BadgeModal = () => {
 
             <View style={{ alignItems: 'center', marginTop: -50 }}>
                 <View>
-                    {/* {typeof (badgeModalEntry.tiers) != 'undefined' ?
-                        userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[3] ?
+                    {typeof (badgeModalEntry.tiers) != 'undefined' ?
+                        userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[4] ?
                             <Rainbow
                                 height={200}
                                 width={200}
-                                toValue={-1000}
                                 fromValue={-350}
-                                duration={5000}
-                                backgroundColor={colors.grayProgressBarBG}
-                                style={[{ borderRadius: 500}]}
+                                toValue={150}                               
+                                duration={3500}
+                                backgroundColor={'rgba(0,0,0,0.25)'}
+                                style={[{ borderRadius: 500 }]}
                             />
 
                             : <View style={
@@ -95,8 +95,8 @@ const BadgeModal = () => {
                         : <View>
 
                         </View>
-                    } */}
-                    <View style={
+                    }
+                    {/* <View style={
                         typeof (badgeModalEntry.tiers) != 'undefined' ?
                             userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[0] ?
                                 userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[1] ?
@@ -108,7 +108,7 @@ const BadgeModal = () => {
                                     styles.silverBadgeStyle : styles.bronzeBadgeStyle
                             :
                             null}>
-                    </View>
+                    </View> */}
                 </View>
                 <View>
                     <Text style={styles.modalStickerNameText}>
