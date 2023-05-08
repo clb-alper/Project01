@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo-google-fonts/comic-neue": "^0.2.2",
     "@expo/webpack-config": "^0.17.2",
+    "@google-cloud/translate": "^7.2.1",
     "@react-native-async-storage/async-storage": "^1.18.1",
     "@react-native-community/slider": "4.2.4",
     "@react-native-firebase/app": "^17.3.2",
