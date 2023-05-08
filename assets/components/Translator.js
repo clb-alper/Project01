@@ -25,24 +25,28 @@
 
 // export {Translator}
 
-import { Translate } from '@google-cloud/translate';
+import axios from 'axios';
 
-
-const projectId = "static-beach-383414"
-
-const translate = new Translate({ projectId });
-
-
+const apiKey = "AIzaSyAcVAX56qkbvT2OfgLll5nLdZ4u50RbQjI";
 
 const Translator = async (word) => {
-    const target = 'tr';
-    const [translation] = await translate.translate(word, target);
-    console.log(`Text: ${word}`);
-    console.log(`Translation: ${translation}`);
+    const targetLanguage = 'en';
 
-    return translation
+    const apiUrl = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+    try {
+        const response = await axios.post(apiUrl, {
+            q: word,
+            target: targetLanguage,
+        });
+        const translation = response.data.data.translations[0].translatedText;
+        return translation;
+    } catch (error) {
+        console.error('Error:', error);
+        throw error;
+    }
+};
 
-}
-
-export { Translator }
+module.exports = {
+    Translator
+};
 
