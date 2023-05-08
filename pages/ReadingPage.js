@@ -376,7 +376,7 @@ const ReadingPage = () => {
                                                 <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
                                                     return (
                                                         <>
-                                                            <Text onPress={async () => { setTranslationModalVisible(true); setTranslationModalEntry({ trTranslation: word, engTranslation: await Translator(word) }); }}>{word}</Text>
+                                                            <Text onPress={async () => { setTranslationModalVisible(true); setTranslationModalEntry({ trTranslation: word, engTranslation: await Translator(word.toLowerCase()) }); }}>{word}</Text>
                                                             <Text > </Text>
                                                         </>
 
