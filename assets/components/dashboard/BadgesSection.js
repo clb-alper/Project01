@@ -82,10 +82,10 @@ const BadgesSection = () => {
                                                 >
 
                                                     <Rainbow
-                                                        height={200}
-                                                        width={200}
-                                                        fromValue={-200}
-                                                        toValue={0}
+                                                        height={80}
+                                                        width={80}
+                                                        fromValue={-600}
+                                                        toValue={-25}
                                                         duration={2500}
                                                         backgroundColor={colors.white}
                                                         style={styles.rainbowBadgeStyle}>

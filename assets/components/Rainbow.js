@@ -15,14 +15,6 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
     useEffect(() => {
 
         Animated.loop(
-            Animated.timing(translateX, {
-                toValue: toValue,
-                useNativeDriver: true,
-                duration: duration,
-            })
-        ).start()
-
-        Animated.loop(
             Animated.timing(translateY, {
                 toValue: toValue,
                 useNativeDriver: true,
@@ -48,9 +40,9 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
                 style,
 
             ])}>
-            <Animated.View style={{ transform: [{ translateX: translateX }, { translateY: translateY }] }}>
+            <Animated.View style={{ transform: [{ translateY: translateY }] }}>
                 <LinearGradient
-                    style={{ width: 200, height: 200, borderRadius: 999 }}
+                    style={{ width: 200, height: 800 }}
                     colors={[
 
                         // colors.blueLight,
@@ -66,17 +58,22 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
                         // colors.blueRegular,
 
 
+                        colors.purpleRegular,
+                        colors.blueRegular,
+                        colors.yellowRegular,
                         colors.blueRegular,
                         colors.yellowRegular,
                         colors.purpleRegular,
-                        colors.yellowRegular,
                         colors.blueRegular,
-                       
+                        colors.yellowRegular,
+
+
+
                     ]}
 
                     //start={{ x: 1, y: 1 }}
 
-                    start={{ x: 1, y: 1 }}
+                    start={{ x: 0, y: 1 }}
                     end={{ x: 0, y: 0 }}
                 //locations={[0.25, 0.50, 0.75]}
                 >

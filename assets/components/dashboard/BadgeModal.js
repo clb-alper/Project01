@@ -70,9 +70,9 @@ const BadgeModal = () => {
                             <Rainbow
                                 height={200}
                                 width={200}
-                                fromValue={-350}
-                                toValue={150}                               
-                                duration={3500}
+                                fromValue={-600}
+                                toValue={-25}                               
+                                duration={2500}
                                 backgroundColor={'rgba(0,0,0,0.25)'}
                                 style={[{ borderRadius: 500 }]}
                             />
