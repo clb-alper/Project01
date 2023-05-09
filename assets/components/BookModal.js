@@ -102,6 +102,7 @@ const BookModal = () => {
             hideModalContentWhileAnimating={true}
             isVisible={modalVisible}
             useNativeDriver={true}
+            statusBarTranslucent
             useNativeDriverForBackdrop={true}
             onRequestClose={() => {
                 setModalVisible(!modalVisible);

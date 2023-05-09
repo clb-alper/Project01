@@ -57,6 +57,7 @@ const BadgeModal = () => {
             isVisible={badgeModalVisible}
             useNativeDriver={true}
             useNativeDriverForBackdrop={true}
+            statusBarTranslucent
             onRequestClose={() => {
                 setBadgeModalVisible(!badgeModalVisible);
             }}

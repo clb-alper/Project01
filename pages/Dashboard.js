@@ -35,8 +35,8 @@ const Dashboard = () => {
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
 
-
-            {badgeModalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="hidden" />}
+            <StatusBar style="auto" />
+            {/* {badgeModalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="hidden" />} */}
 
             <SafeAreaView edges={['right', 'left']}>
 

@@ -22,6 +22,7 @@ const StickerModal = () => {
             isVisible={stickerModalVisible}
             useNativeDriver={true}
             useNativeDriverForBackdrop={true}
+            statusBarTranslucent
             onRequestClose={() => {
                 setStickerModalVisible(!stickerModalVisible);
             }}

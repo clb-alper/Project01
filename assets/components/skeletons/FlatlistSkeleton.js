@@ -26,7 +26,10 @@ const FlatlistSkeleton = () => {
                     <Skeleton
                         height={188}
                         width={113}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
                     />
                 </BoxShadow>
@@ -37,7 +40,10 @@ const FlatlistSkeleton = () => {
                     <Skeleton
                         height={188}
                         width={113}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
                     />
                 </BoxShadow>
@@ -48,7 +54,10 @@ const FlatlistSkeleton = () => {
                     <Skeleton
                         height={188}
                         width={113}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
                     />
                 </BoxShadow>

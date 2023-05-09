@@ -26,14 +26,20 @@ const ContReadingFlatlistSkeleton = () => {
                     <Skeleton
                         height={188}
                         width={113}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
                     />
 
                     <Skeleton
                         height={8}
                         width={112}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 12, marginLeft: 25 }]}
                     />
                 </BoxShadow>
@@ -44,14 +50,20 @@ const ContReadingFlatlistSkeleton = () => {
                     <Skeleton
                         height={188}
                         width={113}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
                     />
 
                     <Skeleton
                         height={8}
                         width={112}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 12, marginLeft: 25 }]}
                     />
                 </BoxShadow>
@@ -62,14 +74,20 @@ const ContReadingFlatlistSkeleton = () => {
                     <Skeleton
                         height={188}
                         width={113}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
                     />
 
                     <Skeleton
                         height={8}
                         width={112}
-                        backgroundColor={colors.grayProgressBarBG}
+                        lHeight={'100%'}
+                        lWidth={'300%'}
+                        duration={1200}
+                        backgroundColor={'rgba(0,0,0,0.05)'}
                         style={[{ borderRadius: 12, marginTop: 12, marginLeft: 25 }]}
                     />
                 </BoxShadow>

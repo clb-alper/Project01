@@ -121,6 +121,9 @@ const ProfileSelect = ({ navigation }) => {
                                             <Skeleton
                                                 height={styles.profileStyle2.height}
                                                 width={styles.profileStyle2.width}
+                                                lHeight={'100%'}
+                                                lWidth={'200%'}
+                                                duration={1200}
                                                 style={[styles.profileStyle2, { borderWidth: 0 }]}
                                                 backgroundColor='rgba(0,0,0,0.30)'
                                             >
@@ -128,6 +131,9 @@ const ProfileSelect = ({ navigation }) => {
                                             <Skeleton
                                                 height={24}
                                                 width={125}
+                                                lHeight={'100%'}
+                                                lWidth={'200%'}
+                                                duration={1200}
                                                 style={[styles.userNicknameStyle, { borderRadius: 10 }]}
                                                 backgroundColor='rgba(0,0,0,0.30)'
                                             >
@@ -218,7 +224,7 @@ const ProfileSelect = ({ navigation }) => {
                                 </TouchableOpacity>
 
                                 <TouchableOpacity
-                                    style={[styles.editProfileButton, {marginTop: 15}]}
+                                    style={[styles.editProfileButton, { marginTop: 15 }]}
                                     onPress={() => { navigation.navigate('Login'); auth.signOut().then(() => console.log('User signed out!')); }}
                                 >
                                     <Text style={styles.loginButtonText}>Çıkış Yap</Text>

@@ -26,7 +26,10 @@ const FeaturedFlatlistSkeleton = () => {
                 <Skeleton
                     height={210}
                     width={widthOfScreen}
-                    backgroundColor={colors.grayProgressBarBG}
+                    lHeight={'100%'}
+                    lWidth={'200%'}
+                    duration={1200}
+                    backgroundColor={'rgba(0,0,0,0.05)'}
                     style={[{ marginTop: 17 }]}
                 />
             </View>

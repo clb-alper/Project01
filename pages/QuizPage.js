@@ -171,6 +171,9 @@ const QuizPage = () => {
                         <Skeleton
                             height={20}
                             width={widthOfScreen * 0.8}
+                            lHeight={'100%'}
+                            lWidth={'200%'}
+                            duration={1200}
                             backgroundColor={colors.grayProgressBarBG}
                             style={[{ borderRadius: 20, marginTop: 30 }]}
                         />
@@ -312,18 +315,27 @@ const QuizPage = () => {
                             <Skeleton
                                 height={30}
                                 width={widthOfScreen * 0.8}
+                                lHeight={'100%'}
+                                lWidth={'200%'}
+                                duration={1200}
                                 backgroundColor={colors.grayProgressBarBG}
                                 style={[{ borderRadius: 20, marginTop: 30 }]}
                             />
                             <Skeleton
                                 height={30}
                                 width={widthOfScreen * 0.8}
+                                lHeight={'100%'}
+                                lWidth={'200%'}
+                                duration={1200}
                                 backgroundColor={colors.grayProgressBarBG}
                                 style={[{ borderRadius: 20, marginTop: 8 }]}
                             />
                             <Skeleton
                                 height={30}
                                 width={widthOfScreen * 0.8}
+                                lHeight={'100%'}
+                                lWidth={'200%'}
+                                duration={1200}
                                 backgroundColor={colors.grayProgressBarBG}
                                 style={[{ borderRadius: 20, marginTop: 8 }]}
                             />
@@ -331,6 +343,9 @@ const QuizPage = () => {
                             <Skeleton
                                 height={45}
                                 width={widthOfScreen * 0.8}
+                                lHeight={'100%'}
+                                lWidth={'200%'}
+                                duration={1200}
                                 backgroundColor={colors.grayProgressBarBG}
                                 style={[{ borderRadius: 20, marginTop: 35 }]}
                             />
@@ -338,6 +353,9 @@ const QuizPage = () => {
                             <Skeleton
                                 height={45}
                                 width={widthOfScreen * 0.8}
+                                lHeight={'100%'}
+                                lWidth={'200%'}
+                                duration={1200}
                                 backgroundColor={colors.grayProgressBarBG}
                                 style={[{ borderRadius: 20, marginTop: 20 }]}
                             />
@@ -345,6 +363,9 @@ const QuizPage = () => {
                             <Skeleton
                                 height={45}
                                 width={widthOfScreen * 0.8}
+                                lHeight={'100%'}
+                                lWidth={'200%'}
+                                duration={1200}
                                 backgroundColor={colors.grayProgressBarBG}
                                 style={[{ borderRadius: 20, marginTop: 20 }]}
                             />
@@ -352,6 +373,9 @@ const QuizPage = () => {
                             <Skeleton
                                 height={45}
                                 width={widthOfScreen * 0.8}
+                                lHeight={'100%'}
+                                lWidth={'200%'}
+                                duration={1200}
                                 backgroundColor={colors.grayProgressBarBG}
                                 style={[{ borderRadius: 20, marginTop: 20 }]}
                             />

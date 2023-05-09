@@ -47,8 +47,8 @@ const MainScreen = () => {
     <View style={styles.container} onLayout={onLayoutRootView}>
 
       <BookModal />
-
-      {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="auto" />}
+      <StatusBar style="auto"/>
+      {/* {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="auto" />} */}
 
       <SafeAreaView edges={['right', 'left', 'top']}>
 

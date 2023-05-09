@@ -290,11 +290,9 @@ const ReadingPage = () => {
     }
 
 
-
-
     return (
 
-        <View style={[styles.container, { backgroundColor: bookPageColor }]} onLayout={onLayoutRootView}>
+        <View style={[styles.container, { backgroundColor: modalEntry.itemColor }]} onLayout={onLayoutRootView}>
             <TranslationModal />
             <StatusBar style="auto" />
 
@@ -309,7 +307,11 @@ const ReadingPage = () => {
                                 <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
 
-                            <Text style={[styles.headerText, {}]}>{modalEntry.title}</Text>
+                            <Text adjustsFontSizeToFit={true}
+                                numberOfLines={1}
+                                style={[styles.headerText, {}]}>
+                                {modalEntry.title}
+                            </Text>
 
                             {isLoaded ?
                                 <View style={styles.headerIconContainerStyle}>
@@ -319,7 +321,10 @@ const ReadingPage = () => {
                                 <Skeleton
                                     height={styles.headerIconContainerStyle.height}
                                     width={styles.headerIconContainerStyle.width}
-                                    backgroundColor={colors.grayProgressBarBG}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1100}
+                                    backgroundColor={'rgba(0,0,0,0.20)'}
                                     style={[{ borderRadius: styles.headerIconContainerStyle.borderRadius }]}
 
                                 >
@@ -415,55 +420,82 @@ const ReadingPage = () => {
                                 <Skeleton
                                     height={styles.readingBookImage.height}
                                     width={styles.readingBookImage.width}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ borderRadius: styles.readingBookImage.borderRadius }, { marginTop: 3 }]}
                                 />
                                 <Skeleton
                                     height={userPrefFontSize}
                                     width={widthOfScreen * 0.85}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ marginTop: 30 }]}
                                 />
                                 <Skeleton
                                     height={userPrefFontSize}
                                     width={widthOfScreen * 0.85}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userPrefFontSize}
                                     width={widthOfScreen * 0.85}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userPrefFontSize}
                                     width={widthOfScreen * 0.85}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userPrefFontSize}
                                     width={widthOfScreen * 0.85}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userPrefFontSize}
                                     width={widthOfScreen * 0.85}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userPrefFontSize}
                                     width={widthOfScreen * 0.85}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ marginTop: 7 }]}
                                 />
                                 <Skeleton
                                     height={userPrefFontSize}
                                     width={widthOfScreen * 0.85}
-                                    backgroundColor={"#BBB"}
+                                    lHeight={'100%'}
+                                    lWidth={'200%'}
+                                    duration={1200}
+                                    backgroundColor={'rgba(0,0,0,0.15)'}
                                     style={[{ marginTop: 7 }]}
                                 />
                             </View>
@@ -515,6 +547,8 @@ const styles = StyleSheet.create({
     header: {
         marginTop: 10,
         flexDirection: 'row',
+        width:widthOfScreen*0.8,
+        justifyContent: 'space-between'
     },
 
     headerText: {
@@ -522,13 +556,11 @@ const styles = StyleSheet.create({
         fontSize: 35,
         marginTop: 5,
         marginBottom: 30,
-        marginRight: 35
     },
 
     goBackIcon: {
         resizeMode: 'contain',
         marginTop: 10,
-        marginRight: 45,
         justifyContent: 'center',
     },
 

@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import colors from '../../colors/colors';
 
 // başlangıç noktasını parametre olarak ver ve diğer her yerde düzenle.
-const Skeleton = ({ width, height, style, backgroundColor }) => {
+const Skeleton = ({ width, height, style, backgroundColor, lWidth, lHeight, duration }) => {
     const translateX = useRef(new Animated.Value(-width - 275)).current;
 
     useEffect(() => {
@@ -12,7 +12,7 @@ const Skeleton = ({ width, height, style, backgroundColor }) => {
             Animated.timing(translateX, {
                 toValue: width,
                 useNativeDriver: true,
-                duration: 1200,
+                duration: duration,
             })
         ).start()
     }, [width])
@@ -33,7 +33,7 @@ const Skeleton = ({ width, height, style, backgroundColor }) => {
             ])}>
             <Animated.View style={{ width: "100%", height: "100%", transform: [{ translateX: translateX }] }}>
                 <LinearGradient
-                    style={{ width: "200%", height: "100%" }}
+                    style={{ width: lWidth, height: lHeight }}
                     colors={[
                         'transparent',
                         colors.blueLight,

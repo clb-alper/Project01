@@ -34,7 +34,8 @@ const RewardsScreen = () => {
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
 
-            {stickerModalVisible ? <FocusAwareStatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <FocusAwareStatusBar style="hidden" />}
+            <FocusAwareStatusBar style="auto" />
+            {/* {stickerModalVisible ? <FocusAwareStatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <FocusAwareStatusBar style="hidden" />} */}
 
             <SafeAreaView edges={['right', 'left']}>
 
@@ -45,7 +46,7 @@ const RewardsScreen = () => {
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 overScrollMode={'never'}
-                style={{zIndex: 0}}>
+                style={{ zIndex: 0 }}>
 
                 <StickerModal />
 
