@@ -84,8 +84,10 @@ const BadgesSection = () => {
                                                     <Rainbow
                                                         height={80}
                                                         width={80}
-                                                        fromValue={-600}
-                                                        toValue={-40}
+                                                        lHeight={500}
+                                                        lWidth={80}
+                                                        fromValue={-420}
+                                                        toValue={-147}
                                                         // -25 bizim renkler için toValue={-40}
                                                         duration={5000}
                                                         backgroundColor={colors.white}
@@ -266,7 +268,7 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderRadius: 100,
         marginTop: -10,
-        borderColor: colors.black
+        borderColor: colors.black,
     },
 
     badgeIconStyle: {

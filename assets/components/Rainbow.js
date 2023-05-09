@@ -5,7 +5,7 @@ import colors from '../colors/colors'
 import { Easing } from "react-native";
 
 // başlangıç noktasını parametre olarak ver ve diğer her yerde düzenle.
-const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fromValue }) => {
+const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fromValue, lWidth, lHeight }) => {
 
 
 
@@ -46,7 +46,7 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
             ])}>
             <Animated.View style={{ transform: [{ translateY: translateY }] }}>
                 <LinearGradient
-                    style={{ width: 200, height: 800 }}
+                    style={{ width: lWidth, height: lHeight }}
                     colors={[
 
                         // colors.blueLight,
@@ -72,17 +72,32 @@ const Rainbow = ({ width, height, style, backgroundColor, duration, toValue, fro
                         // colors.blueRegular,
                         // colors.yellowRegular,
 
-                        '#FF0000',
-                        '#9400D3',
-                        '#4B0082',
-                        '#0000FF',
-                        '#00FF00',
-                        '#FFFF00',
-                        '#FF7F00',
-                        '#FF0000',
-                        '#9400D3',
-                        '#4B0082',
-                        '#0000FF',
+                        // '#FF0000',
+                        // '#9400D3',
+                        // '#4B0082',
+                        // '#0000FF',
+                        // '#00FF00',
+                        // '#FFFF00',
+                        // '#FF7F00',
+                        // '#FF0000',
+                        // '#9400D3',
+                        // '#4B0082',
+                        // '#0000FF',
+
+                        '#9C4F96',
+                        '#FF6355',
+                        '#FBA949',
+                        '#FAE442',
+                        '#8BD448',
+                        '#2AA8F2',
+                        '#9C4F96',
+                        '#FF6355',
+                        '#FBA949',
+                        '#FAE442',
+                        '#8BD448',
+                        '#2AA8F2',
+
+
 
 
 
