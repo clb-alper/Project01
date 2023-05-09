@@ -73,47 +73,45 @@ const BadgesSection = () => {
                                     style={{ marginRight: 10, marginBottom: 20 }}
                                     onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
                                 >
+                                    {
+                                        userStatisticsData[badges.statisticName] >= badges.tiers[4] ?
+                                            <View
+                                                style={{ alignItems: 'center' }}
+                                            >
 
-                                    <View>
-                                        {
-                                            userStatisticsData[badges.statisticName] >= badges.tiers[4] ?
-                                                <View
-                                                    style={{ alignItems: 'center' }}
-                                                >
+                                                <Rainbow
+                                                    height={80}
+                                                    width={80}
+                                                    lHeight={500}
+                                                    lWidth={80}
+                                                    fromValue={-420}
+                                                    toValue={-147}
+                                                    // -25 bizim renkler için toValue={-40}
+                                                    duration={5000}
+                                                    backgroundColor={colors.white}
+                                                    style={styles.rainbowBadgeStyle}>
 
-                                                    <Rainbow
-                                                        height={80}
-                                                        width={80}
-                                                        lHeight={500}
-                                                        lWidth={80}
-                                                        fromValue={-420}
-                                                        toValue={-147}
-                                                        // -25 bizim renkler için toValue={-40}
-                                                        duration={5000}
-                                                        backgroundColor={colors.white}
-                                                        style={styles.rainbowBadgeStyle}>
+                                                </Rainbow>
+                                                <IonIcons name="ios-book-outline" size={48} color="#000"
+                                                    style={styles.rainbowIconStyle} />
 
-                                                    </Rainbow>
-                                                    <IonIcons name="ios-book-outline" size={48} color="#000"
-                                                        style={styles.rainbowIconStyle} />
+                                            </View>
+                                            :
+                                            <View style={
 
-                                                </View>
-                                                : <View style={
+                                                userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
+                                                    userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
+                                                        userStatisticsData[badges.statisticName] >= badges.tiers[2] ?
+                                                            userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
+                                                                styles.diamondBadgeStyle :
+                                                                styles.emeraldBadgeStyle :
+                                                            styles.goldBadgeStyle :
+                                                        styles.silverBadgeStyle : styles.bronzeBadgeStyle
+                                            }>
+                                                <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                                            </View>
 
-                                                    userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
-                                                        userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
-                                                            userStatisticsData[badges.statisticName] >= badges.tiers[2] ?
-                                                                userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
-                                                                    styles.diamondBadgeStyle :
-                                                                    styles.emeraldBadgeStyle :
-                                                                styles.goldBadgeStyle :
-                                                            styles.silverBadgeStyle : styles.bronzeBadgeStyle
-                                                }>
-                                                    <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                                                </View>
-
-                                        }
-                                    </View>
+                                    }
                                     {/* <View style={
                                         userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
                                             userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
@@ -267,7 +265,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 5,
         borderRadius: 100,
-        marginTop: -10,
         borderColor: colors.black,
     },
 
@@ -285,5 +282,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: -65,
+        marginLeft: 2.5,
+        height: 65
     },
 })
