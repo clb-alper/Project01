@@ -63,23 +63,28 @@ const BadgeModal = () => {
             style={{ margin: 0 }}
         >
 
-            <View style={{ alignItems: 'center', marginTop: -50 }}>
+            <View style={{ alignItems: 'center', marginTop: 50 }}>
                 <View>
                     {typeof (badgeModalEntry.tiers) != 'undefined' ?
                         userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[4] ?
-                            <Rainbow
-                                height={200}
-                                width={200}
-                                lWidth={200}
-                                lHeight={800}
-                                fromValue={-600}
-                                toValue={-165}  
-                                // -25 bizim renkler için toValue={-40}                             
-                                duration={5000}
-                                backgroundColor={'rgba(0,0,0,0.25)'}
-                                style={[{ borderRadius: 500 }]}
-                            />
-
+                            <View
+                                style={{ alignItems: 'center' }}
+                            >
+                                <Rainbow
+                                    height={200}
+                                    width={200}
+                                    lWidth={200}
+                                    lHeight={800}
+                                    fromValue={-600}
+                                    toValue={-165}
+                                    // -25 bizim renkler için toValue={-40}                             
+                                    duration={5000}
+                                    backgroundColor={'rgba(0,0,0,0.25)'}
+                                    style={[{ borderRadius: 500, borderColor: colors.black, borderWidth: 5 }]}
+                                />
+                                <IonIcons name="ios-book-outline" size={130} color="#000"
+                                    style={styles.rainbowIconStyle} />
+                            </View>
                             : <View style={
                                 typeof (badgeModalEntry.tiers) != 'undefined' ?
                                     userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[0] ?
@@ -92,7 +97,7 @@ const BadgeModal = () => {
                                             styles.silverBadgeStyle : styles.bronzeBadgeStyle
                                     :
                                     null}>
-
+                                <IonIcons name="ios-book-outline" size={130} color="#000" style={styles.badgeIconStyle} />
                             </View>
 
                         : <View>
@@ -120,15 +125,15 @@ const BadgeModal = () => {
                 </View>
 
                 <View>
-                    <Text style={styles.modalStickerNameText}>
+                    <Text style={styles.modalBadgeProgressText}>
                         {typeof (userStatisticsData[badgeModalEntry.statisticName]) === 'undefined' ? 0 : userStatisticsData[badgeModalEntry.statisticName]}
                         {currentStatistic <= userStatisticsData[badgeModalEntry.statisticName] ? "" : "/" + currentStatistic}
 
                     </Text>
                 </View>
-                <View style={styles.pointsContainer3}>
+                <View>
 
-                    <Text style={{ color: colors.white, fontFamily: 'Comic-Regular', fontSize: 20, width: widthOfScreen * 0.8, textAlign: 'center' }}>
+                    <Text style={styles.modalBadgeDescriptionText}>
                         {badgeModalEntry.description}
                     </Text>
 
@@ -153,8 +158,24 @@ export default BadgeModal;
 const styles = StyleSheet.create({
     modalStickerNameText: {
         fontFamily: 'Comic-Regular',
-        fontSize: 38,
+        fontSize: 42,
         color: 'white',
+        marginTop: 10
+    },
+
+    modalBadgeProgressText: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 32,
+        color: 'white',
+    },
+
+    modalBadgeDescriptionText: {
+        color: colors.white,
+        fontFamily: 'Comic-Regular',
+        fontSize: 23,
+        width: widthOfScreen * 0.8,
+        textAlign: 'center',
+        marginTop: 35,
     },
 
     modalStickerImage: {
@@ -168,7 +189,7 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         width: 70,
         height: 70,
-        marginTop: 30,
+        marginTop: 100,
         borderColor: colors.greenBorder,
         backgroundColor: colors.greenRegular
     },
@@ -196,14 +217,6 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 35,
         borderTopLeftRadius: 35,
         backgroundColor: colors.white,
-    },
-
-    pointsContainer3: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 50,
-        paddingLeft: 5,
-        alignItems: 'center'
     },
 
     pointsTextStyle3: {
@@ -274,6 +287,23 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         backgroundColor: colors.diamondBadge,
         borderColor: colors.diamondBadgeBorder,
+    },
+
+    rainbowIconStyle: {
+        resizeMode: 'contain',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: -165,
+        marginLeft: 6.5,
+        height: 165
+    },
+
+    badgeIconStyle: {
+        resizeMode: 'contain',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 25,
+        marginLeft: 6.5,
     },
 
 })
