@@ -213,6 +213,21 @@ const ContReadingFlatlist = () => {
         }
     });
 
+    let animalLover = 0;
+    let adventurer = 0;
+
+    bookList.forEach(element => {
+        if (element.bookProgress >= 1) {
+            if (element.themeTag === "Macera") {
+                adventurer++
+            }
+            if (element.themeTag === "Hayvan") {
+                animalLover++
+            }
+        }
+
+    });
+
     const handleStatistics = () => {
 
         // sub user's tagData
@@ -220,6 +235,8 @@ const ContReadingFlatlist = () => {
             .doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
                 readedBooks: readedBooks,
                 readedWords: readedWords,
+                animalLover: animalLover,
+                adventurer: adventurer
             })
     }
 
