@@ -189,6 +189,8 @@ const ReadingPage = () => {
                             let imageIndex = Math.floor(i / (pagesRaw.length / images.length)) % images.length;
                             pagesRaw[i].image = images[imageIndex];
 
+                            pagesRaw[i].id = i;
+
                             text = '';
                         }
 
@@ -339,7 +341,7 @@ const ReadingPage = () => {
                                 ref={(ref) => { setFlRef(ref) }}
                                 overScrollMode={'never'}
                                 data={pages}
-                                keyExtractor={(item, index) => { return item[0] + index }}
+                                //keyExtractor={(item) => {item.id}}
                                 horizontal
                                 pagingEnabled
                                 showsHorizontalScrollIndicator={false}
@@ -366,7 +368,7 @@ const ReadingPage = () => {
                                 }
                                 renderItem={({ item, index }) => (
 
-                                    <View key={item[0] + index} style={{ marginTop: 10, width: widthOfScreen }}>
+                                    <View key={item.id} style={{ marginTop: 10, width: widthOfScreen }}>                                     
                                         <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
                                             <BoxShadow setting={shadowOpt} >
@@ -378,16 +380,17 @@ const ReadingPage = () => {
                                         </View>
                                         <View>
                                             {
-                                                <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}> {words[index].map((word) => {
-                                                    return (
-                                                        <>
-                                                            <Text onPress={async () => { setTranslationModalVisible(true); setTranslationModalEntry({ trTranslation: word, engTranslation: await Translator(word.toLowerCase()) }); }}>{word}</Text>
-                                                            <Text > </Text>
-                                                        </>
+                                                <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}>
+                                                    {words[index].map((word, i) => {
+                                                        return (
+                                                            <Text key={word+i}>
+                                                                <Text onPress={async () => { setTranslationModalVisible(true); setTranslationModalEntry({ trTranslation: word, engTranslation: await Translator(word.toLowerCase()) }); }}>{word}</Text>
+                                                                <Text> </Text>
+                                                            </Text>
 
-                                                    )
+                                                        )
 
-                                                })}
+                                                    })}
 
                                                 </Text>
                                             }
@@ -547,7 +550,7 @@ const styles = StyleSheet.create({
     header: {
         marginTop: 10,
         flexDirection: 'row',
-        width:widthOfScreen*0.8,
+        width: widthOfScreen * 0.8,
         justifyContent: 'space-between'
     },
 

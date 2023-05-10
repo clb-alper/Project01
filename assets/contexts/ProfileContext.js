@@ -25,11 +25,11 @@ const ProfileProvider = ({ children }) => {
 
     const getFontLocalStorage = async () => {
         setUserPrefFontSize(Number(await AsyncStorage.getItem('@profileFontSize:key')));
-        if (userPrefFontSize !== null) {
-            console.log('storage value', userPrefFontSize)
-        } else {
-            console.log('no size')
-        }
+        // if (userPrefFontSize !== null) {
+        //     console.log('storage value', userPrefFontSize)
+        // } else {
+        //     console.log('no size')
+        // }
 
     }
 
