@@ -283,7 +283,7 @@ const QuizPage = () => {
                                         <View style={{ flexDirection: 'row' }}>
                                             <Text style={styles.resultCorrectWrongText}>Yanlış: {wrongAnswers}</Text>
                                             <View style={styles.wrongIcon}>
-                                                <IonIcons name="close" size={23} color={colors.pinkDarkBorder} style={{ marginBottom: 1 }} />
+                                                <IonIcons name="close" size={23} color={colors.pinkDarkBorder} style={{ marginBottom: 1, marginTop: 1}} />
                                             </View>
                                         </View>
 

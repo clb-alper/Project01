@@ -24,12 +24,13 @@ const heightOfScreen = Dimensions.get('window').height
 const ReadingPage = () => {
 
     const { setModalVisible, modalVisible, modalEntry, setTranslationModalVisible, setTranslationModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize, getFontLocalStorage } = useContext(ProfileContext);
+    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize, getFontLocalStorage, badgesList } = useContext(ProfileContext);
 
     const [bookContent, setBookContent] = useState([]);
     const [bookPageColor, setBookPageColor] = useState();
     const [pages, setPages] = useState([]);
     const [words, setWords] = useState([]);
+    const [totalWordCount, setTotalWordCount] = useState(0);
 
     const [flRef, setFlRef] = useState();
 
@@ -178,10 +179,13 @@ const ReadingPage = () => {
                         setWords(wordsRaw);
 
                         let text = '';
+                        let counter = 0;
                         for (let i = 0; i < pagesRaw.length; i++) {
                             for (let k = 0; k < pagesRaw[i].length; k++) {
                                 text = text + ' ' + pagesRaw[i][k];
                             }
+
+                            counter = counter + pagesRaw[i].length
 
                             text = text.substring(1, text.length)
                             pagesRaw[i].storyText = text;
@@ -194,6 +198,7 @@ const ReadingPage = () => {
                             text = '';
                         }
 
+                        setTotalWordCount(counter)
                         setPages(pagesRaw);
                         bookContent.push({
                             images,
@@ -294,7 +299,7 @@ const ReadingPage = () => {
 
     return (
 
-        <View style={[styles.container, { backgroundColor: modalEntry.itemColor }]} onLayout={onLayoutRootView}>
+        <View style={[styles.container, { backgroundColor: modalEntry.itemPageBGColor }]} onLayout={onLayoutRootView}>
             <TranslationModal />
             <StatusBar style="auto" />
 
@@ -309,7 +314,8 @@ const ReadingPage = () => {
                                 <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
 
-                            <Text adjustsFontSizeToFit={true}
+                            <Text
+                                adjustsFontSizeToFit={true}
                                 numberOfLines={1}
                                 style={[styles.headerText, {}]}>
                                 {modalEntry.title}
@@ -354,21 +360,44 @@ const ReadingPage = () => {
                                 }}
                                 onMomentumScrollEnd={onScrollEnd}
                                 ListFooterComponent={() =>
-                                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%', width: widthOfScreen }}>
-                                        <Text>İstatistikler ve Quiz/Bulmaca Başlatma Butonu
-                                        </Text>
+                                    <View style={{ flex: 1, alignItems: 'center', height: heightOfScreen, width: widthOfScreen }}>
+                                        <View style={[styles.bookStatisticsContainer, { backgroundColor: modalEntry.itemColor, borderColor: modalEntry.itemBorder }]}>
+                                            <Text style={styles.bookStatisticsContainerHeader}>Kitap Istatistikleri</Text>
+                                            <Text style={styles.bookStatisticsInsideTextStyle}>Okunulan Sayfa Sayısı: {pages.length}</Text>
+                                            <Text style={styles.bookStatisticsInsideTextStyle}>Okunulan Kelime Sayısı: {totalWordCount}</Text>
+                                            <Text style={[styles.bookStatisticsInsideTextStyle, { marginBottom: 15 }]}>Kazanılan Yıldız Puanı: {modalEntry.rewardTag}</Text>
+                                        </View>
+
+
+                                        <View style={[styles.bookStatisticsContainer, { backgroundColor: modalEntry.itemColor, borderColor: modalEntry.itemBorder }]}>
+                                            <Text style={styles.bookStatisticsContainerHeader}>Rozet Ilerlemeleri</Text>
+
+                                            <Text style={styles.bookStatisticsInsideTextStyle}>
+                                                {modalEntry.themeTag === 'Macera' ? 'Maceraperest: +1' :
+                                                    modalEntry.themeTag === 'Hayvan' ? 'Hayvan Sever: +1' :
+                                                        'Tema: +1'}
+                                            </Text>
+                                            <Text style={styles.bookStatisticsInsideTextStyle}>Kitap Seven: +1</Text>
+                                            <Text style={styles.bookStatisticsInsideTextStyle}>Kelime Kurdu: +{totalWordCount}</Text>
+                                            <Text style={[styles.bookStatisticsInsideTextStyle, { marginBottom: 15 }]}>Puan Toplayan: +{modalEntry.rewardTag}</Text>
+                                        </View>
+
                                         <TouchableOpacity
                                             onPress={() => { navigation.navigate('QuizPage') }}
                                             activeOpacity={0.8}>
-                                            <View>
-                                                <IonIcons name="play" size={70} />
+                                            <View style={[styles.startContentButton, { backgroundColor: modalEntry.itemColor, borderColor: modalEntry.itemBorder }]}>
+                                                <Text style={[styles.bookStatisticsInsideTextStyle, { fontSize: 27 }]}>
+                                                    {modalEntry.contentTag === 'Quizli' ? "Quizi'i Başlat" : "Bulmacayı Başlat"}
+                                                </Text>
+                                                <IonIcons name="play" size={33} style={{ marginLeft: 4 }} />
                                             </View>
                                         </TouchableOpacity>
+
                                     </View>
                                 }
                                 renderItem={({ item, index }) => (
 
-                                    <View key={item.id} style={{ marginTop: 10, width: widthOfScreen }}>                                     
+                                    <View key={item.id} style={{ marginTop: 10, width: widthOfScreen }}>
                                         <View style={index != 0 ? { marginLeft: 30 } : { marginLeft: 30 }}>
 
                                             <BoxShadow setting={shadowOpt} >
@@ -381,16 +410,19 @@ const ReadingPage = () => {
                                         <View>
                                             {
                                                 <Text style={[styles.mainText, { fontSize: userPrefFontSize }]}>
-                                                    {words[index].map((word, i) => {
+                                                    {typeof (words[index]) != 'undefined' ? words[index].map((word, i) => {
                                                         return (
-                                                            <Text key={word+i}>
+                                                            <Text key={word + i}>
                                                                 <Text onPress={async () => { setTranslationModalVisible(true); setTranslationModalEntry({ trTranslation: word, engTranslation: await Translator(word.toLowerCase()) }); }}>{word}</Text>
                                                                 <Text> </Text>
                                                             </Text>
 
                                                         )
 
-                                                    })}
+                                                    })
+                                                        :
+                                                        null
+                                                    }
 
                                                 </Text>
                                             }
@@ -551,19 +583,25 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexDirection: 'row',
         width: widthOfScreen * 0.8,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
 
     headerText: {
         fontFamily: 'Comic-Regular',
         fontSize: 35,
-        marginTop: 5,
-        marginBottom: 30,
+        marginTop: 15,
+        marginBottom: 20,
+        width: 220,
+        alignItems: 'center',
+        alignSelf: 'center',
+        textAlign: 'center',
+        justifyContent: 'center',
+        marginLeft: 10
     },
 
     goBackIcon: {
         resizeMode: 'contain',
-        marginTop: 10,
         justifyContent: 'center',
     },
 
@@ -572,7 +610,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 100,
-        marginTop: 2,
         backgroundColor: colors.blueRegular,
         borderWidth: 4,
         borderColor: colors.blueBorder,
@@ -607,6 +644,43 @@ const styles = StyleSheet.create({
     pageNumberText: {
         fontFamily: 'Comic-Light',
         fontSize: 18,
-    }
+    },
+
+    bookStatisticsContainer: {
+        marginTop: 25,
+        width: widthOfScreen * 0.8,
+        borderRadius: 25,
+        borderWidth: 3,
+        borderColor: colors.yellowBorder,
+    },
+
+    bookStatisticsContainerHeader: {
+        fontSize: 32,
+        fontFamily: 'Comic-Regular',
+        alignSelf: 'center',
+        marginTop: 10,
+        marginBottom: 10
+    },
+
+    bookStatisticsInsideTextStyle: {
+        fontSize: 22.5,
+        fontFamily: 'Comic-Regular',
+        marginLeft: 12,
+        marginBottom: 5
+    },
+
+    startContentButton: {
+        marginTop: 25,
+        width: widthOfScreen * 0.8,
+        height: 50,
+        borderRadius: 25,
+        borderWidth: 3,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+
+
+
 
 })

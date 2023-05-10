@@ -161,7 +161,7 @@ const BookModal = () => {
 
                         <Text
                             style={styles.tagTextStyle}>
-                            {modalEntry.rewardTag}
+                                Okuma Ödülü: {modalEntry.rewardTag}
                         </Text>
 
                         <AntIcons name="star" size={20} color="#FFD600" style={styles.rewardTagPointsIconStyle} />
