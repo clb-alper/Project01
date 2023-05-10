@@ -228,16 +228,20 @@ const ContReadingFlatlist = () => {
 
     });
 
+
+
     const handleStatistics = () => {
 
-        // sub user's tagData
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
-                readedBooks: readedBooks,
-                readedWords: readedWords,
-                animalLover: animalLover,
-                adventurer: adventurer
-            })
+        // sub user's statsData
+        if (readedBooks && readedWords && animalLover && adventurer != 0) {
+            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
+                    readedBooks: readedBooks,
+                    readedWords: readedWords,
+                    animalLover: animalLover,
+                    adventurer: adventurer
+                })
+        }
     }
 
 
