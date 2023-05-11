@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from 'react-native';
 import colors from '../../colors/colors';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+//import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { auth, firebase } from '../../../firebase';
 import { ModalContext } from '../../contexts/ModalContext';
 import { ProfileContext } from '../../contexts/ProfileContext';
@@ -108,7 +110,12 @@ const BadgesSection = () => {
                                                             styles.goldBadgeStyle :
                                                         styles.silverBadgeStyle : styles.bronzeBadgeStyle
                                             }>
-                                                <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
+                                                <Image
+                                                    style={[styles.badgeIconStyle, {width: 45, resizeMode: 'contain'}]}
+                                                    source={require('../../images/backpack2.png')}
+                                                />
+                                                {/* <FontAwesomeIcon icon="fa-backpack" size={48} color="#000" style={styles.badgeIconStyle} /> */}
+
                                             </View>
 
                                     }
@@ -273,8 +280,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 5,
-        marginLeft: 3,
+        marginTop: -5
     },
 
     rainbowIconStyle: {

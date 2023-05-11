@@ -260,12 +260,19 @@ const ReadingPage = () => {
         // sub user's continueReading
 
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+            .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).update({
                 //update it with update() function don't use set for everytime a progress achived
                 progress: userBookProgress,
                 bookRef: db.doc('storyBooks/' + modalEntry.id),
                 favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
             })
+    }
+
+    const handleGoBack = () => {
+        handleCreateCollections();
+        navigation.goBack();
+        setModalVisible(!modalVisible);
+        setIsBack(true)
     }
 
 
@@ -310,7 +317,7 @@ const ReadingPage = () => {
                     <View style={styles.center}>
                         <View style={styles.header}>
                             <TouchableOpacity
-                                onPress={() => { navigation.goBack(); setModalVisible(!modalVisible); setIsBack(true) }}>
+                                onPress={handleGoBack}>
                                 <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
                             </TouchableOpacity>
 
