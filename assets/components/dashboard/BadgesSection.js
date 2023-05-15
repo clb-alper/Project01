@@ -1,9 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from 'react-native';
 import colors from '../../colors/colors';
-import IonIcons from 'react-native-vector-icons/Ionicons';
-//import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { auth, firebase } from '../../../firebase';
 import { ModalContext } from '../../contexts/ModalContext';
 import { ProfileContext } from '../../contexts/ProfileContext';
@@ -96,7 +93,13 @@ const BadgesSection = () => {
 
                                                 </Rainbow>
                                                 <Image
-                                                    style={[styles.rainbowIconStyle, { width: 45, resizeMode: 'contain' }]}
+                                                    style={[styles.rainbowIconStyle, {
+                                                        width: 45, marginTop:
+                                                            badges.statisticName === "adventurer" ||
+                                                                badges.statisticName === "totalQuizzesCompleted" ||
+                                                                badges.statisticName === "readedBooks" ||
+                                                                badges.statisticName === "readedWords" ? -76.5 : -75, resizeMode: 'contain'
+                                                    }]}
                                                     source={{ uri: badges.iconImageURL }}
                                                 />
 
@@ -114,7 +117,14 @@ const BadgesSection = () => {
                                                         styles.silverBadgeStyle : styles.bronzeBadgeStyle
                                             }>
                                                 <Image
-                                                    style={[styles.badgeIconStyle, { width: 45, marginTop: badges.name === "Maceraperest" || badges.name === "Quizör" ? -5 : 0, resizeMode: 'contain' }]}
+                                                    style={[styles.badgeIconStyle,
+                                                    {
+                                                        width: 45, marginTop:
+                                                            badges.statisticName === "adventurer" ||
+                                                                badges.statisticName === "totalQuizzesCompleted" ||
+                                                                badges.statisticName === "readedBooks" ||
+                                                                badges.statisticName === "readedWords" ? -5 : 0, resizeMode: 'contain'
+                                                    }]}
                                                     source={{ uri: badges.iconImageURL }}
                                                 />
                                             </View>

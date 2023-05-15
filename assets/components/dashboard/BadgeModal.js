@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import colors from '../../colors/colors'
 import { ModalContext } from '../../contexts/ModalContext';
 import Modal from "react-native-modal";
-import AntIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import Rainbow from '../Rainbow';
@@ -100,7 +99,14 @@ const BadgeModal = () => {
                                     :
                                     null}>
                                 <Image
-                                    style={[styles.badgeIconStyle, { width: 125, marginTop: badgeModalEntry.name === "Maceraperest" || badgeModalEntry.name === "Quizör" ? -5 : 5, resizeMode: 'contain' }]}
+                                    style={[styles.badgeIconStyle,
+                                    {
+                                        width: 125, marginTop:
+                                            badgeModalEntry.name === "Maceraperest" ||
+                                                badgeModalEntry.name === "Quizör" ||
+                                                badgeModalEntry.statisticName === "readedBooks" ||
+                                                badgeModalEntry.statisticName === "readedWords" ? -5 : 5, resizeMode: 'contain'
+                                    }]}
                                     source={{ uri: badgeModalEntry.iconImageURL }}
                                 />
                             </View>
