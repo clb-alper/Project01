@@ -24,13 +24,15 @@ const BadgesSection = () => {
                 querySnapshot => {
                     const badgesList = []
                     querySnapshot.forEach((doc) => {
-                        const { name, description, tiers, statisticName } = doc.data()
+                        const { name, description, tiers, statisticName, iconImageURL } = doc.data()
 
                         badgesList.push({
                             name,
                             description,
                             tiers,
-                            statisticName
+                            statisticName,
+                            iconImageURL
+
                         })
                     })
                     setBadgesList(badgesList)
@@ -88,14 +90,15 @@ const BadgesSection = () => {
                                                     lWidth={80}
                                                     fromValue={-420}
                                                     toValue={-147}
-                                                    // -25 bizim renkler için toValue={-40}
                                                     duration={5000}
                                                     backgroundColor={colors.white}
                                                     style={styles.rainbowBadgeStyle}>
 
                                                 </Rainbow>
-                                                <IonIcons name="ios-book-outline" size={48} color="#000"
-                                                    style={styles.rainbowIconStyle} />
+                                                <Image
+                                                    style={[styles.rainbowIconStyle, { width: 45, resizeMode: 'contain' }]}
+                                                    source={{ uri: badges.iconImageURL }}
+                                                />
 
                                             </View>
                                             :
@@ -111,25 +114,13 @@ const BadgesSection = () => {
                                                         styles.silverBadgeStyle : styles.bronzeBadgeStyle
                                             }>
                                                 <Image
-                                                    style={[styles.badgeIconStyle, {width: 45, resizeMode: 'contain'}]}
-                                                    source={require('../../images/backpack2.png')}
+                                                    style={[styles.badgeIconStyle, { width: 45, marginTop: badges.name === "Maceraperest" || badges.name === "Quizör" ? -5 : 0, resizeMode: 'contain' }]}
+                                                    source={{ uri: badges.iconImageURL }}
                                                 />
-                                                {/* <FontAwesomeIcon icon="fa-backpack" size={48} color="#000" style={styles.badgeIconStyle} /> */}
-
                                             </View>
 
                                     }
-                                    {/* <View style={
-                                        userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
-                                            userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
-                                                userStatisticsData[badges.statisticName] >= badges.tiers[2] ?
-                                                    userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
-                                                        styles.diamondBadgeStyle :
-                                                        styles.emeraldBadgeStyle :
-                                                    styles.goldBadgeStyle :
-                                                styles.silverBadgeStyle : styles.bronzeBadgeStyle}>
-                                        <IonIcons name="ios-book-outline" size={48} color="#000" style={styles.badgeIconStyle} />
-                                    </View> */}
+
                                 </TouchableOpacity>
                             )
                         })
@@ -280,15 +271,14 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: -5
     },
 
     rainbowIconStyle: {
         resizeMode: 'contain',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: -65,
-        marginLeft: 2.5,
-        height: 65
+        marginTop: -75,
+        marginLeft: 1,
+        height: 75
     },
 })

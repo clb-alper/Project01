@@ -78,13 +78,14 @@ const BadgeModal = () => {
                                     lHeight={800}
                                     fromValue={-600}
                                     toValue={-165}
-                                    // -25 bizim renkler için toValue={-40}                             
                                     duration={5000}
                                     backgroundColor={'rgba(0,0,0,0.25)'}
                                     style={[{ borderRadius: 500, borderColor: colors.black, borderWidth: 5 }]}
                                 />
-                                <IonIcons name="ios-book-outline" size={130} color="#000"
-                                    style={styles.rainbowIconStyle} />
+                                <Image
+                                    style={[styles.rainbowIconStyle, { width: 125, resizeMode: 'contain' }]}
+                                    source={{ uri: badgeModalEntry.iconImageURL }}
+                                />
                             </View>
                             : <View style={
                                 typeof (badgeModalEntry.tiers) != 'undefined' ?
@@ -98,26 +99,16 @@ const BadgeModal = () => {
                                             styles.silverBadgeStyle : styles.bronzeBadgeStyle
                                     :
                                     null}>
-                                <IonIcons name="ios-book-outline" size={130} color="#000" style={styles.badgeIconStyle} />
+                                <Image
+                                    style={[styles.badgeIconStyle, { width: 125, marginTop: badgeModalEntry.name === "Maceraperest" || badgeModalEntry.name === "Quizör" ? -5 : 5, resizeMode: 'contain' }]}
+                                    source={{ uri: badgeModalEntry.iconImageURL }}
+                                />
                             </View>
 
                         : <View>
 
                         </View>
                     }
-                    {/* <View style={
-                        typeof (badgeModalEntry.tiers) != 'undefined' ?
-                            userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[0] ?
-                                userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[1] ?
-                                    userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[2] ?
-                                        userStatisticsData[badgeModalEntry.statisticName] >= badgeModalEntry.tiers[3] ?
-                                            styles.diamondBadgeStyle :
-                                            styles.emeraldBadgeStyle :
-                                        styles.goldBadgeStyle :
-                                    styles.silverBadgeStyle : styles.bronzeBadgeStyle
-                            :
-                            null}>
-                    </View> */}
                 </View>
                 <View>
                     <Text style={styles.modalStickerNameText}>
@@ -294,17 +285,15 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: -165,
-        marginLeft: 6.5,
-        height: 165
+        marginTop: -180,
+        height: 180
     },
 
     badgeIconStyle: {
         resizeMode: 'contain',
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 25,
-        marginLeft: 6.5,
     },
 
 })
