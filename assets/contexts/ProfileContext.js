@@ -21,6 +21,7 @@ const ProfileProvider = ({ children }) => {
 
     // Badge Contexts
     const [badgesList, setBadgesList] = useState([]);
+    const [featuredBadgesList, setFeaturedBadgesList] = useState([]);
     const [badgeLevelStyle, setBadgeLevelStyle] = useState(0);
 
     const getFontLocalStorage = async () => {
@@ -101,7 +102,9 @@ const ProfileProvider = ({ children }) => {
         badgesList,
         setBadgesList,
         badgeLevelStyle,
-        setBadgeLevelStyle
+        setBadgeLevelStyle,
+        featuredBadgesList,
+        setFeaturedBadgesList
     }
 
     return (

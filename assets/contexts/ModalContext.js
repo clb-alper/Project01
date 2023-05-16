@@ -19,6 +19,8 @@ const ModalProvider = ({ children }) => {
     const [badgeModalEntry, setBadgeModalEntry] = useState(stickerData);
     const [badgeModalVisible, setBadgeModalVisible] = useState(false);
 
+    const [featuredBadgeModalVisible, setFeaturedBadgeModalVisible] = useState(false);
+
     const [translationModalEntry, setTranslationModalEntry] = useState(translationData);
     const [translationModalVisible, setTranslationModalVisible] = useState(false);
 
@@ -42,7 +44,10 @@ const ModalProvider = ({ children }) => {
         badgeModalEntry,
         setBadgeModalEntry,
         badgeModalVisible,
-        setBadgeModalVisible
+        setBadgeModalVisible,
+
+        featuredBadgeModalVisible,
+        setFeaturedBadgeModalVisible
     }
 
     return (

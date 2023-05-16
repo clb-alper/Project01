@@ -13,7 +13,7 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 const BadgeModal = () => {
 
     const [currentStatistic, setCurrentStatistic] = useState();
-    const { badgeModalVisible, setBadgeModalVisible, badgeModalEntry } = useContext(ModalContext);
+    const { badgeModalVisible, setBadgeModalVisible, badgeModalEntry, featuredBadgeModalVisible } = useContext(ModalContext);
     const { userStatisticsData, setBadgeLevelStyle } = useContext(ProfileContext);
 
     const badgeNameControl = () => {
@@ -136,6 +136,12 @@ const BadgeModal = () => {
                     </Text>
 
                 </View>
+
+                {typeof (featuredBadgeModalVisible) != 'undefined' && featuredBadgeModalVisible === true ?
+                    <Text style={{ fontSize: 25, color: colors.white }}>FETAUTRE</Text>
+                    :
+                    null
+                }
 
                 <TouchableOpacity
                     onPress={() => { setBadgeModalVisible(!badgeModalVisible) }}

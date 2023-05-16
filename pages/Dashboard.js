@@ -11,6 +11,7 @@ import Header from '../assets/components/dashboard/Header';
 import BadgesSection from '../assets/components/dashboard/BadgesSection';
 import StatisticsSection from '../assets/components/dashboard/StatisticsSection';
 import BadgeModal from '../assets/components/dashboard/BadgeModal';
+import FeaturedBadgeSelectModal from '../assets/components/dashboard/FeaturedBadgeSelectModal';
 
 const Dashboard = () => {
 
@@ -50,6 +51,8 @@ const Dashboard = () => {
                 style={{ zIndex: -50 }}>
 
                 <BadgeModal />
+
+                <FeaturedBadgeSelectModal />
 
                 <StatisticsSection />
 
