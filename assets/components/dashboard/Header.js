@@ -15,7 +15,7 @@ var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
 
-    const { currentProfileSelected, currentProfileSelectedInfo, userPointsData, badgesList, userStatisticsData, featuredBadgesList, setFeaturedBadgesList } = useContext(ProfileContext);
+    const { currentProfileSelected, currentProfileSelectedInfo, userPointsData, badgesList, userStatisticsData,featuredBadgeData, setFeaturedBadgeData, featuredBadgesList, setFeaturedBadgeIndex, setFeaturedBadgesList } = useContext(ProfileContext);
     const { setBadgeModalVisible, setBadgeModalEntry, featuredBadgeModalVisible, setFeaturedBadgeModalVisible } = useContext(ModalContext);
 
     const featuredBadgesRef = firebase.firestore()
@@ -28,8 +28,11 @@ const Header = () => {
             .onSnapshot(
                 querySnapshot => {
                     const featuredBadgesList = []
+                    const featuredBadgeData = []
                     querySnapshot.forEach((doc) => {
                         const { featuredBadges } = doc.data()
+
+                        featuredBadgeData.push(featuredBadges)
 
                         for (let i = 0; i < 4; i++) {
                             badgesList.forEach((badge) => {
@@ -42,6 +45,7 @@ const Header = () => {
                         }
                     })
                     setFeaturedBadgesList(featuredBadgesList)
+                    setFeaturedBadgeData(featuredBadgeData[0])
                 }
             )
     }
@@ -107,7 +111,7 @@ const Header = () => {
                                         <TouchableOpacity
                                             key={index}
                                             style={{ marginRight: 10, marginBottom: 20 }}
-                                            onLongPress={() => { setFeaturedBadgeModalVisible(true) }}
+                                            onLongPress={() => { setFeaturedBadgeModalVisible(true); setFeaturedBadgeIndex(index) }}
                                             activeOpacity={0.40}
                                             onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
                                         >

@@ -5,6 +5,7 @@ import { ModalContext } from '../../contexts/ModalContext';
 import Modal from "react-native-modal";
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import { auth, firebase } from '../../../firebase';
 import Rainbow from '../Rainbow';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
@@ -14,7 +15,7 @@ const BadgeModal = () => {
 
     const [currentStatistic, setCurrentStatistic] = useState();
     const { badgeModalVisible, setBadgeModalVisible, badgeModalEntry, featuredBadgeModalVisible } = useContext(ModalContext);
-    const { userStatisticsData, setBadgeLevelStyle } = useContext(ProfileContext);
+    const { userStatisticsData, featuredBadgeIndex, featuredBadgesList, featuredBadgeData, currentProfileSelected, setFeaturedBadgeData } = useContext(ProfileContext);
 
     const badgeNameControl = () => {
         if (typeof (badgeModalEntry.tiers) != 'undefined') {
@@ -35,6 +36,42 @@ const BadgeModal = () => {
         else {
 
         }
+    }
+
+    const featuredBageAdd = () => {
+        // console.log(featuredBadgeIndex)
+        // console.log(featuredBadgesList)
+        // console.log(featuredBadgeData)
+        let lock = false
+        if (typeof (featuredBadgeData) != 'undefined' || featuredBadgeData.length > 0) {
+            for (const featuredStatisticName of featuredBadgeData) {
+                if (featuredStatisticName === badgeModalEntry.statisticName) {
+                    console.log("Already included")
+                    lock = true;
+                    break;
+                }
+
+            }
+            // featuredBadgeData.every(featuredStatisticName => { 
+            //     if (featuredStatisticName === badgeModalEntry.statisticName) {
+            //         console.log("Already included")
+            //         return false // "break"
+            //     }
+            //     featuredBadgeData[featuredBadgeIndex] = badgeModalEntry.statisticName
+            //     return true
+            // });
+        }
+        if (!lock) {
+            featuredBadgeData[featuredBadgeIndex] = badgeModalEntry.statisticName
+        }
+        console.log(featuredBadgeData)
+        //setFeaturedBadgeData(featuredBadgeData)
+
+        // firebase.firestore()
+        // .collection('users').doc(firebase.auth().currentUser.uid)
+        // .collection('userProfiles').doc(currentProfileSelected).collection('featuredBadgeData').doc('featuredBadgesDoc').update({
+        //     featuredBadges: 
+        // })
     }
 
     useEffect(() => {
@@ -140,7 +177,7 @@ const BadgeModal = () => {
 
                 {typeof (featuredBadgeModalVisible) != 'undefined' && featuredBadgeModalVisible === true ?
                     <TouchableOpacity
-                        onPress={() => { console.log("asd") }}
+                        onPress={() => { featuredBageAdd() }}
                         activeOpacity={0.75}
                         style={styles.featuredBadgeAddButton}>
                         <Text style={styles.featuredBadgeAddButtonText}>Ekle</Text>
@@ -325,7 +362,7 @@ const styles = StyleSheet.create({
     },
 
     featuredBadgeAddButtonText: {
-        fontSize: 45, 
+        fontSize: 45,
         color: colors.black,
         fontFamily: 'Comic-Regular',
         marginTop: -2
