@@ -60,6 +60,7 @@ const BadgeModal = () => {
             onRequestClose={() => {
                 setBadgeModalVisible(!badgeModalVisible);
             }}
+            backdropOpacity={featuredBadgeModalVisible ? 0.5 : 0.8}
             style={{ margin: 0 }}
         >
 
@@ -138,7 +139,12 @@ const BadgeModal = () => {
                 </View>
 
                 {typeof (featuredBadgeModalVisible) != 'undefined' && featuredBadgeModalVisible === true ?
-                    <Text style={{ fontSize: 25, color: colors.white }}>FETAUTRE</Text>
+                    <TouchableOpacity
+                        onPress={() => { console.log("asd") }}
+                        activeOpacity={0.75}
+                        style={styles.featuredBadgeAddButton}>
+                        <Text style={styles.featuredBadgeAddButtonText}>Ekle</Text>
+                    </TouchableOpacity>
                     :
                     null
                 }
@@ -193,7 +199,7 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         width: 70,
         height: 70,
-        marginTop: 100,
+        marginTop: 70,
         borderColor: colors.greenBorder,
         backgroundColor: colors.greenRegular
     },
@@ -307,5 +313,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+
+    featuredBadgeAddButton: {
+        backgroundColor: colors.greenRegular,
+        borderWidth: 3,
+        borderColor: colors.greenBorder,
+        borderRadius: 20,
+        width: 200,
+        alignItems: 'center',
+        marginTop: 30
+    },
+
+    featuredBadgeAddButtonText: {
+        fontSize: 45, 
+        color: colors.black,
+        fontFamily: 'Comic-Regular',
+        marginTop: -2
+    }
+
 
 })

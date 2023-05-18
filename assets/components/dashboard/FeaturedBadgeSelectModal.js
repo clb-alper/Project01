@@ -27,10 +27,11 @@ const FeaturedBadgeSelectModal = () => {
             onRequestClose={() => {
                 setFeaturedBadgeModalVisible(!featuredBadgeModalVisible);
             }}
+            backdropOpacity={0.7}
             style={{ margin: 0 }}
         >
-            <View style={{alignItems: 'center', height: heightOfScreen, marginTop: 135 }}>
-                <Text style={{ fontFamily: 'Comic-Regular', fontSize: 40, color: colors.white }}>Rozet Seçin</Text>
+            <View style={{alignItems: 'center', height: heightOfScreen, marginTop: '74%' }}>
+                <Text style={{ fontFamily: 'Comic-Regular', fontSize: 48, color: colors.white }}>Rozet Seçin</Text>
                 <View style={styles.rosettesMain}>
                     {
                         typeof (badgesList) === 'undefined' ? null :
@@ -41,6 +42,7 @@ const FeaturedBadgeSelectModal = () => {
                                         key={index}
                                         style={{ marginRight: 10, marginBottom: 20 }}
                                         onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
+                                        activeOpacity={0.85}
                                     >
                                         {
                                             userStatisticsData[badges.statisticName] >= badges.tiers[4] ?
