@@ -126,12 +126,19 @@ const ProfileSelect = () => {
 
     const handleCreateProfile = async () => {
 
+        const base = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc()
         // Sub User
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc().set({
+        base.set({
             name: profileName,
             profileIcon: iconIndex,
             profileColor: colorIndex,
         })
+
+        // Dogru setle collectionlari
+        base.collection('statisticsData').doc('statsData').set({
+            points: 0
+        })
+
         setTimeout(() => { navigation.goBack() }, 600)
     }
 

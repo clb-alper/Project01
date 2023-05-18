@@ -5,6 +5,7 @@ import Modal from "react-native-modal";
 import colors from '../../colors/colors';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import Rainbow from '../Rainbow';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -12,7 +13,7 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 const FeaturedBadgeSelectModal = () => {
 
     const { userStatisticsData, badgesList } = useContext(ProfileContext);
-    const { featuredBadgeModalVisible, setFeaturedBadgeModalVisible, featuredadgeModalVisible, setBadgeModalVisible, setBadgeModalEntry } = useContext(ModalContext);
+    const { featuredBadgeModalVisible, setFeaturedBadgeModalVisible, setBadgeModalVisible, setBadgeModalEntry } = useContext(ModalContext);
 
     return (
         <Modal
@@ -30,7 +31,7 @@ const FeaturedBadgeSelectModal = () => {
             backdropOpacity={0.7}
             style={{ margin: 0 }}
         >
-            <View style={{alignItems: 'center', height: heightOfScreen, marginTop: '74%' }}>
+            <View style={{ alignItems: 'center', height: heightOfScreen, justifyContent: 'center' }}>
                 <Text style={{ fontFamily: 'Comic-Regular', fontSize: 48, color: colors.white }}>Rozet Seçin</Text>
                 <View style={styles.rosettesMain}>
                     {
@@ -107,6 +108,13 @@ const FeaturedBadgeSelectModal = () => {
                     }
 
                 </View>
+
+                <TouchableOpacity
+                    onPress={() => { setFeaturedBadgeModalVisible(!featuredBadgeModalVisible); }}
+                    activeOpacity={0.75}
+                    style={styles.modalStickerCloseButton}>
+                    <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
+                </TouchableOpacity>
             </View>
         </Modal >
     )
@@ -115,7 +123,7 @@ const FeaturedBadgeSelectModal = () => {
 export default FeaturedBadgeSelectModal
 
 const styles = StyleSheet.create({
-    
+
     rosettesMain: {
         paddingLeft: 10,
         flexDirection: 'row',
@@ -204,5 +212,20 @@ const styles = StyleSheet.create({
         marginTop: -75,
         marginLeft: 1,
         height: 75
+    },
+
+    modalStickerCloseButton: {
+        borderRadius: 500,
+        borderWidth: 5,
+        width: 70,
+        height: 70,
+        marginTop: 70,
+        borderColor: colors.greenBorder,
+        backgroundColor: colors.greenRegular
+    },
+
+    modalStickerCloseButtonIcon: {
+        marginTop: 3,
+        marginLeft: 5.5
     },
 })

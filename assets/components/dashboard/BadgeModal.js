@@ -14,7 +14,9 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 const BadgeModal = () => {
 
     const [currentStatistic, setCurrentStatistic] = useState();
-    const { badgeModalVisible, setBadgeModalVisible, badgeModalEntry, featuredBadgeModalVisible } = useContext(ModalContext);
+    const [alreadyIncludedMessage, setAlreadyIncludedMessage] = useState(false);
+    const [addedMessage, setAddedMessage] = useState(false);
+    const { badgeModalVisible, setBadgeModalVisible, badgeModalEntry, featuredBadgeModalVisible, setFeaturedBadgeModalVisible } = useContext(ModalContext);
     const { userStatisticsData, featuredBadgeIndex, featuredBadgesList, featuredBadgeData, currentProfileSelected, setFeaturedBadgeData } = useContext(ProfileContext);
 
     const badgeNameControl = () => {
@@ -39,39 +41,27 @@ const BadgeModal = () => {
     }
 
     const featuredBageAdd = () => {
-        // console.log(featuredBadgeIndex)
-        // console.log(featuredBadgesList)
-        // console.log(featuredBadgeData)
         let lock = false
         if (typeof (featuredBadgeData) != 'undefined' || featuredBadgeData.length > 0) {
             for (const featuredStatisticName of featuredBadgeData) {
                 if (featuredStatisticName === badgeModalEntry.statisticName) {
-                    console.log("Already included")
+                    setAlreadyIncludedMessage(true)
                     lock = true;
                     break;
                 }
 
             }
-            // featuredBadgeData.every(featuredStatisticName => { 
-            //     if (featuredStatisticName === badgeModalEntry.statisticName) {
-            //         console.log("Already included")
-            //         return false // "break"
-            //     }
-            //     featuredBadgeData[featuredBadgeIndex] = badgeModalEntry.statisticName
-            //     return true
-            // });
         }
         if (!lock) {
             featuredBadgeData[featuredBadgeIndex] = badgeModalEntry.statisticName
+            setFeaturedBadgeData(featuredBadgeData)
+            firebase.firestore()
+                .collection('users').doc(firebase.auth().currentUser.uid)
+                .collection('userProfiles').doc(currentProfileSelected).collection('featuredBadgeData').doc('featuredBadgesDoc').update({
+                    featuredBadges: featuredBadgeData
+                })
+            setAddedMessage(true)
         }
-        console.log(featuredBadgeData)
-        //setFeaturedBadgeData(featuredBadgeData)
-
-        // firebase.firestore()
-        // .collection('users').doc(firebase.auth().currentUser.uid)
-        // .collection('userProfiles').doc(currentProfileSelected).collection('featuredBadgeData').doc('featuredBadgesDoc').update({
-        //     featuredBadges: 
-        // })
     }
 
     useEffect(() => {
@@ -95,9 +85,11 @@ const BadgeModal = () => {
             useNativeDriverForBackdrop={true}
             statusBarTranslucent
             onRequestClose={() => {
+                setAlreadyIncludedMessage(false);
+                setAddedMessage(false)
                 setBadgeModalVisible(!badgeModalVisible);
             }}
-            backdropOpacity={featuredBadgeModalVisible ? 0.5 : 0.8}
+            backdropOpacity={featuredBadgeModalVisible ? 0.58 : 0.8}
             style={{ margin: 0 }}
         >
 
@@ -176,18 +168,22 @@ const BadgeModal = () => {
                 </View>
 
                 {typeof (featuredBadgeModalVisible) != 'undefined' && featuredBadgeModalVisible === true ?
-                    <TouchableOpacity
-                        onPress={() => { featuredBageAdd() }}
-                        activeOpacity={0.75}
-                        style={styles.featuredBadgeAddButton}>
-                        <Text style={styles.featuredBadgeAddButtonText}>Ekle</Text>
-                    </TouchableOpacity>
+                    <>
+                        <TouchableOpacity
+                            onPress={() => { featuredBageAdd() }}
+                            activeOpacity={0.75}
+                            style={styles.featuredBadgeAddButton}>
+                            <Text style={styles.featuredBadgeAddButtonText}>Ekle</Text>
+                        </TouchableOpacity>
+                        {alreadyIncludedMessage ? <Text style={styles.featuredBadgeAddAlreadyExistText}>Rozet zaten ekli</Text> : null}
+                        {addedMessage ? <Text style={styles.featuredBadgeAddCompleteText}>Rozet başarılı bir şekilde eklendi</Text> : null}
+                    </>
                     :
                     null
                 }
 
                 <TouchableOpacity
-                    onPress={() => { setBadgeModalVisible(!badgeModalVisible) }}
+                    onPress={() => { setBadgeModalVisible(!badgeModalVisible); setAlreadyIncludedMessage(false); setAddedMessage(false); }}
                     activeOpacity={0.75}
                     style={styles.modalStickerCloseButton}>
                     <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
@@ -366,7 +362,20 @@ const styles = StyleSheet.create({
         color: colors.black,
         fontFamily: 'Comic-Regular',
         marginTop: -2
-    }
+    },
 
+    featuredBadgeAddAlreadyExistText: {
+        fontSize: 18,
+        color: '#f26d74',
+        fontFamily: 'Comic-Bold',
+        marginTop: 5
+    },
+
+    featuredBadgeAddCompleteText: {
+        fontSize: 18,
+        color: '#83FCA7',
+        fontFamily: 'Comic-Bold',
+        marginTop: 5
+    }
 
 })
