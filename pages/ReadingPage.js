@@ -452,7 +452,7 @@ const ReadingPage = () => {
 
                                             <TouchableOpacity
                                                 //onPress={speak}
-                                                onPress={() => {handleCreateCollections; speak(pages[index])}}
+                                                onPress={() => {speak(pages[index].storyText)}}
                                                 activeOpacity={0.8}>
                                                 <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
                                                     <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
