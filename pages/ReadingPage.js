@@ -223,9 +223,9 @@ const ReadingPage = () => {
     }, [])
 
 
-    const speak = () => {
+    const speak = (pageTextToSpeech) => {
         //const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
-        Speech.speak(pageText2, { language: 'tr', pitch: 1.2 });
+        Speech.speak(pageTextToSpeech, { language: 'tr', pitch: 1.2 });
     };
 
     const navigation = useNavigation();
@@ -452,7 +452,7 @@ const ReadingPage = () => {
 
                                             <TouchableOpacity
                                                 //onPress={speak}
-                                                onPress={handleCreateCollections}
+                                                onPress={() => {handleCreateCollections; speak(pages[index])}}
                                                 activeOpacity={0.8}>
                                                 <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
                                                     <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
