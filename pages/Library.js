@@ -10,6 +10,7 @@ import AlphabetSlider from '../assets/components/library/AlphabetSlider';
 import BookShowcase from '../assets/components/library/BookShowcase';
 
 var heightOfScreen = Dimensions.get('window').height; //full width
+var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Library = () => {
 
@@ -37,7 +38,7 @@ const Library = () => {
 
                 <Header />
 
-                <AlphabetSlider />
+                {/* <AlphabetSlider /> */}
 
                 <ScrollView
                     overScrollMode={'never'}
@@ -65,9 +66,8 @@ const styles = StyleSheet.create({
     },
 
     flatsScrollViewStyle: {
-        width: '100%',
+        width: widthOfScreen,
         flexWrap: 'wrap',
-        marginLeft: 50,
         height: heightOfScreen * 0.81,
         zIndex: -50
     },

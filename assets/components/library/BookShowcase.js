@@ -148,13 +148,13 @@ const BookShowcase = () => {
     return (
         typeof (sortedData) == 'undefined' ? null :
 
-            <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: 10 }}>
+            <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: '9%' }}>
                 {/* <BookModal />  */}
 
 
 
                 {
-                    categorySwitch === 0 && (   
+                    categorySwitch === 0 && (
                         sortedData.map((book, index) => {
                             return (
                                 <View key={index}>
