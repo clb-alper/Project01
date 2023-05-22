@@ -6,9 +6,13 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import { auth, firebase } from '../../firebase';
 
 const ForgotPass = ({ navigation }) => {
+
     var [isPress, setIsPress] = React.useState(false);
+
+    const [userMail, setUserMail] = React.useState();
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -33,6 +37,11 @@ const ForgotPass = ({ navigation }) => {
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
         onPress: () => {
+            //resetting password
+            auth.sendPasswordResetEmail(userMail).then((a) => {
+                console.log(a)
+            })
+
             Toast.show({
                 type: ALERT_TYPE.SUCCESS,
                 title: 'Gönderildi',
@@ -43,6 +52,7 @@ const ForgotPass = ({ navigation }) => {
             }, 1500)
         }
     };
+
 
     return (
         <AlertNotificationRoot>
@@ -63,6 +73,7 @@ const ForgotPass = ({ navigation }) => {
                         placeholder="Email"
                         placeholderTextColor={'#B8B8B8'}
                         keyboardType="text"
+                        onChangeText={text => setUserMail(text)}
                     />
 
                     <TouchableHighlight {...touchPropsSendButton} style={styles.sendButton}>
