@@ -26,6 +26,7 @@ const ProfileProvider = ({ children }) => {
     const [featuredBadgeIndex, setFeaturedBadgeIndex] = useState([]);
     const [badgeLevelStyle, setBadgeLevelStyle] = useState(0);
 
+
     const getFontLocalStorage = async () => {
         setUserPrefFontSize(Number(await AsyncStorage.getItem('@profileFontSize:key')));
         // if (userPrefFontSize !== null) {
@@ -33,7 +34,6 @@ const ProfileProvider = ({ children }) => {
         // } else {
         //     console.log('no size')
         // }
-
     }
 
     const getProfileInfoData = async () => {
@@ -110,8 +110,7 @@ const ProfileProvider = ({ children }) => {
         featuredBadgeIndex,
         setFeaturedBadgeIndex,
         featuredBadgeData,
-        setFeaturedBadgeData
-
+        setFeaturedBadgeData,
     }
 
     return (

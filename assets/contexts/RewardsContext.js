@@ -8,6 +8,11 @@ const RewardsProvider = ({ children }) => {
 
     const [categorySwitch, setCategorySwitch] = useState(true);
 
+      // Reward Contexts
+    const [stickerList, setStickerList] = useState([])
+    const [userStickerList, setUserStickerList] = useState([])
+    const [stickerBookList, setStickerBookList] = useState([])
+
     const DATA = [];
 
     for (let i = 0; i < stickerData.length - 1; i++) {
@@ -35,7 +40,13 @@ const RewardsProvider = ({ children }) => {
     const contextData = {
         categorySwitch,
         setCategorySwitch,
-        DATA
+        DATA,
+        stickerList,
+        setStickerList,
+        userStickerList,
+        setUserStickerList,
+        stickerBookList,
+        setStickerBookList
     }
 
     return (

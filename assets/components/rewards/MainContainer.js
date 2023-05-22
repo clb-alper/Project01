@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View, Image, Dimensions } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import colors from '../../colors/colors';
@@ -7,17 +7,74 @@ import { LibraryContext } from '../../contexts/LibraryContext';
 import { ModalContext } from '../../contexts/ModalContext';
 import { RewardsContext } from '../../contexts/RewardsContext';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import { ProfileContext } from '../../contexts/ProfileContext';
+import { auth, firebase } from '../../../firebase';
 
 const MainContainer = () => {
 
     const { DATA } = useContext(RewardsContext);
-    const { setStickerModalEntry, setStickerModalVisible } = useContext(ModalContext);
+    const { setStickerModalEntry, setStickerModalVisible,  } = useContext(ModalContext);
     const { setCategorySwitch } = useContext(LibraryContext);
     const { closeRewardsDropdown, setCloseRewardsDropdown, rewardsCategories } = useContext(DropdownContext)
 
+    const { stickerList, setStickerList, userStickerList, setUserStickerList, stickerBookList, setStickerBookList } = useContext(RewardsContext);
+
+    const stickersRef = firebase.firestore().collection('stickers')
+
+    const getStickerData = async () => {
+        stickersRef
+            .onSnapshot(
+                querySnapshot => {
+                    const stickerList = []
+                    querySnapshot.forEach((doc) => {
+                        const { iconImage, name, price, stickerBookNo } = doc.data()
+
+                        stickerList.push({
+                            id: doc.id,
+                            iconImage,
+                            name,
+                            price,
+                            stickerBookNo,
+
+                        })
+                    })
+                    setStickerList(stickerList)
+                }
+            )
+    }
+
+    const stickerBookRef = firebase.firestore().collection('stickerBooks')
+
+    const getStickerBookData = async () => {
+        stickerBookRef
+            .onSnapshot(
+                querySnapshot => {
+                    const stickerBookList = []
+                    querySnapshot.forEach((doc) => {
+                        const { bookNo, name } = doc.data()
+
+                        stickerBookList.push({
+                            id: doc.id,
+                            bookNo,
+                            name,
+                        })
+                    })
+                    setStickerBookList(stickerBookList)
+                }
+            )
+    }
+
+    useEffect(() => {
+        getStickerData();
+    }, [])
+
+    useEffect(() => {
+        getStickerBookData();
+    }, [])
+
     return (
         <>
-            <View style={styles.pointsHeader}>
+            {/* <View style={styles.pointsHeader}>
 
                 <SelectDropdown
 
@@ -61,67 +118,69 @@ const MainContainer = () => {
                     }}
 
                 />
-            </View>
-
-            {
-                DATA.map((stickerData, index) => {
-                    return (
-                        <View key={index}>
-                            <View style={[styles.headerView12, { marginTop: 5 }]}>
-
-                                <Text
-                                    style={styles.headerTextStyle2}
-                                    adjustsFontSizeToFit={true}
-                                    numberOfLines={1}>
-                                    {stickerData.bookName}
-                                </Text>
-
-                                <View style={styles.stickerContainer}>
-                                    {stickerData.stickers.map((sticker, index) => {
-                                        return (
-                                            <View key={index}>
-                                                <View style={styles.continueReadingBookStyleFirstItem}>
-
-                                                    <TouchableOpacity
-                                                        key={sticker.id}
-                                                        onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker) }}
-                                                        activeOpacity={0.75}>
-
-                                                        <ImageBackground
-
-                                                            source={sticker.image}
-                                                            imageStyle={styles.continueBookImageStyle}>
-                                                        </ImageBackground>
+            </View> */}
 
 
-                                                        <View style={styles.pointsContainer2}>
 
-                                                            <Text
-                                                                style={styles.pointsTextStyle2}
-                                                                adjustsFontSizeToFit={true}
-                                                                numberOfLines={1}>
-                                                                {sticker.price}
-                                                            </Text>
+            <View>
+                <View style={[styles.headerView12, { marginTop: 5 }]}>
 
-                                                            <AntIcons name="star" size={17} color="#FFD600" style={styles.pointsIconStyle2} />
+                    <Text
+                        style={styles.headerTextStyle2}
+                        adjustsFontSizeToFit={true}
+                        numberOfLines={1}>
+                        {stickerList.stickerBookNo}
+                    </Text>
 
-                                                        </View>
-                                                    </TouchableOpacity>
+                    {console.log(stickerBookList)}
+
+                    <View style={styles.stickerContainer}>
+                        {typeof (stickerList) === 'undefined' ? null :
+                            stickerList.map((sticker) => {
+                                return (
+                                    <View key={sticker.id}>
+                                        <View style={styles.continueReadingBookStyleFirstItem}>
+
+                                            <TouchableOpacity
+
+                                                onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); console.log(stickerList) }}
+                                                activeOpacity={0.75}>
+
+                                                <ImageBackground
+
+                                                    source={ {uri: sticker.iconImage}}
+                                                    imageStyle={styles.continueBookImageStyle}>
+                                                </ImageBackground>
+
+
+                                                <View style={styles.pointsContainer2}>
+
+                                                    <Text
+                                                        style={styles.pointsTextStyle2}
+                                                        adjustsFontSizeToFit={true}
+                                                        numberOfLines={1}>
+                                                        {sticker.price}
+                                                    </Text>
+
+                                                    <AntIcons name="star" size={17} color="#FFD600" style={styles.pointsIconStyle2} />
 
                                                 </View>
+                                            </TouchableOpacity>
+
+                                        </View>
 
 
-                                            </View>
-                                        )
-                                    })}
-                                </View>
+                                    </View>
+                                )
+                            })}
+                    </View>
 
-                            </View>
+                </View>
 
-                        </View>
-                    )
-                })
-            }
+            </View>
+
+
+
         </>
     )
 }
