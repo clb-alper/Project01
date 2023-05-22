@@ -260,12 +260,23 @@ const ReadingPage = () => {
         // sub user's continueReading
 
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).update({
-                //update it with update() function don't use set for everytime a progress achived
-                progress: userBookProgress,
-                bookRef: db.doc('storyBooks/' + modalEntry.id),
-                favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
+            .doc(currentProfileSelected).collection('continueReading').get()
+            .then((snap) => {
+                if (!snap.empty) {
+                    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                        .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).update({
+                            progress: userBookProgress,
+                        })
+                } else {
+                    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                        .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+                            progress: userBookProgress,
+                            bookRef: db.doc('storyBooks/' + modalEntry.id),
+                            favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
+                        })
+                }
             })
+
     }
 
     const handleGoBack = () => {
