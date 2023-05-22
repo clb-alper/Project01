@@ -14,6 +14,8 @@ const Login = ({ navigation }) => {
 
     const [email, setEmail] = React.useState();
     const [password, setPassword] = React.useState();
+    const [loginError, setLoginError] = React.useState();
+    const [isVisible, setIsVisible] = React.useState('none');
 
     const handleLogin = () => {
         auth
@@ -26,7 +28,27 @@ const Login = ({ navigation }) => {
                 // setEmail();
                 // setPassword();
             })
-            .catch(error => alert(error.message))
+            .catch(error => {
+                console.log(error.code)
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        setLoginError('Bu email ile kayıtlı bir hesap bulunamadı...')
+                        setIsVisible('flex')
+                        break;
+                    case 'auth/wrong-password':
+                        setLoginError('Email adresi ile şifre uyuşmadı...')
+                        setIsVisible('flex')
+                        break;
+                    case 'auth/invalid-email':
+                        setLoginError('Bu email adresi geçerli değil...')
+                        setIsVisible('flex')
+                        break;
+                    default:
+                        setLoginError('Giriş sırasında bir hata ile karşılaşıldı...')
+                        setIsVisible('flex')
+                        break;
+                }
+            })
     }
 
     // auth.onAuthStateChanged(user => {
@@ -73,6 +95,10 @@ const Login = ({ navigation }) => {
                 <View style={styles.loginHeaderView}>
                     <Text style={styles.loginHeader}>Giriş Yap</Text>
                 </View>
+
+                <Text style={{ color: '#f26d74', fontSize: 20, fontFamily: 'Comic-Bold', display: isVisible }}>
+                    {loginError}
+                </Text>
 
                 <TextInput
                     style={[styles.inputStyle, styles.emailInputStyle]}
