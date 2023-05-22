@@ -136,7 +136,13 @@ const ProfileSelect = () => {
 
         // Dogru setle collectionlari
         base.collection('statisticsData').doc('statsData').set({
-            points: 0
+            adventurer: 0,
+            animalLover: 0,
+            points: 0,
+            readedBooks: 0,
+            readedWords: 0,
+            totalPoints: 0,
+            totalQuizzesCompleted: 0
         })
 
         setTimeout(() => { navigation.goBack() }, 600)
