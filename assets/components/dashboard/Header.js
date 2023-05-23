@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import colors from '../../colors/colors';
 import * as Progress from 'react-native-progress';
@@ -14,6 +14,7 @@ import { ModalContext } from '../../contexts/ModalContext';
 var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
+
 
     const { currentProfileSelected, currentProfileSelectedInfo, userPointsData, badgesList, userStatisticsData, featuredBadgeData, setFeaturedBadgeData, featuredBadgesList, setFeaturedBadgeIndex, setFeaturedBadgesList } = useContext(ProfileContext);
     const { setBadgeModalVisible, setBadgeModalEntry, featuredBadgeModalVisible, setFeaturedBadgeModalVisible } = useContext(ModalContext);
@@ -35,31 +36,30 @@ const Header = () => {
                         featuredBadgeData.push(featuredBadges)
 
                         for (let i = 0; i < 4; i++) {
-                            // console.log(Object.values(badgesList))
-                            // if (Object.values(badgesList).includes(featuredBadges[i])) {
-                            //     featuredBadgesList.push({
-                            //         ...badge,
-                            //     })
-                            // }
-                            // else {
-                            //     featuredBadgesList.push({
-                            //         empty: "empty",
-                            //     })
-                            // }
-                            badgesList.forEach((badge) => {
-                                if (featuredBadges[i] === badge.statisticName)
-                                    featuredBadgesList.push({
-                                        ...badge,
 
+                            featuredBadgeData[0].forEach((badgeName) => {
+
+                                if (featuredBadgesList.length < 4) {
+
+                                    badgesList.every((badge) => {
+
+                                        if (badgeName === badge.statisticName) {
+                                            featuredBadgesList.push({
+                                                ...badge,
+                                            })
+                                        }
+
+                                        else if (badgeName === "empty") {
+
+                                            if (featuredBadgesList.length < 4) {
+                                                featuredBadgesList.push({
+                                                    empty: "empty",
+                                                })
+                                                return false;
+                                            }
+                                        }
+                                        return true;
                                     })
-
-                                else if (featuredBadgeData[0][i] === "empty") {
-
-                                    if (featuredBadgesList.length < 4) {
-                                        featuredBadgesList.push({
-                                            empty: "empty",
-                                        })
-                                    }
 
                                 }
                             })
@@ -67,7 +67,7 @@ const Header = () => {
                     })
                     setFeaturedBadgesList(featuredBadgesList)
                     setFeaturedBadgeData(featuredBadgeData[0])
-                    console.log(featuredBadgesList)
+                    //console.log(featuredBadgesList)
                 }
             )
     }

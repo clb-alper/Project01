@@ -145,6 +145,10 @@ const ProfileSelect = () => {
             totalQuizzesCompleted: 0
         })
 
+        base.collection('featuredBadgeData').doc('featuredBadgesDoc').set({
+            featuredBadges: ["empty", "empty", "empty", "empty"]
+        })
+
         setTimeout(() => { navigation.goBack() }, 600)
     }
 
