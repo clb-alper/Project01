@@ -15,7 +15,7 @@ var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Header = () => {
 
-    const { currentProfileSelected, currentProfileSelectedInfo, userPointsData, badgesList, userStatisticsData,featuredBadgeData, setFeaturedBadgeData, featuredBadgesList, setFeaturedBadgeIndex, setFeaturedBadgesList } = useContext(ProfileContext);
+    const { currentProfileSelected, currentProfileSelectedInfo, userPointsData, badgesList, userStatisticsData, featuredBadgeData, setFeaturedBadgeData, featuredBadgesList, setFeaturedBadgeIndex, setFeaturedBadgesList } = useContext(ProfileContext);
     const { setBadgeModalVisible, setBadgeModalEntry, featuredBadgeModalVisible, setFeaturedBadgeModalVisible } = useContext(ModalContext);
 
     const featuredBadgesRef = firebase.firestore()
@@ -35,17 +35,39 @@ const Header = () => {
                         featuredBadgeData.push(featuredBadges)
 
                         for (let i = 0; i < 4; i++) {
+                            // console.log(Object.values(badgesList))
+                            // if (Object.values(badgesList).includes(featuredBadges[i])) {
+                            //     featuredBadgesList.push({
+                            //         ...badge,
+                            //     })
+                            // }
+                            // else {
+                            //     featuredBadgesList.push({
+                            //         empty: "empty",
+                            //     })
+                            // }
                             badgesList.forEach((badge) => {
                                 if (featuredBadges[i] === badge.statisticName)
                                     featuredBadgesList.push({
                                         ...badge,
 
                                     })
+
+                                else if (featuredBadgeData[0][i] === "empty") {
+
+                                    if (featuredBadgesList.length < 4) {
+                                        featuredBadgesList.push({
+                                            empty: "empty",
+                                        })
+                                    }
+
+                                }
                             })
                         }
                     })
                     setFeaturedBadgesList(featuredBadgesList)
                     setFeaturedBadgeData(featuredBadgeData[0])
+                    console.log(featuredBadgesList)
                 }
             )
     }
@@ -107,75 +129,77 @@ const Header = () => {
 
                                 return (
 
-                                    index < 4 ?
-                                        <TouchableOpacity
-                                            key={index}
-                                            style={{ marginRight: 10, marginBottom: 20 }}
-                                            onLongPress={() => { setFeaturedBadgeModalVisible(true); setFeaturedBadgeIndex(index) }}
-                                            activeOpacity={0.40}
-                                            onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
-                                        >
-                                            {
-                                                userStatisticsData[badges.statisticName] >= badges.tiers[4] ?
-                                                    <View
-                                                        style={{ alignItems: 'center' }}
-                                                    >
 
-                                                        <Rainbow
-                                                            height={80}
-                                                            width={80}
-                                                            lHeight={500}
-                                                            lWidth={80}
-                                                            fromValue={-420}
-                                                            toValue={-147}
-                                                            duration={5000}
-                                                            backgroundColor={colors.white}
-                                                            style={styles.rainbowBadgeStyle}>
-
-                                                        </Rainbow>
-                                                        <Image
-                                                            style={[styles.rainbowIconStyle, {
-                                                                width: 45, marginTop:
-                                                                    badges.statisticName === "adventurer" ||
-                                                                        badges.statisticName === "totalQuizzesCompleted" ||
-                                                                        badges.statisticName === "readedBooks" ||
-                                                                        badges.statisticName === "readedWords" ? -76.5 : -75, resizeMode: 'contain'
-                                                            }]}
-                                                            source={{ uri: badges.iconImageURL }}
-                                                        />
-
-                                                    </View>
-                                                    :
-                                                    <View style={
-
-                                                        userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
-                                                            userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
-                                                                userStatisticsData[badges.statisticName] >= badges.tiers[2] ?
-                                                                    userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
-                                                                        styles.diamondBadgeStyle :
-                                                                        styles.emeraldBadgeStyle :
-                                                                    styles.goldBadgeStyle :
-                                                                styles.silverBadgeStyle : styles.bronzeBadgeStyle
-                                                    }>
-                                                        <Image
-                                                            style={[styles.badgeIconStyle,
-                                                            {
-                                                                width: 45, marginTop:
-                                                                    badges.statisticName === "adventurer" ||
-                                                                        badges.statisticName === "totalQuizzesCompleted" ||
-                                                                        badges.statisticName === "readedBooks" ||
-                                                                        badges.statisticName === "readedWords" ? -5 : 0, resizeMode: 'contain'
-                                                            }]}
-                                                            source={{ uri: badges.iconImageURL }}
-                                                        />
-                                                    </View>
-
-                                            }
-
-                                        </TouchableOpacity>
+                                    badges.empty === "empty" ?
+                                        <Text>asdsd</Text>
                                         :
-                                        null
+                                        badges.description ?
+                                            <TouchableOpacity
+                                                key={index}
+                                                style={{ marginRight: 10, marginBottom: 20 }}
+                                                onLongPress={() => { setFeaturedBadgeModalVisible(true); setFeaturedBadgeIndex(index) }}
+                                                activeOpacity={0.40}
+                                                onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
+                                            >
+                                                {
+                                                    userStatisticsData[badges.statisticName] >= badges.tiers[4] ?
+                                                        <View
+                                                            style={{ alignItems: 'center' }}
+                                                        >
 
+                                                            <Rainbow
+                                                                height={80}
+                                                                width={80}
+                                                                lHeight={500}
+                                                                lWidth={80}
+                                                                fromValue={-420}
+                                                                toValue={-147}
+                                                                duration={5000}
+                                                                backgroundColor={colors.white}
+                                                                style={styles.rainbowBadgeStyle}>
+
+                                                            </Rainbow>
+                                                            <Image
+                                                                style={[styles.rainbowIconStyle, {
+                                                                    width: 45, marginTop:
+                                                                        badges.statisticName === "adventurer" ||
+                                                                            badges.statisticName === "totalQuizzesCompleted" ||
+                                                                            badges.statisticName === "readedBooks" ||
+                                                                            badges.statisticName === "readedWords" ? -76.5 : -75, resizeMode: 'contain'
+                                                                }]}
+                                                                source={{ uri: badges.iconImageURL }}
+                                                            />
+
+                                                        </View>
+                                                        :
+                                                        <View style={
+
+                                                            userStatisticsData[badges.statisticName] >= badges.tiers[0] ?
+                                                                userStatisticsData[badges.statisticName] >= badges.tiers[1] ?
+                                                                    userStatisticsData[badges.statisticName] >= badges.tiers[2] ?
+                                                                        userStatisticsData[badges.statisticName] >= badges.tiers[3] ?
+                                                                            styles.diamondBadgeStyle :
+                                                                            styles.emeraldBadgeStyle :
+                                                                        styles.goldBadgeStyle :
+                                                                    styles.silverBadgeStyle : styles.bronzeBadgeStyle
+                                                        }>
+                                                            <Image
+                                                                style={[styles.badgeIconStyle,
+                                                                {
+                                                                    width: 45, marginTop:
+                                                                        badges.statisticName === "adventurer" ||
+                                                                            badges.statisticName === "totalQuizzesCompleted" ||
+                                                                            badges.statisticName === "readedBooks" ||
+                                                                            badges.statisticName === "readedWords" ? -5 : 0, resizeMode: 'contain'
+                                                                }]}
+                                                                source={{ uri: badges.iconImageURL }}
+                                                            />
+                                                        </View>
+
+                                                }
+
+                                            </TouchableOpacity>
+                                            : null
                                 )
                             })
                     }
