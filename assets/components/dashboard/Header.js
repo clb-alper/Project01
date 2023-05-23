@@ -35,35 +35,33 @@ const Header = () => {
 
                         featuredBadgeData.push(featuredBadges)
 
-                        for (let i = 0; i < 4; i++) {
+                        featuredBadgeData[0].forEach((badgeName) => {
 
-                            featuredBadgeData[0].forEach((badgeName) => {
+                            if (featuredBadgesList.length < 4) {
 
-                                if (featuredBadgesList.length < 4) {
+                                badgesList.every((badge) => {
 
-                                    badgesList.every((badge) => {
+                                    if (badgeName === badge.statisticName) {
+                                        featuredBadgesList.push({
+                                            ...badge,
+                                        })
+                                    }
 
-                                        if (badgeName === badge.statisticName) {
+                                    else if (badgeName === "empty") {
+
+                                        if (featuredBadgesList.length < 4) {
                                             featuredBadgesList.push({
-                                                ...badge,
+                                                empty: "empty",
                                             })
+                                            return false;
                                         }
+                                    }
+                                    return true;
+                                })
 
-                                        else if (badgeName === "empty") {
+                            }
+                        })
 
-                                            if (featuredBadgesList.length < 4) {
-                                                featuredBadgesList.push({
-                                                    empty: "empty",
-                                                })
-                                                return false;
-                                            }
-                                        }
-                                        return true;
-                                    })
-
-                                }
-                            })
-                        }
                     })
                     setFeaturedBadgesList(featuredBadgesList)
                     setFeaturedBadgeData(featuredBadgeData[0])
@@ -75,10 +73,6 @@ const Header = () => {
     useEffect(() => {
         getFeaturedBadgesData();
     }, [])
-
-    useEffect(() => {
-        getFeaturedBadgesData();
-    }, [badgesList])
 
     const shadowOpt = {
         width: widthOfScreen,
@@ -131,7 +125,7 @@ const Header = () => {
 
 
                                     badges.empty === "empty" ?
-                                        <Text>asdsd</Text>
+                                        <Text key={index}>asdsd</Text>
                                         :
                                         badges.description ?
                                             <TouchableOpacity
