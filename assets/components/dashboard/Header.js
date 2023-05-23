@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import colors from '../../colors/colors';
 import * as Progress from 'react-native-progress';
-import IonIcons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { BoxShadow } from 'react-native-shadow';
 import { ProfileContext } from '../../contexts/ProfileContext';
@@ -74,6 +74,10 @@ const Header = () => {
         getFeaturedBadgesData();
     }, [])
 
+    useEffect(() => {
+        getFeaturedBadgesData();
+    }, [badgesList])
+
     const shadowOpt = {
         width: widthOfScreen,
         height: 240,
@@ -125,7 +129,17 @@ const Header = () => {
 
 
                                     badges.empty === "empty" ?
-                                        <Text key={index}>asdsd</Text>
+                                        <TouchableOpacity
+                                            key={index}
+                                            style={{ marginRight: 10, marginBottom: 20 }}
+                                            activeOpacity={0.40}
+                                            onPress={() => { setFeaturedBadgeModalVisible(true); setFeaturedBadgeIndex(index) }}
+                                        >
+                                            <View style={styles.featuredBadgeAddEmptyStyle}>
+                                                <Entypo name="plus" size={50} color="rgba(0, 0, 0, 0.55)" style={styles.featuredBadgeAddEmptyIcon} />
+                                            </View>
+
+                                        </TouchableOpacity>
                                         :
                                         badges.description ?
                                             <TouchableOpacity
@@ -395,5 +409,24 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         borderRadius: 100,
         borderColor: colors.black,
+    },
+
+    featuredBadgeAddEmptyStyle: {
+        width: 80,
+        height: 80,
+        alignItems: 'center',
+        paddingTop: 5,
+        borderWidth: 5,
+        borderRadius: 100,
+        backgroundColor: 'rgba(0, 0, 0, 0.2)',
+        borderColor: 'rgba(0, 0, 0, 0.4)',
+    },
+
+    featuredBadgeAddEmptyIcon: {
+        resizeMode: 'contain',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 5,
     },
 })
