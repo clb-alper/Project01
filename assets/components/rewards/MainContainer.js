@@ -13,7 +13,7 @@ import { auth, firebase } from '../../../firebase';
 const MainContainer = () => {
 
     const { DATA } = useContext(RewardsContext);
-    const { setStickerModalEntry, setStickerModalVisible,  } = useContext(ModalContext);
+    const { setStickerModalEntry, setStickerModalVisible, } = useContext(ModalContext);
     const { setCategorySwitch } = useContext(LibraryContext);
     const { closeRewardsDropdown, setCloseRewardsDropdown, rewardsCategories } = useContext(DropdownContext)
 
@@ -124,57 +124,66 @@ const MainContainer = () => {
 
             <View>
                 <View style={[styles.headerView12, { marginTop: 5 }]}>
+                    {
+                        stickerBookList.map((sBook) => {
+                            return (
+                                <>
+                                    <Text
+                                        style={styles.headerTextStyle2}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>
+                                        {sBook.name}
+                                    </Text>
 
-                    <Text
-                        style={styles.headerTextStyle2}
-                        adjustsFontSizeToFit={true}
-                        numberOfLines={1}>
-                        {stickerList.stickerBookNo}
-                    </Text>
+                                    <View style={styles.stickerContainer}>
+                                        {typeof (stickerList) === 'undefined' ? null :
+                                            stickerList.filter((sl) => sBook.bookNo === sl.stickerBookNo).map((sticker) => {
+                                                return (
+                                                    <View key={sticker.id}>
+                                                        <View style={styles.continueReadingBookStyleFirstItem}>
 
-                    {console.log(stickerBookList)}
+                                                            <TouchableOpacity
 
-                    <View style={styles.stickerContainer}>
-                        {typeof (stickerList) === 'undefined' ? null :
-                            stickerList.map((sticker) => {
-                                return (
-                                    <View key={sticker.id}>
-                                        <View style={styles.continueReadingBookStyleFirstItem}>
+                                                                onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); }}
+                                                                activeOpacity={0.75}>
 
-                                            <TouchableOpacity
+                                                                <ImageBackground
 
-                                                onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); console.log(stickerList) }}
-                                                activeOpacity={0.75}>
-
-                                                <ImageBackground
-
-                                                    source={ {uri: sticker.iconImage}}
-                                                    imageStyle={styles.continueBookImageStyle}>
-                                                </ImageBackground>
+                                                                    source={{ uri: sticker.iconImage }}
+                                                                    imageStyle={styles.continueBookImageStyle}>
+                                                                </ImageBackground>
 
 
-                                                <View style={styles.pointsContainer2}>
+                                                                <View style={styles.pointsContainer2}>
 
-                                                    <Text
-                                                        style={styles.pointsTextStyle2}
-                                                        adjustsFontSizeToFit={true}
-                                                        numberOfLines={1}>
-                                                        {sticker.price}
-                                                    </Text>
+                                                                    <Text
+                                                                        style={styles.pointsTextStyle2}
+                                                                        adjustsFontSizeToFit={true}
+                                                                        numberOfLines={1}>
+                                                                        {sticker.price}
+                                                                    </Text>
 
-                                                    <AntIcons name="star" size={17} color="#FFD600" style={styles.pointsIconStyle2} />
+                                                                    <AntIcons name="star" size={17} color="#FFD600" style={styles.pointsIconStyle2} />
 
-                                                </View>
-                                            </TouchableOpacity>
+                                                                </View>
+                                                            </TouchableOpacity>
 
-                                        </View>
+                                                        </View>
 
+
+                                                    </View>
+                                                )
+
+                                            })
+                                        }
 
                                     </View>
-                                )
-                            })}
-                    </View>
+                                </>
+                            )
+                        })
 
+
+                    }
                 </View>
 
             </View>

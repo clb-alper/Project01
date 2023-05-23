@@ -32,7 +32,7 @@ const StickerModal = () => {
             <View style={{ alignItems: 'center', marginTop: -50 }}>
                 <View>
                     <Image
-                        source={stickerModalEntry.image}
+                        source={{uri: stickerModalEntry.iconImage}}
                         style={styles.modalStickerImage}
                     >
                     </Image>
