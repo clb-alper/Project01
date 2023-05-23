@@ -20,8 +20,9 @@ const RecommendedFlatList = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const myTimeOut = async () => {
-        await sleep(1000);
+        await sleep(2000);
         setLoaded(true)
+        setDummy(true)
         getRecommendedData();
     }
 
@@ -111,7 +112,7 @@ const RecommendedFlatList = () => {
                     if (querySnapshot.empty) {
 
                     } else {
-                        querySnapshot.forEach( async (doc) => {
+                        querySnapshot.forEach(async (doc) => {
                             if (doc.id === 'ageTagData') {
                                 const { ageOf3to6Value, ageOf6to9Value, ageOf9to12Value, ageOf12plusValue } = doc.data()
                                 tagList.push({
@@ -229,16 +230,18 @@ const RecommendedFlatList = () => {
     //     myTimeOut()
     // }, [favorited])
 
-
+    useEffect(() => {
+        myTimeOut()
+    }, [])
 
     return (
         <View>
 
             {dummy ?
-                bookList.length == 0 && dummy ?
+                bookList.length <= 0 ?
                     <View>
                         <Text>
-                            DOTO : add Text
+                            TODO : add information for empty recommended flatlist 
                         </Text>
                     </View>
                     :

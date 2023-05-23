@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Text } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
@@ -125,32 +125,37 @@ const NewBooksFlatlist = () => {
     return (
         <View>
             {dummy ?
-                <FlatList
-                    overScrollMode={'never'}
-                    data={bookList}
-                    keyExtractor={(item) => item.id}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item, index }) => (
-                        <View style={index != 0 ? styles.newBookStyle : styles.newBookStyleFirstItem}>
-                            <TouchableOpacity
-                                key={item.id}
-                                onPress={() => { setModalVisible(true); setModalEntry(item); }}
-                                activeOpacity={0.75}>
+                bookList.length == 0 ?
+                    <Text>
+                        TODO : add information for empty new books flatlist
+                    </Text>
+                    :
+                    <FlatList
+                        overScrollMode={'never'}
+                        data={bookList}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
+                            <View style={index != 0 ? styles.newBookStyle : styles.newBookStyleFirstItem}>
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                    activeOpacity={0.75}>
 
-                                <BoxShadow setting={shadowOpt}>
-                                    <ImageBackground
-                                        source={{ uri: item.image }}
-                                        imageStyle={styles.newBookImageStyle}>
-                                    </ImageBackground>
-                                </BoxShadow>
+                                    <BoxShadow setting={shadowOpt}>
+                                        <ImageBackground
+                                            source={{ uri: item.image }}
+                                            imageStyle={styles.newBookImageStyle}>
+                                        </ImageBackground>
+                                    </BoxShadow>
 
-                            </TouchableOpacity>
+                                </TouchableOpacity>
 
-                        </View>
-                    )}
+                            </View>
+                        )}
 
-                />
+                    />
                 :
                 <FlatlistSkeleton />
             }

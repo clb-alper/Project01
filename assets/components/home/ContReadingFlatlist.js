@@ -19,7 +19,7 @@ const ContReadingFlatlist = () => {
     }
 
     const timeOutOfTags = async () => {
-        await sleep(700)
+        await sleep(1200)
         setDummy(true)
     }
 
@@ -252,7 +252,7 @@ const ContReadingFlatlist = () => {
                 contReadingBookList.length === 0 ?
                     <View>
                         <Text>
-                            DOTO : add Text
+                            TODO : add information for empty continue reading flatlist
                         </Text>
                     </View>
                     :
