@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     },
 
     pointsIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         height: 25,
         width: 25,
         marginLeft: 1.5,
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
     },
 
     featuredBadgeAddEmptyIcon: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',

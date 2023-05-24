@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     },
 
     modalBookDetailHeaderClose: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         left: 25,
         top: -2,
     },
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     },
 
     rewardTagPointsIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'cover',
         height: 25,
         width: 25,
         marginLeft: 2,
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     },
 
     badgeIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'cover',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',

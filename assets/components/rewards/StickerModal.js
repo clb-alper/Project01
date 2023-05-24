@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     },
 
     pointsIconStyle3: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         height: 38,
         width: 38,
         paddingTop: 2,

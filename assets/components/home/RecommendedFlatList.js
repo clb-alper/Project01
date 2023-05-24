@@ -20,7 +20,7 @@ const RecommendedFlatList = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const myTimeOut = async () => {
-        await sleep(2000);
+        await sleep(1000);
         setLoaded(true)
         setDummy(true)
         getRecommendedData();
@@ -33,6 +33,7 @@ const RecommendedFlatList = () => {
 
     useEffect(() => {
         getRecommendedData()
+        //myTimeOut()
     }, [])
 
     useEffect(() => {
@@ -230,9 +231,9 @@ const RecommendedFlatList = () => {
     //     myTimeOut()
     // }, [favorited])
 
-    useEffect(() => {
-        myTimeOut()
-    }, [])
+    // useEffect(() => {
+    //     myTimeOut()
+    // }, [])
 
     return (
         <View>
@@ -241,7 +242,7 @@ const RecommendedFlatList = () => {
                 bookList.length <= 0 ?
                     <View>
                         <Text>
-                            TODO : add information for empty recommended flatlist 
+                            TODO : add information for empty recommended flatlist
                         </Text>
                     </View>
                     :

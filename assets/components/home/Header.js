@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     },
 
     headerIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         height: 35,
         width: 35,
         paddingTop: 4
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     },
 
     pointsIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         height: 25,
         width: 25,
     },

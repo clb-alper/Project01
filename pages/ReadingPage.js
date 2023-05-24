@@ -619,7 +619,7 @@ const styles = StyleSheet.create({
     },
 
     goBackIcon: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         justifyContent: 'center',
     },
 

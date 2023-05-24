@@ -104,7 +104,7 @@ const Login = ({ navigation }) => {
                     style={[styles.inputStyle, styles.emailInputStyle]}
                     placeholder="Email"
                     placeholderTextColor={'#B8B8B8'}
-                    keyboardType="text"
+                    keyboardType="default"
                     value={email}
                     onChangeText={text => setEmail(text)}
                 />
@@ -114,7 +114,7 @@ const Login = ({ navigation }) => {
                     placeholder="Şifre"
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
-                    keyboardType="text"
+                    keyboardType="default"
                     value={password}
                     onChangeText={text => setPassword(text)}
                 />

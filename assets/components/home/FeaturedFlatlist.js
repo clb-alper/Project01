@@ -109,9 +109,9 @@ const FeaturedFlatlist = () => {
         getNewBooksData()
     }, [])
 
-    useEffect(() => {
-        getNewBooksData()
-    }, [bookList])
+    // useEffect(() => {
+    //     getNewBooksData()
+    // }, [bookList])
 
     return (
         <View>
