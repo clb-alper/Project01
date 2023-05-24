@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../assets/components/library/Header';
 import AlphabetSlider from '../assets/components/library/AlphabetSlider';
 import BookShowcase from '../assets/components/library/BookShowcase';
+import { StatusBar } from 'expo-status-bar';
 
 var heightOfScreen = Dimensions.get('window').height; //full width
 var widthOfScreen = Dimensions.get('window').width; //full width
@@ -33,6 +34,7 @@ const Library = () => {
     return (
 
         <View style={styles.libraryBG} onLayout={onLayoutRootView}>
+             <StatusBar style="auto" />
 
             <SafeAreaView edges={['right', 'left', 'bottom']}>
 

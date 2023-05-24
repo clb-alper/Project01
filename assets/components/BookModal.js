@@ -71,7 +71,7 @@ const BookModal = () => {
         console.log(favoriteCountList[0])
         if (modalEntry.favorited) {
             firebase.firestore().collection('storyBooks').doc(modalEntry.id).update({
-                favoriteCount: favoriteCountList[0].favoriteCount + 1,
+                favoriteCount: favoriteCountList[0].favoriteCount - 1,
             })
             await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).set({
@@ -82,7 +82,7 @@ const BookModal = () => {
 
         } else {
             firebase.firestore().collection('storyBooks').doc(modalEntry.id).update({
-                favoriteCount: favoriteCountList[0].favoriteCount - 1,
+                favoriteCount: favoriteCountList[0].favoriteCount + 1,
             })
             await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).delete();
@@ -161,7 +161,7 @@ const BookModal = () => {
 
                         <Text
                             style={styles.tagTextStyle}>
-                                Okuma Ödülü: {modalEntry.rewardTag}
+                            Okuma Ödülü: {modalEntry.rewardTag}
                         </Text>
 
                         <AntIcons name="star" size={20} color="#FFD600" style={styles.rewardTagPointsIconStyle} />

@@ -260,22 +260,44 @@ const ReadingPage = () => {
         // sub user's continueReading
 
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('continueReading').get()
-            .then((snap) => {
-                if (!snap.empty) {
-                    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-                        .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).update({
-                            progress: userBookProgress,
-                        })
-                } else {
-                    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-                        .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
-                            progress: userBookProgress,
-                            bookRef: db.doc('storyBooks/' + modalEntry.id),
-                            favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
-                        })
-                }
-            })
+        .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+            progress: userBookProgress,
+            bookRef: db.doc('storyBooks/' + modalEntry.id),
+            favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
+        })
+
+        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        //     .doc(currentProfileSelected).collection('continueReading').get()
+        //     .then((snap) => {
+        //         if (!snap.data().empty) {
+        //             firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        //                 .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).get()
+        //                 .then((snap) => {
+        //                     console.log(snap)
+        //                     if (!snap.data().empty) {
+        //                         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        //                             .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).update({
+        //                                 progress: userBookProgress,
+        //                             })
+        //                     }
+        //                     else {
+        //                         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        //                             .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+        //                                 progress: userBookProgress,
+        //                                 bookRef: db.doc('storyBooks/' + modalEntry.id),
+        //                                 favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
+        //                             })
+        //                     }
+        //                 })
+        //         } else {
+        //             firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        //                 .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+        //                     progress: userBookProgress,
+        //                     bookRef: db.doc('storyBooks/' + modalEntry.id),
+        //                     favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
+        //                 })
+        //         }
+        //     })
 
     }
 
@@ -452,7 +474,7 @@ const ReadingPage = () => {
 
                                             <TouchableOpacity
                                                 //onPress={speak}
-                                                onPress={() => {speak(pages[index].storyText)}}
+                                                onPress={() => { speak(pages[index].storyText) }}
                                                 activeOpacity={0.8}>
                                                 <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
                                                     <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />

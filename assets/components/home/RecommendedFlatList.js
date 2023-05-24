@@ -38,19 +38,19 @@ const RecommendedFlatList = () => {
 
     useEffect(() => {
         getRecommendedData()
-    }, [loaded])
+    }, [loaded, modalVisible, readed, favorited])
 
-    useEffect(() => {
-        getRecommendedData()
-    }, [modalVisible])
+    // useEffect(() => {
+    //     getRecommendedData()
+    // }, [modalVisible])
 
-    useEffect(() => {
-        getRecommendedData()
-    }, [readed])
+    // useEffect(() => {
+    //     getRecommendedData()
+    // }, [readed])
 
-    useEffect(() => {
-        getRecommendedData()
-    }, [favorited])
+    // useEffect(() => {
+    //     getRecommendedData()
+    // }, [favorited])
 
     const shadowOpt = {
         width: 110,

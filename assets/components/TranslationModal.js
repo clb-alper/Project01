@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
 
     modalBookDetailHeaderClose: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
     },
 
     mainText: {

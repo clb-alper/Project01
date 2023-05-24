@@ -125,10 +125,11 @@ const MainContainer = () => {
             <View>
                 <View style={[styles.headerView12, { marginTop: 5 }]}>
                     {
-                        stickerBookList.map((sBook) => {
+                        stickerBookList.map((sBook, index) => {
                             return (
                                 <>
                                     <Text
+                                        key={index}
                                         style={styles.headerTextStyle2}
                                         adjustsFontSizeToFit={true}
                                         numberOfLines={1}>

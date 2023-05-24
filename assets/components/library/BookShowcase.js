@@ -59,6 +59,15 @@ const BookShowcase = () => {
                     }]
                 })
             }
+            DATA.sort(function (a, b) {
+                if (a.condition < b.condition) {
+                    return -1;
+                }
+                if (a.condition > b.condition) {
+                    return 1;
+                }
+                return 0;
+            });
         }
         return DATA
 
