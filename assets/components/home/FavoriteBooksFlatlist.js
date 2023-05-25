@@ -18,8 +18,7 @@ const FavoriteBooksFlastlist = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const timeOutOfTags = async () => {
-        // await sleep(850)
-        setDummy(true)
+        await sleep(50).then(() => setDummy(true))
     }
 
     const shadowOpt = {
@@ -46,6 +45,7 @@ const FavoriteBooksFlastlist = () => {
                 const bookList = []
                 if (querySnapshot.empty) {
                     setBookList([])
+                    timeOutOfTags()
                 } else {
                     querySnapshot.forEach((doc) => {
                         const favBookReading = doc.data()
@@ -110,7 +110,7 @@ const FavoriteBooksFlastlist = () => {
                 bookList.length == 0 && dummy ?
                     <View>
                         <Text>
-                            DOTO : add Text
+                            TODO : add information for empty continue reading flatlist
                         </Text>
                     </View>
                     :

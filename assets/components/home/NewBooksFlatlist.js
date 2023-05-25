@@ -20,7 +20,7 @@ const NewBooksFlatlist = () => {
 
     const dummyTimeout = async () => {
         // await sleep(1100)
-        setDummy(true)
+        await sleep(50).then(() => setDummy(true))
     }
 
     const isWithinLast7Days = (date) => {

@@ -7,6 +7,7 @@ import { ModalContext } from '../../contexts/ModalContext';
 import { auth, firebase } from '../../../firebase'
 import { ProfileContext } from '../../contexts/ProfileContext';
 import ContReadingFlatlistSkeleton from '../skeletons/ContReadingFlatlistSkeleton';
+import Skeleton from '../skeletons/Skeleton';
 
 const ContReadingFlatlist = () => {
 
@@ -19,8 +20,8 @@ const ContReadingFlatlist = () => {
     }
 
     const timeOutOfTags = async () => {
-        await sleep(1200)
-        setDummy(true)
+        await sleep(50).then(() => setDummy(true))
+
     }
 
     const shadowOpt = {
@@ -57,6 +58,7 @@ const ContReadingFlatlist = () => {
                     const contReadingBookList = [];
                     if (querySnapshot.empty) {
                         setBookList([])
+                        timeOutOfTags()
                     } else {
                         querySnapshot.forEach((doc) => {
                             const contBookReading = doc.data()
@@ -95,11 +97,11 @@ const ContReadingFlatlist = () => {
                                         setContReadingBookList(contReadingBookList)
 
                                     }
+                                    timeOutOfTags()
                                 })
                         })
 
                     }
-                    timeOutOfTags()
                 }
             )
 
@@ -254,6 +256,15 @@ const ContReadingFlatlist = () => {
                         <Text>
                             TODO : add information for empty continue reading flatlist
                         </Text>
+                        {/* <Skeleton
+                            height={188}
+                            width={113}
+                            lHeight={'100%'}
+                            lWidth={'300%'}
+                            duration={1200}
+                            backgroundColor={'rgba(0,0,0,0.05)'}
+                            style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
+                        /> */}
                     </View>
                     :
                     <FlatList

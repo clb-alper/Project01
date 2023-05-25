@@ -28,7 +28,7 @@ const RecommendedFlatList = () => {
 
     const dummyTimeout = async () => {
         // await sleep(1100)
-        setDummy(true)
+        await sleep(50).then(() => setDummy(true))
     }
 
     useEffect(() => {
@@ -111,7 +111,7 @@ const RecommendedFlatList = () => {
             .onSnapshot(
                 querySnapshot => {
                     if (querySnapshot.empty) {
-
+                        dummyTimeout()
                     } else {
                         querySnapshot.forEach(async (doc) => {
                             if (doc.id === 'ageTagData') {
