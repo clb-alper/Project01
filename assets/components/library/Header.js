@@ -47,6 +47,7 @@ const Header = () => {
                     itemBorder: DATA[i].books[k].itemBorder,
                     itemColorBG: DATA[i].books[k].itemColorBG,
                     itemTextColor: DATA[i].books[k].itemTextColor,
+                    itemPageBGColor: DATA[i].books[k].itemPageBGColor,
                     itemDesc: DATA[i].books[k].itemDesc,
                     favorited: DATA[i].books[k].favorited,
                     bookProgress: DATA[i].books[k].bookProgress,
@@ -77,6 +78,7 @@ const Header = () => {
                             itemBorder: rawData[i].itemBorder,
                             itemColorBG: rawData[i].itemColorBG,
                             itemTextColor: rawData[i].itemTextColor,
+                            itemPageBGColor: rawData[i].itemPageBGColor,
                             itemDesc: rawData[i].itemDesc,
                             favorited: rawData[i].favorited,
                             bookProgress: rawData[i].bookProgress,
@@ -108,6 +110,7 @@ const Header = () => {
                             itemBorder: rawData[i].itemBorder,
                             itemColorBG: rawData[i].itemColorBG,
                             itemTextColor: rawData[i].itemTextColor,
+                            itemPageBGColor: rawData[i].itemPageBGColor,
                             itemDesc: rawData[i].itemDesc,
                             favorited: rawData[i].favorited,
                             bookProgress: rawData[i].bookProgress,
@@ -137,6 +140,7 @@ const Header = () => {
                             itemBorder: rawData[i].itemBorder,
                             itemColorBG: rawData[i].itemColorBG,
                             itemTextColor: rawData[i].itemTextColor,
+                            itemPageBGColor: rawData[i].itemPageBGColor,
                             itemDesc: rawData[i].itemDesc,
                             favorited: rawData[i].favorited,
                             bookProgress: rawData[i].bookProgress,
@@ -166,6 +170,7 @@ const Header = () => {
                             itemBorder: rawData[i].itemBorder,
                             itemColorBG: rawData[i].itemColorBG,
                             itemTextColor: rawData[i].itemTextColor,
+                            itemPageBGColor: rawData[i].itemPageBGColor,
                             itemDesc: rawData[i].itemDesc,
                             favorited: rawData[i].favorited,
                             bookProgress: rawData[i].bookProgress,
@@ -178,10 +183,15 @@ const Header = () => {
             }
         }
 
-        // TODO: TR ALPHABET ENTEGRATION
-        sortedData.sort((a, b) => {
-            return a.condition > b.condition;
-        })
+        // // TODO: TR ALPHABET ENTEGRATION
+        // sortedData.sort((a, b) => {
+        //     return a.condition > b.condition;
+        // })
+
+        sortedData.sort(function (a, b) {
+            return Intl.Collator("tr").compare(a.condition,b.condition)
+        });
+
         setSortedData(sortedData);
 
     };

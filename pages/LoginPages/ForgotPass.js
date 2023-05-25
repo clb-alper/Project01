@@ -72,7 +72,7 @@ const ForgotPass = ({ navigation }) => {
                         style={[styles.inputStyle, styles.emailInputStyle]}
                         placeholder="Email"
                         placeholderTextColor={'#B8B8B8'}
-                        keyboardType="text"
+                        keyboardType="default"
                         onChangeText={text => setUserMail(text)}
                     />
 

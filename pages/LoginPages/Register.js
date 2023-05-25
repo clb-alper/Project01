@@ -149,7 +149,7 @@ const Register = ({ navigation }) => {
                     style={[styles.inputStyle, styles.emailInputStyle]}
                     placeholder="Email"
                     placeholderTextColor={'#B8B8B8'}
-                    keyboardType="text"
+                    keyboardType="default"
                     value={email}
                     onChangeText={text => setEmail(text)}
                 />
@@ -159,7 +159,7 @@ const Register = ({ navigation }) => {
                     placeholder="Şifre"
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
-                    keyboardType="text"
+                    keyboardType="default"
                     value={password}
                     onChangeText={text => setPassword(text)}
                 />
@@ -169,7 +169,7 @@ const Register = ({ navigation }) => {
                     placeholder="Şifre (Tekrar)"
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
-                    keyboardType="text"
+                    keyboardType="default"
                     value={password2}
                     onChangeText={text => setPassword2(text)}
                 />

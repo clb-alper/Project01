@@ -127,9 +127,9 @@ const MainContainer = () => {
                     {
                         stickerBookList.map((sBook, index) => {
                             return (
-                                <>
+                                <View key={index}>
                                     <Text
-                                        key={index}
+
                                         style={styles.headerTextStyle2}
                                         adjustsFontSizeToFit={true}
                                         numberOfLines={1}>
@@ -179,7 +179,7 @@ const MainContainer = () => {
                                         }
 
                                     </View>
-                                </>
+                                </View>
                             )
                         })
 

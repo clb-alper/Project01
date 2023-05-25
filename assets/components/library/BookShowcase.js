@@ -48,6 +48,7 @@ const BookShowcase = () => {
                         itemColor: booksListData[i].itemColor,
                         itemBorder: booksListData[i].itemBorder,
                         itemColorBG: booksListData[i].itemColorBG,
+                        itemPageBGColor: booksListData[i].itemPageBGColor,
                         itemTextColor: booksListData[i].itemTextColor,
                         itemDesc: booksListData[i].itemDesc,
                         favorited: booksListData[i].favorited,
@@ -59,16 +60,13 @@ const BookShowcase = () => {
                     }]
                 })
             }
-            DATA.sort(function (a, b) {
-                if (a.condition < b.condition) {
-                    return -1;
-                }
-                if (a.condition > b.condition) {
-                    return 1;
-                }
-                return 0;
-            });
+
         }
+
+        DATA.sort(function (a, b) {
+            return Intl.Collator("tr").compare(a.condition, b.condition)
+        });
+
         return DATA
 
     }
@@ -114,7 +112,7 @@ const BookShowcase = () => {
                     const bookList2 = []
                     querySnapshot.forEach((doc) => {
                         const { ageTag, contentTag, image, itemBorder, itemColor, itemColorBG,
-                            itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
+                            itemDesc, itemDescColor, rewardTag, themeTag, title, itemPageBGColor, itemTextColor } = doc.data()
                         bookList2.push({
                             id: doc.id,
                             ageTag,
@@ -130,12 +128,13 @@ const BookShowcase = () => {
                             rewardTag,
                             themeTag,
                             title,
+                            itemPageBGColor,
+                            itemTextColor,
                         })
                     })
                     const indexedBooks = indexingBooks(bookList2);
                     setDATA(indexedBooks);
                     setSortedData(indexedBooks);
-
                 }
             )
     }
@@ -160,13 +159,12 @@ const BookShowcase = () => {
             <View style={{ flexWrap: 'wrap', marginTop: 30, marginLeft: '9%' }}>
                 {/* <BookModal />  */}
 
-
-
                 {
                     categorySwitch === 0 && (
                         sortedData.map((book, index) => {
                             return (
                                 <View key={index}>
+
                                     <Text style={styles.alphabetLettersStyle2}>{book.condition}</Text>
 
                                     <View style={styles.bookContainer} key={index}>

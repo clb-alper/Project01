@@ -67,7 +67,7 @@ const ContReadingFlatlist = () => {
                                         if (snapshot.exists) {
                                             contBookReading.bookData.bookContent = snapshot.data()
                                         } else {
-                                            console.log("snapshot not exist")
+                                            //console.log("snapshot not exist")
                                         }
 
                                     })
