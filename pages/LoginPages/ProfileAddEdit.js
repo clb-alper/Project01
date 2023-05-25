@@ -229,7 +229,7 @@ const ProfileSelect = () => {
                                 style={[styles.nameInputStyle, { color: colorIndex.regularColor }]}
                                 placeholder="İsim Giriniz"
                                 placeholderTextColor={'#B8B8B8'}
-                                keyboardType="text"
+                                keyboardType="default"
                                 value={profileName}
                                 onChangeText={(e) => setProfileName(e)}
                             />

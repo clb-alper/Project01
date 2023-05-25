@@ -329,7 +329,7 @@ export default BookShowcase;
 const styles = StyleSheet.create({
     alphabetLettersStyle2: {
         fontFamily: 'Comic-Regular',
-        fontSize: 35,
+        fontSize: 45,
         marginBottom: 15
 
     },

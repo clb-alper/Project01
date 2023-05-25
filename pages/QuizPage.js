@@ -434,6 +434,7 @@ const styles = StyleSheet.create({
 
     questionText: {
         fontFamily: 'Comic-Regular',
+        //textAlign: 'center',
         fontSize: 45,
         marginTop: 20,
         marginBottom: 15

@@ -65,7 +65,7 @@ const ForgotPass = ({ navigation }) => {
                     </View>
 
                     <Text style={styles.descriptionStyle}>
-                        Geçici şifrenizi almak için hesabınıza bağlı e-mail adresinizi giriniz.
+                        Şifrenizi degiştirmek için hesabınıza baglı e-mail adresinizi giriniz. E-mail adresinize şifre degiştirme linki gönderilecektir.
                     </Text>
 
                     <TextInput
@@ -140,8 +140,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Comic-Regular',
         width: '85%',
         marginTop: '1%',
-        textAlign: 'justify',
-        fontSize: 17,
+        textAlign: 'center',
+        fontSize: 14,
     },
 
     emailInputStyle: {

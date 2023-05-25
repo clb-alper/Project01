@@ -145,16 +145,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 20,
-        marginRight: '10%',
-        marginLeft: '10%'
+        marginRight: '9%',
+        marginLeft: '9.8%'
     },
 
     statisticsMainSecondRow: {
         marginTop: '5%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginRight: '10%',
-        marginLeft: '10%'
+        marginRight: '11%',
+        marginLeft: '11%'
     },
 
     statisticsMainFirstRowElem: {

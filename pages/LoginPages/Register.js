@@ -141,7 +141,7 @@ const Register = ({ navigation }) => {
                     <Text style={styles.registerHeader}>Kayıt Ol</Text>
                 </View>
 
-                <Text style={{ color: '#f26d74', fontSize: 20, fontFamily: 'Comic-Bold', display: isVisible }}>
+                <Text style={{ color: '#f26d74', fontSize: 18, fontFamily: 'Comic-Bold', display: isVisible, marginTop: -6 }}>
                     {registerError}
                 </Text>
 

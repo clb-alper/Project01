@@ -219,7 +219,7 @@ const ReadingPage = () => {
         loadUserView()
         getBookContentData()
         getFontLocalStorage()
-
+    
     }, [])
 
 
@@ -700,7 +700,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Comic-Regular',
         alignSelf: 'center',
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        //marginLeft: 10
     },
 
     bookStatisticsInsideTextStyle: {

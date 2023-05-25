@@ -123,7 +123,7 @@ const MainContainer = () => {
 
 
             <View>
-                <View style={[styles.headerView12, { marginTop: 5 }]}>
+                <View style={[styles.headerView12, { marginTop: 30 }]}>
                     {
                         stickerBookList.map((sBook, index) => {
                             return (

@@ -60,8 +60,6 @@ function SettingsStackScreen() {
         headerShown: false,
       }}>
       <SettingsStack.Screen name="GeneralSettings" component={Settings} />
-      <SettingsStack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
-      <SettingsStack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
     </SettingsStack.Navigator>
   );
 }
@@ -140,8 +138,10 @@ export default function App() {
                   <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
                   <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
                   <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
-                  <Stack.Screen name="ReadingPage" component={ReadingPage} options={[TransitionAnim,{gestureEnabled:false}]} />
+                  <Stack.Screen name="ReadingPage" component={ReadingPage} options={[TransitionAnim, { gestureEnabled: false }]} />
                   <Stack.Screen name="QuizPage" component={QuizPage} options={TransitionAnim} />
+                  <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
+                  <Stack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
                 </Stack.Navigator>
               </NavigationContainer>
             </ModalProvider>
