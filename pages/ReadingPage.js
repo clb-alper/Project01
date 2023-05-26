@@ -40,6 +40,8 @@ const ReadingPage = () => {
 
     const [isLoaded, setIsLoaded] = useState(false);
 
+    const [speechState, setSpeechState] = useState(false)
+
     const sleep = milliseconds => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
@@ -219,14 +221,18 @@ const ReadingPage = () => {
         loadUserView()
         getBookContentData()
         getFontLocalStorage()
-    
+
     }, [])
 
 
     const speak = (pageTextToSpeech) => {
-        //const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';
-        Speech.speak(pageTextToSpeech, { language: 'tr', pitch: 1.2 });
+        //const thingToSay = 'Selma neden yaptın Selma. Kenan mı yaptırdı zorla Selma.';    
+        Speech.speak(pageTextToSpeech, { language: 'tr', pitch: 1.2, onDone: stopSpeech() });
     };
+
+    const stopSpeech = () => {
+        Speech.stop()
+    }
 
     const navigation = useNavigation();
 
@@ -260,11 +266,11 @@ const ReadingPage = () => {
         // sub user's continueReading
 
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
-            progress: userBookProgress,
-            bookRef: db.doc('storyBooks/' + modalEntry.id),
-            favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
-        })
+            .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+                progress: userBookProgress,
+                bookRef: db.doc('storyBooks/' + modalEntry.id),
+                favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
+            })
 
         // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
         //     .doc(currentProfileSelected).collection('continueReading').get()
@@ -473,14 +479,32 @@ const ReadingPage = () => {
 
                                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 15 }}>
 
-                                            <TouchableOpacity
-                                                //onPress={speak}
-                                                onPress={() => { speak(pages[index].storyText) }}
-                                                activeOpacity={0.8}>
-                                                <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
-                                                    <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
-                                                </View>
-                                            </TouchableOpacity>
+                                            {speechState === false ?
+                                                <TouchableOpacity
+                                                    //onPress={speak}
+                                                    onPress={() => { setSpeechState(true); speak(pages[index].storyText); }}
+                                                    activeOpacity={0.8}>
+                                                    <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
+
+                                                        <IonIcons name="md-volume-high" size={55} color={modalEntry.itemBorder} style={styles.voiceOverButtonImg} />
+                                                    </View>
+                                                </TouchableOpacity>
+                                                :
+                                                null
+                                            }
+
+                                            {speechState === true ?
+                                                <TouchableOpacity
+                                                    //onPress={speak}
+                                                    onPress={() => { setSpeechState(false); stopSpeech(); }}
+                                                    activeOpacity={0.8}>
+                                                    <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
+                                                        <IonIcons name="stop" size={55} color={modalEntry.itemBorder} style={[styles.voiceOverButtonImg,  {marginLeft: 3, marginTop: 7}]} />
+                                                    </View>
+                                                </TouchableOpacity>
+                                                :
+                                                null
+                                            }
 
                                             <Text style={styles.pageNumberText}>
                                                 {index + 1} / {pages.length}
