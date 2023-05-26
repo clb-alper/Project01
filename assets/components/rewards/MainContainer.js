@@ -11,6 +11,8 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 import { auth, firebase } from '../../../firebase';
 import Rainbow from '../Rainbow';
 
+var widthOfScreen = Dimensions.get('window').width; //full width
+
 const MainContainer = () => {
 
     const { DATA } = useContext(RewardsContext);
@@ -125,7 +127,27 @@ const MainContainer = () => {
 
 
             <View>
-                <View style={[styles.headerView12, { marginTop: 30 }]}>
+                <View style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
+                    <TouchableOpacity onPress={() => { console.log("Sticker Backpack") }}
+                        activeOpacity={0.75}>
+                        <View style={{ height: 50, width: widthOfScreen * 0.3, alignSelf: 'center', borderWidth: 2, borderRadius: 15, backgroundColor: colors.purpleRegular, marginRight: 20}}>
+                            <Text>
+                                Sticker Çantam
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    {/* <TouchableOpacity onPress={() => { console.log("Sticker Backpack") }}
+                        activeOpacity={0.75}>
+                        <View style={{ height: 50, width: widthOfScreen * 0.5, alignSelf: 'center', borderWidth: 2, borderRadius: 15, backgroundColor: colors.purpleRegular }}>
+                            <Text>
+                                Sticker Mağazası
+                            </Text>
+                        </View>
+                    </TouchableOpacity> */}
+
+                </View>
+                <View style={[styles.headerView12, { marginTop: 20 }]}>
                     {
                         stickerBookList.map((sBook, index) => {
                             return (
