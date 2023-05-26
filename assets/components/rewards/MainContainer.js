@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     },
 
     pointsTextStyle2: {
-        fontFamily: 'Comic-Light',
+        fontFamily: 'Comic-Regular',
         textAlign: 'center',
         fontSize: 15,
         width: 40,
