@@ -32,17 +32,62 @@ const StickerModal = () => {
             <View style={{ alignItems: 'center', marginTop: -50 }}>
                 <View>
                     <Image
-                        source={{uri: stickerModalEntry.iconImage}}
+                        source={{ uri: stickerModalEntry.iconImage }}
                         style={styles.modalStickerImage}
                     >
                     </Image>
                 </View>
                 <View>
                     <Text style={styles.modalStickerNameText}>
-                        {stickerModalEntry.stickerName} Sticker
+                        {stickerModalEntry.name}
                     </Text>
                 </View>
-                <View style={styles.pointsContainer3}>
+
+                <View style={
+                    stickerModalEntry.stickerLevel === "Bronze" ?
+                        styles.bronzePointsContainerUpper :
+                        stickerModalEntry.stickerLevel === "Silver" ?
+                            styles.silverPointsContainerUpper :
+                            stickerModalEntry.stickerLevel === "Gold" ?
+                                styles.goldPointsContainerUpper :
+                                stickerModalEntry.stickerLevel === "Emerald" ?
+                                    styles.emeraldPointsContainerUpper :
+                                    stickerModalEntry.stickerLevel === "Diamond" ?
+                                        styles.diamondPointsContainerUpper :
+                                        styles.defaultPointsContainerUpper}>
+
+                    <Text
+                        style={styles.pointsTextStyleUpper}
+                        adjustsFontSizeToFit={true}
+                        numberOfLines={1}>
+                        {
+                            stickerModalEntry.stickerLevel === "Bronze" ?
+                                "Bronz" :
+                                stickerModalEntry.stickerLevel === "Silver" ?
+                                    "Gümüş" :
+                                    stickerModalEntry.stickerLevel === "Gold" ?
+                                        "Altın" :
+                                        stickerModalEntry.stickerLevel === "Emerald" ?
+                                            "Zümrüt" :
+                                            stickerModalEntry.stickerLevel === "Diamond" ?
+                                                "Elmas" :
+                                                "Normal"}
+                    </Text>
+
+                </View>
+
+                <View style={
+                    stickerModalEntry.stickerLevel === "Bronze" ?
+                        styles.bronzePointsContainer :
+                        stickerModalEntry.stickerLevel === "Silver" ?
+                            styles.silverPointsContainer :
+                            stickerModalEntry.stickerLevel === "Gold" ?
+                                styles.goldPointsContainer :
+                                stickerModalEntry.stickerLevel === "Emerald" ?
+                                    styles.emeraldPointsContainer :
+                                    stickerModalEntry.stickerLevel === "Diamond" ?
+                                        styles.diamondPointsContainer :
+                                        styles.defaultPointsContainer}>
 
                     <Text
                         style={styles.pointsTextStyle3}
@@ -59,7 +104,7 @@ const StickerModal = () => {
                     onPress={() => setStickerModalVisible(!stickerModalVisible)}
                     activeOpacity={0.75}
                     style={styles.modalStickerCloseButton}>
-                        <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
+                    <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
                 </TouchableOpacity>
 
             </View>
@@ -119,7 +164,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
     },
 
-    pointsContainer3: {
+    defaultPointsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         height: 50,
@@ -130,6 +175,158 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         borderColor: colors.purpleBorder,
         backgroundColor: colors.purpleRegular,
+    },
+
+    bronzePointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        width: 120,
+        marginTop: 50,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.bronzeBadgeBorder,
+        backgroundColor: colors.bronzeBadge,
+    },
+
+    silverPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        width: 120,
+        marginTop: 50,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.silverBadgeBorder,
+        backgroundColor: colors.silverBadge,
+    },
+
+    goldPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        width: 120,
+        marginTop: 50,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.goldBadgeBorder,
+        backgroundColor: colors.goldBadge,
+    },
+
+    emeraldPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        width: 120,
+        marginTop: 50,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.emeraldBadgeBorder,
+        backgroundColor: colors.emeraldBadge,
+    },
+
+    diamondPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 50,
+        width: 120,
+        marginTop: 50,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.diamondBadgeBorder,
+        backgroundColor: colors.diamondBadge,
+    },
+
+    // Upper
+
+    defaultPointsContainerUpper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 32,
+        paddingRight: 7,
+        marginTop: 50,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.purpleBorder,
+        backgroundColor: colors.purpleRegular,
+    },
+
+    bronzePointsContainerUpper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 32,
+        paddingRight: 7,
+        marginTop: 15,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.bronzeBadgeBorder,
+        backgroundColor: colors.bronzeBadge,
+    },
+
+    silverPointsContainerUpper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 32,
+        paddingRight: 7,
+        marginTop: 15,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.silverBadgeBorder,
+        backgroundColor: colors.silverBadge,
+    },
+
+    goldPointsContainerUpper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 32,
+        paddingRight: 7,
+        marginTop: 15,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.goldBadgeBorder,
+        backgroundColor: colors.goldBadge,
+    },
+
+    emeraldPointsContainerUpper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 32,
+        paddingRight: 7,
+        marginTop: 15,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.emeraldBadgeBorder,
+        backgroundColor: colors.emeraldBadge,
+    },
+
+    diamondPointsContainerUpper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 32,
+        paddingRight: 7,
+        marginTop: 15,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.diamondBadgeBorder,
+        backgroundColor: colors.diamondBadge,
+    },
+
+    pointsTextStyleUpper: {
+        fontFamily: 'Comic-Regular',
+        textAlign: 'center',
+        fontSize: 20,
+        width: 65,
     },
 
     pointsTextStyle3: {

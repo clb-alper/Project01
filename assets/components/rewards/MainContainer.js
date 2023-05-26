@@ -9,6 +9,7 @@ import { RewardsContext } from '../../contexts/RewardsContext';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import { auth, firebase } from '../../../firebase';
+import Rainbow from '../Rainbow';
 
 const MainContainer = () => {
 
@@ -27,7 +28,7 @@ const MainContainer = () => {
                 querySnapshot => {
                     const stickerList = []
                     querySnapshot.forEach((doc) => {
-                        const { iconImage, name, price, stickerBookNo } = doc.data()
+                        const { iconImage, name, price, stickerBookNo, stickerLevel } = doc.data()
 
                         stickerList.push({
                             id: doc.id,
@@ -35,6 +36,7 @@ const MainContainer = () => {
                             name,
                             price,
                             stickerBookNo,
+                            stickerLevel
 
                         })
                     })
@@ -154,8 +156,18 @@ const MainContainer = () => {
                                                                     imageStyle={styles.continueBookImageStyle}>
                                                                 </ImageBackground>
 
-
-                                                                <View style={styles.pointsContainer2}>
+                                                                <View style={
+                                                                    sticker.stickerLevel === "Bronze" ?
+                                                                        styles.bronzePointsContainer :
+                                                                        sticker.stickerLevel === "Silver" ?
+                                                                            styles.silverPointsContainer :
+                                                                            sticker.stickerLevel === "Gold" ?
+                                                                                styles.goldPointsContainer :
+                                                                                sticker.stickerLevel === "Emerald" ?
+                                                                                    styles.emeraldPointsContainer :
+                                                                                    sticker.stickerLevel === "Diamond" ?
+                                                                                        styles.diamondPointsContainer :
+                                                                                        styles.defaultPointsContainer}>
 
                                                                     <Text
                                                                         style={styles.pointsTextStyle2}
@@ -164,9 +176,11 @@ const MainContainer = () => {
                                                                         {sticker.price}
                                                                     </Text>
 
-                                                                    <AntIcons name="star" size={17} color="#FFD600" style={styles.pointsIconStyle2} />
+                                                                    <AntIcons name="star" size={17} color="#FFB702" style={styles.pointsIconStyle2} />
 
                                                                 </View>
+
+
                                                             </TouchableOpacity>
 
                                                         </View>
@@ -231,7 +245,7 @@ const styles = StyleSheet.create({
         borderRadius: 12,
     },
 
-    pointsContainer2: {
+    defaultPointsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         height: 25,
@@ -242,6 +256,82 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         borderColor: colors.purpleBorder,
         backgroundColor: colors.purpleRegular,
+    },
+
+    rainbowPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: colors.black,
+    },
+
+    bronzePointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.bronzeBadgeBorder,
+        backgroundColor: colors.bronzeBadge,
+    },
+
+    silverPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.silverBadgeBorder,
+        backgroundColor: colors.silverBadge,
+    },
+
+    goldPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.goldBadgeBorder,
+        backgroundColor: colors.goldBadge,
+    },
+
+    emeraldPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.emeraldBadgeBorder,
+        backgroundColor: colors.emeraldBadge,
+    },
+
+    diamondPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.diamondBadgeBorder,
+        backgroundColor: colors.diamondBadge,
     },
 
     pointsTextStyle2: {
@@ -255,7 +345,7 @@ const styles = StyleSheet.create({
         //resizeMode: 'contain',
         height: 20,
         width: 20,
-        marginTop: 2
+        marginTop: 2,
     },
 
     DropdownViewStyle: {
