@@ -40,7 +40,9 @@ const ReadingPage = () => {
 
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const [speechState, setSpeechState] = useState(false)
+    const [speechState, setSpeechState] = useState(false);
+
+    const [bookProgressDB, setBookProgressDB] = useState();
 
     const sleep = milliseconds => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -215,13 +217,27 @@ const ReadingPage = () => {
             )
     }
 
+    const bookProgressRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        .doc(currentProfileSelected).collection('continueReading')
 
+    const getBookProgressData = async () => {
+
+        bookProgressRef.doc(modalEntry.id).get().then((doc) => {
+            if (!doc.exists) {
+                setBookProgressDB(0.0)
+            }
+            else {
+                const { progress } = doc.data()
+                setBookProgressDB(progress)
+            }
+        })
+    }
 
     useEffect(() => {
         loadUserView()
         getBookContentData()
         getFontLocalStorage()
-
+        getBookProgressData()
     }, [])
 
 
@@ -265,12 +281,17 @@ const ReadingPage = () => {
         setReaded(!readed)
         // sub user's continueReading
 
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
-                progress: userBookProgress,
-                bookRef: db.doc('storyBooks/' + modalEntry.id),
-                favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
-            })
+        // Küçüktürse checki de ekle current progress dbdekinden, sadece ilerleme olayı için
+        if (bookProgressDB < 1.0) {
+
+            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+                    progress: userBookProgress,
+                    bookRef: db.doc('storyBooks/' + modalEntry.id),
+                    favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
+                })
+        }
+
 
         // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
         //     .doc(currentProfileSelected).collection('continueReading').get()
@@ -499,7 +520,7 @@ const ReadingPage = () => {
                                                     onPress={() => { setSpeechState(false); stopSpeech(); }}
                                                     activeOpacity={0.8}>
                                                     <View style={styles.voiceOverButton} backgroundColor={modalEntry.itemColor} borderColor={modalEntry.itemBorder}>
-                                                        <IonIcons name="stop" size={55} color={modalEntry.itemBorder} style={[styles.voiceOverButtonImg,  {marginLeft: 3, marginTop: 7}]} />
+                                                        <IonIcons name="stop" size={55} color={modalEntry.itemBorder} style={[styles.voiceOverButtonImg, { marginLeft: 3, marginTop: 7 }]} />
                                                     </View>
                                                 </TouchableOpacity>
                                                 :

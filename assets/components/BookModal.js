@@ -91,6 +91,7 @@ const BookModal = () => {
     }
 
     useEffect(() => {
+        // If kontrolü ekle db progressi ile, db progressi global yap context ile
         modalEntry.bookProgress = userBookProgress
     }, [userBookProgress])
 
