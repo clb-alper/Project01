@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -10,6 +10,9 @@ import { ModalContext } from '../assets/contexts/ModalContext';
 import StickerModal from '../assets/components/rewards/StickerModal';
 import MainContainer from '../assets/components/rewards/MainContainer';
 import FocusAwareStatusBar from '../assets/components/FocusAwareStatusBar';
+
+var widthOfScreen = Dimensions.get('window').width; //full width
+var heightOfScreen = Dimensions.get('window').height; //full width
 
 const RewardsScreen = () => {
 
@@ -33,6 +36,15 @@ const RewardsScreen = () => {
 
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
+
+            <TouchableOpacity onPress={() => { console.log("Sticker Backpack") }}
+                activeOpacity={0.75} style={{ zIndex: 500 }}>
+                <View style={styles.backpackButton}>
+                    <Text>
+                        Sticker Çantam
+                    </Text>
+                </View>
+            </TouchableOpacity>
 
             <FocusAwareStatusBar style="auto" />
             {/* {stickerModalVisible ? <FocusAwareStatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <FocusAwareStatusBar style="hidden" />} */}
@@ -70,5 +82,19 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.purpleLight,
     },
+
+    backpackButton: {
+        height: 70,
+        width: 70,
+        alignSelf: 'center',
+        borderWidth: 2,
+        borderRadius: 500,
+        backgroundColor: colors.purpleRegular,
+        marginRight: 20,
+        position: 'absolute',
+        top: heightOfScreen * 0.83,
+        left: widthOfScreen * 0.78,
+        zIndex: 500
+    }
 
 })

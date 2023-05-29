@@ -12,6 +12,7 @@ import { auth, firebase } from '../../../firebase';
 import Rainbow from '../Rainbow';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
+var heightOfScreen = Dimensions.get('window').height; //full width
 
 const MainContainer = () => {
 
@@ -127,15 +128,8 @@ const MainContainer = () => {
 
 
             <View>
-                <View style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
-                    <TouchableOpacity onPress={() => { console.log("Sticker Backpack") }}
-                        activeOpacity={0.75}>
-                        <View style={{ height: 50, width: widthOfScreen * 0.3, alignSelf: 'center', borderWidth: 2, borderRadius: 15, backgroundColor: colors.purpleRegular, marginRight: 20}}>
-                            <Text>
-                                Sticker Çantam
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
+                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 20 }}>
+
 
                     {/* <TouchableOpacity onPress={() => { console.log("Sticker Backpack") }}
                         activeOpacity={0.75}>
@@ -147,6 +141,83 @@ const MainContainer = () => {
                     </TouchableOpacity> */}
 
                 </View>
+                <View style={[styles.headerView12, { marginTop: 20 }]}>
+                    {
+                        stickerBookList.map((sBook, index) => {
+                            return (
+                                <View key={index}>
+                                    <Text
+
+                                        style={styles.headerTextStyle2}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>
+                                        {sBook.name}
+                                    </Text>
+
+                                    <View style={styles.stickerContainer}>
+                                        {typeof (stickerList) === 'undefined' ? null :
+                                            stickerList.filter((sl) => sBook.bookNo === sl.stickerBookNo).map((sticker) => {
+                                                return (
+                                                    <View key={sticker.id}>
+                                                        <View style={styles.continueReadingBookStyleFirstItem}>
+
+                                                            <TouchableOpacity
+
+                                                                onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); }}
+                                                                activeOpacity={0.75}>
+
+                                                                <ImageBackground
+
+                                                                    source={{ uri: sticker.iconImage }}
+                                                                    imageStyle={styles.continueBookImageStyle}>
+                                                                </ImageBackground>
+
+                                                                <View style={
+                                                                    sticker.stickerLevel === "Bronze" ?
+                                                                        styles.bronzePointsContainer :
+                                                                        sticker.stickerLevel === "Silver" ?
+                                                                            styles.silverPointsContainer :
+                                                                            sticker.stickerLevel === "Gold" ?
+                                                                                styles.goldPointsContainer :
+                                                                                sticker.stickerLevel === "Emerald" ?
+                                                                                    styles.emeraldPointsContainer :
+                                                                                    sticker.stickerLevel === "Diamond" ?
+                                                                                        styles.diamondPointsContainer :
+                                                                                        styles.defaultPointsContainer}>
+
+                                                                    <Text
+                                                                        style={styles.pointsTextStyle2}
+                                                                        adjustsFontSizeToFit={true}
+                                                                        numberOfLines={1}>
+                                                                        {sticker.price}
+                                                                    </Text>
+
+                                                                    <AntIcons name="star" size={17} color="#FFB702" style={styles.pointsIconStyle2} />
+
+                                                                </View>
+
+
+                                                            </TouchableOpacity>
+
+                                                        </View>
+
+
+                                                    </View>
+                                                )
+
+                                            })
+                                        }
+
+                                    </View>
+                                </View>
+                            )
+                        })
+
+
+                    }
+                </View>
+
+                {/* Placeholder */}
                 <View style={[styles.headerView12, { marginTop: 20 }]}>
                     {
                         stickerBookList.map((sBook, index) => {
@@ -452,4 +523,15 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginLeft: '-7.5%',
     },
+
+    backpackButton: {
+        height: 50,
+        width: widthOfScreen * 0.3,
+        alignSelf: 'center',
+        borderWidth: 2,
+        borderRadius: 15,
+        backgroundColor: colors.purpleRegular,
+        marginRight: 20,
+        position: 'absolute'
+    }
 })
