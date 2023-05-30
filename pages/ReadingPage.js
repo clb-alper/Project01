@@ -24,7 +24,7 @@ const heightOfScreen = Dimensions.get('window').height
 const ReadingPage = () => {
 
     const { setModalVisible, modalVisible, modalEntry, setTranslationModalVisible, setTranslationModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize, getFontLocalStorage, badgesList } = useContext(ProfileContext);
+    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize, getFontLocalStorage, bookProgressDB, setBookProgressDB } = useContext(ProfileContext);
 
     const [bookContent, setBookContent] = useState([]);
     const [bookPageColor, setBookPageColor] = useState();
@@ -41,8 +41,6 @@ const ReadingPage = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
     const [speechState, setSpeechState] = useState(false);
-
-    const [bookProgressDB, setBookProgressDB] = useState();
 
     const sleep = milliseconds => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -279,13 +277,14 @@ const ReadingPage = () => {
 
         // Küçüktürse checki de ekle current progress dbdekinden, sadece ilerleme olayı için
         if (bookProgressDB < 1.0) {
-
-            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-                .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
-                    progress: userBookProgress,
-                    bookRef: db.doc('storyBooks/' + modalEntry.id),
-                    favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
-                })
+            if (bookProgressDB < userBookProgress) {
+                firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                    .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
+                        progress: userBookProgress,
+                        bookRef: db.doc('storyBooks/' + modalEntry.id),
+                        favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
+                    })
+            }
         }
 
 
@@ -415,7 +414,7 @@ const ReadingPage = () => {
                                 horizontal
                                 pagingEnabled
                                 showsHorizontalScrollIndicator={false}
-                                initialScrollIndex={Math.floor(modalEntry.bookProgress * pages.length) - 1} // 0.3ü databaseden progress olarak al
+                                initialScrollIndex={Math.floor(bookProgressDB * pages.length) - 1} // 0.3ü databaseden progress olarak al
                                 onScrollToIndexFailed={info => {
                                     const wait = new Promise(resolve => setTimeout(resolve, 500));
                                     wait.then(() => {

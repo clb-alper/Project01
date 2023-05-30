@@ -17,7 +17,7 @@ const BookModal = () => {
 
     const [favoriteCountList, setFavoriteCountList] = useState([]);
     const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, favorited, setFavorited, userBookProgress } = useContext(ProfileContext);
+    const { currentProfileSelected, favorited, setFavorited, userBookProgress, bookProgressDB, setBookProgressDB } = useContext(ProfileContext);
 
     const navigation = useNavigation();
 
@@ -92,7 +92,18 @@ const BookModal = () => {
 
     useEffect(() => {
         // If kontrolü ekle db progressi ile, db progressi global yap context ile
-        modalEntry.bookProgress = userBookProgress
+        if (typeof (bookProgressDB) === "undefined") {
+            modalEntry.bookProgress = userBookProgress
+        }
+        else {
+            if (bookProgressDB < userBookProgress) {
+                modalEntry.bookProgress = userBookProgress
+            }
+            else {
+                modalEntry.bookProgress = bookProgressDB
+            }
+        }
+
     }, [userBookProgress])
 
     return (
