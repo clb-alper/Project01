@@ -16,7 +16,17 @@ var widthOfScreen = Dimensions.get('window').width; //full width
 const Header = () => {
 
 
-    const { currentProfileSelected, currentProfileSelectedInfo, userPointsData, badgesList, userStatisticsData, featuredBadgeData, setFeaturedBadgeData, featuredBadgesList, setFeaturedBadgeIndex, setFeaturedBadgesList } = useContext(ProfileContext);
+    const {
+        currentProfileSelected,
+        currentProfileSelectedInfo,
+        userPointsData,
+        badgesList,
+        userStatisticsData,
+        featuredBadgeData,
+        setFeaturedBadgeData,
+        featuredBadgesList,
+        setFeaturedBadgeIndex,
+        setFeaturedBadgesList } = useContext(ProfileContext);
     const { setBadgeModalVisible, setBadgeModalEntry, featuredBadgeModalVisible, setFeaturedBadgeModalVisible } = useContext(ModalContext);
 
     const featuredBadgesRef = firebase.firestore()
@@ -70,6 +80,37 @@ const Header = () => {
             )
     }
 
+    var userLevelPoint = typeof (userStatisticsData) === 'undefined' ? 0 : userStatisticsData.totalPoints
+    var userLevelTitle = ""
+    var progressBarLevel = 0
+
+    var userProgressLevels = [
+        [1000, "Okur-Yazar"],
+        [2000, "Kitap Sever"],
+        [4000, "Kitap Düşkünü"],
+        [8000, "Kitap Uzmanı"],
+        [16000, "Kitap Kurdu"],
+        [32000, "Kitap Fatihi"],
+        [50000, "Ansiklopedi Yazarı"],
+        [75000, "Hayalperest"],
+        [100000, "Kitap İzcisi"]]
+
+    userProgressLevels.every((values, index) => {
+        if (values[0] > userLevelPoint) {
+            return false;
+        } else {
+            userLevelTitle = `Level ${index + 1} - ${values[1]}`
+            if (userLevelPoint > userProgressLevels[userProgressLevels.length - 1][0]) {
+                progressBarLevel = (userLevelPoint - values[0]) / 9999999
+            }
+            else {
+                progressBarLevel = (userLevelPoint - values[0]) / (userProgressLevels[index + 1][0] - values[0])
+
+            }
+            return true;
+        }
+    })
+
     useEffect(() => {
         getFeaturedBadgesData();
     }, [])
@@ -100,8 +141,9 @@ const Header = () => {
 
                     <View style={styles.headerUserInfo}>
                         <Text style={styles.headerUser}>{typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
-                        <Text style={styles.headerUserLevel}>Seviye 25 - Kitap Kurdu</Text>
-                        <Progress.Bar style={styles.progressBar} progress={0.75} height={7.5} width={250} color={colors.greenBorder} />
+                        {/* level system */}
+                        <Text style={styles.headerUserLevel}>{userLevelTitle}</Text>
+                        <Progress.Bar style={styles.progressBar} progress={progressBarLevel} height={7.5} width={180} color={colors.greenBorder} />
                     </View>
 
                     <View style={styles.pointsContainer}>
@@ -285,7 +327,6 @@ const styles = StyleSheet.create({
 
     progressBar: {
         marginTop: '3%',
-        width: '100%',
         backgroundColor: colors.grayProgressBarBG,
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,
