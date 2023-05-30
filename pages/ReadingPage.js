@@ -332,8 +332,8 @@ const ReadingPage = () => {
                                 initialNumToRender={10}
                                 initialScrollIndex={Math.floor(bookProgressDB * pages.length) - 1} // 0.3ü databaseden progress olarak al
                                 getItemLayout={(_, index) => ({
-                                    length: widthOfScreen, //  WIDTH + (MARGIN_HORIZONTAL * 2)
-                                    offset: widthOfScreen * (index),  //  ( WIDTH + (MARGIN_HORIZONTAL*2) ) * (index)
+                                    length: widthOfScreen, 
+                                    offset: widthOfScreen * (index),
                                     index,
                                 })}
                                 onScrollToIndexFailed={info => {
