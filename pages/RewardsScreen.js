@@ -10,11 +10,12 @@ import { ModalContext } from '../assets/contexts/ModalContext';
 import StickerModal from '../assets/components/rewards/StickerModal';
 import MainContainer from '../assets/components/rewards/MainContainer';
 import FocusAwareStatusBar from '../assets/components/FocusAwareStatusBar';
+import { RewardsContext } from '../assets/contexts/RewardsContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
-const RewardsScreen = () => {
+const RewardsScreen = ({ navigation }) => {
 
     const { stickerModalVisible } = useContext(ModalContext);
 
@@ -37,7 +38,7 @@ const RewardsScreen = () => {
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
 
-            <TouchableOpacity onPress={() => { console.log("Sticker Backpack") }}
+            <TouchableOpacity onPress={() => { navigation.navigate('Backpack') }}
                 activeOpacity={0.75} style={{ zIndex: 500 }}>
                 <View style={styles.backpackButton}>
                     <Text>

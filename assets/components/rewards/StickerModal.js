@@ -5,6 +5,8 @@ import { ModalContext } from '../../contexts/ModalContext';
 import Modal from "react-native-modal";
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import { auth, firebase } from '../../../firebase'
+import { ProfileContext } from '../../contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -12,6 +14,14 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 const StickerModal = () => {
 
     const { stickerModalVisible, setStickerModalVisible, stickerModalEntry } = useContext(ModalContext);
+    const { currentProfileSelected } = useContext(ProfileContext);
+
+    const handleStickerPurchase = () => {
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('stickerCollection').doc(stickerModalEntry.id).set({
+                stickerID: stickerModalEntry.id,
+            })
+    }
 
     return (
         <Modal
@@ -76,29 +86,35 @@ const StickerModal = () => {
 
                 </View>
 
-                <View style={
-                    stickerModalEntry.stickerLevel === "Bronze" ?
-                        styles.bronzePointsContainer :
-                        stickerModalEntry.stickerLevel === "Silver" ?
-                            styles.silverPointsContainer :
-                            stickerModalEntry.stickerLevel === "Gold" ?
-                                styles.goldPointsContainer :
-                                stickerModalEntry.stickerLevel === "Emerald" ?
-                                    styles.emeraldPointsContainer :
-                                    stickerModalEntry.stickerLevel === "Diamond" ?
-                                        styles.diamondPointsContainer :
-                                        styles.defaultPointsContainer}>
+                <TouchableOpacity
+                    onPress={() => handleStickerPurchase()}
+                    activeOpacity={0.75}>
+                    <View style={
+                        stickerModalEntry.stickerLevel === "Bronze" ?
+                            styles.bronzePointsContainer :
+                            stickerModalEntry.stickerLevel === "Silver" ?
+                                styles.silverPointsContainer :
+                                stickerModalEntry.stickerLevel === "Gold" ?
+                                    styles.goldPointsContainer :
+                                    stickerModalEntry.stickerLevel === "Emerald" ?
+                                        styles.emeraldPointsContainer :
+                                        stickerModalEntry.stickerLevel === "Diamond" ?
+                                            styles.diamondPointsContainer :
+                                            styles.defaultPointsContainer}>
 
-                    <Text
-                        style={styles.pointsTextStyle3}
-                        adjustsFontSizeToFit={true}
-                        numberOfLines={1}>
-                        {stickerModalEntry.price}
-                    </Text>
 
-                    <AntIcons name="star" size={33} color="#FFD600" style={styles.pointsIconStyle3} />
+                        <Text
+                            style={styles.pointsTextStyle3}
+                            adjustsFontSizeToFit={true}
+                            numberOfLines={1}>
+                            {stickerModalEntry.price}
+                        </Text>
 
-                </View>
+                        <AntIcons name="star" size={33} color="#FFD600" style={styles.pointsIconStyle3} />
+                    </View>
+                </TouchableOpacity>
+
+
 
                 <TouchableOpacity
                     onPress={() => setStickerModalVisible(!stickerModalVisible)}
@@ -110,7 +126,7 @@ const StickerModal = () => {
             </View>
 
 
-        </Modal>
+        </Modal >
     )
 }
 

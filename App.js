@@ -26,6 +26,7 @@ import FontSizeSettings from './pages/Settings/FontSizeSettings';
 import ProfileAddEdit from './pages/LoginPages/ProfileAddEdit';
 import ProfileProvider from './assets/contexts/ProfileContext';
 import QuizPage from './pages/QuizPage';
+import BackpackScreen from './pages/BackpackScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -142,6 +143,7 @@ export default function App() {
                   <Stack.Screen name="QuizPage" component={QuizPage} options={TransitionAnim} />
                   <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
                   <Stack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
+                  <Stack.Screen name="Backpack" component={BackpackScreen} options={leftToRightAnimation} />
                 </Stack.Navigator>
               </NavigationContainer>
             </ModalProvider>

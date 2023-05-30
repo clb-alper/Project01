@@ -13,6 +13,10 @@ const RewardsProvider = ({ children }) => {
     const [userStickerList, setUserStickerList] = useState([])
     const [stickerBookList, setStickerBookList] = useState([])
 
+    const [userOwnedStickerList, setUserOwnedStickerList] = useState([])
+
+    const [backpackEnteredCheck, setBackpackEnteredCheck] = useState()
+
     const DATA = [];
 
     for (let i = 0; i < stickerData.length - 1; i++) {
@@ -46,7 +50,11 @@ const RewardsProvider = ({ children }) => {
         userStickerList,
         setUserStickerList,
         stickerBookList,
-        setStickerBookList
+        setStickerBookList,
+        backpackEnteredCheck,
+        setBackpackEnteredCheck,
+        userOwnedStickerList,
+        setUserOwnedStickerList
     }
 
     return (
