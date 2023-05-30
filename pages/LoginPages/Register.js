@@ -60,52 +60,53 @@ const Register = ({ navigation }) => {
 
     //created collection for users from sign-up but need improvement
     const handleSignUp = async () => {
-        if (password === password2){
+        if (password === password2) {
             auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredetials => {
-                firebase.firestore().collection('users').doc(userCredetials.user.uid).set({
-                    email: userCredetials.user.email,
-                    emailVerified: userCredetials.user.emailVerified,
+                .createUserWithEmailAndPassword(email, password)
+                .then(userCredetials => {
+                    firebase.firestore().collection('users').doc(userCredetials.user.uid).set({
+                        email: userCredetials.user.email,
+                        emailVerified: userCredetials.user.emailVerified,
+                    })
+                    sendEmailVerification(auth.currentUser)
                 })
-                sendEmailVerification(auth.currentUser)
-            })
-            
-            .catch(error => {
-                console.log(error.code)
-                switch (error.code) {
-                    case 'auth/email-already-in-use':
-                        setRegisterError('Bu mail adresi zaten kullanılıyor...')
-                        setIsVisible('flex')
-                        break;
-                    case 'auth/invalid-email':
-                        setRegisterError('Bu mail adresi geçerli değil...')
-                        setIsVisible('flex')
-                        break;
-                    case 'auth/missing-email':
-                        setRegisterError('Email adresinizi girmeniz gerekiyor...')
-                        setIsVisible('flex')
-                        break;
-                    case 'auth/admin-restricted-operation':
-                        setRegisterError('Email ve Şifre giriniz...')
-                        setIsVisible('flex')
-                        break;
-                    case 'auth/weak-password':
-                        setRegisterError('Şifre en az 6 karakter içermelidir...')
-                        setIsVisible('flex')
-                        break;
 
-                    default:
-                        setRegisterError('Kayıt sırasında bir hata ile karşılaşıldı...')
-                        setIsVisible('flex')
-                        break;
-                }
-            })
+                .catch(error => {
+                    console.log(error.code)
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            setRegisterError('Bu mail adresi zaten kullanılıyor...')
+                            setIsVisible('flex')
+                            break;
+                        case 'auth/invalid-email':
+                            setRegisterError('Bu mail adresi geçerli değil...')
+                            setIsVisible('flex')
+                            break;
+                        case 'auth/missing-email':
+                            setRegisterError('Email adresinizi girmeniz gerekiyor...')
+                            setIsVisible('flex')
+                            break;
+                        case 'auth/admin-restricted-operation':
+                            setRegisterError('Email ve Şifre giriniz...')
+                            setIsVisible('flex')
+                            break;
+                        case 'auth/weak-password':
+                            setRegisterError('Şifre en az 6 karakter içermelidir...')
+                            setIsVisible('flex')
+                            break;
+
+                        default:
+                            setRegisterError('Kayıt sırasında bir hata ile karşılaşıldı...')
+                            setIsVisible('flex')
+                            break;
+                    }
+                })
         }
         else {
             setRegisterError('Şifreler aynı olmalıdır...')
             setIsVisible('flex')
         }
+        navigation.navigate('Login')
 
     }
 
