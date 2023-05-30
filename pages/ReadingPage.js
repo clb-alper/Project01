@@ -34,7 +34,7 @@ const ReadingPage = () => {
 
     const [flRef, setFlRef] = useState();
 
-    const [userInfo, setUserInfo] = useState([]);
+    //const [userInfo, setUserInfo] = useState([]);
 
     const [isBack, setIsBack] = useState(false);
 
@@ -46,81 +46,14 @@ const ReadingPage = () => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const loadUserView = async () => {
-        await sleep(1200)
+        await sleep(3000)
         setIsLoaded(true)
     }
 
-    const userProfileRef = firebase.firestore()
-        .collection('users').doc(firebase.auth().currentUser.uid)
-        .collection('userProfiles').doc(currentProfileSelected);
-
-    // useEffect(() => {
-
-    //     userProfileRef
-    //         .onSnapshot(
-    //             querySnapshot => {
-    //                 const isTagAdded = querySnapshot.data().tagsAdded
-
-    //                 if (isTagAdded === false) {
-
-    //                     handleTagData()
-
-    //                     userProfileRef.update({
-    //                         tagsAdded : true
-    //                     })
-    //                 }
-    //             }
-    //         )
-
-
-
-
-    //     // if (isBack === true) {
-
-    //     //     bookList.forEach((book) => {
-    //     //         var myObject = {}
-
-    //     //         const progress = book.bookProgress
-    //     //         const content = book.contentTag
-    //     //         const age = book.ageTag
-    //     //         const theme = book.themeTag
-    //     //         const name = book.title
-
-    //     //         var myObject = { name: name, progress: progress, content: content, age: age, theme: theme }
-
-    //     //         // bookList.forEach((myBook) => {
-    //     //         //     if (myBook.name === myObject.name) {
-    //     //         //         console.log(myBook.name, myObject.name)
-    //     //         //         console.log(myObject.name, "is alreadt exist")
-    //     //         //         //console.log(myBook.name, myObject.name)
-    //     //         //     } else if ((myBook.name != myObject.name && 
-    //     //         //         typeof (myBook.name) != 'undefined' &&
-    //     //         //         typeof (myObject.name) != 'undefined')) {
-
-    //     //         //         console.log(myBook.name, myObject.name)
-    //     //         //         demoList.push(myObject)
-    //     //         //         console.log(myObject.name, "have been pushed")
-    //     //         //     }
-    //     //         // })
-
-    //     //         //demoList.push(myObject)
-    //     //         //console.log(demoList)
-    //     //     })
-    //     // } else {
-    //     //     console.log(isBack)
-    //     // }
-    // }, [isBack])
-
-
-    //const pageText = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar. Mehmet, uyandıgında kendisini kumsal bir bölgenin üstünde buluyor. İlk olarak ailesini bulmaya başlayan Mehmet, ilk önce babasını görüyor ve daha sonra da annesini buluyor. Mehmet ve ailesi iyi durumda fakat ne gemiden, ne de gemideki diğer yolculardan bir iz var. Sanki herkes yok olmuş gibi."
-    const pageText2 = "Mehmet, ailesi ile gemide yolculuk yaparken aniden fırtına çıkıyor ve kendilerini bir adada buluyorlar."
-
-
     const bookContentRef = firebase.firestore().collection('storyBooks').doc(modalEntry.id).collection('bookContent')
 
-
-
     let contentText;
+
     const getBookContentData = async () => {
         bookContentRef
             .onSnapshot(
@@ -211,6 +144,7 @@ const ReadingPage = () => {
                         setBookPageColor(pageBGColor)
                     })
                     setBookContent(bookContent)
+                    loadUserView()
                 }
             )
     }
@@ -232,11 +166,24 @@ const ReadingPage = () => {
     }
 
     useEffect(() => {
-        loadUserView()
         getBookContentData()
         getFontLocalStorage()
         getBookProgressData()
     }, [])
+
+    // useEffect(() => {
+
+    //     if (isLoaded) {
+    //         const a = () => {
+    //             flRef?.scrollTo({ index: 2, animated: true });
+    //         }
+    //         setTimeout(a, 1000)
+    //         console.log(flRef)
+    //     }
+    //     else {
+    //         console.log(isLoaded)
+    //     }
+    // }, [isLoaded === true])
 
 
     const speak = (pageTextToSpeech) => {
@@ -286,41 +233,6 @@ const ReadingPage = () => {
                     })
             }
         }
-
-
-        // firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        //     .doc(currentProfileSelected).collection('continueReading').get()
-        //     .then((snap) => {
-        //         if (!snap.data().empty) {
-        //             firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        //                 .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).get()
-        //                 .then((snap) => {
-        //                     console.log(snap)
-        //                     if (!snap.data().empty) {
-        //                         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        //                             .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).update({
-        //                                 progress: userBookProgress,
-        //                             })
-        //                     }
-        //                     else {
-        //                         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        //                             .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
-        //                                 progress: userBookProgress,
-        //                                 bookRef: db.doc('storyBooks/' + modalEntry.id),
-        //                                 favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
-        //                             })
-        //                     }
-        //                 })
-        //         } else {
-        //             firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        //                 .doc(currentProfileSelected).collection('continueReading').doc(modalEntry.id).set({
-        //                     progress: userBookProgress,
-        //                     bookRef: db.doc('storyBooks/' + modalEntry.id),
-        //                     favRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/favoriteBooks/' + modalEntry.id)
-        //                 })
-        //         }
-        //     })
-
     }
 
     const handleGoBack = () => {
@@ -329,6 +241,9 @@ const ReadingPage = () => {
         setModalVisible(!modalVisible);
         setIsBack(true)
     }
+
+
+
 
 
     let onScrollEnd = (e) => {
@@ -414,7 +329,13 @@ const ReadingPage = () => {
                                 horizontal
                                 pagingEnabled
                                 showsHorizontalScrollIndicator={false}
+                                initialNumToRender={10}
                                 initialScrollIndex={Math.floor(bookProgressDB * pages.length) - 1} // 0.3ü databaseden progress olarak al
+                                getItemLayout={(_, index) => ({
+                                    length: widthOfScreen, //  WIDTH + (MARGIN_HORIZONTAL * 2)
+                                    offset: widthOfScreen * (index),  //  ( WIDTH + (MARGIN_HORIZONTAL*2) ) * (index)
+                                    index,
+                                })}
                                 onScrollToIndexFailed={info => {
                                     const wait = new Promise(resolve => setTimeout(resolve, 500));
                                     wait.then(() => {
