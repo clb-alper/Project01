@@ -252,22 +252,18 @@ const ReadingPage = () => {
 
     const navigation = useNavigation();
 
-
-
     // Disabling the back press button of the phone
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
     }, [])
 
     const handleBackButtonClick = () => {
+        stopSpeech();
         navigation.goBack();
         setModalVisible(!modalVisible);
         setIsBack(true)
         return true;
     };
-
-
-
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
