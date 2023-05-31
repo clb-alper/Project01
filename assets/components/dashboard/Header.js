@@ -87,6 +87,7 @@ const Header = () => {
     }
 
 
+
     var userLevelPoint = typeof (userStatisticsData) === 'undefined' ? 0 : userStatisticsData.totalPoints
     var userLevelTitle = ""
     var progressBarLevel = 0
@@ -103,23 +104,25 @@ const Header = () => {
         [100000, "Kitap İzcisi"]]
 
 
+    if (typeof (userLevelPoint) === 'undefined') {
+        console.log("Timeout error: userLevelPoint is undefined!!!")
+    } else {
+        userProgressLevels.every((values, index) => {
+            if (values[0] > userLevelPoint) {
+                return false;
+            } else {
+                userLevelTitle = `Level ${index + 1} - ${values[1]}`
+                if (userLevelPoint > userProgressLevels[userProgressLevels.length - 1][0]) {
+                    progressBarLevel = (userLevelPoint - values[0]) / 9999999
+                }
+                else {
+                    progressBarLevel = (userLevelPoint - values[0]) / (userProgressLevels[index + 1][0] - values[0])
 
-    // userProgressLevels.every((values, index) => {
-    //     if (values[0] > userLevelPoint) {
-    //         return false;
-    //     } else {
-    //         userLevelTitle = `Level ${index + 1} - ${values[1]}`
-    //         if (userLevelPoint > userProgressLevels[userProgressLevels.length - 1][0]) {
-    //             progressBarLevel = (userLevelPoint - values[0]) / 9999999
-    //         }
-    //         else {
-    //             progressBarLevel = (userLevelPoint - values[0]) / (userProgressLevels[index + 1][0] - values[0])
-
-    //         }
-    //         return true;
-    //     }
-    // })
-
+                }
+                return true;
+            }
+        })
+    }
 
 
 
