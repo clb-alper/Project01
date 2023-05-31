@@ -17,8 +17,10 @@ const ProfileSelect = () => {
 
     const { profileIconList } = useContext(ProfileContext);
 
+    const [saveError, setSaveError] = useState();
+    const [isVisible, setIsVisible] = useState('none');
 
-    //const [profileIconList, setProfileIconList] = useState();
+
     const [dummy, setDummy] = useState();
 
     const [profileName, setProfileName] = useState();
@@ -29,65 +31,7 @@ const ProfileSelect = () => {
     const navigation = useNavigation();
 
 
-    // const profileIconsRef = firebase.firestore().collection('profileIcons')
-    // const getProfileIcons = async () => {
-    //     profileIconsRef
-    //         .onSnapshot(
-    //             querySnapshot => {
-    //                 const profileIconList = []
-    //                 querySnapshot.forEach((doc) => {
-    //                     const { id, trName, image } = doc.data()
-
-    //                     profileIconList.push({
-    //                         engName: doc.id,
-    //                         id,
-    //                         trName,
-    //                         image,
-    //                     })
-
-    //                 })
-    //                 setProfileIconList(profileIconList)
-    //             }
-    //         )
-    // }
-
-    // const iconArray = [
-    //     {
-    //         id: 1,
-    //         image: "require('../../assets/images/icontest.png')"
-    //     },
-    //     {
-    //         id: 2,
-    //         image: "require('../../assets/images/icontest.png')"
-    //     },
-    //     {
-    //         id: 3,
-    //         image: "require('../../assets/images/icontest.png')"
-    //     },
-    //     {
-    //         id: 4,
-    //         image: "require('../../assets/images/icontest.png')"
-    //     },
-    //     {
-    //         id: 5,
-    //         image: "require('../../assets/images/icontest.png')"
-    //     },
-    //     {
-    //         id: 6,
-    //         image: "require('../../assets/images/icontest.png')"
-    //     },
-    //     {
-    //         id: 7,
-    //         image: "require('../../assets/images/icontest.png')"
-    //     },
-    //     {
-    //         id: 8,
-    //         image: "require('../../assets/images/icontest.png')"
-    //     },
-    // ]
-
     useEffect(() => {
-        //getProfileIcons();
         setDummy(true);
     }, [])
 
@@ -160,33 +104,45 @@ const ProfileSelect = () => {
     ]
 
 
-
     const handleCreateProfile = async () => {
 
         const base = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc()
         // Sub User
-        base.set({
-            name: profileName,
-            profileIcon: iconIndex,
-            profileColor: colorIndex,
-        })
 
-        // Dogru setle collectionlari
-        base.collection('statisticsData').doc('statsData').set({
-            adventurer: 0,
-            animalLover: 0,
-            points: 0,
-            readedBooks: 0,
-            readedWords: 0,
-            totalPoints: 0,
-            totalQuizzesCompleted: 0
-        })
+        if (typeof (iconIndex) != "number") {
+            setSaveError('Profil ikonu seçiniz...')
+            setIsVisible('flex')
+        }
+        else if (typeof (profileName) != "string") {
+            setSaveError('Profil ismi boş bırakılamaz...')
+            setIsVisible('flex')
+        } else {
+            base.set({
+                name: profileName,
+                profileIcon: iconIndex,
+                profileColor: colorIndex,
+            })
 
-        base.collection('featuredBadgeData').doc('featuredBadgesDoc').set({
-            featuredBadges: ["empty", "empty", "empty", "empty"]
-        })
+            // Dogru setle collectionlari
+            base.collection('statisticsData').doc('statsData').set({
+                adventurer: 0,
+                animalLover: 0,
+                points: 0,
+                readedBooks: 0,
+                readedWords: 0,
+                totalPoints: 0,
+                totalQuizzesCompleted: 0
+            })
 
-        setTimeout(() => { navigation.goBack() }, 600)
+            base.collection('featuredBadgeData').doc('featuredBadgesDoc').set({
+                featuredBadges: ["empty", "empty", "empty", "empty"]
+            })
+
+            setTimeout(() => { navigation.goBack() }, 600)
+        }
+
+
+
     }
 
 
@@ -291,6 +247,11 @@ const ProfileSelect = () => {
                 <TouchableOpacity onPress={handleCreateProfile} style={[styles.saveButton, { backgroundColor: colorIndex.regularColor, borderColor: colorIndex.borderColor }]}>
                     <Text style={styles.saveButtonText}>Kaydet</Text>
                 </TouchableOpacity>
+
+                <Text style={{ color: '#f26d74', fontSize: 18, fontFamily: 'Comic-Bold', display: isVisible, marginTop: -6 }}>
+                    {saveError}
+                </Text>
+
 
             </View >
         </>
