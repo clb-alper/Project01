@@ -60,7 +60,7 @@ const PuzzlePage = () => {
             const removedIndex = currentShuffledSelections[quizIndex].indexOf(char);
 
             if (removedIndex > -1) {
-                currentShuffledSelections[quizIndex].splice(removedIndex, 1); 
+                currentShuffledSelections[quizIndex].splice(removedIndex, 1);
 
             }
         }
@@ -101,7 +101,10 @@ const PuzzlePage = () => {
                                 {item.split("").map((el, index) => {
                                     return (
                                         <View style={index === currentReplyIndex ? styles.wordBoxCurrentReply : index < currentReplyIndex ? styles.wordBoxCorrectAns : styles.wordBox}>
-                                            <Text>{el}</Text>
+                                            {currentReplyIndex > index &&
+                                                <Text>{el}</Text>
+
+                                            }
                                         </View>
                                     )
                                 })}
@@ -150,28 +153,28 @@ const styles = StyleSheet.create({
     },
     wordBox: {
         borderWidth: 1,
-        borderColor: 'black', 
+        borderColor: 'black',
         borderRadius: 5,
-        padding: 5, 
+        padding: 5,
         margin: 2,
         width: 40
     },
 
     wordBoxCurrentReply: {
-        borderWidth: 1, 
+        borderWidth: 1,
         borderColor: 'black',
-        borderRadius: 5, 
-        padding: 5, 
-        margin: 2, 
+        borderRadius: 5,
+        padding: 5,
+        margin: 2,
         width: 40,
         backgroundColor: '#eab676'
     },
     wordBoxCorrectAns: {
-        borderWidth: 1, 
+        borderWidth: 1,
         borderColor: 'black',
-        borderRadius: 5, 
-        padding: 5, 
-        margin: 2, 
+        borderRadius: 5,
+        padding: 5,
+        margin: 2,
         width: 40,
         backgroundColor: '#3CC465'
     },
