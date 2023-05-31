@@ -36,28 +36,6 @@ const ProfileSelect = () => {
     }, [])
 
 
-    const handleProfileColor = (colorHandle) => {
-        switch (colorHandle) {
-            case 0:
-                setColorIndex(colors.pinkRegular)
-                break;
-            case 1:
-                setColorIndex(colors.blueRegular)
-                break;
-            case 2:
-                setColorIndex(colors.greenRegular)
-                break;
-            case 3:
-                setColorIndex(colors.yellowRegular)
-                break;
-            case 4:
-                setColorIndex(colors.purpleRegular)
-                break;
-            default:
-                setColorIndex(colors.pinkRegular)
-        }
-    }
-
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
         'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
