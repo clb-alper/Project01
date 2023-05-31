@@ -1,19 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
 import { auth, firebase } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import { ProfileContext } from '../../assets/contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
 const ProfileSelect = () => {
+
+    const { profileIconList } = useContext(ProfileContext);
+
+    const [saveError, setSaveError] = useState();
+    const [isVisible, setIsVisible] = useState('none');
+
+
+    const [dummy, setDummy] = useState();
 
     const [profileName, setProfileName] = useState();
 
@@ -22,27 +30,11 @@ const ProfileSelect = () => {
 
     const navigation = useNavigation();
 
-    const handleProfileColor = (colorHandle) => {
-        switch (colorHandle) {
-            case 0:
-                setColorIndex(colors.pinkRegular)
-                break;
-            case 1:
-                setColorIndex(colors.blueRegular)
-                break;
-            case 2:
-                setColorIndex(colors.greenRegular)
-                break;
-            case 3:
-                setColorIndex(colors.yellowRegular)
-                break;
-            case 4:
-                setColorIndex(colors.purpleRegular)
-                break;
-            default:
-                setColorIndex(colors.pinkRegular)
-        }
-    }
+
+    useEffect(() => {
+        setDummy(true);
+    }, [])
+
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -60,40 +52,6 @@ const ProfileSelect = () => {
         return null;
     }
 
-    const iconArray = [
-        {
-            id: 1,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 2,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 3,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 4,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 5,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 6,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 7,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 8,
-            image: "require('../../assets/images/icontest.png')"
-        },
-    ]
 
     const colorArray = [
         {
@@ -128,28 +86,41 @@ const ProfileSelect = () => {
 
         const base = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc()
         // Sub User
-        base.set({
-            name: profileName,
-            profileIcon: iconIndex,
-            profileColor: colorIndex,
-        })
 
-        // Dogru setle collectionlari
-        base.collection('statisticsData').doc('statsData').set({
-            adventurer: 0,
-            animalLover: 0,
-            points: 0,
-            readedBooks: 0,
-            readedWords: 0,
-            totalPoints: 0,
-            totalQuizzesCompleted: 0
-        })
+        if (typeof (iconIndex) != "number") {
+            setSaveError('Profil ikonu seçiniz...')
+            setIsVisible('flex')
+        }
+        else if (typeof (profileName) != "string") {
+            setSaveError('Profil ismi boş bırakılamaz...')
+            setIsVisible('flex')
+        } else {
+            base.set({
+                name: profileName,
+                profileIcon: iconIndex,
+                profileColor: colorIndex,
+            })
 
-        base.collection('featuredBadgeData').doc('featuredBadgesDoc').set({
-            featuredBadges: ["empty", "empty", "empty", "empty"]
-        })
+            // Dogru setle collectionlari
+            base.collection('statisticsData').doc('statsData').set({
+                adventurer: 0,
+                animalLover: 0,
+                points: 0,
+                readedBooks: 0,
+                readedWords: 0,
+                totalPoints: 0,
+                totalQuizzesCompleted: 0
+            })
 
-        setTimeout(() => { navigation.goBack() }, 600)
+            base.collection('featuredBadgeData').doc('featuredBadgesDoc').set({
+                featuredBadges: ["empty", "empty", "empty", "empty"]
+            })
+
+            setTimeout(() => { navigation.goBack() }, 600)
+        }
+
+
+
     }
 
 
@@ -165,34 +136,48 @@ const ProfileSelect = () => {
 
                 <SafeAreaView edges={['bottom', 'top']}>
                     <KeyboardAvoidingView behavior="padding" style={{ marginBottom: 20 }}>
-                        <View style={styles.iconMapStyle}>
+
+
+                        < View style={styles.iconMapStyle}>
                             <Text style={styles.profileSelectHeader}>Ikonlar</Text>
 
-                            <FlatList
-                                overScrollMode={'never'}
-                                horizontal={false}
-                                scrollEnabled={false}
-                                numColumns={4}
-                                viewAreaCoveragePercentThreshold={10}
-                                itemVisiblePercentThreshold={10}
-                                data={iconArray}
-                                keyExtractor={(item) => item.id}
-                                showsHorizontalScrollIndicator={false}
-                                renderItem={({ item, index, separators }) => (
+                            {dummy ?
+                                <FlatList
+                                    style={{ marginTop: -12, }}
+                                    overScrollMode={'never'}
+                                    horizontal={false}
+                                    scrollEnabled={false}
+                                    numColumns={4}
+                                    viewAreaCoveragePercentThreshold={10}
+                                    itemVisiblePercentThreshold={10}
+                                    data={profileIconList}
+                                    keyExtractor={(item) => item.id}
+                                    showsHorizontalScrollIndicator={false}
+                                    renderItem={({ item, index }) => (
 
-                                    <TouchableOpacity
-                                        key={item.id}
-                                        onPress={() => setIconIndex(index)}
-                                        activeOpacity={0.8}>
+                                        <TouchableOpacity
+                                            key={item.id}
+                                            onPress={() => setIconIndex(index)}
+                                            activeOpacity={0.8}>
 
-                                        <MaterialCommunityIcon key={index} name="dog" size={65} color={colorIndex.regularColor} style={styles.iconStyles} />
+                                            <Image
+                                                style={[styles.iconStyles, { tintColor: colorIndex.regularColor }]}
+                                                source={{ uri: item.image }}
 
-                                    </TouchableOpacity>
+                                            />
 
-                                )} />
+                                        </TouchableOpacity>
 
+                                    )} />
+                                : null
+                            }
 
                         </View>
+
+
+
+
+
 
                         <View style={styles.colorMapStyle}>
                             <Text style={styles.profileColorHeader}>Renkler</Text>
@@ -241,7 +226,12 @@ const ProfileSelect = () => {
                     <Text style={styles.saveButtonText}>Kaydet</Text>
                 </TouchableOpacity>
 
-            </View>
+                <Text style={{ color: '#f26d74', fontSize: 18, fontFamily: 'Comic-Bold', display: isVisible, marginTop: -6 }}>
+                    {saveError}
+                </Text>
+
+
+            </View >
         </>
     )
 }
@@ -348,7 +338,8 @@ const styles = StyleSheet.create({
     iconStyles: {
         width: 65,
         height: 65,
-        marginHorizontal: 8
+        marginHorizontal: 8,
+        marginTop: 10,
     },
 
     colorIconStyles: {

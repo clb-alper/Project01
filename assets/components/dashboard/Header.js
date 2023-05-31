@@ -34,6 +34,10 @@ const Header = () => {
         .collection('userProfiles').doc(currentProfileSelected)
         .collection('featuredBadgeData');
 
+
+
+
+
     const getFeaturedBadgesData = async () => {
         featuredBadgesRef
             .onSnapshot(
@@ -78,7 +82,11 @@ const Header = () => {
                     //console.log(featuredBadgesList)
                 }
             )
+
+
     }
+
+
 
     var userLevelPoint = typeof (userStatisticsData) === 'undefined' ? 0 : userStatisticsData.totalPoints
     var userLevelTitle = ""
@@ -95,21 +103,31 @@ const Header = () => {
         [75000, "Hayalperest"],
         [100000, "Kitap İzcisi"]]
 
-    userProgressLevels.every((values, index) => {
-        if (values[0] > userLevelPoint) {
-            return false;
-        } else {
-            userLevelTitle = `Level ${index + 1} - ${values[1]}`
-            if (userLevelPoint > userProgressLevels[userProgressLevels.length - 1][0]) {
-                progressBarLevel = (userLevelPoint - values[0]) / 9999999
-            }
-            else {
-                progressBarLevel = (userLevelPoint - values[0]) / (userProgressLevels[index + 1][0] - values[0])
 
+    if (typeof (userLevelPoint) === 'undefined') {
+        console.log("Timeout error: userLevelPoint is undefined!!!")
+    } else {
+        userProgressLevels.every((values, index) => {
+            if (values[0] > userLevelPoint) {
+                return false;
+            } else {
+                userLevelTitle = `Level ${index + 1} - ${values[1]}`
+                if (userLevelPoint > userProgressLevels[userProgressLevels.length - 1][0]) {
+                    progressBarLevel = (userLevelPoint - values[0]) / 9999999
+                }
+                else {
+                    progressBarLevel = (userLevelPoint - values[0]) / (userProgressLevels[index + 1][0] - values[0])
+
+                }
+                return true;
             }
-            return true;
-        }
-    })
+        })
+    }
+
+
+
+
+
 
     useEffect(() => {
         getFeaturedBadgesData();

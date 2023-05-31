@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View, Image, Dimensions } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import colors from '../../colors/colors';
@@ -16,10 +16,13 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 
 const MainContainer = () => {
 
-    const { DATA } = useContext(RewardsContext);
+    const { DATA, setUserOwnedStickerList, userOwnedStickerList } = useContext(RewardsContext);
     const { setStickerModalEntry, setStickerModalVisible, } = useContext(ModalContext);
     const { setCategorySwitch } = useContext(LibraryContext);
     const { closeRewardsDropdown, setCloseRewardsDropdown, rewardsCategories } = useContext(DropdownContext)
+    const { currentProfileSelected } = useContext(ProfileContext);
+
+    const [userStoreStickerList, setUserStoreStickerList] = useState();
 
     const { stickerList, setStickerList, userStickerList, setUserStickerList, stickerBookList, setStickerBookList } = useContext(RewardsContext);
 
@@ -40,13 +43,32 @@ const MainContainer = () => {
                             price,
                             stickerBookNo,
                             stickerLevel
-
                         })
+
                     })
                     setStickerList(stickerList)
                 }
             )
     }
+
+    const AAAA = async () => {
+
+        const aa = []
+        stickerList.forEach((sticker) => {
+            if (userOwnedStickerList.findIndex(x => x.id===sticker.id) === -1) {
+                 aa.push({
+                    id: sticker.id,
+                    iconImage: sticker.iconImage,
+                    name: sticker.name,
+                    price: sticker.price,
+                    stickerBookNo: sticker.stickerBookNo,
+                    stickerLevel: sticker.stickerLevel
+                })
+            } 
+        })
+        setUserStoreStickerList(aa)
+    }
+
 
     const stickerBookRef = firebase.firestore().collection('stickerBooks')
 
@@ -69,76 +91,57 @@ const MainContainer = () => {
             )
     }
 
-    useEffect(() => {
-        getStickerData();
-    }, [])
+    const userStickersRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        .doc(currentProfileSelected).collection('stickerCollection')
+
+    const getUserStickerData = async () => {
+        userStickersRef
+            .onSnapshot(
+                querySnapshot => {
+                    const userOwnedStickerList = []
+                    querySnapshot.forEach((doc) => {
+
+                        stickerList.forEach((sticker) => {
+                            if (sticker.id === doc.id) {
+                                userOwnedStickerList.push({
+                                    id: doc.id,
+                                    iconImage: sticker.iconImage,
+                                    name: sticker.name,
+                                    price: sticker.price,
+                                    stickerBookNo: sticker.stickerBookNo,
+                                    stickerLevel: sticker.stickerLevel
+                                })
+                            }
+                        })
+                    })
+                    setUserOwnedStickerList(userOwnedStickerList)        
+                }
+            )
+
+    }
 
     useEffect(() => {
+        getStickerData();
+        getUserStickerData();
         getStickerBookData();
     }, [])
 
+    useEffect(() => {
+         AAAA()
+    }, [stickerList])
+
+    useEffect(() => {
+        AAAA()
+    }, [userOwnedStickerList])
+
+
+    // console.log(userStoreStickerList)
+
     return (
         <>
-            {/* <View style={styles.pointsHeader}>
-
-                <SelectDropdown
-
-                    buttonStyle={closeRewardsDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
-                    buttonTextStyle={styles.DropdownTextStyle}
-                    dropdownStyle={styles.DropdownContainerStyle}
-                    rowStyle={styles.DropdownRowStyle}
-                    rowTextStyle={styles.DropdownContainerTextStyle}
-                    dropdownOverlayColor='transparent'
-
-                    data={rewardsCategories}
-                    adjustsFontSizeToFit={true}
-                    defaultButtonText={rewardsCategories[0]}
-
-                    onFocus={() => {
-                        setCloseRewardsDropdown(true)
-                    }}
-
-                    onBlur={() => {
-                        setCloseRewardsDropdown(false)
-                    }}
-
-                    onSelect={(selectedItem, index) => {
-                        setCloseRewardsDropdown(false)
-                        console.log(rewardsCategories[index])
-                        console.log(selectedItem)
-
-                        if (selectedItem == 'Sticker') {
-                            setCategorySwitch(false)
-
-                        } else if (selectedItem == 'Seviye') {
-                            setCategorySwitch(true)
-                        }
-                    }}
-
-                    buttonTextAfterSelection={(selectedItem) => {
-                        return selectedItem
-                    }}
-                    rowTextForSelection={(item) => {
-                        return item
-                    }}
-
-                />
-            </View> */}
-
-
-
+    
             <View>
-                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 20 }}>
-
-
-                    {/* <TouchableOpacity onPress={() => { console.log("Sticker Backpack") }}
-                        activeOpacity={0.75}>
-                        <View style={{ height: 50, width: widthOfScreen * 0.5, alignSelf: 'center', borderWidth: 2, borderRadius: 15, backgroundColor: colors.purpleRegular }}>
-                            <Text>
-                                Sticker Mağazası
-                            </Text>
-                        </View>
-                    </TouchableOpacity> */}
+                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
 
                 </View>
                 <View style={[styles.headerView12, { marginTop: 20 }]}>
@@ -155,87 +158,10 @@ const MainContainer = () => {
                                     </Text>
 
                                     <View style={styles.stickerContainer}>
-                                        {typeof (stickerList) === 'undefined' ? null :
-                                            stickerList.filter((sl) => sBook.bookNo === sl.stickerBookNo).map((sticker) => {
+                                        {typeof (userStoreStickerList) === 'undefined' ? null :
+                                            userStoreStickerList.filter((sl) => sBook.bookNo === sl.stickerBookNo).map((sticker, index) => {
                                                 return (
-                                                    <View key={sticker.id}>
-                                                        <View style={styles.continueReadingBookStyleFirstItem}>
-
-                                                            <TouchableOpacity
-
-                                                                onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); }}
-                                                                activeOpacity={0.75}>
-
-                                                                <ImageBackground
-
-                                                                    source={{ uri: sticker.iconImage }}
-                                                                    imageStyle={styles.continueBookImageStyle}>
-                                                                </ImageBackground>
-
-                                                                <View style={
-                                                                    sticker.stickerLevel === "Bronze" ?
-                                                                        styles.bronzePointsContainer :
-                                                                        sticker.stickerLevel === "Silver" ?
-                                                                            styles.silverPointsContainer :
-                                                                            sticker.stickerLevel === "Gold" ?
-                                                                                styles.goldPointsContainer :
-                                                                                sticker.stickerLevel === "Emerald" ?
-                                                                                    styles.emeraldPointsContainer :
-                                                                                    sticker.stickerLevel === "Diamond" ?
-                                                                                        styles.diamondPointsContainer :
-                                                                                        styles.defaultPointsContainer}>
-
-                                                                    <Text
-                                                                        style={styles.pointsTextStyle2}
-                                                                        adjustsFontSizeToFit={true}
-                                                                        numberOfLines={1}>
-                                                                        {sticker.price}
-                                                                    </Text>
-
-                                                                    <AntIcons name="star" size={17} color="#FFB702" style={styles.pointsIconStyle2} />
-
-                                                                </View>
-
-
-                                                            </TouchableOpacity>
-
-                                                        </View>
-
-
-                                                    </View>
-                                                )
-
-                                            })
-                                        }
-
-                                    </View>
-                                </View>
-                            )
-                        })
-
-
-                    }
-                </View>
-
-                {/* Placeholder */}
-                <View style={[styles.headerView12, { marginTop: 20 }]}>
-                    {
-                        stickerBookList.map((sBook, index) => {
-                            return (
-                                <View key={index}>
-                                    <Text
-
-                                        style={styles.headerTextStyle2}
-                                        adjustsFontSizeToFit={true}
-                                        numberOfLines={1}>
-                                        {sBook.name}
-                                    </Text>
-
-                                    <View style={styles.stickerContainer}>
-                                        {typeof (stickerList) === 'undefined' ? null :
-                                            stickerList.filter((sl) => sBook.bookNo === sl.stickerBookNo).map((sticker) => {
-                                                return (
-                                                    <View key={sticker.id}>
+                                                    <View key={sticker.id + index}>
                                                         <View style={styles.continueReadingBookStyleFirstItem}>
 
                                                             <TouchableOpacity
