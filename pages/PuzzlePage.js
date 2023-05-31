@@ -59,8 +59,9 @@ const PuzzlePage = () => {
             setCurrentReplyIndex(currentReplyIndex + 1)
             const removedIndex = currentShuffledSelections[quizIndex].indexOf(char);
 
-            if(removedIndex > -1 ) {
+            if (removedIndex > -1) {
                 currentShuffledSelections[quizIndex].splice(removedIndex, 1); 
+
             }
         }
     };
@@ -70,10 +71,10 @@ const PuzzlePage = () => {
         let shuffledArrays = [];
         puzzleArray.forEach((puzzle) => {
             const shuffled = shuffle(puzzle.split(""))
+            console.log(shuffled)
             shuffledArrays.push(shuffled)
         })
         setCurrentShuffledSelections(shuffledArrays)
-        console.log(currentShuffledSelections)
     }, [])
 
     return (
@@ -106,10 +107,8 @@ const PuzzlePage = () => {
                                 })}
                             </View>
 
-
-                            {/* User Select View */}
                             <View style={styles.userSelectionView}>
-                                {currentShuffledSelections[quizIndex].map((item2, index) => (
+                                {currentShuffledSelections[quizIndex] && currentShuffledSelections[quizIndex].map((item2, index) => (
                                     <View key={index.toString()} style={styles.wordBox}>
                                         <TouchableOpacity
                                             onPress={() => { handleCurrentAnswer(item2, item) }}
@@ -146,33 +145,33 @@ export default PuzzlePage;
 const styles = StyleSheet.create({
     userSelectionView: {
         flexDirection: 'row',
-        flexWrap: 'wrap', 
+        flexWrap: 'wrap',
         justifyContent: 'center'
     },
     wordBox: {
-        borderWidth: 1, 
-        borderColor: 'black',
-        borderRadius: 5, 
+        borderWidth: 1,
+        borderColor: 'black', 
+        borderRadius: 5,
         padding: 5, 
-        margin: 2, 
+        margin: 2,
         width: 40
     },
 
     wordBoxCurrentReply: {
         borderWidth: 1, 
         borderColor: 'black',
-        borderRadius: 5,
+        borderRadius: 5, 
         padding: 5, 
         margin: 2, 
         width: 40,
         backgroundColor: '#eab676'
     },
     wordBoxCorrectAns: {
-        borderWidth: 1,
-        borderColor: 'black', 
+        borderWidth: 1, 
+        borderColor: 'black',
         borderRadius: 5, 
         padding: 5, 
-        margin: 2,
+        margin: 2, 
         width: 40,
         backgroundColor: '#3CC465'
     },
