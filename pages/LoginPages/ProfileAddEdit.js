@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, Text, View, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
@@ -15,12 +15,79 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 
 const ProfileSelect = () => {
 
+    const [profileIconList, setProfileIconList] = useState();
+    const [dummy, setDummy] = useState();
+
     const [profileName, setProfileName] = useState();
 
     const [iconIndex, setIconIndex] = useState();
     const [colorIndex, setColorIndex] = useState({ regularColor: colors.pinkLight, borderColor: colors.pinkBorder });
 
     const navigation = useNavigation();
+
+
+    const profileIconsRef = firebase.firestore().collection('profileIcons')
+    const getProfileIcons = async () => {
+        profileIconsRef
+            .onSnapshot(
+                querySnapshot => {
+                    const profileIconList = []
+                    querySnapshot.forEach((doc) => {
+                        const { id, trName, image } = doc.data()
+
+                        profileIconList.push({
+                            engName: doc.id,
+                            id,
+                            trName,
+                            image,
+                        })
+
+                    })
+                    setProfileIconList(profileIconList)
+                }
+            )
+    }
+
+    // const iconArray = [
+    //     {
+    //         id: 1,
+    //         image: "require('../../assets/images/icontest.png')"
+    //     },
+    //     {
+    //         id: 2,
+    //         image: "require('../../assets/images/icontest.png')"
+    //     },
+    //     {
+    //         id: 3,
+    //         image: "require('../../assets/images/icontest.png')"
+    //     },
+    //     {
+    //         id: 4,
+    //         image: "require('../../assets/images/icontest.png')"
+    //     },
+    //     {
+    //         id: 5,
+    //         image: "require('../../assets/images/icontest.png')"
+    //     },
+    //     {
+    //         id: 6,
+    //         image: "require('../../assets/images/icontest.png')"
+    //     },
+    //     {
+    //         id: 7,
+    //         image: "require('../../assets/images/icontest.png')"
+    //     },
+    //     {
+    //         id: 8,
+    //         image: "require('../../assets/images/icontest.png')"
+    //     },
+    // ]
+
+    useEffect(() => {
+        getProfileIcons();
+        setDummy(true);
+    }, [])
+
 
     const handleProfileColor = (colorHandle) => {
         switch (colorHandle) {
@@ -60,40 +127,6 @@ const ProfileSelect = () => {
         return null;
     }
 
-    const iconArray = [
-        {
-            id: 1,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 2,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 3,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 4,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 5,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 6,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 7,
-            image: "require('../../assets/images/icontest.png')"
-        },
-        {
-            id: 8,
-            image: "require('../../assets/images/icontest.png')"
-        },
-    ]
 
     const colorArray = [
         {
@@ -165,34 +198,45 @@ const ProfileSelect = () => {
 
                 <SafeAreaView edges={['bottom', 'top']}>
                     <KeyboardAvoidingView behavior="padding" style={{ marginBottom: 20 }}>
-                        <View style={styles.iconMapStyle}>
+
+
+                        < View style={styles.iconMapStyle}>
                             <Text style={styles.profileSelectHeader}>Ikonlar</Text>
+                            {dummy ?
+                                <FlatList
+                                    style={{ marginTop: -12, }}
+                                    overScrollMode={'never'}
+                                    horizontal={false}
+                                    scrollEnabled={false}
+                                    numColumns={4}
+                                    viewAreaCoveragePercentThreshold={10}
+                                    itemVisiblePercentThreshold={10}
+                                    data={profileIconList}
+                                    keyExtractor={(item) => item.id}
+                                    showsHorizontalScrollIndicator={false}
+                                    renderItem={({ item, index }) => (
 
-                            <FlatList
-                                overScrollMode={'never'}
-                                horizontal={false}
-                                scrollEnabled={false}
-                                numColumns={4}
-                                viewAreaCoveragePercentThreshold={10}
-                                itemVisiblePercentThreshold={10}
-                                data={iconArray}
-                                keyExtractor={(item) => item.id}
-                                showsHorizontalScrollIndicator={false}
-                                renderItem={({ item, index, separators }) => (
+                                        <TouchableOpacity
+                                            key={item.id}
+                                            onPress={() => setIconIndex(index)}
+                                            activeOpacity={0.8}>
 
-                                    <TouchableOpacity
-                                        key={item.id}
-                                        onPress={() => setIconIndex(index)}
-                                        activeOpacity={0.8}>
+                                            <Image
+                                                style={[styles.iconStyles, { tintColor: colorIndex.regularColor }]}
+                                                source={{ uri: item.image }}
+                                            />
 
-                                        <MaterialCommunityIcon key={index} name="dog" size={65} color={colorIndex.regularColor} style={styles.iconStyles} />
+                                        </TouchableOpacity>
 
-                                    </TouchableOpacity>
+                                    )} />
 
-                                )} />
-
-
+                                : null}
                         </View>
+
+
+
+
+
 
                         <View style={styles.colorMapStyle}>
                             <Text style={styles.profileColorHeader}>Renkler</Text>
@@ -241,7 +285,7 @@ const ProfileSelect = () => {
                     <Text style={styles.saveButtonText}>Kaydet</Text>
                 </TouchableOpacity>
 
-            </View>
+            </View >
         </>
     )
 }
@@ -348,7 +392,8 @@ const styles = StyleSheet.create({
     iconStyles: {
         width: 65,
         height: 65,
-        marginHorizontal: 8
+        marginHorizontal: 8,
+        marginTop: 10,
     },
 
     colorIconStyles: {
