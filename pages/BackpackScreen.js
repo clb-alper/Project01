@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Dimensions, ImageBackground } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -21,37 +21,6 @@ const BackpackScreen = () => {
 
     const { userOwnedStickerList, setUserOwnedStickerList, stickerList, setStickerList } = useContext(RewardsContext)
     const { currentProfileSelected } = useContext(ProfileContext);
-
-    const stickersRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-        .doc(currentProfileSelected).collection('stickerCollection')
-
-    const getStickerData = async () => {
-        stickersRef
-            .onSnapshot(
-                querySnapshot => {
-                    const userOwnedStickerList = []
-                    querySnapshot.forEach((doc) => {
-
-                        stickerList.forEach((sticker) => {
-                            if (sticker.id === doc.id) {
-                                userOwnedStickerList.push({
-                                    id: doc.id,
-                                    iconImage: sticker.iconImage,
-                                    name: sticker.name,
-                                    price: sticker.price,
-                                    stickerBookNo: sticker.stickerBookNo,
-                                    stickerLevel: sticker.stickerLevel
-                                })
-                                console.log(userOwnedStickerList)
-                            }
-                        })
-                    })
-                    setUserOwnedStickerList(userOwnedStickerList)
-                }
-            )
-
-    }
-
 
 
     const [fontsLoaded] = useFonts({
@@ -87,12 +56,7 @@ const BackpackScreen = () => {
                 overScrollMode={'never'}
                 style={{ zIndex: 0 }}>
 
-                <TouchableOpacity onPress={() => getStickerData()} >
-                    <Text>ASD</Text>
-                </TouchableOpacity>
-
-                <View style={[styles.headerView12, { marginTop: 20 }]}>
-
+                <View style={[styles.headerView12, { marginTop: 40 }]}>
 
                     <View style={styles.stickerContainer}>
                         {typeof (userOwnedStickerList) === 'undefined' ? null :
@@ -101,41 +65,13 @@ const BackpackScreen = () => {
                                     <View key={sticker.id}>
                                         <View style={styles.continueReadingBookStyleFirstItem}>
 
-
                                             <ImageBackground
-
                                                 source={{ uri: sticker.iconImage }}
                                                 imageStyle={styles.continueBookImageStyle}>
                                             </ImageBackground>
 
-                                            <View style={
-                                                sticker.stickerLevel === "Bronze" ?
-                                                    styles.bronzePointsContainer :
-                                                    sticker.stickerLevel === "Silver" ?
-                                                        styles.silverPointsContainer :
-                                                        sticker.stickerLevel === "Gold" ?
-                                                            styles.goldPointsContainer :
-                                                            sticker.stickerLevel === "Emerald" ?
-                                                                styles.emeraldPointsContainer :
-                                                                sticker.stickerLevel === "Diamond" ?
-                                                                    styles.diamondPointsContainer :
-                                                                    styles.defaultPointsContainer}>
-
-                                                <Text
-                                                    style={styles.pointsTextStyle2}
-                                                    adjustsFontSizeToFit={true}
-                                                    numberOfLines={1}>
-                                                    {sticker.price}
-                                                </Text>
-
-
-                                            </View>
-
-
-
 
                                         </View>
-
 
                                     </View>
                                 )
@@ -198,21 +134,6 @@ const styles = StyleSheet.create({
         marginLeft: 35,
     },
 
-
-    stickerContainer: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        marginBottom: 20,
-        width: '100%',
-    },
-
-    headerView12: {
-        flexDirection: 'column',
-        marginHorizontal: 20,
-        marginTop: 20,
-        marginLeft: 35,
-    },
-
     headerTextStyle2: {
         fontFamily: 'Comic-Regular',
         fontSize: 30,
@@ -230,12 +151,6 @@ const styles = StyleSheet.create({
         width: 45,
         height: 140,
         marginRight: 43,
-    },
-
-    continueBookImageStyle: {
-        width: 75,
-        height: 75,
-        borderRadius: 12,
     },
 
     defaultPointsContainer: {
