@@ -64,7 +64,7 @@ const MainContainer = () => {
                     stickerBookNo: sticker.stickerBookNo,
                     stickerLevel: sticker.stickerLevel
                 })
-            } 
+            }
         })
         setUserStoreStickerList(aa)
     }
@@ -124,6 +124,7 @@ const MainContainer = () => {
         getStickerData();
         getUserStickerData();
         getStickerBookData();
+        AAAA()
     }, [])
 
     useEffect(() => {

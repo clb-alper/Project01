@@ -13,6 +13,7 @@ import FocusAwareStatusBar from '../assets/components/FocusAwareStatusBar';
 import { RewardsContext } from '../assets/contexts/RewardsContext';
 import { auth, firebase } from '../firebase'
 import { ProfileContext } from '../assets/contexts/ProfileContext';
+import BackpackHeader from '../assets/components/rewards/BackpackHeader';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -47,7 +48,7 @@ const BackpackScreen = () => {
 
             <SafeAreaView edges={['right', 'left']}>
 
-                <Header />
+                <BackpackHeader />
 
             </SafeAreaView>
 

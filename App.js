@@ -145,7 +145,7 @@ export default function App() {
                   <Stack.Screen name="PuzzlePage" component={PuzzlePage} options={TransitionAnim} />
                   <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
                   <Stack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
-                  <Stack.Screen name="Backpack" component={BackpackScreen} options={leftToRightAnimation} />
+                  <Stack.Screen name="Backpack" component={BackpackScreen} />
                 </Stack.Navigator>
               </NavigationContainer>
             </ModalProvider>
