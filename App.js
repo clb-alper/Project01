@@ -27,6 +27,7 @@ import ProfileAddEdit from './pages/LoginPages/ProfileAddEdit';
 import ProfileProvider from './assets/contexts/ProfileContext';
 import QuizPage from './pages/QuizPage';
 import BackpackScreen from './pages/BackpackScreen';
+import PuzzlePage from './pages/PuzzlePage';
 
 
 const Tab = createBottomTabNavigator();
@@ -141,6 +142,7 @@ export default function App() {
                   <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
                   <Stack.Screen name="ReadingPage" component={ReadingPage} options={[TransitionAnim, { gestureEnabled: false }]} />
                   <Stack.Screen name="QuizPage" component={QuizPage} options={TransitionAnim} />
+                  <Stack.Screen name="PuzzlePage" component={PuzzlePage} options={TransitionAnim} />
                   <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
                   <Stack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
                   <Stack.Screen name="Backpack" component={BackpackScreen} options={leftToRightAnimation} />

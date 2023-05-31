@@ -273,7 +273,6 @@ const ReadingPage = () => {
         y: 5,
     }
 
-
     return (
 
         <View style={[styles.container, { backgroundColor: modalEntry.itemPageBGColor }]} onLayout={onLayoutRootView}>
@@ -367,7 +366,7 @@ const ReadingPage = () => {
                                         </View>
 
                                         <TouchableOpacity
-                                            onPress={() => { navigation.navigate('QuizPage') }}
+                                                onPress={() => { modalEntry.contentTag === 'Quizli' ?  navigation.navigate('QuizPage') : navigation.navigate('PuzzlePage') }}
                                             activeOpacity={0.8}>
                                             <View style={[styles.startContentButton, { backgroundColor: modalEntry.itemColor, borderColor: modalEntry.itemBorder }]}>
                                                 <Text style={[styles.bookStatisticsInsideTextStyle, { fontSize: 27 }]}>
@@ -376,7 +375,7 @@ const ReadingPage = () => {
                                                 <IonIcons name="play" size={33} style={{ marginLeft: 4 }} />
                                             </View>
                                         </TouchableOpacity>
-
+                             
                                     </View>
                                 }
                                 renderItem={({ item, index }) => (
