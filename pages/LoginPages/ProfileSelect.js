@@ -16,7 +16,10 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 
 const ProfileSelect = ({ navigation }) => {
 
-    const { currentProfileSelected, setCurrentProfileSelected } = useContext(ProfileContext);
+
+    //const [profileIconList, setProfileIconList] = useState();
+
+    const { currentProfileSelected, setCurrentProfileSelected, profileIconList, setProfileIconList } = useContext(ProfileContext);
 
     const [profileList, setProfileList] = useState([]);
 
@@ -30,7 +33,9 @@ const ProfileSelect = ({ navigation }) => {
         setIsLoaded(true)
     }
 
+
     const todoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').orderBy('name', 'asc');
+    const profileIconsRef = firebase.firestore().collection('profileIcons')
 
     useEffect(() => {
         todoRef
@@ -38,18 +43,53 @@ const ProfileSelect = ({ navigation }) => {
                 querySnapshot => {
                     const profileList = []
                     querySnapshot.forEach((doc) => {
-                        const { name, profileColor } = doc.data()
+                        const { name, profileColor, profileIcon } = doc.data()
                         profileList.push({
                             id: doc.id,
                             name,
-                            profileColor
+                            profileColor,
+                            profileIcon
                         })
                     })
                     setProfileList(profileList)
                     loadUserView()
                 }
             )
+
+
     }, [])
+
+
+
+
+    const getProfileIcons = async () => {
+        profileIconsRef
+            .onSnapshot(
+                querySnapshot => {
+                    const profileIconList = []
+                    querySnapshot.forEach((doc) => {
+                        const { id, trName, image } = doc.data()
+
+                        profileIconList.push({
+                            engName: doc.id,
+                            id,
+                            trName,
+                            image,
+                        })
+
+                    })
+                    setProfileIconList(profileIconList)
+                }
+            )
+    }
+
+    useEffect(() => {
+        getProfileIcons();
+        //setDummy(true)
+    }, [])
+
+    //typeof(profileIconList) === 'undefined' ? 0 : profileIconList[1]["image"]
+
 
     const dummyData = [
         {
@@ -171,7 +211,7 @@ const ProfileSelect = ({ navigation }) => {
                                                     <View style={[styles.profileStyle2, { backgroundColor: item.profileColor.regularColor, borderColor: item.profileColor.borderColor }]}>
 
                                                         <View style={[styles.pfpBackground, { backgroundColor: item.selectedBGColor }]}>
-                                                            <Image source={require('../../assets/images/icontest.png')} style={[styles.profileImageStyle, { tintColor: item.profileColor.borderColor }]} />
+                                                            <Image source={{ uri: profileIconList[item.profileIcon]["image"] }} style={[styles.profileImageStyle, { tintColor: item.profileColor.borderColor }]} />
                                                         </View>
 
                                                     </View>

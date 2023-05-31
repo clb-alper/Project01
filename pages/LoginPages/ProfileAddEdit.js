@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useCallback } from 'react';
 import { StyleSheet, Text, View, Dimensions, ImageBackground, SafeAreaView, FlatList, TouchableOpacity, KeyboardAvoidingView, Image } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -7,15 +7,18 @@ import * as SplashScreen from 'expo-splash-screen';
 import colors from '../../assets/colors/colors';
 import { auth, firebase } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import { ProfileContext } from '../../assets/contexts/ProfileContext';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
 const ProfileSelect = () => {
 
-    const [profileIconList, setProfileIconList] = useState();
+    const { profileIconList } = useContext(ProfileContext);
+
+
+    //const [profileIconList, setProfileIconList] = useState();
     const [dummy, setDummy] = useState();
 
     const [profileName, setProfileName] = useState();
@@ -26,27 +29,27 @@ const ProfileSelect = () => {
     const navigation = useNavigation();
 
 
-    const profileIconsRef = firebase.firestore().collection('profileIcons')
-    const getProfileIcons = async () => {
-        profileIconsRef
-            .onSnapshot(
-                querySnapshot => {
-                    const profileIconList = []
-                    querySnapshot.forEach((doc) => {
-                        const { id, trName, image } = doc.data()
+    // const profileIconsRef = firebase.firestore().collection('profileIcons')
+    // const getProfileIcons = async () => {
+    //     profileIconsRef
+    //         .onSnapshot(
+    //             querySnapshot => {
+    //                 const profileIconList = []
+    //                 querySnapshot.forEach((doc) => {
+    //                     const { id, trName, image } = doc.data()
 
-                        profileIconList.push({
-                            engName: doc.id,
-                            id,
-                            trName,
-                            image,
-                        })
+    //                     profileIconList.push({
+    //                         engName: doc.id,
+    //                         id,
+    //                         trName,
+    //                         image,
+    //                     })
 
-                    })
-                    setProfileIconList(profileIconList)
-                }
-            )
-    }
+    //                 })
+    //                 setProfileIconList(profileIconList)
+    //             }
+    //         )
+    // }
 
     // const iconArray = [
     //     {
@@ -84,7 +87,7 @@ const ProfileSelect = () => {
     // ]
 
     useEffect(() => {
-        getProfileIcons();
+        //getProfileIcons();
         setDummy(true);
     }, [])
 
@@ -157,6 +160,7 @@ const ProfileSelect = () => {
     ]
 
 
+
     const handleCreateProfile = async () => {
 
         const base = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc()
@@ -202,6 +206,7 @@ const ProfileSelect = () => {
 
                         < View style={styles.iconMapStyle}>
                             <Text style={styles.profileSelectHeader}>Ikonlar</Text>
+
                             {dummy ?
                                 <FlatList
                                     style={{ marginTop: -12, }}
@@ -224,13 +229,15 @@ const ProfileSelect = () => {
                                             <Image
                                                 style={[styles.iconStyles, { tintColor: colorIndex.regularColor }]}
                                                 source={{ uri: item.image }}
+
                                             />
 
                                         </TouchableOpacity>
 
                                     )} />
+                                : null
+                            }
 
-                                : null}
                         </View>
 
 

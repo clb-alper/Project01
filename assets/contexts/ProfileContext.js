@@ -19,6 +19,9 @@ const ProfileProvider = ({ children }) => {
     const [userPointsData, setUserPointsData] = useState();
     const [userStatisticsData, setUserStatisticsData] = useState([]);
 
+    // User Profile Icons List
+    const [profileIconList, setProfileIconList] = useState();
+
     const [bookProgressDB, setBookProgressDB] = useState();
 
     // Badge Contexts
@@ -114,7 +117,10 @@ const ProfileProvider = ({ children }) => {
         featuredBadgeData,
         setFeaturedBadgeData,
         bookProgressDB,
-        setBookProgressDB
+        setBookProgressDB,
+        profileIconList,
+        setProfileIconList,
+
     }
 
     return (
