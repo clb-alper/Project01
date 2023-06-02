@@ -146,7 +146,7 @@ export default function App() {
                   <Stack.Screen name="PuzzlePage" component={PuzzlePage} options={TransitionAnim} />
                   <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
                   <Stack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
-                  <Stack.Screen name="ProfileEdit" component={ProfileEdit} options={leftToRightAnimation} />
+                  <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
                   <Stack.Screen name="Backpack" component={BackpackScreen} />
                 </Stack.Navigator>
               </NavigationContainer>

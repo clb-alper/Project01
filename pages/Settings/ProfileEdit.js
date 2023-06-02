@@ -9,6 +9,7 @@ import { auth, firebase } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileContext } from '../../assets/contexts/ProfileContext';
+import Feather from 'react-native-vector-icons/Feather';
 
 
 
@@ -129,11 +130,18 @@ const ProfileEdit = () => {
                                             onPress={() => setIconIndex(index)}
                                             activeOpacity={0.8}>
 
+                                           
+
                                             <Image
-                                                style={[styles.iconStyles, { tintColor: colorIndex.regularColor }]}
+                                                style={[styles.iconStyles, { tintColor: index === iconIndex ? colorIndex.regularColor: colorIndex.borderColor }]}
                                                 source={{ uri: item.image }}
 
-                                            />
+                                            ></Image>
+
+{/* {index === iconIndex ?
+                                                <Feather name="check" size={40} color={colors.greenRegular} style={{ marginLeft: 6, marginTop: 7.5 }} />
+                                                :
+                                                null} */}
 
                                         </TouchableOpacity>
 
@@ -159,11 +167,16 @@ const ProfileEdit = () => {
 
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={() => setColorIndex({ regularColor: item.regularColor, borderColor: item.borderColor })}
-                                        activeOpacity={0.8}>
+                                        onPress={() => setColorIndex({ index, regularColor: item.regularColor, borderColor: item.borderColor })}
+                                        activeOpacity={0.9}>
+
 
                                         <View style={[styles.colorIconStyles, { backgroundColor: item.regularColor, borderColor: item.borderColor }]}>
 
+                                            {index === colorIndex.index ?
+                                                <Feather name="check" size={40} color={item.borderColor} style={{ marginLeft: 6, marginTop: 7.5 }} />
+                                                :
+                                                null}
                                         </View>
 
                                     </TouchableOpacity>

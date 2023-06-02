@@ -337,13 +337,13 @@ const styles = StyleSheet.create({
 
     profileImageStyle: {
         resizeMode: 'contain',
-        width: 100,
-        height: 100,
+        width: 85,
+        height: 85,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: 10,
-        marginTop: -13
+        marginLeft: 16,
+        marginTop: -5
     },
 
     pfpBackground: {
