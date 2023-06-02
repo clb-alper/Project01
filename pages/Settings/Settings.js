@@ -52,8 +52,14 @@ const Settings = () => {
                         </View>
 
                         <View style={styles.headerUserInfo}>
-                            <Text style={styles.headerUser}>Profil Ismi: {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
-                            <Text style={styles.settingsHeaderEmail}>Hesap Emaili: {typeof (currentAccountInfo) == 'undefined' ? "Default" : currentAccountInfo[0].email}</Text>
+                            <Text style={styles.headerUser}
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={1}>
+                                Profil Ismi: {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
+                            <Text style={styles.settingsHeaderEmail}
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={1}>
+                                Hesap Emaili: {typeof (currentAccountInfo) == 'undefined' ? "Default" : currentAccountInfo[0].email}</Text>
                         </View>
                         <View style={[styles.headerUserInfo2, { marginLeft: 5 }]}>
                             <TouchableOpacity
@@ -96,12 +102,12 @@ const Settings = () => {
                     <Text style={styles.generalSettingsHeader}>Profil</Text>
                     <View style={styles.generalSettingsContainer}>
 
-                        <TouchableOpacity 
-                        style={[styles.rowContainer, { marginTop: '3%', marginBottom: '3%' }]} 
-                        activeOpacity={0.5}
-                        onPress={() => navigation.navigate("ProfileEdit")}
+                        <TouchableOpacity
+                            style={[styles.rowContainer, { marginTop: '3%', marginBottom: '3%' }]}
+                            activeOpacity={0.5}
+                            onPress={() => navigation.navigate("ProfileEdit")}
                         >
-                       
+
                             <View style={styles.iconNotifBG}>
                                 <IonIcons
                                     name="notifications-outline"
@@ -209,7 +215,7 @@ const styles = StyleSheet.create({
         borderWidth: 4,
         marginTop: 10,
         marginBottom: 10,
-        marginLeft: -7
+        marginLeft: -11
     },
 
     headerIconStyle: {
@@ -237,6 +243,7 @@ const styles = StyleSheet.create({
     headerUser: {
         fontSize: 20,
         fontFamily: 'Comic-Regular',
+        width: 180
     },
 
     dashboardContainer: {
@@ -253,9 +260,9 @@ const styles = StyleSheet.create({
 
     settingsHeaderEmail: {
         fontFamily: 'Comic-Regular',
-        fontSize: 13,
+        fontSize: 15,
         marginTop: 2,
-        marginLeft: 2
+        width: 180
     },
 
     logOutButtonContainer: {
