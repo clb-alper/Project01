@@ -26,7 +26,8 @@ const Header = () => {
         setFeaturedBadgeData,
         featuredBadgesList,
         setFeaturedBadgeIndex,
-        setFeaturedBadgesList } = useContext(ProfileContext);
+        setFeaturedBadgesList,
+        profileIconList } = useContext(ProfileContext);
     const { setBadgeModalVisible, setBadgeModalEntry, featuredBadgeModalVisible, setFeaturedBadgeModalVisible } = useContext(ModalContext);
 
     const featuredBadgesRef = firebase.firestore()
@@ -93,6 +94,7 @@ const Header = () => {
     var progressBarLevel = 0
 
     var userProgressLevels = [
+        [0, "Acemi"],
         [1000, "Okur-Yazar"],
         [2000, "Kitap Sever"],
         [4000, "Kitap Düşkünü"],
@@ -154,7 +156,7 @@ const Header = () => {
                 <View style={styles.dashboardContainer}>
 
                     <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
-                        <Image source={require('../../images/icontest.png')} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
+                        <Image source={{ uri: profileIconList[currentProfileSelectedInfo[0].profileIcon]["image"] }} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
                     </View>
 
                     <View style={styles.headerUserInfo}>
@@ -318,8 +320,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 60,
-        height: 60,
+        width: 45,
+        height: 45,
+        marginLeft: 8.5
     },
 
     headerUserInfo: {

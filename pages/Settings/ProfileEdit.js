@@ -138,10 +138,6 @@ const ProfileEdit = () => {
 
                                             ></Image>
 
-{/* {index === iconIndex ?
-                                                <Feather name="check" size={40} color={colors.greenRegular} style={{ marginLeft: 6, marginTop: 7.5 }} />
-                                                :
-                                                null} */}
 
                                         </TouchableOpacity>
 

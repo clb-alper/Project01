@@ -16,7 +16,7 @@ const Settings = () => {
     const navigation = useNavigation();
 
     const { modalVisible } = useContext(ModalContext);
-    const { currentProfileSelectedInfo, currentAccountInfo } = useContext(ProfileContext);
+    const { currentProfileSelectedInfo, currentAccountInfo, profileIconList } = useContext(ProfileContext);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -48,7 +48,7 @@ const Settings = () => {
                     <View style={styles.dashboardContainer}>
 
                         <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
-                            <Image source={require('../../assets/images/icontest.png')} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
+                            <Image source={{uri: profileIconList[currentProfileSelectedInfo[0].profileIcon]["image"]}} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
                         </View>
 
                         <View style={styles.headerUserInfo}>
@@ -222,8 +222,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 60,
-        height: 60,
+        width: 45,
+        height: 45,
+        marginLeft: 8.5
     },
 
     headerUserInfo: {

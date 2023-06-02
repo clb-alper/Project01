@@ -9,6 +9,7 @@ import { auth, firebase } from '../../firebase';
 import { TextInput } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileContext } from '../../assets/contexts/ProfileContext';
+import Feather from 'react-native-vector-icons/Feather';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -161,7 +162,7 @@ const ProfileSelect = () => {
                                             activeOpacity={0.8}>
 
                                             <Image
-                                                style={[styles.iconStyles, { tintColor: colorIndex.regularColor }]}
+                                                style={[styles.iconStyles, { tintColor: index === iconIndex ? colorIndex.regularColor: colorIndex.borderColor }]}
                                                 source={{ uri: item.image }}
 
                                             />
@@ -190,11 +191,15 @@ const ProfileSelect = () => {
 
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={() => setColorIndex({ regularColor: item.regularColor, borderColor: item.borderColor })}
+                                        onPress={() => setColorIndex({ index, regularColor: item.regularColor, borderColor: item.borderColor })}
                                         activeOpacity={0.8}>
 
                                         <View style={[styles.colorIconStyles, { backgroundColor: item.regularColor, borderColor: item.borderColor }]}>
 
+                                        {index === colorIndex.index ?
+                                                <Feather name="check" size={40} color={item.borderColor} style={{ marginLeft: 6, marginTop: 7.5 }} />
+                                                :
+                                                null}
                                         </View>
 
                                     </TouchableOpacity>
