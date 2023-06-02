@@ -256,12 +256,6 @@ const ProfileSelect = ({ navigation }) => {
 
                         {profileList.length != 0 ?
                             <>
-                                <TouchableOpacity
-                                    style={styles.editProfileButton}
-                                    onPress={() => { console.log('Düzenle Buton') }}
-                                >
-                                    <Text style={styles.loginButtonText}>Profilleri Düzenle</Text>
-                                </TouchableOpacity>
 
                                 <TouchableOpacity
                                     style={[styles.editProfileButton, { marginTop: 15 }]}
