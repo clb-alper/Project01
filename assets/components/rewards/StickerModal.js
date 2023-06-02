@@ -14,13 +14,22 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 const StickerModal = () => {
 
     const { stickerModalVisible, setStickerModalVisible, stickerModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected } = useContext(ProfileContext);
+    const { currentProfileSelected, userStatisticsData, userPointsData } = useContext(ProfileContext);
 
     const handleStickerPurchase = () => {
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-            .doc(currentProfileSelected).collection('stickerCollection').doc(stickerModalEntry.id).set({
-                stickerID: stickerModalEntry.id,
-            })
+        if (userPointsData.points < stickerModalEntry.price) {
+            console.log("fakir")
+        }
+        else if (userPointsData.points >= stickerModalEntry.price) {
+            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('stickerCollection').doc(stickerModalEntry.id).set({
+                    stickerID: stickerModalEntry.id,
+                })
+                firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('statisticsData').doc("statsData").update({
+                    points: userPointsData.points - stickerModalEntry.price
+                })
+        }
     }
 
     return (
