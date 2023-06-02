@@ -77,26 +77,8 @@ const Settings = () => {
                     <View style={styles.generalSettingsContainer}>
 
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("NotificationSettings")}
-                            style={[styles.rowContainer, { marginTop: '3%' }]}
-                            activeOpacity={0.5}>
-                            <View style={styles.iconNotifBG}>
-                                <IonIcons
-                                    name="notifications-outline"
-                                    size={24}
-                                    color={colors.blueBorder}
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Bildirimler</Text>
-                        </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity
                             onPress={() => navigation.navigate("FontSizeSettings")}
-                            style={styles.rowContainer}
+                            style={[styles.rowContainer, { marginTop: '3%', marginBottom: '3%' }]}
                             activeOpacity={0.5}>
                             <View style={styles.iconBookBG}>
                                 <IonIcons
@@ -109,27 +91,12 @@ const Settings = () => {
                             <Text style={styles.settingsText}>Yazı Boyutu</Text>
                         </TouchableOpacity>
 
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={[styles.rowContainer, { marginBottom: '3%' }]} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
                     </View>
 
-                    <Text style={styles.generalSettingsHeader}>Hesap</Text>
+                    <Text style={styles.generalSettingsHeader}>Profil</Text>
                     <View style={styles.generalSettingsContainer}>
 
-                        <TouchableOpacity style={[styles.rowContainer, { marginTop: '3%' }]} activeOpacity={0.5}>
+                        <TouchableOpacity style={[styles.rowContainer, { marginTop: '3%', marginBottom: '3%' }]} activeOpacity={0.5}>
                             <View style={styles.iconNotifBG}>
                                 <IonIcons
                                     name="notifications-outline"
@@ -138,88 +105,9 @@ const Settings = () => {
                                     style={styles.badgeIconStyle}
                                 />
                             </View>
-                            <Text style={styles.settingsText}>Bildirimler</Text>
+                            <Text style={styles.settingsText}>Profil Düzenle</Text>
                         </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={styles.rowContainer} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={[styles.rowContainer, { marginBottom: '3%' }]} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
                     </View>
-
-                    <Text style={styles.generalSettingsHeader}>Lorem Ipsum</Text>
-                    <View style={[styles.generalSettingsContainer, { marginBottom: '8%' }]}>
-
-                        <TouchableOpacity style={[styles.rowContainer, { marginTop: '3%' }]} activeOpacity={0.5}>
-                            <View style={styles.iconNotifBG}>
-                                <IonIcons
-                                    name="notifications-outline"
-                                    size={24}
-                                    color={colors.blueBorder}
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Bildirimler</Text>
-                        </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={styles.rowContainer} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={[styles.rowContainer, { marginBottom: '3%' }]} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
-                    </View>
-
                 </ScrollView>
 
             </SafeAreaView>
