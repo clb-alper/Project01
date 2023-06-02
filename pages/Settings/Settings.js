@@ -96,7 +96,12 @@ const Settings = () => {
                     <Text style={styles.generalSettingsHeader}>Profil</Text>
                     <View style={styles.generalSettingsContainer}>
 
-                        <TouchableOpacity style={[styles.rowContainer, { marginTop: '3%', marginBottom: '3%' }]} activeOpacity={0.5}>
+                        <TouchableOpacity 
+                        style={[styles.rowContainer, { marginTop: '3%', marginBottom: '3%' }]} 
+                        activeOpacity={0.5}
+                        onPress={() => navigation.navigate("ProfileEdit")}
+                        >
+                       
                             <View style={styles.iconNotifBG}>
                                 <IonIcons
                                     name="notifications-outline"

@@ -10,26 +10,22 @@ import { TextInput } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileContext } from '../../assets/contexts/ProfileContext';
 
+
+
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
-const ProfileSelect = () => {
+const ProfileEdit = () => {
 
-    const { profileIconList } = useContext(ProfileContext);
-
-    const [saveError, setSaveError] = useState();
-    const [isVisible, setIsVisible] = useState('none');
-
+    const { profileIconList, currentProfileSelected, currentProfileSelectedInfo } = useContext(ProfileContext);
 
     const [dummy, setDummy] = useState();
 
-    const [profileName, setProfileName] = useState();
-
-    const [iconIndex, setIconIndex] = useState();
-    const [colorIndex, setColorIndex] = useState({ regularColor: colors.pinkLight, borderColor: colors.pinkBorder });
+    const [profileName, setProfileName] = useState(currentProfileSelectedInfo[0]["name"]);
+    const [iconIndex, setIconIndex] = useState(currentProfileSelectedInfo[0]["profileIcon"]);
+    const [colorIndex, setColorIndex] = useState(currentProfileSelectedInfo[0]["profileColor"]);
 
     const navigation = useNavigation();
-
 
     useEffect(() => {
         setDummy(true);
@@ -82,47 +78,20 @@ const ProfileSelect = () => {
     ]
 
 
-    const handleCreateProfile = async () => {
+    const handleUpdateProfile = async () => {
 
-        const base = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc()
+        const base = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles').doc(currentProfileSelected)
         // Sub User
+        base.update({
+            name: profileName,
+            profileIcon: iconIndex,
+            profileColor: colorIndex,
+        })
 
-        if (typeof (iconIndex) != "number") {
-            setSaveError('Profil ikonu seçiniz...')
-            setIsVisible('flex')
-        }
-        else if (typeof (profileName) != "string") {
-            setSaveError('Profil ismi boş bırakılamaz...')
-            setIsVisible('flex')
-        } else {
-            base.set({
-                name: profileName,
-                profileIcon: iconIndex,
-                profileColor: colorIndex,
-            })
-
-            // Dogru setle collectionlari
-            base.collection('statisticsData').doc('statsData').set({
-                adventurer: 0,
-                animalLover: 0,
-                points: 0,
-                readedBooks: 0,
-                readedWords: 0,
-                totalPoints: 0,
-                totalQuizzesCompleted: 0
-            })
-
-            base.collection('featuredBadgeData').doc('featuredBadgesDoc').set({
-                featuredBadges: ["empty", "empty", "empty", "empty"]
-            })
-
-            setTimeout(() => { navigation.goBack() }, 600)
-        }
-
+        setTimeout(() => { navigation.goBack() }, 600)
 
 
     }
-
 
     return (
         <>
@@ -217,13 +186,9 @@ const ProfileSelect = () => {
                     </KeyboardAvoidingView>
                 </SafeAreaView>
 
-                <TouchableOpacity onPress={handleCreateProfile} style={[styles.saveButton, { backgroundColor: colorIndex.regularColor, borderColor: colorIndex.borderColor }]}>
+                <TouchableOpacity onPress={handleUpdateProfile} style={[styles.saveButton, { backgroundColor: colorIndex.regularColor, borderColor: colorIndex.borderColor }]}>
                     <Text style={styles.saveButtonText}>Kaydet</Text>
                 </TouchableOpacity>
-
-                <Text style={{ color: '#f26d74', fontSize: 18, fontFamily: 'Comic-Bold', display: isVisible, marginTop: -6 }}>
-                    {saveError}
-                </Text>
 
 
             </View >
@@ -231,7 +196,8 @@ const ProfileSelect = () => {
     )
 }
 
-export default ProfileSelect
+
+export default ProfileEdit
 
 const styles = StyleSheet.create({
     profileSelectContainer: {
@@ -344,6 +310,5 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         borderWidth: 3
     }
-
 
 })
