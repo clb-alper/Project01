@@ -16,15 +16,11 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 
 const MainContainer = () => {
 
-    const { DATA, setUserOwnedStickerList, userOwnedStickerList } = useContext(RewardsContext);
+    const { setUserOwnedStickerList, userOwnedStickerList } = useContext(RewardsContext);
     const { setStickerModalEntry, setStickerModalVisible, } = useContext(ModalContext);
-    const { setCategorySwitch } = useContext(LibraryContext);
-    const { closeRewardsDropdown, setCloseRewardsDropdown, rewardsCategories } = useContext(DropdownContext)
     const { currentProfileSelected } = useContext(ProfileContext);
 
-    const [userStoreStickerList, setUserStoreStickerList] = useState();
-
-    const { stickerList, setStickerList, userStickerList, setUserStickerList, stickerBookList, setStickerBookList } = useContext(RewardsContext);
+    const { stickerList, setStickerList, stickerBookList, setStickerBookList } = useContext(RewardsContext);
 
     const stickersRef = firebase.firestore().collection('stickers')
 
@@ -50,25 +46,6 @@ const MainContainer = () => {
                 }
             )
     }
-
-    const AAAA = async () => {
-
-        const aa = []
-        stickerList.forEach((sticker) => {
-            if (userOwnedStickerList.findIndex(x => x.id===sticker.id) === -1) {
-                 aa.push({
-                    id: sticker.id,
-                    iconImage: sticker.iconImage,
-                    name: sticker.name,
-                    price: sticker.price,
-                    stickerBookNo: sticker.stickerBookNo,
-                    stickerLevel: sticker.stickerLevel
-                })
-            }
-        })
-        setUserStoreStickerList(aa)
-    }
-
 
     const stickerBookRef = firebase.firestore().collection('stickerBooks')
 
@@ -101,46 +78,38 @@ const MainContainer = () => {
                     const userOwnedStickerList = []
                     querySnapshot.forEach((doc) => {
 
-                        stickerList.forEach((sticker) => {
-                            if (sticker.id === doc.id) {
+                        stickerList.every((sticker) => {
+                            if (sticker.id === doc.data().stickerID) {
                                 userOwnedStickerList.push({
-                                    id: doc.id,
+                                    id: doc.data().stickerID,
                                     iconImage: sticker.iconImage,
                                     name: sticker.name,
                                     price: sticker.price,
                                     stickerBookNo: sticker.stickerBookNo,
                                     stickerLevel: sticker.stickerLevel
                                 })
+                                return false
                             }
+                            return true
                         })
                     })
-                    setUserOwnedStickerList(userOwnedStickerList)        
+                    setUserOwnedStickerList(userOwnedStickerList)
                 }
             )
-
     }
 
     useEffect(() => {
         getStickerData();
-        getUserStickerData();
         getStickerBookData();
-        AAAA()
     }, [])
 
     useEffect(() => {
-         AAAA()
+        getUserStickerData();
     }, [stickerList])
-
-    useEffect(() => {
-        AAAA()
-    }, [userOwnedStickerList])
-
-
-    // console.log(userStoreStickerList)
 
     return (
         <>
-    
+
             <View>
                 <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
 
@@ -159,49 +128,82 @@ const MainContainer = () => {
                                     </Text>
 
                                     <View style={styles.stickerContainer}>
-                                        {typeof (userStoreStickerList) === 'undefined' ? null :
-                                            userStoreStickerList.filter((sl) => sBook.bookNo === sl.stickerBookNo).map((sticker, index) => {
+                                        {typeof (stickerList) === 'undefined' ? null :
+                                            stickerList.filter((sl) => sBook.bookNo === sl.stickerBookNo).map((sticker, index) => {
                                                 return (
                                                     <View key={sticker.id + index}>
                                                         <View style={styles.continueReadingBookStyleFirstItem}>
 
-                                                            <TouchableOpacity
+                                                            {userOwnedStickerList.findIndex(x => x.id === sticker.id) === -1 ?
+                                                                <TouchableOpacity
 
-                                                                onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); }}
-                                                                activeOpacity={0.75}>
+                                                                    onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); }}
+                                                                    activeOpacity={0.75}>
 
-                                                                <ImageBackground
+                                                                    <ImageBackground
 
-                                                                    source={{ uri: sticker.iconImage }}
-                                                                    imageStyle={styles.continueBookImageStyle}>
-                                                                </ImageBackground>
+                                                                        source={{ uri: sticker.iconImage }}
+                                                                        imageStyle={styles.continueBookImageStyle}>
+                                                                    </ImageBackground>
 
-                                                                <View style={
-                                                                    sticker.stickerLevel === "Bronze" ?
-                                                                        styles.bronzePointsContainer :
-                                                                        sticker.stickerLevel === "Silver" ?
-                                                                            styles.silverPointsContainer :
-                                                                            sticker.stickerLevel === "Gold" ?
-                                                                                styles.goldPointsContainer :
-                                                                                sticker.stickerLevel === "Emerald" ?
-                                                                                    styles.emeraldPointsContainer :
-                                                                                    sticker.stickerLevel === "Diamond" ?
-                                                                                        styles.diamondPointsContainer :
-                                                                                        styles.defaultPointsContainer}>
+                                                                    <View style={
+                                                                        sticker.stickerLevel === "Bronze" ?
+                                                                            styles.bronzePointsContainer :
+                                                                            sticker.stickerLevel === "Silver" ?
+                                                                                styles.silverPointsContainer :
+                                                                                sticker.stickerLevel === "Gold" ?
+                                                                                    styles.goldPointsContainer :
+                                                                                    sticker.stickerLevel === "Emerald" ?
+                                                                                        styles.emeraldPointsContainer :
+                                                                                        sticker.stickerLevel === "Diamond" ?
+                                                                                            styles.diamondPointsContainer :
+                                                                                            styles.defaultPointsContainer}>
 
-                                                                    <Text
-                                                                        style={styles.pointsTextStyle2}
-                                                                        adjustsFontSizeToFit={true}
-                                                                        numberOfLines={1}>
-                                                                        {sticker.price}
-                                                                    </Text>
+                                                                        <Text
+                                                                            style={styles.pointsTextStyle2}
+                                                                            adjustsFontSizeToFit={true}
+                                                                            numberOfLines={1}>
+                                                                            {sticker.price}
+                                                                        </Text>
 
-                                                                    <AntIcons name="star" size={17} color="#FFB702" style={styles.pointsIconStyle2} />
+                                                                        <AntIcons name="star" size={17} color="#FFB702" style={styles.pointsIconStyle2} />
 
+                                                                    </View>
+
+
+                                                                </TouchableOpacity>
+                                                                :
+                                                                <View
+
+                                                                    onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); }}
+                                                                    activeOpacity={0.75}>
+
+                                                                    <ImageBackground
+
+                                                                        source={{ uri: sticker.iconImage }}
+                                                                        imageStyle={styles.continueBookImageStyle}>
+                                                                    </ImageBackground>
+
+                                                                    <View style={
+                                                                        sticker.stickerLevel === "Bronze" ?
+                                                                            styles.bronzePointsContainer :
+                                                                            sticker.stickerLevel === "Silver" ?
+                                                                                styles.silverPointsContainer :
+                                                                                sticker.stickerLevel === "Gold" ?
+                                                                                    styles.goldPointsContainer :
+                                                                                    sticker.stickerLevel === "Emerald" ?
+                                                                                        styles.emeraldPointsContainer :
+                                                                                        sticker.stickerLevel === "Diamond" ?
+                                                                                            styles.diamondPointsContainer :
+                                                                                            styles.defaultPointsContainer}>
+
+                                                                        <Text
+                                                                            style={styles.pointsTextStyle3}>
+                                                                            Mevcut
+                                                                        </Text>
+                                                                    </View>
                                                                 </View>
-
-
-                                                            </TouchableOpacity>
+                                                            }
 
                                                         </View>
 
@@ -359,6 +361,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 15,
         width: 40,
+    },
+
+    pointsTextStyle3: {
+        fontFamily: 'Comic-Regular',
+        marginLeft: 7,
+        marginTop: -1,
+        fontSize: 15,
+        width: 50,
     },
 
     pointsIconStyle2: {

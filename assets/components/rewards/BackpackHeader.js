@@ -1,15 +1,19 @@
 import React, { useContext } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../colors/colors';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { BoxShadow } from 'react-native-shadow';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import Octicons from 'react-native-vector-icons/Octicons';
+import { useNavigation } from '@react-navigation/native';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
 const BackpackHeader = () => {
 
     const { userPointsData } = useContext(ProfileContext);
+
+    const navigation = useNavigation();
 
     const shadowOpt = {
         width: widthOfScreen,
@@ -23,10 +27,14 @@ const BackpackHeader = () => {
     }
 
     return (
-        <BoxShadow setting={shadowOpt} style={{textShadow: 'none'}}>
+        <BoxShadow setting={shadowOpt} style={{ textShadow: 'none' }}>
             <View style={styles.login_container} >
 
                 <View style={styles.headerView1}>
+
+                    <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
+                        <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
+                    </TouchableOpacity>
 
                     <Text
                         style={styles.headerTextStyle}
@@ -42,7 +50,7 @@ const BackpackHeader = () => {
                                 style={styles.pointsTextStyle}
                                 adjustsFontSizeToFit={true}
                                 numberOfLines={1}>
-                                 {typeof (userPointsData) === 'undefined' ? "" : userPointsData.points}
+                                {typeof (userPointsData) === 'undefined' ? "" : userPointsData.points}
                             </Text>
 
                             <AntIcons name="star" size={30} color="#FFD600" style={styles.pointsIconStyle} />
@@ -78,12 +86,12 @@ const styles = StyleSheet.create({
     headerTextStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 57,
+        marginLeft: 20
     },
 
     headerView1: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
         marginHorizontal: 20,
         marginTop: 50,
     },
@@ -120,6 +128,14 @@ const styles = StyleSheet.create({
         width: 35,
         marginLeft: 5,
         marginTop: 5
+    },
+
+    goBackButton: {
+        marginLeft: '2%'
+    },
+
+    goBackIcon: {
+        marginTop: 12,
     },
 
 })
