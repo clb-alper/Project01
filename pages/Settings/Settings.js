@@ -90,7 +90,7 @@ const Settings = () => {
                                 <IonIcons
                                     name="book-outline"
                                     size={23}
-                                    color='#000'
+                                    color={'#000'}
                                     style={styles.badgeIconStyle}
                                 />
                             </View>
@@ -109,12 +109,11 @@ const Settings = () => {
                         >
 
                             <View style={styles.iconNotifBG}>
-                                <IonIcons
-                                    name="notifications-outline"
+                                <MaterialCommunityIcons
+                                    name="account-edit-outline"
                                     size={24}
-                                    color={colors.blueBorder}
-                                    style={styles.badgeIconStyle}
-                                />
+                                    color={colors.black}
+                                    style={styles.badgeIconStyle} />
                             </View>
                             <Text style={styles.settingsText}>Profil Düzenle</Text>
                         </TouchableOpacity>
