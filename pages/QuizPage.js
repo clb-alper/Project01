@@ -108,10 +108,6 @@ const QuizPage = () => {
         setAnswered(true)
     }
 
-    const handleQuizResults = () => {
-        console.log(correctAnswers, " + ", wrongAnswers)
-    }
-
     const handleQuizPointsReward = () => {
         firebase.firestore()
             .collection('users').doc(firebase.auth().currentUser.uid)
@@ -120,6 +116,15 @@ const QuizPage = () => {
                 totalPoints: userStatisticsData.totalPoints + Math.floor((correctAnswers / quizList.length) * 25) * 10,
                 totalQuizzesCompleted: userStatisticsData.totalQuizzesCompleted + 1
             })
+
+        if (correctAnswers === quizList.length) {
+            firebase.firestore()
+                .collection('users').doc(firebase.auth().currentUser.uid)
+                .collection('userProfiles').doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
+                    professor: userStatisticsData.professor + 1
+                })
+        }
+
     }
 
     const scrollToIndex = (e) => {
@@ -283,7 +288,7 @@ const QuizPage = () => {
                                         <View style={{ flexDirection: 'row' }}>
                                             <Text style={styles.resultCorrectWrongText}>Yanlış: {wrongAnswers}</Text>
                                             <View style={styles.wrongIcon}>
-                                                <IonIcons name="close" size={23} color={colors.pinkDarkBorder} style={{ marginBottom: 1, marginTop: 1}} />
+                                                <IonIcons name="close" size={23} color={colors.pinkDarkBorder} style={{ marginBottom: 1, marginTop: 1 }} />
                                             </View>
                                         </View>
 

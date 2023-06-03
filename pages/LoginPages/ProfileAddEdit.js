@@ -110,7 +110,8 @@ const ProfileSelect = () => {
                 readedBooks: 0,
                 readedWords: 0,
                 totalPoints: 0,
-                totalQuizzesCompleted: 0
+                totalQuizzesCompleted: 0,
+                professor: 0,
             })
 
             base.collection('featuredBadgeData').doc('featuredBadgesDoc').set({
