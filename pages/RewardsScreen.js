@@ -41,13 +41,13 @@ const RewardsScreen = () => {
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
 
-            <TouchableOpacity onPress={() => { navigation.navigate("Backpack") }}
+            {/* <TouchableOpacity onPress={() => { navigation.navigate("Backpack") }}
                 activeOpacity={0.75} style={{ zIndex: 500 }}>
                 <View style={styles.backpackButton}>
                     <Image style={{width: 40, height: 40, alignSelf: 'center', marginTop: 12, tintColor: '#716696'}} 
                     source={require('../assets/images/backpack.png')}></Image>
                 </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <FocusAwareStatusBar style="auto" />
             {/* {stickerModalVisible ? <FocusAwareStatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <FocusAwareStatusBar style="hidden" />} */}

@@ -20,6 +20,7 @@ import RewardsProvider from './assets/contexts/RewardsContext';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import FAIcons from 'react-native-vector-icons/FontAwesome';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Settings from './pages/Settings/Settings';
 import NotificationSettings from './pages/Settings/NotificationSettings';
 import FontSizeSettings from './pages/Settings/FontSizeSettings';
@@ -112,6 +113,14 @@ function HomeScreen() {
           )
         }} />
 
+      <Tab.Screen name="BackpackScreen" component={BackpackScreen}
+        options={{
+          tabBarStyle: styles.rewardsTabNavStyle,
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons name={focused ? "folder-star" : "folder-star-outline"} size={32} color="#000" />
+          )
+        }} />
+
       <Tab.Screen name="Settings" component={SettingsStackScreen}
         options={{
           tabBarIcon: ({ focused }) => (
@@ -134,7 +143,7 @@ export default function App() {
     }
     setDefaultFontSize();
   }, [])
-  
+
   return (
     <ProfileProvider>
       <RewardsProvider>
@@ -158,7 +167,7 @@ export default function App() {
                   <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
                   <Stack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
                   <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
-                  <Stack.Screen name="Backpack" component={BackpackScreen} />
+                  {/* <Stack.Screen name="Backpack" component={BackpackScreen} /> */}
                 </Stack.Navigator>
               </NavigationContainer>
             </ModalProvider>

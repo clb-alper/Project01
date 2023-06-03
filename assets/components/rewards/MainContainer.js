@@ -174,31 +174,34 @@ const MainContainer = () => {
                                                                 </TouchableOpacity>
                                                                 :
                                                                 <View
-                                                                    activeOpacity={0.75}>
+                                                                    activeOpacity={0.5}>
 
                                                                     <ImageBackground
 
                                                                         source={{ uri: sticker.iconImage }}
-                                                                        imageStyle={styles.continueBookImageStyle}>
+                                                                        imageStyle={styles.continueBookImageStyle}
+                                                                        style={{ opacity: 0.35 }}>
                                                                     </ImageBackground>
 
-                                                                    <View style={
-                                                                        sticker.stickerLevel === "Bronze" ?
-                                                                            styles.bronzePointsContainer :
-                                                                            sticker.stickerLevel === "Silver" ?
-                                                                                styles.silverPointsContainer :
-                                                                                sticker.stickerLevel === "Gold" ?
-                                                                                    styles.goldPointsContainer :
-                                                                                    sticker.stickerLevel === "Emerald" ?
-                                                                                        styles.emeraldPointsContainer :
-                                                                                        sticker.stickerLevel === "Diamond" ?
-                                                                                            styles.diamondPointsContainer :
-                                                                                            styles.defaultPointsContainer}>
+                                                                    <View style= {{opacity: 0.35}}>
+                                                                        <View style={
+                                                                            sticker.stickerLevel === "Bronze" ?
+                                                                                styles.bronzePointsContainer :
+                                                                                sticker.stickerLevel === "Silver" ?
+                                                                                    styles.silverPointsContainer :
+                                                                                    sticker.stickerLevel === "Gold" ?
+                                                                                        styles.goldPointsContainer :
+                                                                                        sticker.stickerLevel === "Emerald" ?
+                                                                                            styles.emeraldPointsContainer :
+                                                                                            sticker.stickerLevel === "Diamond" ?
+                                                                                                styles.diamondPointsContainer :
+                                                                                                styles.defaultPointsContainer}>
 
-                                                                        <Text
-                                                                            style={styles.pointsTextStyle3}>
-                                                                            Mevcut
-                                                                        </Text>
+                                                                            <Text
+                                                                                style={styles.pointsTextStyle3}>
+                                                                                Mevcut
+                                                                            </Text>
+                                                                        </View>
                                                                     </View>
                                                                 </View>
                                                             }
@@ -223,7 +226,7 @@ const MainContainer = () => {
 
             </View>
 
-            <View style={{height: 75}} />
+            <View style={{ height: 10 }} />
 
 
 
