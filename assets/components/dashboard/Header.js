@@ -80,8 +80,8 @@ const Header = () => {
                     })
                     setFeaturedBadgesList(featuredBadgesList)
                     setFeaturedBadgeData(featuredBadgeData[0])
-                    //console.log(featuredBadgesList)
-                    setDummy(true)
+                    setTimeout(() => setDummy(true) , 100)
+
                 }
             )
     }
