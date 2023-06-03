@@ -174,8 +174,6 @@ const MainContainer = () => {
                                                                 </TouchableOpacity>
                                                                 :
                                                                 <View
-
-                                                                    onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); }}
                                                                     activeOpacity={0.75}>
 
                                                                     <ImageBackground
@@ -225,6 +223,8 @@ const MainContainer = () => {
 
             </View>
 
+            <View style={{height: 75}} />
+
 
 
         </>
@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
         width: 75,
         height: 75,
         borderRadius: 12,
+        resizeMode: 'contain'
     },
 
     defaultPointsContainer: {

@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
         marginTop: 100,
+        resizeMode: 'contain'
     },
 
     modalStickerCloseButton: {

@@ -11,11 +11,12 @@ import StickerModal from '../assets/components/rewards/StickerModal';
 import MainContainer from '../assets/components/rewards/MainContainer';
 import FocusAwareStatusBar from '../assets/components/FocusAwareStatusBar';
 import { RewardsContext } from '../assets/contexts/RewardsContext';
+import { useNavigation } from '@react-navigation/native';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
-const RewardsScreen = ({ navigation }) => {
+const RewardsScreen = () => {
 
     const { stickerModalVisible } = useContext(ModalContext);
 
@@ -24,6 +25,8 @@ const RewardsScreen = ({ navigation }) => {
         'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
         'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
     });
+
+    const navigation = useNavigation();
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
@@ -38,7 +41,7 @@ const RewardsScreen = ({ navigation }) => {
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
 
-            <TouchableOpacity onPress={() => { navigation.navigate('Backpack') }}
+            <TouchableOpacity onPress={() => { navigation.navigate("Backpack") }}
                 activeOpacity={0.75} style={{ zIndex: 500 }}>
                 <View style={styles.backpackButton}>
                     <Image style={{width: 40, height: 40, alignSelf: 'center', marginTop: 12, tintColor: '#716696'}} 
