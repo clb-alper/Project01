@@ -18,7 +18,9 @@ const PuzzlePage = () => {
     const [quizIndex, setQuizIndex] = useState(0);
 
     const [currentReplyIndex, setCurrentReplyIndex] = useState(0);
-    const [currentShuffledSelections, setCurrentShuffledSelections] = useState([])
+    const [currentShuffledSelections, setCurrentShuffledSelections] = useState([]);
+    const [isCurrentFinished, setIsCurrentFinished] = useState(false);
+
     const flRef = useRef();
 
     const handleBackButtonPress = () => {
@@ -49,6 +51,7 @@ const PuzzlePage = () => {
     const scrollToOffset = (index) => {
         if (flRef.current) {
             setCurrentReplyIndex(0)
+            setIsCurrentFinished(false);
             flRef.current.scrollToOffset({ offset: index * Dimensions.get('window').width, animated: false });
             setQuizIndex(index);
         }
@@ -84,6 +87,10 @@ const PuzzlePage = () => {
             if (removedIndex > -1) {
                 currentShuffledSelections[quizIndex].splice(removedIndex, 1);
 
+            }
+
+            if(currentShuffledSelections[quizIndex].length === 0) {
+                setIsCurrentFinished(true);
             }
         }
     };
@@ -133,7 +140,7 @@ const PuzzlePage = () => {
                         keyExtractor={(item, index) => index.toString()}
                         data={puzzleArray}
                         horizontal
-                        pagingEnabled
+                        pagingEnabledf
                         scrollEnabled={false}
                         ref={flRef}
                         onMomentumScrollEnd={onScrollEnd}
@@ -141,7 +148,7 @@ const PuzzlePage = () => {
                         renderItem={({ item, index }) => (
                             <View key={index} style={{ width: widthOfScreen, height: heightOfScreen * 0.57, alignItems: 'center' }}>
                                 <Text>{item}</Text>
-
+                                <Text>{"Quiz bittimi " + isCurrentFinished.toString()}</Text>
                                 {/* User Result View */}
                                 <View style={styles.userSelectionView}>
                                     {item.split("").map((el, index) => {
