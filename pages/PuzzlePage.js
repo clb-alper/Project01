@@ -15,7 +15,7 @@ const heightOfScreen = Dimensions.get('window').height
 const PuzzlePage = () => {
 
     const puzzleArray = ["alper", "ömer", "yusuf", "tarot", "tarik", "araba"];
-    const randomChars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j","k", "l","m","n", "o", "p","r", "s", "t", "y", "z", "u", "v", "türkmüsün"];
+    const randomChars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "y", "z", "u", "v", "türkmüsün"];
     const [quizIndex, setQuizIndex] = useState(0);
 
     const [currentReplyIndex, setCurrentReplyIndex] = useState(0);
@@ -90,7 +90,7 @@ const PuzzlePage = () => {
 
             }
 
-            if(currentReplyIndex === ans.length-1) {
+            if (currentReplyIndex === ans.length - 1) {
                 setIsCurrentFinished(true);
             }
         }
@@ -143,63 +143,69 @@ const PuzzlePage = () => {
                         <Text style={styles.headerText}>{"Kelime Karmaşası"}</Text>
                     </View>
 
-                    <FlatList
-                        overScrollMode={'never'}
-                        keyExtractor={(item, index) => index.toString()}
-                        data={puzzleArray}
-                        horizontal
-                        pagingEnabledf
-                        scrollEnabled={false}
-                        ref={flRef}
-                        onMomentumScrollEnd={onScrollEnd}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item, index }) => (
-                            <View key={index} style={{ width: widthOfScreen, height: heightOfScreen * 0.57, alignItems: 'center' }}>
-                                <Text>{item}</Text>
-                                <Text>{"Quiz bittimi " + isCurrentFinished.toString()}</Text>
-                                {/* User Result View */}
-                                <View style={styles.userSelectionView}>
-                                    {item.split("").map((el, index) => {
-                                        return (
-                                            <View style={index === currentReplyIndex ? styles.wordBoxCurrentReply : index < currentReplyIndex ? styles.wordBoxCorrectAns : styles.wordBox2}>
-                                                {currentReplyIndex > index &&
-                                                    <Text>{el.toUpperCase()}</Text>
+                    <View style={{ marginTop: '35%' }}>
+                        <FlatList
+                            overScrollMode={'never'}
+                            data={puzzleArray}
+                            horizontal
+                            pagingEnabledf
+                            scrollEnabled={false}
+                            ref={flRef}
+                            onMomentumScrollEnd={onScrollEnd}
+                            showsHorizontalScrollIndicator={false}
+                            renderItem={({ item, index }) => (
+                                <View key={index} style={{ width: widthOfScreen, height: heightOfScreen * 0.57, alignItems: 'center' }}>
+                                    {/* <Text>{item}</Text> */}
+                                    <Text adjustsFontSizeToFit
+                                            numberOfLines={2}
+                                            style={{fontFamily: 'Comic-Regular', fontSize: 35, width: widthOfScreen*0.8, textAlign: 'center'}}>Database ile ilgilenen kim?</Text>
+                                    <Text>{"Quiz bittimi " + isCurrentFinished.toString()}</Text>
+                                    {/* User Result View */}
+                                    <View style={styles.userSelectionView}>
+                                        {item.split("").map((el, index) => {
+                                            return (
+                                                <View style={index === currentReplyIndex ? styles.wordBoxCurrentReply : index < currentReplyIndex ? styles.wordBoxCorrectAns : styles.wordBox2}>
+                                                    {currentReplyIndex > index &&
+                                                        <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 7 }}>
+                                                            <Text style={styles.answersTextStyle}>{el.toUpperCase()}</Text>
+                                                        </View>
 
-                                                }
-                                            </View>
-                                        )
-                                    })}
-                                </View>
-
-                                <View style={styles.userSelectionView}>
-                                    {currentShuffledSelections[quizIndex] && currentShuffledSelections[quizIndex].map((item2, index) => (
-                                        <View key={index.toString()} style={styles.wordBox}>
-                                            <TouchableOpacity
-                                                onPress={() => { handleCurrentAnswer(item2, item) }}
-                                                activeOpacity={0.8}
-                                            >
-                                                <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                                                    <Text>{item2.toUpperCase()}</Text>
+                                                    }
                                                 </View>
-                                            </TouchableOpacity>
-                                        </View>
-                                    ))}
-                                </View>
-
-
-                                { isCurrentFinished ?
-                                <TouchableOpacity
-                                    onPress={() => { scrollToOffset(index + 1); }}
-                                    activeOpacity={0.8}
-                                >
-                                    <View style={styles.contButton}>
-                                        <Text style={{ fontSize: 20, fontFamily: 'Comic-Regular' }}>Devam</Text>
+                                            )
+                                        })}
                                     </View>
-                                </TouchableOpacity>
-                                : null}
-                            </View>
-                        )}
-                    />
+
+                                    <View style={styles.userSelectionView2}>
+                                        {currentShuffledSelections[quizIndex] && currentShuffledSelections[quizIndex].map((item2, index) => (
+                                            <View key={index.toString()} style={styles.wordBox}>
+                                                <TouchableOpacity
+                                                    onPress={() => { handleCurrentAnswer(item2, item) }}
+                                                    activeOpacity={0.8}
+                                                >
+                                                    <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 7 }}>
+                                                        <Text style={styles.answersTextStyle}>{item2.toUpperCase()}</Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                        ))}
+                                    </View>
+
+
+                                    {isCurrentFinished ?
+                                        <TouchableOpacity
+                                            onPress={() => { scrollToOffset(index + 1); }}
+                                            activeOpacity={0.8}
+                                        >
+                                            <View style={styles.contButton}>
+                                                <Text style={{ fontSize: 20, fontFamily: 'Comic-Regular' }}>Devam</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        : null}
+                                </View>
+                            )}
+                        />
+                    </View>
                 </View>
             </SafeAreaView>
         </View>
@@ -219,49 +225,63 @@ const styles = StyleSheet.create({
     userSelectionView: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 25
+    },
+
+    userSelectionView2: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        marginTop: 25,
+        width: widthOfScreen * 0.70
     },
 
     wordBox: {
-        borderWidth: 1,
-        borderColor: 'black',
+        borderWidth: 3,
+        borderColor: colors.blueRegular,
+        backgroundColor: '#C1FEFB',
         borderRadius: 5,
         padding: 5,
         margin: 2,
-        width: 50
+        width: 60,
+        height: 60
     },
 
     wordBox2: {
-        borderWidth: 1,
-        borderColor: 'black',
+        borderWidth: 3,
+        borderColor: colors.blueRegular,
         borderRadius: 5,
         padding: 5,
         margin: 2,
-        width: 40
+        width: 60,
+        height: 60
     },
 
     wordBoxCurrentReply: {
-        borderWidth: 1,
-        borderColor: 'black',
+        borderWidth: 3,
+        borderColor: colors.blueRegular,
         borderRadius: 5,
         padding: 5,
         margin: 2,
-        width: 40,
-        backgroundColor: '#eab676'
+        width: 60,
+        height: 60,
+        backgroundColor: '#C1FEFB'
     },
     wordBoxCorrectAns: {
-        borderWidth: 1,
-        borderColor: 'black',
+        borderWidth: 3,
+        borderColor: colors.greenRegular,
         borderRadius: 5,
         padding: 5,
         margin: 2,
-        width: 40,
-        backgroundColor: '#3CC465'
+        width: 60,
+        height: 60,
+        backgroundColor: colors.greenLight
     },
 
     innerContainer: {
         marginTop: 40,
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     quizHeader: {
@@ -286,5 +306,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 2,
         borderColor: colors.blueBorder
+    },
+
+    answersTextStyle: {
+        fontFamily: 'Comic-Bold',
+        fontSize: 20
     },
 });

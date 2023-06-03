@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     },
 
     addProfileButton: {
-        marginBottom: '5%',
+        marginBottom: '1.5%',
         width: '65%',
         padding: 3,
         backgroundColor: colors.pinkLight,
