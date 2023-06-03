@@ -89,7 +89,7 @@ const PuzzlePage = () => {
 
             }
 
-            if(currentShuffledSelections[quizIndex].length === 0) {
+            if(currentReplyIndex === ans.length-1) {
                 setIsCurrentFinished(true);
             }
         }
@@ -153,9 +153,9 @@ const PuzzlePage = () => {
                                 <View style={styles.userSelectionView}>
                                     {item.split("").map((el, index) => {
                                         return (
-                                            <View style={index === currentReplyIndex ? styles.wordBoxCurrentReply : index < currentReplyIndex ? styles.wordBoxCorrectAns : styles.wordBox}>
+                                            <View style={index === currentReplyIndex ? styles.wordBoxCurrentReply : index < currentReplyIndex ? styles.wordBoxCorrectAns : styles.wordBox2}>
                                                 {currentReplyIndex > index &&
-                                                    <Text>{el}</Text>
+                                                    <Text>{el.toUpperCase()}</Text>
 
                                                 }
                                             </View>
@@ -170,8 +170,8 @@ const PuzzlePage = () => {
                                                 onPress={() => { handleCurrentAnswer(item2, item) }}
                                                 activeOpacity={0.8}
                                             >
-                                                <View>
-                                                    <Text>{item2}</Text>
+                                                <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                                                    <Text>{item2.toUpperCase()}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         </View>
@@ -179,6 +179,7 @@ const PuzzlePage = () => {
                                 </View>
 
 
+                                { isCurrentFinished ?
                                 <TouchableOpacity
                                     onPress={() => { scrollToOffset(index + 1); }}
                                     activeOpacity={0.8}
@@ -187,6 +188,7 @@ const PuzzlePage = () => {
                                         <Text style={{ fontSize: 20, fontFamily: 'Comic-Regular' }}>Devam</Text>
                                     </View>
                                 </TouchableOpacity>
+                                : null}
                             </View>
                         )}
                     />
@@ -213,6 +215,15 @@ const styles = StyleSheet.create({
     },
 
     wordBox: {
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 5,
+        padding: 5,
+        margin: 2,
+        width: 50
+    },
+
+    wordBox2: {
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 5,
