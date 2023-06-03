@@ -81,10 +81,9 @@ const Header = () => {
                     setFeaturedBadgesList(featuredBadgesList)
                     setFeaturedBadgeData(featuredBadgeData[0])
                     //console.log(featuredBadgesList)
+                    setDummy(true)
                 }
             )
-        setDummy(true)
-
     }
 
     dummyList = [
