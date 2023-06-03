@@ -29,6 +29,7 @@ import QuizPage from './pages/QuizPage';
 import BackpackScreen from './pages/BackpackScreen';
 import PuzzlePage from './pages/PuzzlePage';
 import ProfileEdit from './pages/Settings/ProfileEdit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Tab = createBottomTabNavigator();
@@ -124,6 +125,16 @@ function HomeScreen() {
 export default function App() {
   const Stack = createStackNavigator();
 
+  React.useEffect(() => {
+    const setDefaultFontSize = async () => {
+      const value = await AsyncStorage.getItem('@profileFontSize:key')
+      if (value === null) {
+        await AsyncStorage.setItem('@profileFontSize:key', '20');
+      }
+    }
+    setDefaultFontSize();
+  }, [])
+  
   return (
     <ProfileProvider>
       <RewardsProvider>
