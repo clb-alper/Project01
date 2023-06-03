@@ -14,6 +14,7 @@ import { RewardsContext } from '../assets/contexts/RewardsContext';
 import { auth, firebase } from '../firebase'
 import { ProfileContext } from '../assets/contexts/ProfileContext';
 import BackpackHeader from '../assets/components/rewards/BackpackHeader';
+import BackpackStickerModal from '../assets/components/rewards/BackpackStickerModal';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
@@ -22,6 +23,7 @@ const BackpackScreen = () => {
 
     const { userOwnedStickerList, setUserOwnedStickerList, stickerList, setStickerList } = useContext(RewardsContext)
     const { currentProfileSelected } = useContext(ProfileContext);
+    const { backpackStickerModalEntry, setBackpackStickerModalEntry, backpackStickerModalVisible, setBackpackStickerModalVisible } = useContext(ModalContext);
 
 
     const [fontsLoaded] = useFonts({
@@ -57,24 +59,27 @@ const BackpackScreen = () => {
                 overScrollMode={'never'}
                 style={{ zIndex: 0 }}>
 
+                <BackpackStickerModal />
+
                 <View style={[styles.headerView12, { marginTop: 40 }]}>
 
                     <View style={styles.stickerContainer}>
                         {typeof (userOwnedStickerList) === 'undefined' ? null :
                             userOwnedStickerList.map((sticker) => {
                                 return (
-                                    <View key={sticker.id}>
-                                        <View style={styles.continueReadingBookStyleFirstItem}>
+                                    <TouchableOpacity
+                                        key={sticker.id}
+                                        style={styles.continueReadingBookStyleFirstItem}
+                                        onPress={() => { setBackpackStickerModalEntry(sticker); setBackpackStickerModalVisible(true) }}
+                                        activeOpacity={0.85}>
 
-                                            <ImageBackground
-                                                source={{ uri: sticker.iconImage }}
-                                                imageStyle={styles.continueBookImageStyle}>
-                                            </ImageBackground>
+                                        <ImageBackground
+                                            source={{ uri: sticker.iconImage }}
+                                            imageStyle={styles.continueBookImageStyle}>
+                                        </ImageBackground>
 
+                                    </TouchableOpacity>
 
-                                        </View>
-
-                                    </View>
                                 )
 
                             })

@@ -16,6 +16,9 @@ const ModalProvider = ({ children }) => {
     const [stickerModalEntry, setStickerModalEntry] = useState(stickerData);
     const [stickerModalVisible, setStickerModalVisible] = useState(false);
 
+    const [backpackStickerModalEntry, setBackpackStickerModalEntry] = useState(stickerData);
+    const [backpackStickerModalVisible, setBackpackStickerModalVisible] = useState(false);
+
     const [badgeModalEntry, setBadgeModalEntry] = useState(stickerData);
     const [badgeModalVisible, setBadgeModalVisible] = useState(false);
 
@@ -47,7 +50,13 @@ const ModalProvider = ({ children }) => {
         setBadgeModalVisible,
 
         featuredBadgeModalVisible,
-        setFeaturedBadgeModalVisible
+        setFeaturedBadgeModalVisible,
+
+        backpackStickerModalEntry,
+        setBackpackStickerModalEntry,
+
+        backpackStickerModalVisible,
+        setBackpackStickerModalVisible
     }
 
     return (
