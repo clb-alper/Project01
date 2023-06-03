@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Image } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 import colors from '../../colors/colors';
@@ -240,11 +240,10 @@ const RecommendedFlatList = () => {
 
             {dummy ?
                 bookList.length <= 0 ?
-                    <View>
-                        <Text>
-                            TODO : add information for empty recommended flatlist
-                        </Text>
-                    </View>
+                    <Image
+                        style={styles.emptySectionImageStyle}
+                        source={require('../../images/emptyFlImage.png')}
+                    />
                     :
                     <FlatList
                         overScrollMode={'never'}
@@ -311,4 +310,12 @@ const styles = StyleSheet.create({
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,
     },
+
+    emptySectionImageStyle: {
+        height: 145,
+        width: 145,
+        alignSelf: 'center',
+        marginBottom: 20,
+    },
+
 })

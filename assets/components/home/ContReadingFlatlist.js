@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Image } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 import colors from '../../colors/colors';
@@ -252,20 +252,10 @@ const ContReadingFlatlist = () => {
 
             {dummy ?
                 contReadingBookList.length === 0 ?
-                    <View>
-                        <Text>
-                            TODO : add information for empty continue reading flatlist
-                        </Text>
-                        {/* <Skeleton
-                            height={188}
-                            width={113}
-                            lHeight={'100%'}
-                            lWidth={'300%'}
-                            duration={1200}
-                            backgroundColor={'rgba(0,0,0,0.05)'}
-                            style={[{ borderRadius: 12, marginTop: 10, marginLeft: 25 }]}
-                        /> */}
-                    </View>
+                <Image
+                style={styles.emptySectionImageStyle}
+                source={require('../../images/emptyFlImage.png')}
+            />
                     :
                     <FlatList
                         overScrollMode={'never'}
@@ -338,4 +328,11 @@ const styles = StyleSheet.create({
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,
     },
+
+    emptySectionImageStyle: {
+        height: 145,
+        width: 145,
+        alignSelf: 'center',
+    },
+
 })

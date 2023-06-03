@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Image, Text } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
@@ -126,9 +126,10 @@ const NewBooksFlatlist = () => {
         <View>
             {dummy ?
                 bookList.length == 0 ?
-                    <Text>
-                        TODO : add information for empty new books flatlist
-                    </Text>
+                    <Image
+                        style={styles.emptySectionImageStyle}
+                        source={require('../../images/emptyFlImage.png')}
+                    />
                     :
                     <FlatList
                         overScrollMode={'never'}
@@ -195,4 +196,11 @@ const styles = StyleSheet.create({
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,
     },
+
+    emptySectionImageStyle: {
+        height: 145,
+        width: 145,
+        alignSelf: 'center',
+    },
+
 })
