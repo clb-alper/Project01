@@ -15,7 +15,7 @@ const heightOfScreen = Dimensions.get('window').height
 const PuzzlePage = () => {
 
     const puzzleArray = ["alper", "ömer", "yusuf", "tarot", "tarik", "araba"];
-    const randomChars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "y", "z", "u", "v", "türkmüsün"];
+    const randomChars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "y", "z", "u", "v"];
     const [quizIndex, setQuizIndex] = useState(0);
 
     const [currentReplyIndex, setCurrentReplyIndex] = useState(0);
