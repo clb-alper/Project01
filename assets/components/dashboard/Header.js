@@ -187,7 +187,7 @@ const Header = () => {
                 <View style={styles.dashboardRosettes}>
 
                     {
-                        !dummy ?
+                        !dummy || featuredBadgesList.length <= 0 ?
                             dummyList.map((index) => {
                                 return (
                                     <Skeleton
