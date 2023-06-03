@@ -126,14 +126,15 @@ export default function App() {
   const Stack = createStackNavigator();
 
   React.useEffect(() => {
-
     const setDefaultFontSize = async () => {
-      await AsyncStorage.setItem('@profileFontSize:key', '20');
-
+      const value = await AsyncStorage.getItem('@profileFontSize:key')
+      if (value === null) {
+        await AsyncStorage.setItem('@profileFontSize:key', '20');
+      }
     }
     setDefaultFontSize();
-
   }, [])
+  
   return (
     <ProfileProvider>
       <RewardsProvider>
