@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Dimensions, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -41,9 +41,8 @@ const RewardsScreen = ({ navigation }) => {
             <TouchableOpacity onPress={() => { navigation.navigate('Backpack') }}
                 activeOpacity={0.75} style={{ zIndex: 500 }}>
                 <View style={styles.backpackButton}>
-                    <Text>
-                        Sticker Çantam
-                    </Text>
+                    <Image style={{width: 40, height: 40, alignSelf: 'center', marginTop: 12, tintColor: '#716696'}} 
+                    source={require('../assets/images/backpack.png')}></Image>
                 </View>
             </TouchableOpacity>
 
@@ -91,6 +90,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 500,
         backgroundColor: colors.purpleRegular,
+        borderColor: colors.purpleBorder,
         marginRight: 20,
         position: 'absolute',
         top: heightOfScreen * 0.83,
