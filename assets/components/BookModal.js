@@ -159,7 +159,7 @@ const BookModal = () => {
                     </View>
                     <View style={styles.contentTagStyle}>
                         <Text
-                            style={styles.tagTextStyle}
+                            style={[styles.tagTextStyle, {marginTop: modalEntry.contentTag === "Quizli" ? 0 : 2}]}
                             adjustsFontSizeToFit={true}
                             numberOfLines={1}>{modalEntry.contentTag}</Text>
                     </View>
