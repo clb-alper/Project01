@@ -108,7 +108,7 @@ const FeaturedFlatlist = () => {
 
     useEffect(() => {
         getNewBooksData()
-    }, [])
+    }, [ , favorited])
 
     // useEffect(() => {
     //     getNewBooksData()
