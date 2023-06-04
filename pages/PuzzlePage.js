@@ -23,6 +23,8 @@ const PuzzlePage = () => {
     const [currentShuffledSelections, setCurrentShuffledSelections] = useState([]);
     const [isCurrentFinished, setIsCurrentFinished] = useState(false);
 
+    const [isAllPuzzlesDone, setIsAllPuzzlesDone] = useState(false);
+
     const flRef = useRef();
 
     const handleBackButtonPress = () => {
@@ -93,7 +95,13 @@ const PuzzlePage = () => {
 
             if (currentReplyIndex === ans.length - 1) {
                 setIsCurrentFinished(true);
+                if(puzzleArray.indexOf(ans) === puzzleArray.length - 1) {
+                    setIsAllPuzzlesDone(true)
+                }
             }
+
+            
+       
         }
     };
 
@@ -161,9 +169,12 @@ const PuzzlePage = () => {
                                         numberOfLines={2}
                                         style={{ fontFamily: 'Comic-Regular', fontSize: 40, width: widthOfScreen * 0.8, textAlign: 'center' }}>
                                             {puzzleQuestionArray[index]}</Text>
+                                    <Text>{isAllPuzzlesDone.toString()}</Text>
+
                                     {/* <Text>{"Quiz bittimi " + isCurrentFinished.toString()}</Text> */}
                                     {/* User Result View */}
                                     <View style={styles.userSelectionView}>
+
                                         {item.split("").map((el, index) => {
                                             return (
                                                 <View key={index} style={index === currentReplyIndex ? styles.wordBoxCurrentReply : index < currentReplyIndex ? styles.wordBoxCorrectAns : styles.wordBox2}>
