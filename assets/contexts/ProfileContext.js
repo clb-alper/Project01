@@ -96,11 +96,12 @@ const ProfileProvider = ({ children }) => {
                 querySnapshot => {
                     const statisticData = []
                     querySnapshot.forEach((doc) => {
-                        const { adventurer, animalLover, points, readedBooks, readedWords, totalPoints, totalQuizzesCompleted } = doc.data()
+                        const { adventurer, animalLover, points, professor, readedBooks, readedWords, totalPoints, totalQuizzesCompleted } = doc.data()
                         statisticData.push({
                             adventurer,
                             animalLover,
                             points,
+                            professor,
                             readedBooks,
                             readedWords,
                             totalPoints,
@@ -150,6 +151,7 @@ const ProfileProvider = ({ children }) => {
         profileIconList,
         setProfileIconList,
         getStatisticInfoData,
+        statisticData
 
     }
 

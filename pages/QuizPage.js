@@ -40,7 +40,7 @@ const QuizPage = () => {
     const [isFinished, setIsFinished] = useState(false);
 
     const { modalEntry } = useContext(ModalContext);
-    const { userPointsData, userStatisticsData, currentProfileSelected } = useContext(ProfileContext);
+    const { userPointsData, userStatisticsData, currentProfileSelected, statisticData } = useContext(ProfileContext);
 
     const sleep = milliseconds => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -109,21 +109,23 @@ const QuizPage = () => {
     }
 
     const handleQuizPointsReward = () => {
+        
         firebase.firestore()
             .collection('users').doc(firebase.auth().currentUser.uid)
             .collection('userProfiles').doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
                 points: userPointsData.points + Math.floor((correctAnswers / quizList.length) * 25) * 10,
-                totalPoints: userStatisticsData.totalPoints + Math.floor((correctAnswers / quizList.length) * 25) * 10,
-                totalQuizzesCompleted: userStatisticsData.totalQuizzesCompleted + 1
+                totalPoints: statisticData[0].totalPoints + Math.floor((correctAnswers / quizList.length) * 25) * 10,
+                totalQuizzesCompleted: statisticData[0].totalQuizzesCompleted + 1
             })
 
         if (correctAnswers === quizList.length) {
             firebase.firestore()
                 .collection('users').doc(firebase.auth().currentUser.uid)
                 .collection('userProfiles').doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
-                    professor: userStatisticsData.professor + 1
+                    professor: statisticData[0].professor + 1
                 })
         }
+        
 
     }
 
