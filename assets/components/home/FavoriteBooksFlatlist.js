@@ -39,34 +39,46 @@ const FavoriteBooksFlastlist = () => {
         .collection('userProfiles').doc(currentProfileSelected)
         .collection('favoriteBooks');
 
-    const getFavData = () => favUserBookRef
-        .onSnapshot(
-            querySnapshot => {
-                const bookList = []
-                if (querySnapshot.empty) {
-                    setBookList([])
-                    timeOutOfTags()
-                } else {
-                    querySnapshot.forEach((doc) => {
-                        const favBookReading = doc.data()
-                        favBookReading.bookRef.get()
-                            .then(res => {
-                                try {
-                                    favBookReading.bookData = res.data()
-                                    favBookReading.bookData.id = res.id
-                                    favBookReading.bookData.favorited = favBookReading.favorited
-                                    bookList.push(favBookReading.bookData)
-                                }
-                                catch (e) {
-                                    console.log(e)
-                                }
+    const getFavData = () => {
+        favUserBookRef
+            .onSnapshot(
+                querySnapshot => {
+                    const bookList = []
+                    if (querySnapshot.empty) {
+                        setBookList([])
+                        timeOutOfTags()
+                    } else {
+                        querySnapshot.forEach((doc) => {
+                            const favBookReading = doc.data()
+                            favBookReading.bookRef.get()
+                                .then(res => {
+                                    try {
+                                        favBookReading.bookData = res.data()
+                                        favBookReading.bookData.id = res.id
+                                        favBookReading.bookData.favorited = favBookReading.favorited
+                                        bookList.push(favBookReading.bookData)
+                                    }
+                                    catch (e) {
+                                        console.log(e)
+                                    }
 
-                            })
-                        favBookReading.contRef.get()
-                            .then(res => {
-                                if (res.exists) {
-                                    typeof (favBookReading) === 'undefined' ? null : favBookReading.bookData.bookProgress = res.data().progress,
-                                        // Alfabeye göre sıralama
+                                })
+                            favBookReading.contRef.get()
+                                .then(res => {
+                                    if (res.exists) {
+                                        typeof (favBookReading) === 'undefined' ? null : favBookReading.bookData.bookProgress = res.data().progress,
+                                            // Alfabeye göre sıralama
+                                            bookList.sort(function (a, b) {
+                                                if (a.title < b.title) {
+                                                    return -1;
+                                                }
+                                                if (a.title > b.title) {
+                                                    return 1;
+                                                }
+                                                return 0;
+                                            });
+                                        setBookList(bookList)
+                                    } else {
                                         bookList.sort(function (a, b) {
                                             if (a.title < b.title) {
                                                 return -1;
@@ -76,25 +88,15 @@ const FavoriteBooksFlastlist = () => {
                                             }
                                             return 0;
                                         });
-                                    setBookList(bookList)
-                                } else {
-                                    bookList.sort(function (a, b) {
-                                        if (a.title < b.title) {
-                                            return -1;
-                                        }
-                                        if (a.title > b.title) {
-                                            return 1;
-                                        }
-                                        return 0;
-                                    });
-                                    setBookList(bookList)
-                                    timeOutOfTags()
-                                }
-                            })
-                    })
+                                        setBookList(bookList)
+                                        timeOutOfTags()
+                                    }
+                                })
+                        })
+                    }
                 }
-            }
-        )
+            )
+    }
 
     useEffect(() => {
         getFavData()
@@ -106,12 +108,12 @@ const FavoriteBooksFlastlist = () => {
 
     return (
         <View>
-            {dummy ?
+            {bookList.length > 0 ?
                 bookList.length == 0 && dummy ?
-                <Image
-                style={styles.emptySectionImageStyle}
-                source={require('../../images/emptyFlImage.png')}
-            />
+                    <Image
+                        style={styles.emptySectionImageStyle}
+                        source={require('../../images/emptyFlImage.png')}
+                    />
                     :
                     <FlatList
                         overScrollMode={'never'}
