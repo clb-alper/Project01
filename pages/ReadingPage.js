@@ -24,7 +24,7 @@ const heightOfScreen = Dimensions.get('window').height
 const ReadingPage = () => {
 
     const { setModalVisible, modalVisible, modalEntry, setTranslationModalVisible, setTranslationModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize, getFontLocalStorage, bookProgressDB, setBookProgressDB } = useContext(ProfileContext);
+    const { currentProfileSelected, userBookProgress, setUserBookProgress, readed, setReaded, userPrefFontSize, getFontLocalStorage, bookProgressDB, setBookProgressDB, currentProfileSelectedInfo, profileIconList } = useContext(ProfileContext);
 
     const [bookContent, setBookContent] = useState([]);
     const [bookPageColor, setBookPageColor] = useState();
@@ -299,9 +299,9 @@ const ReadingPage = () => {
                             </Text>
 
                             {isLoaded ?
-                                <View style={styles.headerIconContainerStyle}>
-                                    <Image source={require('../assets/images/icontest.png')} style={styles.headerIconStyle}></Image>
-                                </View>
+                                <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
+                                <Image source={{ uri: profileIconList[currentProfileSelectedInfo[0].profileIcon]["image"] }} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
+                            </View>
                                 :
                                 <Skeleton
                                     height={styles.headerIconContainerStyle.height}
@@ -622,8 +622,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        width: 40,
-        height: 40,
+        width: 28,
+        height: 28,
+        marginLeft: 7,
         tintColor: colors.blueLight
 
     },
