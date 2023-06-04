@@ -279,7 +279,6 @@ const ReadingPage = () => {
         <View style={[styles.container, { backgroundColor: modalEntry.itemPageBGColor }]} onLayout={onLayoutRootView}>
             <TranslationModal />
             <StatusBar style="auto" />
-            {console.log(modalEntry.itemPageBGColor)}
 
             <SafeAreaView>
                 <ScrollView

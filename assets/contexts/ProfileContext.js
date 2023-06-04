@@ -31,6 +31,8 @@ const ProfileProvider = ({ children }) => {
     const [featuredBadgeIndex, setFeaturedBadgeIndex] = useState([]);
     const [badgeLevelStyle, setBadgeLevelStyle] = useState(0);
 
+    //Statisctic Data
+    const [statisticData, getStatisticData] = useState([]);
 
     const getFontLocalStorage = async () => {
         setUserPrefFontSize(Number(await AsyncStorage.getItem('@profileFontSize:key')));
@@ -84,6 +86,34 @@ const ProfileProvider = ({ children }) => {
             )
     }
 
+
+    const getStatisticInfoData = async () => {
+        const statisticInfoRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid)
+            .collection('userProfiles').doc(currentProfileSelected)
+            .collection('statisticsData')
+            statisticInfoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const statisticData = []
+                    querySnapshot.forEach((doc) => {
+                        const { adventurer, animalLover, points, professor, readedBooks, readedWords, totalPoints, totalQuizzesCompleted } = doc.data()
+                        statisticData.push({
+                            adventurer,
+                            animalLover,
+                            points,
+                            professor,
+                            readedBooks,
+                            readedWords,
+                            totalPoints,
+                            totalQuizzesCompleted
+
+                        })
+                    })
+                    getStatisticData(statisticData)
+                }
+            )
+    }
+
     const contextData = {
         currentProfileSelected,
         setCurrentProfileSelected,
@@ -120,6 +150,8 @@ const ProfileProvider = ({ children }) => {
         setBookProgressDB,
         profileIconList,
         setProfileIconList,
+        getStatisticInfoData,
+        statisticData
 
     }
 
