@@ -75,7 +75,7 @@ const FeaturedFlatlist = () => {
                         const {
                             ageTag, contentTag, dateAdded, image,
                             itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor,
-                            rewardTag, themeTag, title, itemTextColor } = doc.data()
+                            rewardTag, themeTag, title, itemTextColor, itemPageBGColor } = doc.data()
 
                         if (bookList.length <= 4) {
                             bookList.push({
@@ -94,7 +94,8 @@ const FeaturedFlatlist = () => {
                                 rewardTag,
                                 themeTag,
                                 title,
-                                itemTextColor
+                                itemTextColor,
+                                itemPageBGColor
                             })
                         }
 

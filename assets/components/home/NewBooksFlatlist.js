@@ -83,7 +83,7 @@ const NewBooksFlatlist = () => {
                         const {
                             ageTag, contentTag, dateAdded, image,
                             itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor,
-                            rewardTag, themeTag, title } = doc.data()
+                            rewardTag, themeTag, title, itemPageBGColor } = doc.data()
 
                         const givenDate = new Date(dateAdded.toDate());
 
@@ -105,6 +105,7 @@ const NewBooksFlatlist = () => {
                                 rewardTag,
                                 themeTag,
                                 title,
+                                itemPageBGColor
                             })
                         }
                     })
