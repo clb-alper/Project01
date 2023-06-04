@@ -18,7 +18,7 @@ const BookModal = () => {
 
     const [favoriteCountList, setFavoriteCountList] = useState([]);
     const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, favorited, setFavorited, userBookProgress, bookProgressDB, setBookProgressDB, handleFavoritedChange, favoritedChange } = useContext(ProfileContext);
+    const { currentProfileSelected, favorited, setFavorited, userBookProgress, bookProgressDB, setBookProgressDB } = useContext(ProfileContext);
 
     const navigation = useNavigation();
 
@@ -43,7 +43,6 @@ const BookModal = () => {
     }
 
     const handleAddFavorite = async () => {
-        handleFavoritedChange()
         setFavorited(!favorited);
         modalEntry.favorited = !modalEntry.favorited;
         await handleCreateFavoriteBooks();
@@ -70,6 +69,7 @@ const BookModal = () => {
 
     const handleCreateFavoriteBooks = async () => {
 
+        console.log(favoriteCountList[0])
         if (modalEntry.favorited) {
             firebase.firestore().collection('storyBooks').doc(modalEntry.id).update({
                 favoriteCount: favoriteCountList[0].favoriteCount - 1,
