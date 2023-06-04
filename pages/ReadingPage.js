@@ -203,10 +203,10 @@ const ReadingPage = () => {
     }, [])
 
     const handleBackButtonClick = () => {
-        stopSpeech();
-        navigation.goBack();
-        setModalVisible(!modalVisible);
-        setIsBack(true)
+        // stopSpeech();
+        // navigation.goBack();
+        // setModalVisible(!modalVisible);
+        // setIsBack(true)
         return true;
     };
 
@@ -240,6 +240,7 @@ const ReadingPage = () => {
         navigation.goBack();
         setModalVisible(!modalVisible);
         setIsBack(true)
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButtonClick);
     }
 
 

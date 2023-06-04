@@ -21,10 +21,94 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 
 const BackpackScreen = () => {
 
-    const { userOwnedStickerList, setUserOwnedStickerList, stickerList, setStickerList } = useContext(RewardsContext)
+    const { userOwnedStickerList, setUserOwnedStickerList, stickerList, setStickerList, setStickerBookList } = useContext(RewardsContext)
     const { currentProfileSelected } = useContext(ProfileContext);
     const { backpackStickerModalEntry, setBackpackStickerModalEntry, backpackStickerModalVisible, setBackpackStickerModalVisible } = useContext(ModalContext);
 
+    const stickersRef = firebase.firestore().collection('stickers')
+
+    const getStickerData = async () => {
+        stickersRef
+            .onSnapshot(
+                querySnapshot => {
+                    const stickerList = []
+                    querySnapshot.forEach((doc) => {
+                        const { iconImage, name, price, stickerBookNo, stickerLevel } = doc.data()
+
+                        stickerList.push({
+                            id: doc.id,
+                            iconImage,
+                            name,
+                            price,
+                            stickerBookNo,
+                            stickerLevel
+                        })
+
+                    })
+                    setStickerList(stickerList)
+                }
+            )
+    }
+
+    const stickerBookRef = firebase.firestore().collection('stickerBooks')
+
+    const getStickerBookData = async () => {
+        stickerBookRef
+            .onSnapshot(
+                querySnapshot => {
+                    const stickerBookList = []
+                    querySnapshot.forEach((doc) => {
+                        const { bookNo, name } = doc.data()
+
+                        stickerBookList.push({
+                            id: doc.id,
+                            bookNo,
+                            name,
+                        })
+                    })
+                    setStickerBookList(stickerBookList)
+                }
+            )
+    }
+
+    const userStickersRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        .doc(currentProfileSelected).collection('stickerCollection')
+
+    const getUserStickerData = async () => {
+        userStickersRef
+            .onSnapshot(
+                querySnapshot => {
+                    const userOwnedStickerList = []
+                    querySnapshot.forEach((doc) => {
+
+                        stickerList.every((sticker) => {
+                            if (sticker.id === doc.data().stickerID) {
+                                userOwnedStickerList.push({
+                                    id: doc.data().stickerID,
+                                    iconImage: sticker.iconImage,
+                                    name: sticker.name,
+                                    price: sticker.price,
+                                    stickerBookNo: sticker.stickerBookNo,
+                                    stickerLevel: sticker.stickerLevel
+                                })
+                                return false
+                            }
+                            return true
+                        })
+                    })
+                    setUserOwnedStickerList(userOwnedStickerList)
+                }
+            )
+    }
+
+    useEffect(() => {
+        getStickerData();
+        getStickerBookData();
+    }, [])
+
+    useEffect(() => {
+        getUserStickerData();
+    }, [stickerList])
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
