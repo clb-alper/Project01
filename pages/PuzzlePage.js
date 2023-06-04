@@ -14,8 +14,9 @@ const heightOfScreen = Dimensions.get('window').height
 
 const PuzzlePage = () => {
 
-    const puzzleArray = ["alper", "ömer", "yusuf", "tarot", "tarik", "araba"];
-    const randomChars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "y", "z", "u", "v"];
+    const puzzleArray = ["pepe", "alper", "sevgi", "çizgili", "mavi"];
+    const puzzleQuestionArray = ["Kitapta bahsedilen kedinin adı nedir?", "Kitabın ana karakteri olan çocugun adı nedir?", "Çocugun yaşadıgı apartmanın ismi nedir?", "Çocugun en sevdiği kitap ismi nedir?", "Çocugun en sevdigi renk nedir?"];
+    const randomChars = ["a", "b", "c", "ç", "d", "e", "f", "g", "h", "i", "ı","j", "k", "l", "m", "n", "o", "ö", "p", "r", "s", "ş","t", "y", "z", "u", "ü", "v"];
     const [quizIndex, setQuizIndex] = useState(0);
 
     const [currentReplyIndex, setCurrentReplyIndex] = useState(0);
@@ -158,7 +159,8 @@ const PuzzlePage = () => {
                                     {/* <Text>{item}</Text> */}
                                     <Text adjustsFontSizeToFit
                                         numberOfLines={2}
-                                        style={{ fontFamily: 'Comic-Regular', fontSize: 40, width: widthOfScreen * 0.8, textAlign: 'center' }}>Database ile ilgilenen kim?</Text>
+                                        style={{ fontFamily: 'Comic-Regular', fontSize: 40, width: widthOfScreen * 0.8, textAlign: 'center' }}>
+                                            {puzzleQuestionArray[index]}</Text>
                                     {/* <Text>{"Quiz bittimi " + isCurrentFinished.toString()}</Text> */}
                                     {/* User Result View */}
                                     <View style={styles.userSelectionView}>
@@ -195,6 +197,7 @@ const PuzzlePage = () => {
 
 
                                     {isCurrentFinished ?
+                                        
                                         <TouchableOpacity
                                             onPress={() => { scrollToOffset(index + 1); }}
                                             activeOpacity={0.8}
