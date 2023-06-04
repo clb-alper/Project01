@@ -19,6 +19,10 @@ const ProfileProvider = ({ children }) => {
     const [userPointsData, setUserPointsData] = useState();
     const [userStatisticsData, setUserStatisticsData] = useState([]);
 
+
+    // test
+    const [favoritedChange, setFavoritedChange] = useState(false);
+
     // User Profile Icons List
     const [profileIconList, setProfileIconList] = useState();
 
@@ -31,6 +35,11 @@ const ProfileProvider = ({ children }) => {
     const [featuredBadgeIndex, setFeaturedBadgeIndex] = useState([]);
     const [badgeLevelStyle, setBadgeLevelStyle] = useState(0);
 
+
+
+    const handleFavoritedChange = () => {
+        setFavoritedChange(!favoritedChange);
+    }
 
     const getFontLocalStorage = async () => {
         setUserPrefFontSize(Number(await AsyncStorage.getItem('@profileFontSize:key')));
@@ -84,6 +93,7 @@ const ProfileProvider = ({ children }) => {
             )
     }
 
+
     const contextData = {
         currentProfileSelected,
         setCurrentProfileSelected,
@@ -120,6 +130,9 @@ const ProfileProvider = ({ children }) => {
         setBookProgressDB,
         profileIconList,
         setProfileIconList,
+
+        handleFavoritedChange,
+        favoritedChange 
 
     }
 

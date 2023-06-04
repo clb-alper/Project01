@@ -59,6 +59,7 @@ const ModalProvider = ({ children }) => {
         setBackpackStickerModalVisible
     }
 
+
     return (
         <ModalContext.Provider value={contextData}>
             {children}

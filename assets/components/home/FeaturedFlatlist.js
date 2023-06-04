@@ -12,7 +12,9 @@ var widthOfScreen = Dimensions.get('window').width; //full width
 const FeaturedFlatlist = () => {
 
     const { setModalVisible, setModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, favorited, readed } = useContext(ProfileContext);
+    const { currentProfileSelected, favorited, readed, favoritedChange } = useContext(ProfileContext);
+
+
 
     const [dummy, setDummy] = useState(false);
 
@@ -107,7 +109,7 @@ const FeaturedFlatlist = () => {
 
     useEffect(() => {
         getNewBooksData()
-    }, [])
+    }, [ , favoritedChange])
 
     // useEffect(() => {
     //     getNewBooksData()
