@@ -113,9 +113,6 @@ const ProfileProvider = ({ children }) => {
             )
     }
 
-    console.log(statisticData)
-
-
     const contextData = {
         currentProfileSelected,
         setCurrentProfileSelected,
