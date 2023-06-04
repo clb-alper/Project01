@@ -55,6 +55,7 @@ const Header = () => {
                     ageTag: DATA[i].books[k].ageTag,
                     contentTag: DATA[i].books[k].contentTag,
                     rewardTag: DATA[i].books[k].rewardTag,
+                    themeTag : DATA[i].books[k].themeTag
                 })
             }
         }
@@ -85,6 +86,7 @@ const Header = () => {
                             ageTag: rawData[i].ageTag,
                             contentTag: rawData[i].contentTag,
                             rewardTag: rawData[i].rewardTag,
+                            themeTag : rawData[i].themeTag
                         }]
                     })
                 }
@@ -117,6 +119,7 @@ const Header = () => {
                             ageTag: rawData[i].ageTag,
                             contentTag: rawData[i].contentTag,
                             rewardTag: rawData[i].rewardTag,
+                            themeTag : rawData[i].themeTag
                         }]
                     })
                 }
@@ -147,6 +150,7 @@ const Header = () => {
                             ageTag: rawData[i].ageTag,
                             contentTag: rawData[i].contentTag,
                             rewardTag: rawData[i].rewardTag,
+                            themeTag : rawData[i].themeTag
                         }]
                     })
                 }
