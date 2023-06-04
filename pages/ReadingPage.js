@@ -279,7 +279,7 @@ const ReadingPage = () => {
         <View style={[styles.container, { backgroundColor: modalEntry.itemPageBGColor }]} onLayout={onLayoutRootView}>
             <TranslationModal />
             <StatusBar style="auto" />
-            {/* {console.log(modalEntry.itemPageBGColor)} */}
+            {console.log(modalEntry.itemPageBGColor)}
 
             <SafeAreaView>
                 <ScrollView
@@ -332,7 +332,7 @@ const ReadingPage = () => {
                                 initialNumToRender={10}
                                 initialScrollIndex={Math.floor(bookProgressDB * pages.length) - 1} // 0.3ü databaseden progress olarak al
                                 getItemLayout={(_, index) => ({
-                                    length: widthOfScreen, 
+                                    length: widthOfScreen,
                                     offset: widthOfScreen * (index),
                                     index,
                                 })}
@@ -367,7 +367,7 @@ const ReadingPage = () => {
                                         </View>
 
                                         <TouchableOpacity
-                                                onPress={() => { modalEntry.contentTag === 'Quizli' ?  navigation.navigate('QuizPage') : navigation.navigate('PuzzlePage') }}
+                                            onPress={() => { modalEntry.contentTag === 'Quizli' ? navigation.navigate('QuizPage') : navigation.navigate('PuzzlePage') }}
                                             activeOpacity={0.8}>
                                             <View style={[styles.startContentButton, { backgroundColor: modalEntry.itemColor, borderColor: modalEntry.itemBorder }]}>
                                                 <Text style={[styles.bookStatisticsInsideTextStyle, { fontSize: 27 }]}>
@@ -376,7 +376,7 @@ const ReadingPage = () => {
                                                 <IonIcons name="play" size={33} style={{ marginLeft: 4 }} />
                                             </View>
                                         </TouchableOpacity>
-                             
+
                                     </View>
                                 }
                                 renderItem={({ item, index }) => (

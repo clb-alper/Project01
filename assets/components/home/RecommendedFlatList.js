@@ -156,7 +156,7 @@ const RecommendedFlatList = () => {
                                                 const {
                                                     ageTag, contentTag, dateAdded, image,
                                                     itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor,
-                                                    rewardTag, themeTag, title } = doc.data()
+                                                    rewardTag, themeTag, title, itemPageBGColor } = doc.data()
 
                                                 for (let i = 0; i < 4; i++) {
                                                     for (let k = 0; k < 4; k++) {
@@ -186,6 +186,7 @@ const RecommendedFlatList = () => {
                                                                         itemColorBG,
                                                                         itemDesc,
                                                                         itemDescColor,
+                                                                        itemPageBGColor,
                                                                         rewardTag,
                                                                         themeTag,
                                                                         title,
