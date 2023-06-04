@@ -250,7 +250,8 @@ const ContReadingFlatlist = () => {
     return (
         <View>
 
-            {dummy ?
+
+            {dummy && contReadingBookList.length > 0 ?
                 contReadingBookList.length === 0 ?
                 <Image
                 style={styles.emptySectionImageStyle}
