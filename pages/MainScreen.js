@@ -21,16 +21,17 @@ const MainScreen = () => {
   const { modalVisible } = useContext(ModalContext);
   const { getProfileInfoData, getAccountInfoData, currentAccountInfo } = useContext(ProfileContext);
 
+  useEffect(() => {
+    getProfileInfoData()
+    getAccountInfoData()
+  }, [])
+
   const [fontsLoaded] = useFonts({
     'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
     'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
     'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
   });
 
-  useEffect(() => {
-    getProfileInfoData()
-    getAccountInfoData()
-  }, [])
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -47,7 +48,7 @@ const MainScreen = () => {
     <View style={styles.container} onLayout={onLayoutRootView}>
 
       <BookModal />
-      <StatusBar style="auto"/>
+      <StatusBar style="auto" />
       {/* {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="auto" />} */}
 
       <SafeAreaView edges={['right', 'left', 'top']}>
