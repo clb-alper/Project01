@@ -126,7 +126,7 @@ const FontSizeSettings = () => {
                                 thumbTintColor={colors.blueRegular}
                             />
 
-                            <Text style={styles.sliderSideText}>{fontSizeNum}</Text>
+                            <Text style={styles.sliderSideText}>{userPrefFontSize}</Text>
 
                         </View>
                     </View>
