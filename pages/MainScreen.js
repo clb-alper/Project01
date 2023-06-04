@@ -19,18 +19,19 @@ import RecommendedFlatList from '../assets/components/home/RecommendedFlatList';
 const MainScreen = () => {
 
   const { modalVisible } = useContext(ModalContext);
-  const { getProfileInfoData, getAccountInfoData, currentAccountInfo } = useContext(ProfileContext);
-
-  useEffect(() => {
-    getProfileInfoData()
-    getAccountInfoData()
-  }, [])
+  const { getProfileInfoData, getAccountInfoData, currentAccountInfo, getStatisticInfoData } = useContext(ProfileContext);
 
   const [fontsLoaded] = useFonts({
     'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
     'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
     'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
   });
+
+  useEffect(() => {
+    getProfileInfoData()
+    getAccountInfoData()
+    getStatisticInfoData()
+  }, [])
 
 
   const onLayoutRootView = useCallback(async () => {
