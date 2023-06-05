@@ -80,7 +80,7 @@ const Header = () => {
                     })
                     setFeaturedBadgesList(featuredBadgesList)
                     setFeaturedBadgeData(featuredBadgeData[0])
-                    setTimeout(() => setDummy(true) , 350)
+                    setTimeout(() => setDummy(true), 350)
 
                 }
             )
@@ -254,7 +254,9 @@ const Header = () => {
                                                                             badges.statisticName === "adventurer" ||
                                                                                 badges.statisticName === "totalQuizzesCompleted" ||
                                                                                 badges.statisticName === "readedBooks" ||
-                                                                                badges.statisticName === "readedWords" ? -76.5 : -75, resizeMode: 'contain'
+                                                                                badges.statisticName === "professor" ||
+                                                                                badges.statisticName === "readedWords" ? -76.5 : badges.statisticName === "cityKid" ||
+                                                                                    badges.statisticName === "natureLover" ? -79 : -75, resizeMode: 'contain'
                                                                     }]}
                                                                     source={{ uri: badges.iconImageURL }}
                                                                 />
@@ -279,7 +281,10 @@ const Header = () => {
                                                                             badges.statisticName === "adventurer" ||
                                                                                 badges.statisticName === "totalQuizzesCompleted" ||
                                                                                 badges.statisticName === "readedBooks" ||
-                                                                                badges.statisticName === "readedWords" ? -5 : 0, resizeMode: 'contain'
+                                                                                badges.statisticName === "readedWords" ||
+                                                                                badges.statisticName === "professor" ?
+                                                                                -5 : badges.statisticName === "natureLover" ||
+                                                                                    badges.statisticName === "cityKid" ? -10 : 0, resizeMode: 'contain'
                                                                     }]}
                                                                     source={{ uri: badges.iconImageURL }}
                                                                 />

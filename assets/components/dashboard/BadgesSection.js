@@ -123,7 +123,9 @@ const BadgesSection = () => {
                                                                     badges.statisticName === "totalQuizzesCompleted" ||
                                                                     badges.statisticName === "readedBooks" ||
                                                                     badges.statisticName === "readedWords" ||
-                                                                    badges.statisticName === "professor" ? -76.5 : -75, resizeMode: 'contain'
+                                                                    badges.statisticName === "professor" ? -76.5 :
+                                                                    badges.statisticName === "cityKid" ||
+                                                                        badges.statisticName === "natureLover" ? -78 : -75, resizeMode: 'contain'
                                                         }]}
                                                         source={{ uri: badges.iconImageURL }}
                                                     />
@@ -149,7 +151,9 @@ const BadgesSection = () => {
                                                                     badges.statisticName === "totalQuizzesCompleted" ||
                                                                     badges.statisticName === "readedBooks" ||
                                                                     badges.statisticName === "readedWords" ||
-                                                                    badges.statisticName === "professor" ? -5 : 0, resizeMode: 'contain'
+                                                                    badges.statisticName === "professor"
+                                                                    ? -5 : badges.statisticName === "natureLover" ||
+                                                                        badges.statisticName === "cityKid" ? -10 : 0, resizeMode: 'contain'
                                                         }]}
                                                         source={{ uri: badges.iconImageURL }}
                                                     />

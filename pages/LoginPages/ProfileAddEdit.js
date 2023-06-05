@@ -106,6 +106,8 @@ const ProfileSelect = () => {
             base.collection('statisticsData').doc('statsData').set({
                 adventurer: 0,
                 animalLover: 0,
+                natureLover: 0,
+                cityKid: 0,
                 points: 0,
                 readedBooks: 0,
                 readedWords: 0,

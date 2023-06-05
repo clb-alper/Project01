@@ -112,7 +112,11 @@ const BadgeModal = () => {
                                     style={[{ borderRadius: 500, borderColor: colors.black, borderWidth: 5 }]}
                                 />
                                 <Image
-                                    style={[styles.rainbowIconStyle, { width: 125, resizeMode: 'contain' }]}
+                                    style={[styles.rainbowIconStyle, { width: 125, resizeMode: 'contain',
+                                    marginTop: badgeModalEntry.statisticName === "cityKid" ||
+                                    badgeModalEntry.statisticName === "natureLover"
+                                    ? -200 : badgeModalEntry.statisticName === "totalPoints" ? -185 : 5
+                                }]}
                                     source={{ uri: badgeModalEntry.iconImageURL }}
                                 />
                             </View>
@@ -135,7 +139,9 @@ const BadgeModal = () => {
                                             badgeModalEntry.name === "Maceraperest" ||
                                                 badgeModalEntry.name === "Quizör" ||
                                                 badgeModalEntry.statisticName === "readedBooks" ||
-                                                badgeModalEntry.statisticName === "readedWords" ? -5 : 5, resizeMode: 'contain'
+                                                badgeModalEntry.statisticName === "readedWords" ? -5 : 
+                                                badgeModalEntry.statisticName === "cityKid" ||
+                                                badgeModalEntry.statisticName === "natureLover" ? -10 : 5, resizeMode: 'contain'
                                     }]}
                                     source={{ uri: badgeModalEntry.iconImageURL }}
                                 />
@@ -147,7 +153,9 @@ const BadgeModal = () => {
                     }
                 </View>
                 <View>
-                    <Text style={styles.modalStickerNameText}>
+                    <Text style={[styles.modalStickerNameText, { marginTop:  badgeModalEntry.statisticName === "cityKid" ||
+                                                badgeModalEntry.statisticName === "natureLover" ||
+                                                badgeModalEntry.statisticName === "totalPoints"? 25 : 10}]}>
                         {badgeModalEntry.name}
                     </Text>
                 </View>
@@ -203,7 +211,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Comic-Regular',
         fontSize: 42,
         color: 'white',
-        marginTop: 10
     },
 
     modalBadgeProgressText: {

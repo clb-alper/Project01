@@ -21,11 +21,13 @@ const StatisticsSection = () => {
                 querySnapshot => {
                     const userStatisticsData = []
                     querySnapshot.forEach((doc) => {
-                        const { readedBooks, readedWords, adventurer, animalLover, totalPoints, totalQuizzesCompleted, professor } = doc.data()
+                        const { readedBooks, readedWords, adventurer, animalLover, totalPoints, totalQuizzesCompleted, professor, natureLover, cityKid } = doc.data()
 
                         userStatisticsData.push({
                             adventurer,
                             animalLover,
+                            natureLover,
+                            cityKid,
                             readedBooks,
                             readedWords,
                             totalPoints,

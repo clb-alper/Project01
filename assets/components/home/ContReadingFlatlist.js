@@ -139,7 +139,6 @@ const ContReadingFlatlist = () => {
 
     useEffect(() => {
         if (dummy) {
-            console.log("mv")
             handleTagDataOfConts()
             handleStatistics()
         }
@@ -147,7 +146,6 @@ const ContReadingFlatlist = () => {
 
     useEffect(() => {
         if (dummy) {
-            console.log("r")
             handleTagDataOfConts()
             handleStatistics()
         }
@@ -236,6 +234,8 @@ const ContReadingFlatlist = () => {
 
     let animalLover = 0;
     let adventurer = 0;
+    let natureLover = 0;
+    let cityKid = 0;
 
     bookList.forEach(element => {
         if (element.bookProgress >= 1) {
@@ -245,22 +245,28 @@ const ContReadingFlatlist = () => {
             if (element.themeTag === "Hayvan") {
                 animalLover++
             }
+            if (element.themeTag === "Şehir") {
+                natureLover++
+            }
+            if (element.themeTag === "Doğa") {
+                cityKid++
+            }
         }
 
     });
 
-
-
     const handleStatistics = () => {
 
         // sub user's statsData
-        if (readedBooks || readedWords || animalLover || adventurer != 0) {
+        if (readedBooks || readedWords || animalLover || adventurer || cityKid || natureLover != 0) {
             firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
                     readedBooks: readedBooks,
                     readedWords: readedWords,
                     animalLover: animalLover,
-                    adventurer: adventurer
+                    adventurer: adventurer,
+                    natureLover: natureLover,
+                    cityKid: cityKid
                 })
         }
     }
