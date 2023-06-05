@@ -1,5 +1,5 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import colors from '../../colors/colors'
 import { ModalContext } from '../../contexts/ModalContext';
 import Modal from "react-native-modal";
@@ -13,22 +13,26 @@ var heightOfScreen = Dimensions.get('window').height; //full width
 
 const StickerModal = () => {
 
+    const [pointsNotEnoughMessage, setPointsNotEnoughMessage] = useState(false);
+    const [purchaseSuccessMessage, setPurchaseSuccessMessage] = useState(false);
+
     const { stickerModalVisible, setStickerModalVisible, stickerModalEntry } = useContext(ModalContext);
     const { currentProfileSelected, userStatisticsData, userPointsData } = useContext(ProfileContext);
 
     const handleStickerPurchase = () => {
         if (userPointsData.points < stickerModalEntry.price) {
-            console.log("fakir")
+            setPointsNotEnoughMessage(true)
         }
         else if (userPointsData.points >= stickerModalEntry.price) {
             firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('stickerCollection').doc(stickerModalEntry.id).set({
                     stickerID: stickerModalEntry.id,
                 })
-                firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('statisticsData').doc("statsData").update({
                     points: userPointsData.points - stickerModalEntry.price
                 })
+            setPurchaseSuccessMessage(true)
         }
     }
 
@@ -123,10 +127,11 @@ const StickerModal = () => {
                     </View>
                 </TouchableOpacity>
 
-
+                {purchaseSuccessMessage ? <Text style={styles.purchaseSuccess}>Çıkartma Satın Alındı</Text> : null}
+                {pointsNotEnoughMessage ? <Text style={styles.featuredBadgeAddCompleteText}>Yetersiz Yıldız Puanı</Text> : null}
 
                 <TouchableOpacity
-                    onPress={() => setStickerModalVisible(!stickerModalVisible)}
+                    onPress={() => { setStickerModalVisible(!stickerModalVisible); setTimeout(() => setPointsNotEnoughMessage(false), 500); setTimeout(() => setPurchaseSuccessMessage(false), 500) }}
                     activeOpacity={0.75}
                     style={styles.modalStickerCloseButton}>
                     <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
@@ -369,4 +374,18 @@ const styles = StyleSheet.create({
         paddingTop: 2,
         paddingLeft: 2
     },
+
+    featuredBadgeAddCompleteText: {
+        fontSize: 18,
+        color: '#f26d74',
+        fontFamily: 'Comic-Bold',
+        marginTop: 5
+    },
+
+    purchaseSuccess: {
+        fontSize: 18,
+        color: '#83FCA7',
+        fontFamily: 'Comic-Bold',
+        marginTop: 5
+    }
 })
