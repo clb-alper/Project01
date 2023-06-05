@@ -86,7 +86,7 @@ const ContReadingFlatlist = () => {
                                     // })
                                     contBookReading.bookData.id = res.id
                                     contBookReading.bookData.bookProgress = contBookReading.progress
-                                    bookList.push(contBookReading.bookData)
+                                    bookList.push(contBookReading.bookData)                                   
                                     if (contBookReading.bookData.bookProgress != 1) {
                                         contReadingBookList.push(contBookReading.bookData)
                                     }
@@ -97,17 +97,18 @@ const ContReadingFlatlist = () => {
                                 .then(res => {
                                     if (res.exists) {
                                         contBookReading.bookData.favorited = res.data().favorited
-                                        bookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
+                                        // bookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
                                         contReadingBookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
-                                        setBookList(bookList)
+                                        // setBookList(bookList)
                                         setContReadingBookList(contReadingBookList)
                                     } else {
-                                        bookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
+                                        // bookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
                                         contReadingBookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
-                                        setBookList(bookList)
+                                        // setBookList(bookList)
                                         setContReadingBookList(contReadingBookList)
 
                                     }
+                                    setBookList(bookList)
                                     timeOutOfTags()
                                 })
                         })
@@ -130,9 +131,15 @@ const ContReadingFlatlist = () => {
         getContReadingData()
     }, [favorited])
 
+    useEffect(() => {
+        getContReadingData()
+    }, [modalVisible])
+
+
 
     useEffect(() => {
         if (dummy) {
+            console.log("mv")
             handleTagDataOfConts()
             handleStatistics()
         }
@@ -140,6 +147,7 @@ const ContReadingFlatlist = () => {
 
     useEffect(() => {
         if (dummy) {
+            console.log("r")
             handleTagDataOfConts()
             handleStatistics()
         }
@@ -222,7 +230,6 @@ const ContReadingFlatlist = () => {
         }
         if (typeof (element.bookContent) != 'undefined') {
             let words = element.bookContent.storyText.split(" ").length
-            console.log(words)
             readedWords = Math.floor(readedWords + element.bookProgress * words)
         }
     });
@@ -247,7 +254,7 @@ const ContReadingFlatlist = () => {
     const handleStatistics = () => {
 
         // sub user's statsData
-        if (readedBooks && readedWords && animalLover && adventurer != 0) {
+        if (readedBooks || readedWords || animalLover || adventurer != 0) {
             firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
                 .doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
                     readedBooks: readedBooks,

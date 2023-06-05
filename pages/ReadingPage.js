@@ -300,8 +300,8 @@ const ReadingPage = () => {
 
                             {isLoaded ?
                                 <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
-                                <Image source={{ uri: profileIconList[currentProfileSelectedInfo[0].profileIcon]["image"] }} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
-                            </View>
+                                    <Image source={{ uri: profileIconList[currentProfileSelectedInfo[0].profileIcon]["image"] }} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
+                                </View>
                                 :
                                 <Skeleton
                                     height={styles.headerIconContainerStyle.height}
@@ -611,10 +611,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 100,
-        backgroundColor: colors.blueRegular,
         borderWidth: 4,
-        borderColor: colors.blueBorder,
-
     },
 
     headerIconStyle: {
