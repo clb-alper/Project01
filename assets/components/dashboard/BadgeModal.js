@@ -115,7 +115,13 @@ const BadgeModal = () => {
                                     style={[styles.rainbowIconStyle, { width: 125, resizeMode: 'contain',
                                     marginTop: badgeModalEntry.statisticName === "cityKid" ||
                                     badgeModalEntry.statisticName === "natureLover"
-                                    ? -200 : badgeModalEntry.statisticName === "totalPoints" ? -185 : 5
+                                    ? -200 : badgeModalEntry.statisticName === "totalPoints" ||
+                                    badgeModalEntry.statisticName === "animalLover"||
+                                    badgeModalEntry.statisticName === "professor"||
+                                    badgeModalEntry.statisticName === "adventurer"||
+                                    badgeModalEntry.statisticName === "readedWords"||
+                                    badgeModalEntry.statisticName === "totalQuizzesCompleted"||
+                                    badgeModalEntry.statisticName === "readedBooks" ? -185 : 5
                                 }]}
                                     source={{ uri: badgeModalEntry.iconImageURL }}
                                 />
