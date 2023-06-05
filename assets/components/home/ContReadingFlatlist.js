@@ -44,7 +44,6 @@ const ContReadingFlatlist = () => {
         .collection('userProfiles').doc(currentProfileSelected)
         .collection('continueReading');
 
-
     const userTagDataRef = firebase.firestore()
         .collection('users').doc(firebase.auth().currentUser.uid)
         .collection('userProfiles').doc(currentProfileSelected)
@@ -65,14 +64,26 @@ const ContReadingFlatlist = () => {
                             contBookReading.bookRef.get()
                                 .then(res => {
                                     contBookReading.bookData = res.data()
-                                    firebase.firestore().collection('storyBooks').doc(doc.id).collection('bookContent').doc(doc.id).get().then((snapshot) => {
-                                        if (snapshot.exists) {
-                                            contBookReading.bookData.bookContent = snapshot.data()
-                                        } else {
-                                            //console.log("snapshot not exist")
-                                        }
+                                    firebase.firestore().collection('storyBooks').doc(doc.id).collection('bookContent')
+                                        .onSnapshot(
+                                            querySnapshot => {
+                                                if (!querySnapshot.empty) {
+                                                    querySnapshot.forEach((doc) => {
+                                                        contBookReading.bookData.bookContent = doc.data()
+                                                    })
+                                                } else {
+                                                    console.log("snapshot not exist")
+                                                }
 
-                                    })
+                                            })
+                                    // firebase.firestore().collection('storyBooks').doc(doc.id).collection('bookContent').doc().get().then((snapshot) => {
+                                    //     if (snapshot.exists) {
+                                    //         contBookReading.bookData.bookContent = snapshot.data()
+                                    //     } else {
+                                    //         console.log("snapshot not exist")
+                                    //     }
+
+                                    // })
                                     contBookReading.bookData.id = res.id
                                     contBookReading.bookData.bookProgress = contBookReading.progress
                                     bookList.push(contBookReading.bookData)
@@ -211,6 +222,7 @@ const ContReadingFlatlist = () => {
         }
         if (typeof (element.bookContent) != 'undefined') {
             let words = element.bookContent.storyText.split(" ").length
+            console.log(words)
             readedWords = Math.floor(readedWords + element.bookProgress * words)
         }
     });
@@ -251,12 +263,12 @@ const ContReadingFlatlist = () => {
         <View>
 
 
-            {dummy && contReadingBookList.length > 0 ?
+            {dummy || contReadingBookList.length > 0 ?
                 contReadingBookList.length === 0 ?
-                <Image
-                style={styles.emptySectionImageStyle}
-                source={require('../../images/emptyFlImage.png')}
-            />
+                    <Image
+                        style={styles.emptySectionImageStyle}
+                        source={require('../../images/emptyFlImage.png')}
+                    />
                     :
                     <FlatList
                         overScrollMode={'never'}
