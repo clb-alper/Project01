@@ -130,10 +130,10 @@ const ProfileEdit = () => {
                                             onPress={() => setIconIndex(index)}
                                             activeOpacity={0.8}>
 
-                                           
+
 
                                             <Image
-                                                style={[styles.iconStyles, { tintColor: index === iconIndex ? colorIndex.regularColor: colorIndex.borderColor }]}
+                                                style={[styles.iconStyles, { tintColor: index === iconIndex ? colorIndex.regularColor : colorIndex.borderColor, opacity: index === iconIndex ? 1 : 0.55 }]}
                                                 source={{ uri: item.image }}
 
                                             ></Image>
@@ -195,8 +195,18 @@ const ProfileEdit = () => {
                     </KeyboardAvoidingView>
                 </SafeAreaView>
 
-                <TouchableOpacity onPress={handleUpdateProfile} style={[styles.saveButton, { backgroundColor: colorIndex.regularColor, borderColor: colorIndex.borderColor }]}>
+                <TouchableOpacity onPress={handleUpdateProfile}
+                    style={[styles.saveButton, { backgroundColor: colorIndex.regularColor, borderColor: colorIndex.borderColor }]}
+                    activeOpacity={0.85}
+                >
                     <Text style={styles.saveButtonText}>Kaydet</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.goBack()}
+                    style={[styles.saveButton, { backgroundColor: colorIndex.regularColor, borderColor: colorIndex.borderColor, marginTop: -5 }]}
+                    activeOpacity={0.85}
+                >
+                    <Text style={styles.saveButtonText}>İptal</Text>
                 </TouchableOpacity>
 
 

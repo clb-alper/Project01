@@ -108,8 +108,8 @@ const FavoriteBooksFlastlist = () => {
 
     return (
         <View>
-            {bookList.length > 0 ?
-                bookList.length == 0 && dummy ?
+            {dummy || bookList.length > 0 ?
+                bookList.length == 0 ?
                     <Image
                         style={styles.emptySectionImageStyle}
                         source={require('../../images/emptyFlImage.png')}

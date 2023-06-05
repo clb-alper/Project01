@@ -163,7 +163,7 @@ const ProfileSelect = () => {
                                             activeOpacity={0.8}>
 
                                             <Image
-                                                style={[styles.iconStyles, { tintColor: index === iconIndex ? colorIndex.regularColor: colorIndex.borderColor }]}
+                                                style={[styles.iconStyles, { tintColor: index === iconIndex ? colorIndex.regularColor: colorIndex.borderColor, opacity: index === iconIndex ? 1 : 0.55  }]}
                                                 source={{ uri: item.image }}
 
                                             />
@@ -193,7 +193,7 @@ const ProfileSelect = () => {
                                     <TouchableOpacity
                                         key={item.id}
                                         onPress={() => setColorIndex({ index, regularColor: item.regularColor, borderColor: item.borderColor })}
-                                        activeOpacity={0.8}>
+                                        activeOpacity={0.9}>
 
                                         <View style={[styles.colorIconStyles, { backgroundColor: item.regularColor, borderColor: item.borderColor }]}>
 
