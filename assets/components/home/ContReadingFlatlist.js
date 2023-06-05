@@ -132,12 +132,6 @@ const ContReadingFlatlist = () => {
     }, [favorited])
 
     useEffect(() => {
-        getContReadingData()
-    }, [modalVisible])
-
-
-
-    useEffect(() => {
         if (dummy) {
             handleTagDataOfConts()
             handleStatistics()
