@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useCallback } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Dimensions, ImageBackground } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Dimensions, ImageBackground, Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import colors from '../assets/colors/colors';
@@ -148,25 +148,38 @@ const BackpackScreen = () => {
                 <View style={[styles.headerView12, { marginTop: 40 }]}>
 
                     <View style={styles.stickerContainer}>
-                        {typeof (userOwnedStickerList) === 'undefined' ? null :
-                            userOwnedStickerList.map((sticker) => {
-                                return (
-                                    <TouchableOpacity
-                                        key={sticker.id}
-                                        style={styles.continueReadingBookStyleFirstItem}
-                                        onPress={() => { setBackpackStickerModalEntry(sticker); setBackpackStickerModalVisible(true) }}
-                                        activeOpacity={0.85}>
 
-                                        <ImageBackground
-                                            source={{ uri: sticker.iconImage }}
-                                            imageStyle={styles.continueBookImageStyle}>
-                                        </ImageBackground>
 
-                                    </TouchableOpacity>
+                        {userOwnedStickerList.length <= 0 ?
+                            <View style={{height: heightOfScreen *0.65, width: widthOfScreen*0.85, alignItems:'center', justifyContent: 'center'}}>
+                                <Image
+                                    style={styles.emptySectionImageStyle}
+                                    source={require('.././assets/images/emptyFlImageBackpack.png')}
+                                />
+                                <Text style={{fontFamily: 'Comic-Regular', fontSize: 28, marginTop: 10}}>Sticker Çantası Boş</Text>
+                            </View>
+                            :
+                            typeof (userOwnedStickerList) === 'undefined' ?
+                                null
+                                :
+                                userOwnedStickerList.map((sticker) => {
+                                    return (
+                                        <TouchableOpacity
+                                            key={sticker.id}
+                                            style={styles.continueReadingBookStyleFirstItem}
+                                            onPress={() => { setBackpackStickerModalEntry(sticker); setBackpackStickerModalVisible(true) }}
+                                            activeOpacity={0.85}>
 
-                                )
+                                            <ImageBackground
+                                                source={{ uri: sticker.iconImage }}
+                                                imageStyle={styles.continueBookImageStyle}>
+                                            </ImageBackground>
 
-                            })
+                                        </TouchableOpacity>
+
+                                    )
+
+                                })
                         }
 
                     </View>
@@ -345,6 +358,11 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         marginTop: 2,
+    },
+
+    emptySectionImageStyle: {
+        height: 180,
+        width: 180,
     },
 
 
