@@ -16,7 +16,7 @@ const PuzzlePage = () => {
 
     const puzzleArray = ["pepe", "alper", "sevgi", "çizgili", "mavi"];
     const puzzleQuestionArray = ["Kitapta bahsedilen kedinin adı nedir?", "Kitabın ana karakteri olan çocugun adı nedir?", "Çocugun yaşadıgı apartmanın ismi nedir?", "Çocugun en sevdiği kitap ismi nedir?", "Çocugun en sevdigi renk nedir?"];
-    const randomChars = ["a", "b", "c", "ç", "d", "e", "f", "g", "h", "i", "ı","j", "k", "l", "m", "n", "o", "ö", "p", "r", "s", "ş","t", "y", "z", "u", "ü", "v"];
+    const randomChars = ["a", "b", "c", "ç", "d", "e", "f", "g", "h", "i", "ı", "j", "k", "l", "m", "n", "o", "ö", "p", "r", "s", "ş", "t", "y", "z", "u", "ü", "v"];
     const [quizIndex, setQuizIndex] = useState(0);
 
     const [currentReplyIndex, setCurrentReplyIndex] = useState(0);
@@ -95,13 +95,13 @@ const PuzzlePage = () => {
 
             if (currentReplyIndex === ans.length - 1) {
                 setIsCurrentFinished(true);
-                if(puzzleArray.indexOf(ans) === puzzleArray.length - 1) {
+                if (puzzleArray.indexOf(ans) === puzzleArray.length - 1) {
                     setIsAllPuzzlesDone(true)
                 }
             }
 
-            
-       
+
+
         }
     };
 
@@ -145,11 +145,21 @@ const PuzzlePage = () => {
                 <View style={styles.innerContainer}>
 
                     <View style={styles.quizHeader}>
-                        <TouchableOpacity
-                            onPress={handleGoBack}>
-                            <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
-                        </TouchableOpacity>
-                        <Text style={styles.headerText}>{"Kelime Karmaşası"}</Text>
+                        {!isAllPuzzlesDone &&
+
+                            <>
+                                <TouchableOpacity
+                                    onPress={handleGoBack}>
+                                    <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
+                                </TouchableOpacity>
+                                <Text style={styles.headerText}>{"Kelime Karmaşası"}</Text>
+                            </>
+                        }
+                        {
+                            isAllPuzzlesDone &&
+                            <Text style={styles.headerText2}>{"Kelime Karmaşası"}</Text>
+
+                        }
                     </View>
 
                     <View style={{ marginTop: '30%' }}>
@@ -168,8 +178,7 @@ const PuzzlePage = () => {
                                     <Text adjustsFontSizeToFit
                                         numberOfLines={2}
                                         style={{ fontFamily: 'Comic-Regular', fontSize: 40, width: widthOfScreen * 0.8, textAlign: 'center' }}>
-                                            {puzzleQuestionArray[index]}</Text>
-                                    <Text>{isAllPuzzlesDone.toString()}</Text>
+                                        {puzzleQuestionArray[index]}</Text>
 
                                     {/* <Text>{"Quiz bittimi " + isCurrentFinished.toString()}</Text> */}
                                     {/* User Result View */}
@@ -207,14 +216,28 @@ const PuzzlePage = () => {
                                         : null}
 
 
-                                    {isCurrentFinished ?
-                                        
+                                    {isCurrentFinished && !isAllPuzzlesDone ?
+
                                         <TouchableOpacity
                                             onPress={() => { scrollToOffset(index + 1); }}
                                             activeOpacity={0.8}
                                         >
                                             <View style={styles.contButton}>
                                                 <Text style={{ fontSize: 27, fontFamily: 'Comic-Regular' }}>Devam</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        : null}
+
+
+
+                                    {isCurrentFinished && isAllPuzzlesDone ?
+
+                                        <TouchableOpacity
+                                            onPress={() => { navigation.goBack(); }}
+                                            activeOpacity={0.8}
+                                        >
+                                            <View style={styles.contButton}>
+                                                <Text style={{ fontSize: 27, fontFamily: 'Comic-Regular' }}>Bitir</Text>
                                             </View>
                                         </TouchableOpacity>
                                         : null}
@@ -313,6 +336,18 @@ const styles = StyleSheet.create({
         fontFamily: 'Comic-Regular',
         fontSize: 32
     },
+
+    headerText2: {
+
+        flex: 1,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+        fontFamily: 'Comic-Regular',
+        fontSize: 32,
+        marginLeft: '17.5%'
+    },
+
 
     contButton: {
         borderColor: colors.blueRegular,
