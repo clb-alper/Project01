@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { StyleSheet, Image, TouchableHighlight } from 'react-native';
-import Login from './pages/Login';
+import Login from './pages/LoginPages/Login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MainScreen from './pages/MainScreen';
-import Register from './pages/Register';
-import ForgotPass from './pages/ForgotPass';
+import Register from './pages/LoginPages/Register';
+import ForgotPass from './pages/LoginPages/ForgotPass';
 import colors from './assets/colors/colors';
 import Library from './pages/Library';
 import Dashboard from './pages/Dashboard';
 import RewardsScreen from './pages/RewardsScreen';
-import ProfileSelect from './pages/ProfileSelect';
+import ProfileSelect from './pages/LoginPages/ProfileSelect';
 import ReadingPage from './pages/ReadingPage';
 import ModalProvider from './assets/contexts/ModalContext';
 import DropdownProvider from './assets/contexts/DropdownContext';
@@ -20,9 +20,18 @@ import RewardsProvider from './assets/contexts/RewardsContext';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import FAIcons from 'react-native-vector-icons/FontAwesome';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Settings from './pages/Settings/Settings';
 import NotificationSettings from './pages/Settings/NotificationSettings';
 import FontSizeSettings from './pages/Settings/FontSizeSettings';
+import ProfileAddEdit from './pages/LoginPages/ProfileAddEdit';
+import ProfileProvider from './assets/contexts/ProfileContext';
+import QuizPage from './pages/QuizPage';
+import BackpackScreen from './pages/BackpackScreen';
+import PuzzlePage from './pages/PuzzlePage';
+import ProfileEdit from './pages/Settings/ProfileEdit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -56,8 +65,6 @@ function SettingsStackScreen() {
         headerShown: false,
       }}>
       <SettingsStack.Screen name="GeneralSettings" component={Settings} />
-      <SettingsStack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation}/>
-      <SettingsStack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation}/>
     </SettingsStack.Navigator>
   );
 }
@@ -75,6 +82,13 @@ function HomeScreen() {
         overflow: 'hidden',
       }}>
 
+      <Tab.Screen name="Home" component={MainScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <IonIcons name={focused ? "home" : "home-outline"} size={29} color="#000" />
+          ),
+        }} />
+
       <Tab.Screen name="Library" component={Library}
         options={{
           tabBarStyle: styles.libraryTabNavStyle,
@@ -91,18 +105,19 @@ function HomeScreen() {
           )
         }} />
 
-      <Tab.Screen name="Home" component={MainScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <IonIcons name={focused ? "home" : "home-outline"} size={29} color="#000" />
-          ),
-        }} />
-
       <Tab.Screen name="RewardsScreen" component={RewardsScreen}
         options={{
           tabBarStyle: styles.rewardsTabNavStyle,
           tabBarIcon: ({ focused }) => (
             <AntIcons name={focused ? "star" : "staro"} size={30} color="#000" />
+          )
+        }} />
+
+      <Tab.Screen name="BackpackScreen" component={BackpackScreen}
+        options={{
+          tabBarStyle: styles.rewardsTabNavStyle,
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons name={focused ? "folder-star" : "folder-star-outline"} size={32} color="#000" />
           )
         }} />
 
@@ -119,28 +134,47 @@ function HomeScreen() {
 export default function App() {
   const Stack = createStackNavigator();
 
+  React.useEffect(() => {
+    const setDefaultFontSize = async () => {
+      const value = await AsyncStorage.getItem('@profileFontSize:key')
+      if (value === null) {
+        await AsyncStorage.setItem('@profileFontSize:key', '20');
+      }
+    }
+    setDefaultFontSize();
+  }, [])
+
   return (
-    <RewardsProvider>
-      <LibraryProvider>
-        <DropdownProvider>
-          <ModalProvider>
-            <NavigationContainer>
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                }}>
-                <Stack.Screen name="Login" component={Login} options={TransitionAnim} />
-                <Stack.Screen name="ProfileSelect" component={ProfileSelect} options={TransitionAnim} />
-                <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
-                <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
-                <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
-                <Stack.Screen name="ReadingPage" component={ReadingPage} options={TransitionAnim} />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </ModalProvider>
-        </DropdownProvider>
-      </LibraryProvider >
-    </RewardsProvider>
+    <ProfileProvider>
+      <RewardsProvider>
+        <LibraryProvider>
+          <DropdownProvider>
+            <ModalProvider>
+              <NavigationContainer>
+                <Stack.Navigator
+                  screenOptions={{
+                    headerShown: false,
+                  }}>
+                  <Stack.Screen name="Login" component={Login} options={TransitionAnim} />
+                  <Stack.Screen name="ProfileSelect" component={ProfileSelect} options={TransitionAnim} />
+                  <Stack.Screen name="ProfileAddEdit" component={ProfileAddEdit} options={TransitionAnim} />
+                  <Stack.Screen name="MainScreen" component={HomeScreen} options={TransitionAnim} />
+                  <Stack.Screen name="Register" component={Register} options={TransitionAnim} />
+                  <Stack.Screen name="ForgotPass" component={ForgotPass} options={TransitionAnim} />
+                  <Stack.Screen name="ReadingPage" component={ReadingPage} options={[TransitionAnim, { gestureEnabled: false }]} />
+                  <Stack.Screen name="QuizPage" component={QuizPage} options={TransitionAnim} />
+                  <Stack.Screen name="PuzzlePage" component={PuzzlePage} options={TransitionAnim} />
+                  <Stack.Screen name="NotificationSettings" component={NotificationSettings} options={leftToRightAnimation} />
+                  <Stack.Screen name="FontSizeSettings" component={FontSizeSettings} options={leftToRightAnimation} />
+                  <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
+                  {/* <Stack.Screen name="Backpack" component={BackpackScreen} /> */}
+                </Stack.Navigator>
+              </NavigationContainer>
+            </ModalProvider>
+          </DropdownProvider>
+        </LibraryProvider >
+      </RewardsProvider>
+    </ProfileProvider>
   );
 }
 
@@ -154,7 +188,7 @@ const styles = StyleSheet.create({
 
   tabNavStyle: {
     height: 55,
-    backgroundColor: colors.yellowTabBar,
+    backgroundColor: colors.yellowRegular,
   },
 
   tabNavLabelStyle: {
@@ -183,17 +217,17 @@ const styles = StyleSheet.create({
 
   dashboardTabNavStyle: {
     height: 55,
-    backgroundColor: colors.greenHeaderContainer,
+    backgroundColor: colors.greenRegular,
   },
 
   libraryTabNavStyle: {
     height: 55,
-    backgroundColor: colors.blueContainer,
+    backgroundColor: colors.blueRegular,
   },
 
   rewardsTabNavStyle: {
     height: 55,
-    backgroundColor: colors.purpleHeaderContainer,
+    backgroundColor: colors.purpleRegular,
   },
 
 });

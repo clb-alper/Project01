@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import * as Progress from 'react-native-progress';
 import { ModalContext } from '../contexts/ModalContext';
@@ -7,15 +7,105 @@ import { useNavigation } from '@react-navigation/native';
 import Modal from "react-native-modal";
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import { auth, firebase } from '../../firebase'
+import { ProfileContext } from '../contexts/ProfileContext';
+import { BackHandler } from 'react-native';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full widthF
 
 const BookModal = () => {
 
+    const [favoriteCountList, setFavoriteCountList] = useState([]);
     const { modalVisible, setModalVisible, modalEntry, setModalEntry } = useContext(ModalContext);
+    const { currentProfileSelected, favorited, setFavorited, userBookProgress, bookProgressDB, setBookProgressDB } = useContext(ProfileContext);
 
     const navigation = useNavigation();
+
+    const todoRef = firebase.firestore().collection('storyBooks')
+
+    const getFavoriteCountData = async () => {
+        todoRef
+            .onSnapshot(
+                querySnapshot => {
+                    const favoriteCountList = []
+                    querySnapshot.forEach((doc) => {
+                        const { favoriteCount } = doc.data()
+                        if (modalEntry.id === doc.id) {
+                            favoriteCountList.push({
+                                favoriteCount
+                            })
+                        }
+                    })
+                    setFavoriteCountList(favoriteCountList)
+                }
+            )
+    }
+
+    const handleAddFavorite = async () => {
+        setFavorited(!favorited);
+        modalEntry.favorited = !modalEntry.favorited;
+        await handleCreateFavoriteBooks();
+
+    }
+
+    const db = firebase.firestore()
+
+    useEffect(() => {
+        getFavoriteCountData();
+    }, [])
+
+    useEffect(() => {
+        getFavoriteCountData();
+    }, [modalEntry.id])
+
+    useEffect(() => {
+        getFavoriteCountData();
+    }, [modalEntry])
+
+    useEffect(() => {
+        getFavoriteCountData();
+    }, [favorited])
+
+    const handleCreateFavoriteBooks = async () => {
+
+        console.log(favoriteCountList[0])
+        if (modalEntry.favorited) {
+            firebase.firestore().collection('storyBooks').doc(modalEntry.id).update({
+                favoriteCount: favoriteCountList[0].favoriteCount - 1,
+            })
+            await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).set({
+                    favorited: true,
+                    bookRef: db.doc('storyBooks/' + modalEntry.id),
+                    contRef: db.doc('users/' + firebase.auth().currentUser.uid + '/userProfiles/' + currentProfileSelected + '/continueReading/' + modalEntry.id)
+                })
+
+        } else {
+            firebase.firestore().collection('storyBooks').doc(modalEntry.id).update({
+                favoriteCount: favoriteCountList[0].favoriteCount + 1,
+            })
+            await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('favoriteBooks').doc(modalEntry.id).delete();
+
+        }
+    }
+
+    useEffect(() => {
+        // If kontrolü ekle db progressi ile, db progressi global yap context ile
+        if (typeof (bookProgressDB) === "undefined") {
+            modalEntry.bookProgress = userBookProgress
+        }
+        else {
+            if (bookProgressDB < userBookProgress) {
+                modalEntry.bookProgress = userBookProgress
+            }
+            else {
+                modalEntry.bookProgress = bookProgressDB
+            }
+        }
+
+    }, [userBookProgress])
 
     return (
         <Modal
@@ -25,6 +115,7 @@ const BookModal = () => {
             hideModalContentWhileAnimating={true}
             isVisible={modalVisible}
             useNativeDriver={true}
+            statusBarTranslucent
             useNativeDriverForBackdrop={true}
             onRequestClose={() => {
                 setModalVisible(!modalVisible);
@@ -33,12 +124,23 @@ const BookModal = () => {
         >
 
             <View style={styles.modalViewStyle}>
-                <Image source={{uri : modalEntry.image}} style={styles.modalBookImageStyle} />
+                <Image source={{ uri: modalEntry.image }} style={styles.modalBookImageStyle} />
+
                 <View style={styles.modalBookDetailHeader}>
-                    <Text
-                        style={styles.modalText}
-                        adjustsFontSizeToFit={true}
-                        numberOfLines={1}>{modalEntry.title}</Text>
+                    <View style={styles.titleHeartViewStyle}>
+                        <Text
+                            style={styles.modalText}
+                            adjustsFontSizeToFit={true}
+                            numberOfLines={1}>{modalEntry.title}</Text>
+
+                        <TouchableOpacity
+                            onPress={handleAddFavorite}
+                            activeOpacity={0.75}>
+                            <AntIcons name={modalEntry.favorited ? "heart" : "hearto"} size={28} color="purple" style={styles.heartIconStyle} />
+
+                        </TouchableOpacity>
+
+                    </View>
                     <TouchableOpacity
                         onPress={() => setModalVisible(!modalVisible)}
                         activeOpacity={0.75}>
@@ -58,7 +160,7 @@ const BookModal = () => {
                     </View>
                     <View style={styles.contentTagStyle}>
                         <Text
-                            style={styles.tagTextStyle}
+                            style={[styles.tagTextStyle, {marginTop: modalEntry.contentTag === "Quizli" ? 0 : 2}]}
                             adjustsFontSizeToFit={true}
                             numberOfLines={1}>{modalEntry.contentTag}</Text>
                     </View>
@@ -72,7 +174,7 @@ const BookModal = () => {
 
                         <Text
                             style={styles.tagTextStyle}>
-                            {modalEntry.rewardTag}
+                            Okuma Ödülü: {modalEntry.rewardTag}
                         </Text>
 
                         <AntIcons name="star" size={20} color="#FFD600" style={styles.rewardTagPointsIconStyle} />
@@ -133,6 +235,7 @@ const styles = StyleSheet.create({
     },
 
     modalBookDetailHeader: {
+        width: '82%',
         top: -125,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -141,12 +244,11 @@ const styles = StyleSheet.create({
     modalText: {
         fontFamily: 'Comic-Regular',
         fontSize: 35,
-        width: 300,
         left: -20,
     },
 
     modalBookDetailHeaderClose: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         left: 25,
         top: -2,
     },
@@ -167,8 +269,8 @@ const styles = StyleSheet.create({
     },
 
     ageTagStyle: {
-        backgroundColor: colors.pinkTagBG,
-        borderColor: colors.pinkTagBorder,
+        backgroundColor: colors.pinkLight,
+        borderColor: colors.pinkBorder,
         alignItems: 'center',
         borderWidth: 3,
         marginRight: 7,
@@ -179,8 +281,8 @@ const styles = StyleSheet.create({
     },
 
     contentTagStyle: {
-        backgroundColor: colors.blueTagBG,
-        borderColor: colors.blueTagBorder,
+        backgroundColor: colors.blueRegular,
+        borderColor: colors.blueBorder,
         alignItems: 'center',
         borderWidth: 3,
         marginRight: 7,
@@ -191,8 +293,8 @@ const styles = StyleSheet.create({
     },
 
     themeTagStyle: {
-        backgroundColor: colors.greenTagBG,
-        borderColor: colors.greenTagBorder,
+        backgroundColor: colors.greenRegular,
+        borderColor: colors.greenBorder,
         alignItems: 'center',
         borderWidth: 3,
         marginRight: 7,
@@ -203,8 +305,8 @@ const styles = StyleSheet.create({
 
     rewardTagStyle: {
         flexDirection: 'row',
-        backgroundColor: colors.purpleTagBG,
-        borderColor: colors.purpleTagBorder,
+        backgroundColor: colors.purpleRegular,
+        borderColor: colors.purpleBorder,
         alignItems: 'center',
         borderWidth: 3,
         marginRight: 7,
@@ -214,7 +316,7 @@ const styles = StyleSheet.create({
     },
 
     rewardTagPointsIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'cover',
         height: 25,
         width: 25,
         marginLeft: 2,
@@ -248,11 +350,20 @@ const styles = StyleSheet.create({
     },
 
     badgeIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'cover',
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 4,
         marginLeft: -2,
     },
+
+    heartIconStyle: {
+        marginTop: 7,
+        marginLeft: -4
+    },
+
+    titleHeartViewStyle: {
+        flexDirection: 'row',
+    }
 })

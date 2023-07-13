@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View, Image, Dimensions } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import colors from '../../colors/colors';
@@ -7,121 +7,229 @@ import { LibraryContext } from '../../contexts/LibraryContext';
 import { ModalContext } from '../../contexts/ModalContext';
 import { RewardsContext } from '../../contexts/RewardsContext';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import { ProfileContext } from '../../contexts/ProfileContext';
+import { auth, firebase } from '../../../firebase';
+import Rainbow from '../Rainbow';
+
+var widthOfScreen = Dimensions.get('window').width; //full width
+var heightOfScreen = Dimensions.get('window').height; //full width
 
 const MainContainer = () => {
 
-    const { DATA } = useContext(RewardsContext);
-    const { setStickerModalEntry, setStickerModalVisible } = useContext(ModalContext);
-    const { setCategorySwitch } = useContext(LibraryContext);
-    const { closeRewardsDropdown, setCloseRewardsDropdown, rewardsCategories } = useContext(DropdownContext)
+    const { setUserOwnedStickerList, userOwnedStickerList } = useContext(RewardsContext);
+    const { setStickerModalEntry, setStickerModalVisible, } = useContext(ModalContext);
+    const { currentProfileSelected } = useContext(ProfileContext);
+
+    const { stickerList, setStickerList, stickerBookList, setStickerBookList } = useContext(RewardsContext);
+
+    const stickersRef = firebase.firestore().collection('stickers')
+
+    const getStickerData = async () => {
+        stickersRef
+            .onSnapshot(
+                querySnapshot => {
+                    const stickerList = []
+                    querySnapshot.forEach((doc) => {
+                        const { iconImage, name, price, stickerBookNo, stickerLevel } = doc.data()
+
+                        stickerList.push({
+                            id: doc.id,
+                            iconImage,
+                            name,
+                            price,
+                            stickerBookNo,
+                            stickerLevel
+                        })
+
+                    })
+                    setStickerList(stickerList)
+                }
+            )
+    }
+
+    const stickerBookRef = firebase.firestore().collection('stickerBooks')
+
+    const getStickerBookData = async () => {
+        stickerBookRef
+            .onSnapshot(
+                querySnapshot => {
+                    const stickerBookList = []
+                    querySnapshot.forEach((doc) => {
+                        const { bookNo, name } = doc.data()
+
+                        stickerBookList.push({
+                            id: doc.id,
+                            bookNo,
+                            name,
+                        })
+                    })
+                    setStickerBookList(stickerBookList)
+                }
+            )
+    }
+
+    const userStickersRef = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+        .doc(currentProfileSelected).collection('stickerCollection')
+
+    const getUserStickerData = async () => {
+        userStickersRef
+            .onSnapshot(
+                querySnapshot => {
+                    const userOwnedStickerList = []
+                    querySnapshot.forEach((doc) => {
+
+                        stickerList.every((sticker) => {
+                            if (sticker.id === doc.data().stickerID) {
+                                userOwnedStickerList.push({
+                                    id: doc.data().stickerID,
+                                    iconImage: sticker.iconImage,
+                                    name: sticker.name,
+                                    price: sticker.price,
+                                    stickerBookNo: sticker.stickerBookNo,
+                                    stickerLevel: sticker.stickerLevel
+                                })
+                                return false
+                            }
+                            return true
+                        })
+                    })
+                    setUserOwnedStickerList(userOwnedStickerList)
+                }
+            )
+    }
+
+    useEffect(() => {
+        getStickerData();
+        getStickerBookData();
+    }, [])
+
+    useEffect(() => {
+        getUserStickerData();
+    }, [stickerList])
 
     return (
         <>
-            <View style={styles.pointsHeader}>
 
-                <SelectDropdown
+            <View>
+                <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 10 }}>
 
-                    buttonStyle={closeRewardsDropdown ? styles.DropdownStyle2 : styles.DropdownStyle}
-                    buttonTextStyle={styles.DropdownTextStyle}
-                    dropdownStyle={styles.DropdownContainerStyle}
-                    rowStyle={styles.DropdownRowStyle}
-                    rowTextStyle={styles.DropdownContainerTextStyle}
-                    dropdownOverlayColor='transparent'
+                </View>
+                <View style={[styles.headerView12, { marginTop: 20 }]}>
+                    {
+                        stickerBookList.map((sBook, index) => {
+                            return (
+                                <View key={index}>
+                                    <Text
 
-                    data={rewardsCategories}
-                    adjustsFontSizeToFit={true}
-                    defaultButtonText={rewardsCategories[0]}
+                                        style={styles.headerTextStyle2}
+                                        adjustsFontSizeToFit={true}
+                                        numberOfLines={1}>
+                                        {sBook.name}
+                                    </Text>
 
-                    onFocus={() => {
-                        setCloseRewardsDropdown(true)
-                    }}
+                                    <View style={styles.stickerContainer}>
+                                        {typeof (stickerList) === 'undefined' ? null :
+                                            stickerList.filter((sl) => sBook.bookNo === sl.stickerBookNo).map((sticker, index) => {
+                                                return (
+                                                    <View key={sticker.id + index}>
+                                                        <View style={styles.continueReadingBookStyleFirstItem}>
 
-                    onBlur={() => {
-                        setCloseRewardsDropdown(false)
-                    }}
+                                                            {userOwnedStickerList.findIndex(x => x.id === sticker.id) === -1 ?
+                                                                <TouchableOpacity
 
-                    onSelect={(selectedItem, index) => {
-                        setCloseRewardsDropdown(false)
-                        console.log(rewardsCategories[index])
-                        console.log(selectedItem)
+                                                                    onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker); }}
+                                                                    activeOpacity={0.75}>
 
-                        if (selectedItem == 'Sticker') {
-                            setCategorySwitch(false)
+                                                                    <ImageBackground
 
-                        } else if (selectedItem == 'Seviye') {
-                            setCategorySwitch(true)
-                        }
-                    }}
+                                                                        source={{ uri: sticker.iconImage }}
+                                                                        imageStyle={styles.continueBookImageStyle}>
+                                                                    </ImageBackground>
 
-                    buttonTextAfterSelection={(selectedItem) => {
-                        return selectedItem
-                    }}
-                    rowTextForSelection={(item) => {
-                        return item
-                    }}
+                                                                    <View style={
+                                                                        sticker.stickerLevel === "Bronze" ?
+                                                                            styles.bronzePointsContainer :
+                                                                            sticker.stickerLevel === "Silver" ?
+                                                                                styles.silverPointsContainer :
+                                                                                sticker.stickerLevel === "Gold" ?
+                                                                                    styles.goldPointsContainer :
+                                                                                    sticker.stickerLevel === "Emerald" ?
+                                                                                        styles.emeraldPointsContainer :
+                                                                                        sticker.stickerLevel === "Diamond" ?
+                                                                                            styles.diamondPointsContainer :
+                                                                                            styles.defaultPointsContainer}>
 
-                />
-            </View>
+                                                                        <Text
+                                                                            style={styles.pointsTextStyle2}
+                                                                            adjustsFontSizeToFit={true}
+                                                                            numberOfLines={1}>
+                                                                            {sticker.price}
+                                                                        </Text>
 
-            {
-                DATA.map((stickerData, index) => {
-                    return (
-                        <View key={index}>
-                            <View style={[styles.headerView12, { marginTop: 5 }]}>
+                                                                        <AntIcons name="star" size={17} color="#FFB702" style={styles.pointsIconStyle2} />
 
-                                <Text
-                                    style={styles.headerTextStyle2}
-                                    adjustsFontSizeToFit={true}
-                                    numberOfLines={1}>
-                                    {stickerData.bookName}
-                                </Text>
-
-                                <View style={styles.stickerContainer}>
-                                    {stickerData.stickers.map((sticker, index) => {
-                                        return (
-                                            <View key={index}>
-                                                <View style={styles.continueReadingBookStyleFirstItem}>
-
-                                                    <TouchableOpacity
-                                                        key={sticker.id}
-                                                        onPress={() => { setStickerModalVisible(true); setStickerModalEntry(sticker) }}
-                                                        activeOpacity={0.75}>
-
-                                                        <ImageBackground
-
-                                                            source={sticker.image}
-                                                            imageStyle={styles.continueBookImageStyle}>
-                                                        </ImageBackground>
+                                                                    </View>
 
 
-                                                        <View style={styles.pointsContainer2}>
+                                                                </TouchableOpacity>
+                                                                :
+                                                                <View
+                                                                    activeOpacity={0.5}>
 
-                                                            <Text
-                                                                style={styles.pointsTextStyle2}
-                                                                adjustsFontSizeToFit={true}
-                                                                numberOfLines={1}>
-                                                                {sticker.price}
-                                                            </Text>
+                                                                    <ImageBackground
 
-                                                            <AntIcons name="star" size={17} color="#FFD600" style={styles.pointsIconStyle2} />
+                                                                        source={{ uri: sticker.iconImage }}
+                                                                        imageStyle={styles.continueBookImageStyle}
+                                                                        style={{ opacity: 0.35 }}>
+                                                                    </ImageBackground>
+
+                                                                    <View style= {{opacity: 0.35}}>
+                                                                        <View style={
+                                                                            sticker.stickerLevel === "Bronze" ?
+                                                                                styles.bronzePointsContainer :
+                                                                                sticker.stickerLevel === "Silver" ?
+                                                                                    styles.silverPointsContainer :
+                                                                                    sticker.stickerLevel === "Gold" ?
+                                                                                        styles.goldPointsContainer :
+                                                                                        sticker.stickerLevel === "Emerald" ?
+                                                                                            styles.emeraldPointsContainer :
+                                                                                            sticker.stickerLevel === "Diamond" ?
+                                                                                                styles.diamondPointsContainer :
+                                                                                                styles.defaultPointsContainer}>
+
+                                                                            <Text
+                                                                                style={styles.pointsTextStyle3}>
+                                                                                Mevcut
+                                                                            </Text>
+                                                                        </View>
+                                                                    </View>
+                                                                </View>
+                                                            }
 
                                                         </View>
-                                                    </TouchableOpacity>
-
-                                                </View>
 
 
-                                            </View>
-                                        )
-                                    })}
+                                                    </View>
+                                                )
+
+                                            })
+                                        }
+
+                                    </View>
                                 </View>
+                            )
+                        })
 
-                            </View>
 
-                        </View>
-                    )
-                })
-            }
+                    }
+                </View>
+
+            </View>
+
+            <View style={{ height: 10 }} />
+
+
+
         </>
     )
 }
@@ -160,9 +268,10 @@ const styles = StyleSheet.create({
         width: 75,
         height: 75,
         borderRadius: 12,
+        resizeMode: 'contain'
     },
 
-    pointsContainer2: {
+    defaultPointsContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         height: 25,
@@ -172,21 +281,105 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         paddingLeft: 5,
         borderColor: colors.purpleBorder,
-        backgroundColor: colors.purpleHeaderContainer,
+        backgroundColor: colors.purpleRegular,
+    },
+
+    rainbowPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: colors.black,
+    },
+
+    bronzePointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.bronzeBadgeBorder,
+        backgroundColor: colors.bronzeBadge,
+    },
+
+    silverPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.silverBadgeBorder,
+        backgroundColor: colors.silverBadge,
+    },
+
+    goldPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.goldBadgeBorder,
+        backgroundColor: colors.goldBadge,
+    },
+
+    emeraldPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.emeraldBadgeBorder,
+        backgroundColor: colors.emeraldBadge,
+    },
+
+    diamondPointsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: 25,
+        width: 75,
+        marginTop: 90,
+        borderRadius: 15,
+        borderWidth: 2,
+        paddingLeft: 5,
+        borderColor: colors.diamondBadgeBorder,
+        backgroundColor: colors.diamondBadge,
     },
 
     pointsTextStyle2: {
-        fontFamily: 'Comic-Light',
+        fontFamily: 'Comic-Regular',
         textAlign: 'center',
         fontSize: 15,
         width: 40,
     },
 
+    pointsTextStyle3: {
+        fontFamily: 'Comic-Regular',
+        marginLeft: 7,
+        marginTop: -1,
+        fontSize: 15,
+        width: 50,
+    },
+
     pointsIconStyle2: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         height: 20,
         width: 20,
-        marginTop: 2
+        marginTop: 2,
     },
 
     DropdownViewStyle: {
@@ -197,7 +390,7 @@ const styles = StyleSheet.create({
     },
 
     DropdownStyle: {
-        backgroundColor: colors.purpleTagBG,
+        backgroundColor: colors.purpleRegular,
         borderRadius: 15,
         height: 30,
         width: 90,
@@ -210,7 +403,7 @@ const styles = StyleSheet.create({
     },
 
     DropdownStyle2: {
-        backgroundColor: colors.purpleTagBG,
+        backgroundColor: colors.purpleRegular,
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
         height: 30,
@@ -243,14 +436,14 @@ const styles = StyleSheet.create({
         height: 95,
         marginRight: '-6.6%',
         marginTop: '-6.3%',
-        backgroundColor: colors.purpleTagBG,
+        backgroundColor: colors.purpleRegular,
 
     },
 
     DropdownContainerTextStyle: {
         fontFamily: 'Comic-Regular',
         fontSize: 19,
-        backgroundColor: colors.purpleTagBG,
+        backgroundColor: colors.purpleRegular,
         borderBottomLeftRadius: 15,
         borderBottomRightRadius: 15,
 
@@ -271,4 +464,15 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginLeft: '-7.5%',
     },
+
+    backpackButton: {
+        height: 50,
+        width: widthOfScreen * 0.3,
+        alignSelf: 'center',
+        borderWidth: 2,
+        borderRadius: 15,
+        backgroundColor: colors.purpleRegular,
+        marginRight: 20,
+        position: 'absolute'
+    }
 })

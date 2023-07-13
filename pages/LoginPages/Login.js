@@ -4,16 +4,18 @@ import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import colors from '../assets/colors/colors';
-import { auth } from '../firebase';
+import colors from '../../assets/colors/colors';
+import { auth } from '../../firebase';
 
 
 const Login = ({ navigation }) => {
     var [isPress, setIsPress] = React.useState(false);
 
 
-    var [email, setEmail] = React.useState();
-    var [password, setPassword] = React.useState();
+    const [email, setEmail] = React.useState();
+    const [password, setPassword] = React.useState();
+    const [loginError, setLoginError] = React.useState();
+    const [isVisible, setIsVisible] = React.useState('none');
 
     const handleLogin = () => {
         auth
@@ -21,18 +23,47 @@ const Login = ({ navigation }) => {
             .then(userCredetials => {
                 const user = userCredetials.user;
                 navigation.navigate('ProfileSelect');
-                console.log('Logged in with:', user.email);
+
+                // 1.0 Versiyonunda Aktif Et
+                // setEmail();
+                // setPassword();
             })
-            .catch(error => alert(error.message))
+            .catch(error => {
+                console.log(error.code)
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        setLoginError('Bu email ile kayıtlı bir hesap bulunamadı...')
+                        setIsVisible('flex')
+                        break;
+                    case 'auth/wrong-password':
+                        setLoginError('Email adresi ile şifre uyuşmadı...')
+                        setIsVisible('flex')
+                        break;
+                    case 'auth/invalid-email':
+                        setLoginError('Bu email adresi geçerli değil...')
+                        setIsVisible('flex')
+                        break;
+                    default:
+                        setLoginError('Giriş sırasında bir hata ile karşılaşıldı...')
+                        setIsVisible('flex')
+                        break;
+                }
+            })
     }
 
-
+    // auth.onAuthStateChanged(user => {
+    //     if (user) {
+    //         console.log('user logged in:', user)
+    //     } else {
+    //         console.log(' user logged out')
+    //     }
+    // })
 
 
     const [fontsLoaded] = useFonts({
-        'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
-        'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
-        'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
+        'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
+        'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
+        'Comic-Bold': require('../../assets/fonts/ComicNeue-Bold.ttf'),
     });
 
     const onLayoutRootView = useCallback(async () => {
@@ -59,17 +90,21 @@ const Login = ({ navigation }) => {
 
         <View style={styles.container} onLayout={onLayoutRootView}>
             <StatusBar style="auto" />
-            <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
+            <Image source={require('../../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
             <View style={[styles.login_container, styles.shadowProp]}>
                 <View style={styles.loginHeaderView}>
                     <Text style={styles.loginHeader}>Giriş Yap</Text>
                 </View>
 
+                <Text style={{ color: '#f26d74', fontSize: 18, fontFamily: 'Comic-Bold', display: isVisible, marginTop: -6 }}>
+                    {loginError}
+                </Text>
+
                 <TextInput
                     style={[styles.inputStyle, styles.emailInputStyle]}
                     placeholder="Email"
                     placeholderTextColor={'#B8B8B8'}
-                    keyboardType="text"
+                    keyboardType="default"
                     value={email}
                     onChangeText={text => setEmail(text)}
                 />
@@ -79,7 +114,7 @@ const Login = ({ navigation }) => {
                     placeholder="Şifre"
                     placeholderTextColor={'#B8B8B8'}
                     secureTextEntry={true}
-                    keyboardType="text"
+                    keyboardType="default"
                     value={password}
                     onChangeText={text => setPassword(text)}
                 />
@@ -117,8 +152,6 @@ const styles = StyleSheet.create({
     backgroundImage: {
         resizeMode: 'contain',
         width: '110%',
-        height: '100%',
-        marginTop: -425,
     },
 
     login_container: {
@@ -171,7 +204,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '85%',
         padding: 12,
-        backgroundColor: colors.pinkRegular,
+        backgroundColor: colors.pinkLight,
         borderWidth: 2,
         borderRadius: 15,
         borderColor: colors.pinkBorder
@@ -184,7 +217,6 @@ const styles = StyleSheet.create({
     },
 
     forgotPassButton: {
-        // backgroundColor: colors.pinkRegular,
         alignSelf: 'flex-end',
         marginRight: '6%',
         marginTop: '1.3%',

@@ -28,15 +28,15 @@ const userData = [
         selectedColor: colors.purpleLight,
         selectedBGColor: colors.purplePFPBG,
     },
-    {
-        id: '4',
-        userName: 'Ahmet Tarık',
-        userLastName: 'Huvaz',
-        userNickname: 'Tarık',
-        userProfileImage: 'temp',
-        selectedColor: colors.greenLight,
-        selectedBGColor: colors.greenPFPBG,
-    },
+    // {
+    //     id: '4',
+    //     userName: 'Ahmet Tarık',
+    //     userLastName: 'Huvaz',
+    //     userNickname: 'Tarık',
+    //     userProfileImage: 'temp',
+    //     selectedColor: colors.greenLight,
+    //     selectedBGColor: colors.greenPFPBG,
+    // },
 ]
 
 export default userData;

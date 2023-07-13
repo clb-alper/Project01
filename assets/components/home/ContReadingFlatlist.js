@@ -1,14 +1,28 @@
-import React, { useContext, useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, View, TouchableOpacity, ImageBackground, FlatList, Image } from 'react-native';
 import { BoxShadow } from 'react-native-shadow';
 import * as Progress from 'react-native-progress';
 import colors from '../../colors/colors';
 import { ModalContext } from '../../contexts/ModalContext';
 import { auth, firebase } from '../../../firebase'
+import { ProfileContext } from '../../contexts/ProfileContext';
+import ContReadingFlatlistSkeleton from '../skeletons/ContReadingFlatlistSkeleton';
+import Skeleton from '../skeletons/Skeleton';
 
 const ContReadingFlatlist = () => {
 
-    const { setModalVisible, setModalEntry } = useContext(ModalContext);
+    const { setModalVisible, setModalEntry, modalVisible } = useContext(ModalContext);
+    const { currentProfileSelected, userBookProgress, favorited, readed } = useContext(ProfileContext);
+    const [dummy, setDummy] = useState(false);
+
+    const sleep = milliseconds => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+    const timeOutOfTags = async () => {
+        await sleep(50).then(() => setDummy(true))
+
+    }
 
     const shadowOpt = {
         width: 110,
@@ -23,73 +37,282 @@ const ContReadingFlatlist = () => {
 
 
     const [bookList, setBookList] = React.useState([]);
-    const todoRef = firebase.firestore().collection('storyBooks');
+    const [contReadingBookList, setContReadingBookList] = useState([]);
 
-    useEffect(() => {
-        todoRef
+    const contUserBookRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected)
+        .collection('continueReading');
+
+    const userTagDataRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected)
+        .collection('tagData');
+
+    const getContReadingData = async () => {
+        contUserBookRef
             .onSnapshot(
                 querySnapshot => {
                     const bookList = []
-                    querySnapshot.forEach((doc) => {
-                        const { ageTag, bookProgress, contentTag, image, itemBorder, itemColor, itemColorBG, itemDesc, itemDescColor, rewardTag, themeTag, title } = doc.data()
-                        bookList.push({
-                            id: doc.id,
-                            ageTag,
-                            bookProgress,
-                            contentTag,
-                            image,
-                            itemBorder,
-                            itemColor,
-                            itemColorBG,
-                            itemDesc,
-                            itemDescColor,
-                            rewardTag,
-                            themeTag,
-                            title,
+                    const contReadingBookList = [];
+                    if (querySnapshot.empty) {
+                        setBookList([])
+                        timeOutOfTags()
+                    } else {
+                        querySnapshot.forEach((doc) => {
+                            const contBookReading = doc.data()
+                            contBookReading.bookRef.get()
+                                .then(res => {
+                                    contBookReading.bookData = res.data()
+                                    firebase.firestore().collection('storyBooks').doc(doc.id).collection('bookContent')
+                                        .onSnapshot(
+                                            querySnapshot => {
+                                                if (!querySnapshot.empty) {
+                                                    querySnapshot.forEach((doc) => {
+                                                        contBookReading.bookData.bookContent = doc.data()
+                                                    })
+                                                } else {
+                                                    console.log("snapshot not exist")
+                                                }
+
+                                            })
+                                    // firebase.firestore().collection('storyBooks').doc(doc.id).collection('bookContent').doc().get().then((snapshot) => {
+                                    //     if (snapshot.exists) {
+                                    //         contBookReading.bookData.bookContent = snapshot.data()
+                                    //     } else {
+                                    //         console.log("snapshot not exist")
+                                    //     }
+
+                                    // })
+                                    contBookReading.bookData.id = res.id
+                                    contBookReading.bookData.bookProgress = contBookReading.progress
+                                    bookList.push(contBookReading.bookData)                                   
+                                    if (contBookReading.bookData.bookProgress != 1) {
+                                        contReadingBookList.push(contBookReading.bookData)
+                                    }
+
+
+                                })
+                            contBookReading.favRef.get()
+                                .then(res => {
+                                    if (res.exists) {
+                                        contBookReading.bookData.favorited = res.data().favorited
+                                        // bookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
+                                        contReadingBookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
+                                        // setBookList(bookList)
+                                        setContReadingBookList(contReadingBookList)
+                                    } else {
+                                        // bookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
+                                        contReadingBookList.sort(function (a, b) { return b.bookProgress - a.bookProgress })
+                                        // setBookList(bookList)
+                                        setContReadingBookList(contReadingBookList)
+
+                                    }
+                                    setBookList(bookList)
+                                    timeOutOfTags()
+                                })
                         })
-                    })
-                    setBookList(bookList)
-                    console.log(bookList)
+
+                    }
                 }
             )
+
+    }
+
+    useEffect(() => {
+        getContReadingData()
     }, [])
 
+    useEffect(() => {
+        getContReadingData()
+    }, [readed])
 
+    useEffect(() => {
+        getContReadingData()
+    }, [favorited])
 
+    useEffect(() => {
+        if (dummy) {
+            handleTagDataOfConts()
+            handleStatistics()
+        }
+    }, [modalVisible])
 
+    useEffect(() => {
+        if (dummy) {
+            handleTagDataOfConts()
+            handleStatistics()
+        }
+    }, [readed])
+
+    let age3to6Value = 0;
+    let age6to9Value = 0;
+    let age9to12Value = 0;
+    let age12PlusValue = 0;
+
+    let adventureValue = 0;
+    let animalValue = 0;
+    let natureValue = 0;
+    let cityValue = 0;
+
+    bookList.forEach(element => {
+        if (element.ageTag === "3-6 Yaş") {
+            age3to6Value += element.bookProgress;
+        } else if (element.ageTag === "6-9 Yaş") {
+            age6to9Value += element.bookProgress;
+        } else if (element.ageTag === "9-12 Yaş") {
+            age9to12Value += element.bookProgress;
+        } else if (element.ageTag === "12+ Yaş") {
+            age12PlusValue += element.bookProgress;
+        }
+    });
+
+    bookList.forEach(element => {
+        if (element.themeTag === "Macera") {
+            adventureValue += element.bookProgress;
+        } else if (element.themeTag === "Hayvan") {
+            animalValue += element.bookProgress;
+        } else if (element.themeTag === "Doğa") {
+            natureValue += element.bookProgress;
+        } else if (element.themeTag === "Şehir") {
+            cityValue += element.bookProgress;
+        }
+    });
+
+    const TagDataObj = {
+        ageTags: {
+            age3to6Value,
+            age6to9Value,
+            age9to12Value,
+            age12PlusValue,
+        },
+        contentTags: {
+            adventureValue,
+            animalValue,
+            natureValue,
+            cityValue
+        }
+    }
+
+    const handleTagDataOfConts = () => {
+
+        // sub user's tagData
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('tagData').doc('ageTagData').set({
+                ageOf3to6Value: TagDataObj.ageTags.age3to6Value,
+                ageOf6to9Value: TagDataObj.ageTags.age6to9Value,
+                ageOf9to12Value: TagDataObj.ageTags.age9to12Value,
+                ageOf12plusValue: TagDataObj.ageTags.age12PlusValue
+            })
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+            .doc(currentProfileSelected).collection('tagData').doc('themeTagData').set({
+                natureTagValue: TagDataObj.contentTags.natureValue,
+                animalTagValue: TagDataObj.contentTags.animalValue,
+                cityTagValue: TagDataObj.contentTags.cityValue,
+                adventureTagValue: TagDataObj.contentTags.adventureValue
+            })
+    }
+
+    let readedBooks = 0;
+    let readedWords = 0;
+
+    bookList.forEach(element => {
+        if (element.bookProgress === 1.0) {
+            readedBooks = readedBooks + 1;
+        }
+        if (typeof (element.bookContent) != 'undefined') {
+            let words = element.bookContent.storyText.split(" ").length
+            readedWords = Math.floor(readedWords + element.bookProgress * words)
+        }
+    });
+
+    let animalLover = 0;
+    let adventurer = 0;
+    let natureLover = 0;
+    let cityKid = 0;
+
+    bookList.forEach(element => {
+        if (element.bookProgress >= 1) {
+            if (element.themeTag === "Macera") {
+                adventurer++
+            }
+            if (element.themeTag === "Hayvan") {
+                animalLover++
+            }
+            if (element.themeTag === "Şehir") {
+                natureLover++
+            }
+            if (element.themeTag === "Doğa") {
+                cityKid++
+            }
+        }
+
+    });
+
+    const handleStatistics = () => {
+
+        // sub user's statsData
+        if (readedBooks || readedWords || animalLover || adventurer || cityKid || natureLover != 0) {
+            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
+                .doc(currentProfileSelected).collection('statisticsData').doc('statsData').update({
+                    readedBooks: readedBooks,
+                    readedWords: readedWords,
+                    animalLover: animalLover,
+                    adventurer: adventurer,
+                    natureLover: natureLover,
+                    cityKid: cityKid
+                })
+        }
+    }
 
 
     return (
         <View>
-            <FlatList
-                overScrollMode={'never'}
-                data={bookList}
-                renderItem={({ item, index }) => (
-                    <View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem}>
-                        <TouchableOpacity
-                            key={item.key}
-                            onPress={() => { setModalVisible(true); setModalEntry(item); }}
-                            activeOpacity={0.75}>
 
-                            <BoxShadow setting={shadowOpt}>
-                                <ImageBackground
-                                    source={{uri : item.image}}
-                                    imageStyle={styles.continueBookImageStyle}>
-                                </ImageBackground>
-                            </BoxShadow>
 
-                            <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
+            {dummy || contReadingBookList.length > 0 ?
+                contReadingBookList.length === 0 ?
+                    <Image
+                        style={styles.emptySectionImageStyle}
+                        source={require('../../images/emptyFlImage.png')}
+                    />
+                    :
+                    <FlatList
+                        overScrollMode={'never'}
+                        data={contReadingBookList}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item, index }) => (
 
-                        </TouchableOpacity>
 
-                    </View>
-                )}
+                            < View style={index != 0 ? styles.continueReadingBookStyle : styles.continueReadingBookStyleFirstItem} >
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={() => { setModalVisible(true); setModalEntry(item); }}
+                                    activeOpacity={0.75}>
 
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-            />
-        </View>
+                                    <BoxShadow setting={shadowOpt}>
+                                        <ImageBackground
+                                            source={{ uri: item.image }}
+                                            imageStyle={styles.continueBookImageStyle}>
+                                        </ImageBackground>
+                                    </BoxShadow>
+
+                                    <Progress.Bar style={styles.progressBar} color={item.itemColor} progress={item.bookProgress} width={112} />
+
+                                </TouchableOpacity>
+
+                            </View>
+
+                        )}
+
+
+                    />
+                :
+                <ContReadingFlatlistSkeleton />
+            }
+        </View >
     )
 }
 
@@ -125,4 +348,11 @@ const styles = StyleSheet.create({
         borderColor: colors.grayProgressBarBorder,
         borderWidth: 0.7,
     },
+
+    emptySectionImageStyle: {
+        height: 145,
+        width: 145,
+        alignSelf: 'center',
+    },
+
 })

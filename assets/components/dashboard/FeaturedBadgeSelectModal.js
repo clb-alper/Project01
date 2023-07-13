@@ -1,94 +1,40 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image } from 'react-native';
-import colors from '../../colors/colors';
-import { auth, firebase } from '../../../firebase';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useContext } from 'react'
 import { ModalContext } from '../../contexts/ModalContext';
+import Modal from "react-native-modal";
+import colors from '../../colors/colors';
 import { ProfileContext } from '../../contexts/ProfileContext';
 import Rainbow from '../Rainbow';
-import Skeleton from '../skeletons/Skeleton';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
+var heightOfScreen = Dimensions.get('window').height; //full width
 
-const BadgesSection = () => {
+const FeaturedBadgeSelectModal = () => {
 
-    const badgesRef = firebase.firestore().collection('badges')
-
-    const { setBadgeModalVisible, setBadgeModalEntry } = useContext(ModalContext);
-    const { badgesList, setBadgesList, badgeLevelStyle, userStatisticsData } = useContext(ProfileContext);
-
-    const [dummy, setDummy] = useState();
-
-    const getBadgesData = async () => {
-        badgesRef
-            .onSnapshot(
-                querySnapshot => {
-                    const badgesList = []
-                    querySnapshot.forEach((doc) => {
-                        const { name, description, tiers, statisticName, iconImageURL } = doc.data()
-
-                        badgesList.push({
-                            name,
-                            description,
-                            tiers,
-                            statisticName,
-                            iconImageURL
-
-                        })
-                    })
-                    setBadgesList(badgesList)
-                    setDummy(true)
-                }
-            )
-
-    }
-
-    dummyList = [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-        { id: 4 },
-        { id: 5 },
-        { id: 6 },
-        { id: 7 },
-        { id: 8 },
-        { id: 9 },
-        { id: 10 },
-        { id: 11 },
-        { id: 12 },
-
-    ]
-
-    useEffect(() => {
-        getBadgesData();
-    }, [])
+    const { userStatisticsData, badgesList } = useContext(ProfileContext);
+    const { featuredBadgeModalVisible, setFeaturedBadgeModalVisible, setBadgeModalVisible, setBadgeModalEntry } = useContext(ModalContext);
 
     return (
-
-        <View style={styles.rosettes}>
-
-            <View style={styles.statisticsHeader}>
-                <Text style={styles.statisticsText}>Rozetler</Text>
-                <View style={styles.badgesLine}></View>
-            </View>
-            <View style={styles.rosettesMain}>
-                {
-                    !dummy ?
-                        dummyList.map((index) => {
-                            return (
-                                <Skeleton
-                                    key={index.id}
-                                    height={80}
-                                    width={80}
-                                    lHeight={'100%'}
-                                    lWidth={'300%'}
-                                    duration={1200}
-                                    backgroundColor={'rgba(0,0,0,0.05)'}
-                                    style={[{ borderRadius: 100, marginRight: 10, marginBottom: 20 }]}
-                                />
-                            )
-                        })
-
-                        :
+        <Modal
+            animationIn={'flipInY'}
+            animationOut={'flipOutY'}
+            transparent={true}
+            hideModalContentWhileAnimating={true}
+            isVisible={featuredBadgeModalVisible}
+            useNativeDriver={true}
+            useNativeDriverForBackdrop={true}
+            statusBarTranslucent
+            onRequestClose={() => {
+                setFeaturedBadgeModalVisible(!featuredBadgeModalVisible);
+            }}
+            backdropOpacity={0.7}
+            style={{ margin: 0 }}
+        >
+            <View style={{ alignItems: 'center', height: heightOfScreen, justifyContent: 'center' }}>
+                <Text style={{ fontFamily: 'Comic-Regular', fontSize: 48, color: colors.white }}>Rozet Seçin</Text>
+                <View style={styles.rosettesMain}>
+                    {
                         typeof (badgesList) === 'undefined' ? null :
 
                             badgesList.map((badges, index) => {
@@ -97,6 +43,7 @@ const BadgesSection = () => {
                                         key={index}
                                         style={{ marginRight: 10, marginBottom: 20 }}
                                         onPress={() => { setBadgeModalVisible(true); setBadgeModalEntry(badges); }}
+                                        activeOpacity={0.85}
                                     >
                                         {
                                             userStatisticsData[badges.statisticName] >= badges.tiers[4] ?
@@ -123,8 +70,8 @@ const BadgesSection = () => {
                                                                     badges.statisticName === "totalQuizzesCompleted" ||
                                                                     badges.statisticName === "readedBooks" ||
                                                                     badges.statisticName === "readedWords" ||
-                                                                    badges.statisticName === "professor" ? -76.5 :
-                                                                    badges.statisticName === "cityKid" ||
+                                                                    badges.statisticName === "professor"
+                                                                    ? -76.5 : badges.statisticName === "cityKid" ||
                                                                         badges.statisticName === "natureLover" ? -78 : -75, resizeMode: 'contain'
                                                         }]}
                                                         source={{ uri: badges.iconImageURL }}
@@ -151,8 +98,8 @@ const BadgesSection = () => {
                                                                     badges.statisticName === "totalQuizzesCompleted" ||
                                                                     badges.statisticName === "readedBooks" ||
                                                                     badges.statisticName === "readedWords" ||
-                                                                    badges.statisticName === "professor"
-                                                                    ? -5 : badges.statisticName === "natureLover" ||
+                                                                    badges.statisticName === "professor" ? -5
+                                                                    : badges.statisticName === "natureLover" ||
                                                                         badges.statisticName === "cityKid" ? -10 : 0, resizeMode: 'contain'
                                                         }]}
                                                         source={{ uri: badges.iconImageURL }}
@@ -164,82 +111,33 @@ const BadgesSection = () => {
                                     </TouchableOpacity>
                                 )
                             })
-                }
+                    }
 
+                </View>
+
+                <TouchableOpacity
+                    onPress={() => { setFeaturedBadgeModalVisible(!featuredBadgeModalVisible); }}
+                    activeOpacity={0.75}
+                    style={styles.modalStickerCloseButton}>
+                    <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
+                </TouchableOpacity>
             </View>
-        </View>
+        </Modal >
     )
 }
 
-export default BadgesSection;
+export default FeaturedBadgeSelectModal
 
 const styles = StyleSheet.create({
-    statisticsHeader: {
-        flexDirection: 'row',
-        width: widthOfScreen,
-        paddingRight: 50
-    },
-    statisticsLine: {
-        backgroundColor: colors.greenBorder,
-        width: widthOfScreen / 1.95,
-        height: 8,
-        alignSelf: 'center',
-        marginTop: 5,
-        marginLeft: 15,
-    },
-    badgesLine: {
-        backgroundColor: colors.greenBorder,
-        width: widthOfScreen / 1.70,
-        height: 8,
-        alignSelf: 'center',
-        marginTop: 5,
-        marginLeft: 15,
-    },
 
-    statisticsText: {
-        fontSize: 32,
-        fontFamily: 'Comic-Regular'
-    },
-    statisticsMainSecondRow: {
-        marginTop: '5%',
-        flexDirection: 'row',
-        justifyContent: 'space-around'
-    },
-    userStatistics: {
-        fontSize: 30,
-        textAlign: 'center',
-        fontFamily: 'Comic-Regular'
-    },
-    userStatisticsTitle: {
-        fontSize: 16,
-        fontFamily: 'Comic-Regular',
-        textAlign: 'center'
-    },
-    statistics: {
-        padding: 20,
-        marginTop: 10,
-        height: 250,
-    },
-    rosettes: {
-        padding: 20,
-    },
-    statisticsMain: {
-        padding: 20,
-    },
     rosettesMain: {
-        padding: 10,
+        paddingLeft: 10,
         flexDirection: 'row',
         flexWrap: "wrap",
         alignItems: 'center',
         width: widthOfScreen,
-    },
-    statisticsMainFirstRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: 20
-    },
-    statisticsMainFirstRowElem: {
-        flexDirection: 'column',
+        marginLeft: 41,
+        marginTop: 20
     },
 
     bronzeBadgeStyle: {
@@ -320,5 +218,20 @@ const styles = StyleSheet.create({
         marginTop: -75,
         marginLeft: 1,
         height: 75
+    },
+
+    modalStickerCloseButton: {
+        borderRadius: 500,
+        borderWidth: 5,
+        width: 70,
+        height: 70,
+        marginTop: 70,
+        borderColor: colors.greenBorder,
+        backgroundColor: colors.greenRegular
+    },
+
+    modalStickerCloseButtonIcon: {
+        marginTop: 3,
+        marginLeft: 5.5
     },
 })

@@ -1,15 +1,19 @@
 import React, { useContext } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../../colors/colors';
 import AntIcons from 'react-native-vector-icons/AntDesign';
 import { BoxShadow } from 'react-native-shadow';
 import { ProfileContext } from '../../contexts/ProfileContext';
+import Octicons from 'react-native-vector-icons/Octicons';
+import { useNavigation } from '@react-navigation/native';
 
 var widthOfScreen = Dimensions.get('window').width; //full width
 
-const Header = () => {
+const BackpackHeader = () => {
 
-    const { userPointsData } = useContext(ProfileContext);
+    const { currentProfileSelectedInfo, currentAccountInfo, profileIconList } = useContext(ProfileContext);
+
+    const navigation = useNavigation();
 
     const shadowOpt = {
         width: widthOfScreen,
@@ -23,30 +27,25 @@ const Header = () => {
     }
 
     return (
-        <BoxShadow setting={shadowOpt} style={{textShadow: 'none'}}>
+        <BoxShadow setting={shadowOpt} style={{ textShadow: 'none' }}>
             <View style={styles.login_container} >
 
                 <View style={styles.headerView1}>
+
+                    {/* <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
+                        <Octicons name="arrow-left" size={38} color="#000" style={styles.goBackIcon} />
+                    </TouchableOpacity> */}
 
                     <Text
                         style={styles.headerTextStyle}
                         adjustsFontSizeToFit={true}
                         numberOfLines={1}>
-                        Ödüller
+                        Çıkartma Çantası
                     </Text>
 
                     <View style={styles.headerView2}>
-                        <View style={styles.pointsContainer}>
-
-                            <Text
-                                style={styles.pointsTextStyle}
-                                adjustsFontSizeToFit={true}
-                                numberOfLines={1}>
-                                 {typeof (userPointsData) === 'undefined' ? "" : userPointsData.points}
-                            </Text>
-
-                            <AntIcons name="star" size={30} color="#FFD600" style={styles.pointsIconStyle} />
-
+                        <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
+                            <Image source={{ uri: profileIconList[currentProfileSelectedInfo[0].profileIcon]["image"] }} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
                         </View>
                     </View>
                 </View>
@@ -55,7 +54,7 @@ const Header = () => {
     )
 }
 
-export default Header
+export default BackpackHeader
 
 const styles = StyleSheet.create({
 
@@ -77,15 +76,15 @@ const styles = StyleSheet.create({
 
     headerTextStyle: {
         fontFamily: 'Comic-Regular',
-        fontSize: 57,
+        fontSize: 35,
+        marginLeft: 10
     },
 
     headerView1: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
         marginHorizontal: 20,
-        marginTop: 50,
+        marginTop: 60,
     },
 
     headerView2: {
@@ -120,6 +119,35 @@ const styles = StyleSheet.create({
         width: 35,
         marginLeft: 5,
         marginTop: 5
+    },
+
+    goBackButton: {
+        marginLeft: '2%'
+    },
+
+    goBackIcon: {
+        marginTop: 12,
+    },
+
+    headerIconContainerStyle: {
+        resizeMode: 'contain',
+        width: 65,
+        height: 65,
+        borderRadius: 100,
+        borderWidth: 4,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: -11
+    },
+
+    headerIconStyle: {
+        resizeMode: 'contain',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 40,
+        height: 40,
+        marginLeft: 8.5
     },
 
 })

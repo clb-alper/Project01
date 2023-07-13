@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useCallback, useContext } from 'react'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -6,14 +6,17 @@ import colors from '../../assets/colors/colors';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import IonIcons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { ModalContext } from '../../assets/contexts/ModalContext';
+import { ProfileContext } from '../../assets/contexts/ProfileContext';
 
 const Settings = () => {
 
     const navigation = useNavigation();
 
     const { modalVisible } = useContext(ModalContext);
+    const { currentProfileSelectedInfo, currentAccountInfo, profileIconList } = useContext(ProfileContext);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
@@ -42,153 +45,79 @@ const Settings = () => {
                     overScrollMode={'never'}>
                     <Text style={styles.settingsHeader}>Ayarlar</Text>
 
+                    <View style={styles.dashboardContainer}>
+
+                        <View style={styles.headerIconContainerStyle} backgroundColor={currentProfileSelectedInfo[0].profileColor["regularColor"]} borderColor={currentProfileSelectedInfo[0].profileColor["borderColor"]}>
+                            <Image source={{uri: profileIconList[currentProfileSelectedInfo[0].profileIcon]["image"]}} style={[styles.headerIconStyle, { tintColor: currentProfileSelectedInfo[0].profileColor["borderColor"] }]}></Image>
+                        </View>
+
+                        <View style={styles.headerUserInfo}>
+                            <Text style={styles.headerUser}
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={1}>
+                                Profil Ismi: {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}</Text>
+                            <Text style={styles.settingsHeaderEmail}
+                                adjustsFontSizeToFit={true}
+                                numberOfLines={1}>
+                                Hesap Emaili: {typeof (currentAccountInfo) == 'undefined' ? "Default" : currentAccountInfo[0].email}</Text>
+                        </View>
+                        <View style={[styles.headerUserInfo2, { marginLeft: 5 }]}>
+                            <TouchableOpacity
+                                onPress={() => { navigation.navigate('ProfileSelect') }}
+                                activeOpacity={0.6}>
+                                <View style={styles.logOutButtonContainer}>
+                                    <MaterialCommunityIcons
+                                        name="logout"
+                                        size={24}
+                                        color={colors.black}
+                                        style={styles.badgeIconStyle}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+
+                        </View>
+
+                    </View>
+
                     <Text style={styles.generalSettingsHeader}>Genel</Text>
                     <View style={styles.generalSettingsContainer}>
 
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("NotificationSettings")}
-                            style={[styles.rowContainer, { marginTop: '3%' }]}
-                            activeOpacity={0.5}>
-                            <View style={styles.iconNotifBG}>
-                                <IonIcons
-                                    name="notifications-outline"
-                                    size={24}
-                                    color={colors.bluePFPBG}
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Bildirimler</Text>
-                        </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity
                             onPress={() => navigation.navigate("FontSizeSettings")}
-                            style={styles.rowContainer}
+                            style={[styles.rowContainer, { marginTop: '3%', marginBottom: '3%' }]}
                             activeOpacity={0.5}>
                             <View style={styles.iconBookBG}>
                                 <IonIcons
                                     name="book-outline"
                                     size={23}
-                                    color='#000'
+                                    color={'#000'}
                                     style={styles.badgeIconStyle}
                                 />
                             </View>
                             <Text style={styles.settingsText}>Yazı Boyutu</Text>
                         </TouchableOpacity>
 
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={[styles.rowContainer, { marginBottom: '3%' }]} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
                     </View>
 
-                    <Text style={styles.generalSettingsHeader}>Hesap</Text>
+                    <Text style={styles.generalSettingsHeader}>Profil</Text>
                     <View style={styles.generalSettingsContainer}>
 
-                        <TouchableOpacity style={[styles.rowContainer, { marginTop: '3%' }]} activeOpacity={0.5}>
+                        <TouchableOpacity
+                            style={[styles.rowContainer, { marginTop: '3%', marginBottom: '3%' }]}
+                            activeOpacity={0.5}
+                            onPress={() => navigation.navigate("ProfileEdit")}
+                        >
+
                             <View style={styles.iconNotifBG}>
-                                <IonIcons
-                                    name="notifications-outline"
+                                <MaterialCommunityIcons
+                                    name="account-edit-outline"
                                     size={24}
-                                    color={colors.bluePFPBG}
-                                    style={styles.badgeIconStyle}
-                                />
+                                    color={colors.black}
+                                    style={styles.badgeIconStyle} />
                             </View>
-                            <Text style={styles.settingsText}>Bildirimler</Text>
+                            <Text style={styles.settingsText}>Profil Düzenle</Text>
                         </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={styles.rowContainer} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={[styles.rowContainer, { marginBottom: '3%' }]} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
                     </View>
-
-                    <Text style={styles.generalSettingsHeader}>Lorem Ipsum</Text>
-                    <View style={[styles.generalSettingsContainer, { marginBottom: '8%' }]}>
-
-                        <TouchableOpacity style={[styles.rowContainer, { marginTop: '3%' }]} activeOpacity={0.5}>
-                            <View style={styles.iconNotifBG}>
-                                <IonIcons
-                                    name="notifications-outline"
-                                    size={24}
-                                    color={colors.bluePFPBG}
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Bildirimler</Text>
-                        </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={styles.rowContainer} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
-                        {/* Line Seperator */}
-                        <View style={styles.lineStyle} />
-
-                        <TouchableOpacity style={[styles.rowContainer, { marginBottom: '3%' }]} activeOpacity={0.6}>
-                            <View style={styles.iconBookBG}>
-                                <IonIcons
-                                    name="book-outline"
-                                    size={23}
-                                    color='#000'
-                                    style={styles.badgeIconStyle}
-                                />
-                            </View>
-                            <Text style={styles.settingsText}>Lorem Ipsum</Text>
-                        </TouchableOpacity>
-
-                    </View>
-
                 </ScrollView>
 
             </SafeAreaView>
@@ -216,7 +145,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Comic-Regular',
         fontSize: 35,
         marginLeft: '7%',
-        marginTop: '10%'
+        marginTop: '7%'
     },
 
     generalSettingsContainer: {
@@ -243,7 +172,7 @@ const styles = StyleSheet.create({
     },
 
     iconNotifBG: {
-        backgroundColor: colors.blueContainer,
+        backgroundColor: colors.blueLibraryDropDown,
         width: 35,
         height: 35,
         paddingLeft: 4,
@@ -256,7 +185,7 @@ const styles = StyleSheet.create({
     },
 
     iconBookBG: {
-        backgroundColor: colors.pinkRegular,
+        backgroundColor: colors.pinkLight,
         width: 35,
         height: 35,
         paddingLeft: 5,
@@ -275,6 +204,78 @@ const styles = StyleSheet.create({
         marginRight: '6.5%',
         marginBottom: '3%',
         marginTop: '3%'
+    },
+
+    headerIconContainerStyle: {
+        resizeMode: 'contain',
+        width: 70,
+        height: 70,
+        borderRadius: 100,
+        borderWidth: 4,
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: -11
+    },
+
+    headerIconStyle: {
+        resizeMode: 'contain',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 45,
+        height: 45,
+        marginLeft: 8.5
+    },
+
+    headerUserInfo: {
+        marginTop: 22,
+        paddingLeft: 10,
+        paddingTop: 2,
+        marginRight: 10
+    },
+
+    headerUserInfo2: {
+        marginTop: 22,
+        paddingLeft: 10,
+        paddingTop: 2,
+    },
+
+    headerUser: {
+        fontSize: 20,
+        fontFamily: 'Comic-Regular',
+        width: 180
+    },
+
+    dashboardContainer: {
+        flexDirection: "row",
+        backgroundColor: '#FFF1D9',
+        marginTop: '7%',
+        marginLeft: '7.5%',
+        marginRight: '7.5%',
+        paddingLeft: '5%',
+        borderRadius: 10,
+        borderWidth: 2.5,
+        borderColor: '#ffe1ad'
+    },
+
+    settingsHeaderEmail: {
+        fontFamily: 'Comic-Regular',
+        fontSize: 15,
+        marginTop: 2,
+        width: 180
+    },
+
+    logOutButtonContainer: {
+        backgroundColor: colors.yellowRegular,
+        borderWidth: 2,
+        borderColor: colors.yellowBorder,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 2,
+        padding: 4,
+        paddingLeft: 6,
     }
+
 
 })

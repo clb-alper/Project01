@@ -1,10 +1,41 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
 import colors from '../../colors/colors';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import AntIcons from 'react-native-vector-icons/AntDesign';
+import { ProfileContext } from '../../contexts/ProfileContext';
+import { auth, firebase } from '../../../firebase'
 
 const Header = () => {
+
+    const { currentProfileSelectedInfo, currentProfileSelected, userPointsData, setUserPointsData } = useContext(ProfileContext);
+
+    const profileRef = firebase.firestore()
+        .collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('userProfiles').doc(currentProfileSelected).collection('statisticsData');
+
+    const getProfilePointsData = async () => {
+        profileRef
+            .onSnapshot(
+                querySnapshot => {
+                    const userPointsData = []
+                    querySnapshot.forEach((doc) => {
+                        const { points } = doc.data()
+
+                            userPointsData.push({
+                                points,
+                            })
+
+                    })
+                    setUserPointsData(userPointsData[0])
+                }
+            )
+    }
+
+    useEffect(() => {
+        getProfilePointsData();
+    }, [])
+
     return (
         <View style={styles.headerView1}>
 
@@ -14,7 +45,7 @@ const Header = () => {
                 style={styles.headerTextStyle}
                 adjustsFontSizeToFit={true}
                 numberOfLines={1}>
-                Hoşgeldin Ömer
+                Hoşgeldin {typeof (currentProfileSelectedInfo) == 'undefined' ? "Default" : currentProfileSelectedInfo[0].name}
             </Text>
 
             <View style={styles.headerView2}>
@@ -24,7 +55,7 @@ const Header = () => {
                         style={styles.pointsTextStyle}
                         adjustsFontSizeToFit={true}
                         numberOfLines={1}>
-                        1750
+                        {typeof (userPointsData) === 'undefined' ? "" : userPointsData.points}
                     </Text>
 
                     <AntIcons name="star" size={23} color="#FFD600" style={styles.pointsIconStyle} />
@@ -47,7 +78,7 @@ const styles = StyleSheet.create({
     },
 
     headerIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         height: 35,
         width: 35,
         paddingTop: 4
@@ -75,7 +106,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         borderWidth: 2,
         borderColor: colors.yellowBorder,
-        backgroundColor: colors.yellowTabBar,
+        backgroundColor: colors.yellowRegular,
         paddingLeft: 10,
     },
 
@@ -87,7 +118,7 @@ const styles = StyleSheet.create({
     },
 
     pointsIconStyle: {
-        resizeMode: 'contain',
+        //resizeMode: 'contain',
         height: 25,
         width: 25,
     },

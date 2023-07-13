@@ -4,16 +4,20 @@ import { useCallback } from 'react';
 import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import colors from '../assets/colors/colors';
+import colors from '../../assets/colors/colors';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import { auth, firebase } from '../../firebase';
 
 const ForgotPass = ({ navigation }) => {
+
     var [isPress, setIsPress] = React.useState(false);
 
+    const [userMail, setUserMail] = React.useState();
+
     const [fontsLoaded] = useFonts({
-        'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
-        'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
-        'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
+        'Comic-Regular': require('../../assets/fonts/ComicNeue-Regular.ttf'),
+        'Comic-Light': require('../../assets/fonts/ComicNeue-Light.ttf'),
+        'Comic-Bold': require('../../assets/fonts/ComicNeue-Bold.ttf'),
     });
 
     const onLayoutRootView = useCallback(async () => {
@@ -33,6 +37,11 @@ const ForgotPass = ({ navigation }) => {
         onHideUnderlay: () => setIsPress(false),
         onShowUnderlay: () => setIsPress(true),
         onPress: () => {
+            //resetting password
+            auth.sendPasswordResetEmail(userMail).then((a) => {
+                console.log(a)
+            })
+
             Toast.show({
                 type: ALERT_TYPE.SUCCESS,
                 title: 'Gönderildi',
@@ -44,25 +53,27 @@ const ForgotPass = ({ navigation }) => {
         }
     };
 
+
     return (
         <AlertNotificationRoot>
             <View style={styles.container} onLayout={onLayoutRootView}>
                 <StatusBar style="auto" />
-                <Image source={require('../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
+                <Image source={require('../../assets/images/backgrounds/loginbghdlong.png')} style={styles.backgroundImage} />
                 <View style={[styles.forgotpass_container, styles.shadowProp]}>
                     <View style={styles.forgotPassHeaderView}>
                         <Text style={styles.forgotPassHeader}>Şifremi Unuttum</Text>
                     </View>
 
                     <Text style={styles.descriptionStyle}>
-                        Geçici şifrenizi almak için hesabınıza bağlı e-mail adresinizi giriniz.
+                        Şifrenizi degiştirmek için hesabınıza baglı e-mail adresinizi giriniz. E-mail adresinize şifre degiştirme linki gönderilecektir.
                     </Text>
 
                     <TextInput
                         style={[styles.inputStyle, styles.emailInputStyle]}
                         placeholder="Email"
                         placeholderTextColor={'#B8B8B8'}
-                        keyboardType="text"
+                        keyboardType="default"
+                        onChangeText={text => setUserMail(text)}
                     />
 
                     <TouchableHighlight {...touchPropsSendButton} style={styles.sendButton}>
@@ -129,8 +140,8 @@ const styles = StyleSheet.create({
         fontFamily: 'Comic-Regular',
         width: '85%',
         marginTop: '1%',
-        textAlign: 'justify',
-        fontSize: 17,
+        textAlign: 'center',
+        fontSize: 14,
     },
 
     emailInputStyle: {
@@ -150,7 +161,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '85%',
         padding: 12,
-        backgroundColor: colors.pinkRegular,
+        backgroundColor: colors.pinkLight,
         borderWidth: 2,
         borderRadius: 15,
         borderColor: colors.pinkBorder

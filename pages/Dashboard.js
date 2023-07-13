@@ -10,10 +10,12 @@ import { ModalContext } from '../assets/contexts/ModalContext';
 import Header from '../assets/components/dashboard/Header';
 import BadgesSection from '../assets/components/dashboard/BadgesSection';
 import StatisticsSection from '../assets/components/dashboard/StatisticsSection';
+import BadgeModal from '../assets/components/dashboard/BadgeModal';
+import FeaturedBadgeSelectModal from '../assets/components/dashboard/FeaturedBadgeSelectModal';
 
 const Dashboard = () => {
 
-    const { modalVisible } = useContext(ModalContext);
+    const { badgeModalVisible } = useContext(ModalContext);
 
     const [fontsLoaded] = useFonts({
         'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
@@ -34,7 +36,8 @@ const Dashboard = () => {
     return (
         <View style={styles.container} onLayout={onLayoutRootView}>
 
-            {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="hidden" />}
+            <StatusBar style="auto" />
+            {/* {badgeModalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="hidden" />} */}
 
             <SafeAreaView edges={['right', 'left']}>
 
@@ -45,7 +48,11 @@ const Dashboard = () => {
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 overScrollMode={'never'}
-                style={{zIndex: -50}}>
+                style={{ zIndex: -50 }}>
+
+                <BadgeModal />
+
+                <FeaturedBadgeSelectModal />
 
                 <StatisticsSection />
 

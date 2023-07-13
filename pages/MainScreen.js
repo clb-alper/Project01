@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -8,19 +8,31 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import DefaultFlatlist from '../assets/components/home/DefaultFlatlist';
 import FeaturedFlatlist from '../assets/components/home/FeaturedFlatlist';
 import ContReadingFlatlist from '../assets/components/home/ContReadingFlatlist';
+import NewBooksFlatlist from '../assets/components/home/NewBooksFlatlist';
 import Header from '../assets/components/home/Header';
 import BookModal from '../assets/components/BookModal';
 import { ModalContext } from '../assets/contexts/ModalContext';
+import FavoriteBooksFlastlist from '../assets/components/home/FavoriteBooksFlatlist';
+import { ProfileContext } from '../assets/contexts/ProfileContext';
+import RecommendedFlatList from '../assets/components/home/RecommendedFlatList';
 
 const MainScreen = () => {
 
   const { modalVisible } = useContext(ModalContext);
+  const { getProfileInfoData, getAccountInfoData, currentAccountInfo, getStatisticInfoData } = useContext(ProfileContext);
 
   const [fontsLoaded] = useFonts({
     'Comic-Regular': require('../assets/fonts/ComicNeue-Regular.ttf'),
     'Comic-Light': require('../assets/fonts/ComicNeue-Light.ttf'),
     'Comic-Bold': require('../assets/fonts/ComicNeue-Bold.ttf'),
   });
+
+  useEffect(() => {
+    getProfileInfoData()
+    getAccountInfoData()
+    getStatisticInfoData()
+  }, [])
+
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -37,8 +49,8 @@ const MainScreen = () => {
     <View style={styles.container} onLayout={onLayoutRootView}>
 
       <BookModal />
-
-      {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="auto" />}
+      <StatusBar style="auto" />
+      {/* {modalVisible ? <StatusBar barStyle="dark-content" backgroundColor={'#4A4B4D'} animated={true} /> : <StatusBar style="auto" />} */}
 
       <SafeAreaView edges={['right', 'left', 'top']}>
 
@@ -66,7 +78,7 @@ const MainScreen = () => {
 
             <Text style={styles.otherBookHeader}>Yeni</Text>
 
-            <DefaultFlatlist />
+            <NewBooksFlatlist />
 
           </View>
 
@@ -74,7 +86,7 @@ const MainScreen = () => {
 
             <Text style={styles.otherBookHeader}>Favorileriniz</Text>
 
-            <DefaultFlatlist />
+            <FavoriteBooksFlastlist />
 
           </View>
 
@@ -82,7 +94,7 @@ const MainScreen = () => {
 
             <Text style={styles.otherBookHeader}>Size Önerilenler</Text>
 
-            <DefaultFlatlist />
+            <RecommendedFlatList />
 
           </View>
 

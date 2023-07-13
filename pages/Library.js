@@ -8,8 +8,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../assets/components/library/Header';
 import AlphabetSlider from '../assets/components/library/AlphabetSlider';
 import BookShowcase from '../assets/components/library/BookShowcase';
+import { StatusBar } from 'expo-status-bar';
 
 var heightOfScreen = Dimensions.get('window').height; //full width
+var widthOfScreen = Dimensions.get('window').width; //full width
 
 const Library = () => {
 
@@ -32,12 +34,13 @@ const Library = () => {
     return (
 
         <View style={styles.libraryBG} onLayout={onLayoutRootView}>
+             <StatusBar style="auto" />
 
             <SafeAreaView edges={['right', 'left', 'bottom']}>
 
                 <Header />
 
-                <AlphabetSlider />
+                {/* <AlphabetSlider /> */}
 
                 <ScrollView
                     overScrollMode={'never'}
@@ -65,9 +68,8 @@ const styles = StyleSheet.create({
     },
 
     flatsScrollViewStyle: {
-        width: '100%',
+        width: widthOfScreen,
         flexWrap: 'wrap',
-        marginLeft: 50,
         height: heightOfScreen * 0.81,
         zIndex: -50
     },

@@ -1,5 +1,5 @@
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import colors from '../../colors/colors'
 import { ModalContext } from '../../contexts/ModalContext';
 import Modal from "react-native-modal";
@@ -11,30 +11,9 @@ import { ProfileContext } from '../../contexts/ProfileContext';
 var widthOfScreen = Dimensions.get('window').width; //full width
 var heightOfScreen = Dimensions.get('window').height; //full width
 
-const StickerModal = () => {
+const BackpackStickerModal = () => {
 
-    const [pointsNotEnoughMessage, setPointsNotEnoughMessage] = useState(false);
-    const [purchaseSuccessMessage, setPurchaseSuccessMessage] = useState(false);
-
-    const { stickerModalVisible, setStickerModalVisible, stickerModalEntry } = useContext(ModalContext);
-    const { currentProfileSelected, userStatisticsData, userPointsData } = useContext(ProfileContext);
-
-    const handleStickerPurchase = () => {
-        if (userPointsData.points < stickerModalEntry.price) {
-            setPointsNotEnoughMessage(true)
-        }
-        else if (userPointsData.points >= stickerModalEntry.price) {
-            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-                .doc(currentProfileSelected).collection('stickerCollection').doc(stickerModalEntry.id).set({
-                    stickerID: stickerModalEntry.id,
-                })
-            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('userProfiles')
-                .doc(currentProfileSelected).collection('statisticsData').doc("statsData").update({
-                    points: userPointsData.points - stickerModalEntry.price
-                })
-            setPurchaseSuccessMessage(true)
-        }
-    }
+    const { stickerModalVisible, setStickerModalVisible, stickerModalEntry, backpackStickerModalEntry, setBackpackStickerModalEntry, backpackStickerModalVisible, setBackpackStickerModalVisible } = useContext(ModalContext);
 
     return (
         <Modal
@@ -42,12 +21,12 @@ const StickerModal = () => {
             animationOut={'flipOutY'}
             transparent={true}
             hideModalContentWhileAnimating={true}
-            isVisible={stickerModalVisible}
+            isVisible={backpackStickerModalVisible}
             useNativeDriver={true}
             useNativeDriverForBackdrop={true}
             statusBarTranslucent
             onRequestClose={() => {
-                setStickerModalVisible(!stickerModalVisible);
+                setBackpackStickerModalVisible(!backpackStickerModalVisible);
             }}
             style={{ margin: 0 }}
         >
@@ -55,83 +34,76 @@ const StickerModal = () => {
             <View style={{ alignItems: 'center', marginTop: -50 }}>
                 <View>
                     <Image
-                        source={{ uri: stickerModalEntry.iconImage }}
+                        source={{ uri: backpackStickerModalEntry.iconImage }}
                         style={styles.modalStickerImage}
                     >
                     </Image>
                 </View>
                 <View>
                     <Text style={styles.modalStickerNameText}>
-                        {stickerModalEntry.name}
+                        {backpackStickerModalEntry.name}
                     </Text>
                 </View>
 
-                <View style={
-                    stickerModalEntry.stickerLevel === "Bronze" ?
-                        styles.bronzePointsContainerUpper :
-                        stickerModalEntry.stickerLevel === "Silver" ?
-                            styles.silverPointsContainerUpper :
-                            stickerModalEntry.stickerLevel === "Gold" ?
-                                styles.goldPointsContainerUpper :
-                                stickerModalEntry.stickerLevel === "Emerald" ?
-                                    styles.emeraldPointsContainerUpper :
-                                    stickerModalEntry.stickerLevel === "Diamond" ?
-                                        styles.diamondPointsContainerUpper :
-                                        styles.defaultPointsContainerUpper}>
-
-                    <Text
-                        style={styles.pointsTextStyleUpper}
-                        adjustsFontSizeToFit={true}
-                        numberOfLines={1}>
-                        {
-                            stickerModalEntry.stickerLevel === "Bronze" ?
-                                "Bronz" :
-                                stickerModalEntry.stickerLevel === "Silver" ?
-                                    "Gümüş" :
-                                    stickerModalEntry.stickerLevel === "Gold" ?
-                                        "Altın" :
-                                        stickerModalEntry.stickerLevel === "Emerald" ?
-                                            "Zümrüt" :
-                                            stickerModalEntry.stickerLevel === "Diamond" ?
-                                                "Elmas" :
-                                                "Normal"}
-                    </Text>
-
-                </View>
-
-                <TouchableOpacity
-                    onPress={() => handleStickerPurchase()}
-                    activeOpacity={0.75}>
+                <View style={{ flexDirection: 'row' }}>
                     <View style={
-                        stickerModalEntry.stickerLevel === "Bronze" ?
-                            styles.bronzePointsContainer :
-                            stickerModalEntry.stickerLevel === "Silver" ?
-                                styles.silverPointsContainer :
-                                stickerModalEntry.stickerLevel === "Gold" ?
-                                    styles.goldPointsContainer :
-                                    stickerModalEntry.stickerLevel === "Emerald" ?
-                                        styles.emeraldPointsContainer :
-                                        stickerModalEntry.stickerLevel === "Diamond" ?
-                                            styles.diamondPointsContainer :
-                                            styles.defaultPointsContainer}>
-
+                        backpackStickerModalEntry.stickerLevel === "Bronze" ?
+                            [styles.bronzePointsContainerUpper, {marginRight: 10}] :
+                            backpackStickerModalEntry.stickerLevel === "Silver" ?
+                                [styles.silverPointsContainerUpper, {marginRight: 10}] :
+                                backpackStickerModalEntry.stickerLevel === "Gold" ?
+                                    [styles.goldPointsContainerUpper, {marginRight: 10}] :
+                                    backpackStickerModalEntry.stickerLevel === "Emerald" ?
+                                        [styles.emeraldPointsContainerUpper, {marginRight: 10}] :
+                                        backpackStickerModalEntry.stickerLevel === "Diamond" ?
+                                            [styles.diamondPointsContainerUpper, {marginRight: 10}] :
+                                            [styles.defaultPointsContainerUpper, {marginRight: 10}]}>
 
                         <Text
-                            style={styles.pointsTextStyle3}
+                            style={styles.pointsTextStyleUpper}
                             adjustsFontSizeToFit={true}
                             numberOfLines={1}>
-                            {stickerModalEntry.price}
+                            {
+                                backpackStickerModalEntry.stickerLevel === "Bronze" ?
+                                    "Bronz" :
+                                    backpackStickerModalEntry.stickerLevel === "Silver" ?
+                                        "Gümüş" :
+                                        backpackStickerModalEntry.stickerLevel === "Gold" ?
+                                            "Altın" :
+                                            backpackStickerModalEntry.stickerLevel === "Emerald" ?
+                                                "Zümrüt" :
+                                                backpackStickerModalEntry.stickerLevel === "Diamond" ?
+                                                    "Elmas" :
+                                                    "Normal"}
                         </Text>
 
-                        <AntIcons name="star" size={33} color="#FFB702" style={styles.pointsIconStyle3} />
                     </View>
-                </TouchableOpacity>
 
-                {purchaseSuccessMessage ? <Text style={styles.purchaseSuccess}>Çıkartma Satın Alındı</Text> : null}
-                {pointsNotEnoughMessage ? <Text style={styles.featuredBadgeAddCompleteText}>Yetersiz Yıldız Puanı</Text> : null}
+                    <View style={
+                        backpackStickerModalEntry.stickerLevel === "Bronze" ?
+                            styles.bronzePointsContainerUpper :
+                            backpackStickerModalEntry.stickerLevel === "Silver" ?
+                                styles.silverPointsContainerUpper :
+                                backpackStickerModalEntry.stickerLevel === "Gold" ?
+                                    styles.goldPointsContainerUpper :
+                                    backpackStickerModalEntry.stickerLevel === "Emerald" ?
+                                        styles.emeraldPointsContainerUpper :
+                                        backpackStickerModalEntry.stickerLevel === "Diamond" ?
+                                            styles.diamondPointsContainerUpper :
+                                            styles.defaultPointsContainerUpper}>
+
+                        <Text
+                            style={[styles.pointsTextStyleUpper, { width: 120 }]}
+                            adjustsFontSizeToFit={true}
+                            numberOfLines={1}>
+                            Sticker Kitabı {backpackStickerModalEntry.stickerBookNo}
+                        </Text>
+
+                    </View>
+                </View>
 
                 <TouchableOpacity
-                    onPress={() => { setStickerModalVisible(!stickerModalVisible); setTimeout(() => setPointsNotEnoughMessage(false), 500); setTimeout(() => setPurchaseSuccessMessage(false), 500) }}
+                    onPress={() => setBackpackStickerModalVisible(!backpackStickerModalVisible)}
                     activeOpacity={0.75}
                     style={styles.modalStickerCloseButton}>
                     <IonIcons name="ios-close" size={50} color="#000" style={styles.modalStickerCloseButtonIcon} />
@@ -144,7 +116,7 @@ const StickerModal = () => {
     )
 }
 
-export default StickerModal;
+export default BackpackStickerModal;
 
 const styles = StyleSheet.create({
     modalStickerNameText: {
@@ -165,7 +137,7 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         width: 70,
         height: 70,
-        marginTop: 30,
+        marginTop: 75,
         borderColor: colors.purpleBorder,
         backgroundColor: colors.purpleRegular
     },
@@ -374,18 +346,4 @@ const styles = StyleSheet.create({
         paddingTop: 2,
         paddingLeft: 2
     },
-
-    featuredBadgeAddCompleteText: {
-        fontSize: 18,
-        color: '#f26d74',
-        fontFamily: 'Comic-Bold',
-        marginTop: 5
-    },
-
-    purchaseSuccess: {
-        fontSize: 18,
-        color: '#83FCA7',
-        fontFamily: 'Comic-Bold',
-        marginTop: 5
-    }
 })
